@@ -49,9 +49,15 @@ public abstract class MonoState : MonoBehaviour
     {
         if (IsRunning) return;
         Owner = ownerActor as Actor;
-  
+        if(Owner != null)Owner.onActorStopped += OnOwnerActorStopped;
         OnInitialize();
         OnEnter();
+    }
+
+    private void OnOwnerActorStopped()
+    {
+        IsFinished = false;
+        Owner.onActorStopped -= OnOwnerActorStopped;
     }
 
     public virtual void Reset()

@@ -5,9 +5,11 @@ using UnityEngine;
 public abstract class ActorStateMachine : MonoState
 {
     protected abstract MonoState _initialState { get; }
-    [ShowInInspector][ReadOnly][DisplayAsString][GUIColor("yellow")]protected MonoState _currentState;
+    [BoxGroup("space",false)][ShowInInspector][ReadOnly][DisplayAsString][GUIColor("yellow")]protected MonoState _currentState;
     private Dictionary<MonoState, List<Transition>> _transitions = new Dictionary<MonoState, List<Transition>>();
 
+    private List<Transition> _anyTransitions = new List<Transition>();
+    
     private class Transition
     {
         public MonoState ToState;
@@ -47,8 +49,16 @@ public abstract class ActorStateMachine : MonoState
         base.OnUpdate();
         if (_currentState != null)
         {
-            List<Transition> currentTransitions;
-            if (_transitions.TryGetValue(_currentState, out currentTransitions))
+            foreach (var transition in _anyTransitions)
+            {
+                if (transition.Condition())
+                {
+                    SetState(transition.ToState);
+                    return; 
+                }
+            }
+
+            if (_transitions.TryGetValue(_currentState, out var currentTransitions))
             {
                 foreach (var transition in currentTransitions)
                 {
@@ -69,6 +79,10 @@ public abstract class ActorStateMachine : MonoState
             _transitions[fromState] = new List<Transition>();
         }
         _transitions[fromState].Add(new Transition(toState, condition));
+    }
+    public void AddAnyTransition(MonoState toState, System.Func<bool> condition)
+    {
+        _anyTransitions.Add(new Transition(toState, condition));
     }
 
     public void SetState(MonoState newState)

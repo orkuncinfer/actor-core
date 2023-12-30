@@ -42,16 +42,23 @@ public class ActorBase : MonoBehaviour, ITagContainer
     private HashSet<string> _tags = new HashSet<string>();
     [ReadOnly][ShowInInspector][HideInEditorMode]private HashSet<string> _outputTags => _tags;
   
-    
+    public event Action onActorStopped;
     public event Action<ITagContainer, string> onTagAdded;
     public event Action<ITagContainer, string> onTagRemoved;
     public event Action<ITagContainer, string> onTagsChanged;
 
+    protected Actor ParentActor;
+
     protected virtual void OnActorStart() { _started = true; _stopped = false; }
     protected virtual void OnActorStop() { _started = false; _stopped = true; }
 
-    public void StartIfNot()
+    public void StartIfNot(Actor parentActor = null)
     {
+        if (parentActor != null)
+        {
+            parentActor.onActorStopped += OnParentActorStopped;
+            ParentActor = parentActor;
+        }
         if (!_started)
         {
             OnActorStart();
@@ -63,8 +70,16 @@ public class ActorBase : MonoBehaviour, ITagContainer
         {
             OnActorStop();
             _stopped = true;
+            onActorStopped?.Invoke();
         }
     }
+    private void OnParentActorStopped()
+    {
+        StopIfNot();
+        ParentActor.onActorStopped -= OnParentActorStopped;
+    }
+
+   
     protected virtual void Awake()
     {
         ActorID = ActorIDManager.GetUniqueID(gameObject.name);
@@ -157,12 +172,12 @@ public class ActorBase : MonoBehaviour, ITagContainer
 
 
     [Button][HideIf("_started")]
-    public void StartActor()
+    private void TestStartActor()
     {
         StartIfNot();
     }
     [Button][HideIf("_stopped")]
-    public void StopActor()
+    private void TestStopActor()
     {
         StopIfNot();
     }
