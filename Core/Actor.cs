@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 
@@ -22,6 +21,4 @@ public class Actor : ActorBase
             _poolMember.ReturnToPool();
         }
     }
-
-        
 }

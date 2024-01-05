@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8649069807073028193}
   - component: {fileID: 8649069807073028195}
   - component: {fileID: 8649069807073028192}
-  - component: {fileID: 1668226931945580348}
   m_Layer: 5
   m_Name: LevelText
   m_TagString: Untagged
@@ -136,22 +135,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1668226931945580348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8649069807073028198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 378d641ea2d8ddf40bf2bd2dcde0ed9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tmPro: {fileID: 8649069807073028192}
-  _intVar: {fileID: 11400000, guid: 869e83f9e354db645acb68b950940669, type: 2}
-  _prefix: 'LEVEL '
-  _preAddition: 1
 --- !u!1 &8649069807766009267
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +148,7 @@ GameObject:
   - component: {fileID: -131330395411183354}
   - component: {fileID: -5443729091795456103}
   m_Layer: 5
-  m_Name: Gameplay
+  m_Name: TGameplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

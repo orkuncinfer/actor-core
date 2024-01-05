@@ -100,16 +100,8 @@ public class ActorBase : MonoBehaviour, ITagContainer
         Data[] dataComponents = GetComponentsInChildren<Data>();
         foreach (var dataComponent in dataComponents)
         {
-            if (dataComponent.IsGlobal)
-            {
-                GlobalData.LoadData(dataComponent);
-            }
-            else
-            {
-                _datasets[dataComponent.GetType()] = dataComponent;
-                dataComponent.OwnerActor = this;
-            }
-            
+            _datasets[dataComponent.GetType()] = dataComponent;
+            dataComponent.OwnerActor = this;
         }
     }
 
@@ -134,7 +126,8 @@ public class ActorBase : MonoBehaviour, ITagContainer
     }
     public T GetGlobalData<T>() where T : Data
     {
-            return GlobalData.GetData<T>();
+            //return GlobalData.GetData<T>();
+            return null;
     }
     public bool ContainsTag(string t)
     {

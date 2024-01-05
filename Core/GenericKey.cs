@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GenericKey",menuName = "Keys/Generic Key")]
@@ -9,5 +10,11 @@ public class GenericKey : ScriptableObject
     {
         get => _id;
         set => _id = value;
+    }
+
+    [Button(ButtonSizes.Gigantic)]
+    void MatchName()
+    {
+        ID = name;
     }
 }

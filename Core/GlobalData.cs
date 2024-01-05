@@ -4,29 +4,35 @@ using UnityEngine;
 
 public static class GlobalData
 {
-    private static Dictionary<Type, Data> _datasets = new Dictionary<Type, Data>();
+    private static Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
     
-    public static void LoadData<T>(T data) where T : Data
+    public static void LoadData<T>(string key,T data) where T : Data
     {
-        Type dataType = typeof(T);
+        string dataKey = key;
         
-        if (_datasets.ContainsKey(dataType))
+        Debug.Log("loaded data with key :" + dataKey);
+        
+        if (_datasets.ContainsKey(dataKey))
         {
-            _datasets[dataType] = data;  // Override existing data.
+            _datasets[dataKey] = data;  // Override existing data.
         }
         else
         {
-            _datasets.Add(dataType, data);  // Add new data.
+            _datasets.Add(dataKey, data);  // Add new data.
         }
     }
-
-    public static T GetData<T>() where T : Data
+    
+    public static T GetData<T>(string key ="") where T : Data
     {
         Type dataType = typeof(T);
+        
+        string dataKey = key + dataType;
+        
+        Debug.Log("tried to get data with key :" + dataKey);
 
-        if (_datasets.ContainsKey(dataType))
+        if (_datasets.ContainsKey(dataKey))
         {
-            return (T)_datasets[dataType];
+            return (T)_datasets[dataKey];
         }
 
         Debug.LogWarning($"Data of type '{dataType}' not found!");
