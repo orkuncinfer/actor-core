@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
+  m_Name: GE_ShieldAura
+  m_EditorClassIdentifier: 
+  ModifierDefinitions: []
+  m_SpecialEffectDefinition: {fileID: 0}
+  _description: 
+  _grantedTags:
+  - fullTag: Immunity.Poison
+    tagHierarchy:
+    - Immunity
+    - Immunity.Poison
+    HashCode: 331ea717-399f-4bc6-8ed3-d1f7f01d85ad
+  - fullTag: Immunity.Damage
+    tagHierarchy:
+    - Immunity
+    - Immunity.Damage
+    HashCode: 4da3272b-654e-4f95-862c-62e1bc1c206a
+  _applicationBlockerTags: []
+  _removeEffectsWithTags: []
+  _isInfinite: 1
+  _durationFormula:
+    Graph: {fileID: 0}
+    StaticValue: 0
+  _isPeriodic: 0
+  _period: 0
+  _executePeriodicEffectOnApplication: 0
+  _specialPersistentEffectDefinition: {fileID: 11400000, guid: 3f826d31811e05c4eb3f90fea0ea4a6f, type: 2}
+  references:
+    version: 2
+    RefIds: []

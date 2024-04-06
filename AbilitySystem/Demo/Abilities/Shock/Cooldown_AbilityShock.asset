@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
+  m_Name: Cooldown_AbilityShock
+  m_EditorClassIdentifier: 
+  _modifierDefinitions: []
+  _isInfinite: 0
+  _durationFormula: {fileID: 11400000, guid: d5cf774ac9afe2d4c8377cdb11d178e7, type: 2}
+  _grantedTags:
+  - shock.cooldown

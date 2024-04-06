@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca06a2e023979649a9a64b22a48994f, type: 3}
+  m_Name: GA_Fireball
+  m_EditorClassIdentifier: 
+  _title: 
+  _description: 
+  _maxLevel: 20
+  _icon: {fileID: 0}
+  _gameplayEffectDefinitions:
+  - {fileID: 11400000, guid: dbb302379b427ab4ba5a9df63e5e94b7, type: 2}
+  _animationClip: {fileID: 7400000, guid: 9da5f4e062db75b479d4ffc5c2ac14b0, type: 2}
+  _animationName: 
+  _isBasicAttack: 1
+  _overrideAnimSpeed: 0
+  _animationSpeed: 0
+  _isLoopingAbility: 0
+  Cost: {fileID: 6695704546369249453}
+  Cooldown: {fileID: 3499710552046339334}
+  GrantedTagsDuringAbility:
+  - fullTag: Ability
+    tagHierarchy:
+    - Ability
+    HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
+  AbilityWindowActions:
+  - Action:
+      rid: 88048483661774861
+    EventName: attack
+  m_ProjectileSpeed: 15
+  m_ShotType: 3
+  m_IsSpinning: 0
+  m_ProjectilePrefab: {fileID: 1079946990457772, guid: 2e10c38d7d83154429c2fb51c652e1fb, type: 3}
+  m_WeaponId: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 88048483661774861
+      type: {class: MeleeAttackAction, ns: , asm: Assembly-CSharp-firstpass}
+      data: 
+--- !u!114 &3499710552046339334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
+  m_Name: Cooldown
+  m_EditorClassIdentifier: 
+  ModifierDefinitions: []
+  m_SpecialEffectDefinition: {fileID: 0}
+  _conditionalEffects: []
+  _description: 
+  _grantedTags: []
+  _applicationBlockerTags: []
+  _removeEffectsWithTags: []
+  _isInfinite: 0
+  _durationFormula:
+    Graph: {fileID: 0}
+    StaticValue: 5
+  _isPeriodic: 0
+  _period: 0
+  _executePeriodicEffectOnApplication: 0
+  _specialPersistentEffectDefinition: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &6695704546369249453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
+  m_Name: Cost
+  m_EditorClassIdentifier: 
+  ModifierDefinitions:
+  - rid: 88048076129828865
+  m_SpecialEffectDefinition: {fileID: 0}
+  _conditionalEffects: []
+  _description: Mana
+  _grantedTags: []
+  _applicationBlockerTags: []
+  _removeEffectsWithTags: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 88048076129828865
+      type: {class: GameplayEffectStatModifierDefinition, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        StatName: Mana
+        Type: 0
+        Formula:
+          Graph: {fileID: 0}
+          StaticValue: -20

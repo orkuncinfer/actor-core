@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2184b7f3d705a4fa1cd92462f4f58c, type: 3}
+  m_Name: GA_ShieldAura
+  m_EditorClassIdentifier: 
+  _title: 
+  _description: 
+  _maxLevel: 20
+  _icon: {fileID: 0}
+  _gameplayEffectDefinitions:
+  - {fileID: 11400000, guid: 9c608f8fb81b88147b8ca8d59d0c9770, type: 2}
+  _animationClip: {fileID: 0}
+  _animationName: 
+  _isBasicAttack: 0
+  _overrideAnimSpeed: 0
+  _animationSpeed: 0
+  Cost: {fileID: 5416864911796429811}
+  Cooldown: {fileID: 5384915199905672138}
+  GrantedTagsDuringAbility: []
+--- !u!114 &5384915199905672138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
+  m_Name: Cooldown
+  m_EditorClassIdentifier: 
+  ModifierDefinitions: []
+  m_SpecialEffectDefinition: {fileID: 0}
+  _description: 
+  _grantedTags:
+  - fullTag: Cooldown.Poison
+    tagHierarchy:
+    - Cooldown
+    - Cooldown.Poison
+    HashCode: b3c0707c-7b5d-464f-a4a4-d2475d37d69d
+  _applicationBlockerTags: []
+  _removeEffectsWithTags: []
+  _isInfinite: 0
+  _durationFormula:
+    Graph: {fileID: 0}
+    StaticValue: 5
+  _isPeriodic: 0
+  _period: 0
+  _executePeriodicEffectOnApplication: 0
+  _specialPersistentEffectDefinition: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &5416864911796429811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
+  m_Name: Cost
+  m_EditorClassIdentifier: 
+  ModifierDefinitions: []
+  m_SpecialEffectDefinition: {fileID: 0}
+  _description: 
+  _grantedTags: []
+  _applicationBlockerTags: []
+  _removeEffectsWithTags: []
+  references:
+    version: 2
+    RefIds: []

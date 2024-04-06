@@ -48,6 +48,21 @@ public class ActorBase : MonoBehaviour, ITagContainer
     public event Action<ITagContainer, string> onTagsChanged;
 
     protected Actor ParentActor;
+    
+    private SocketRegistry _socketRegistry;
+
+    public Transform GetSocket(string socketName)
+    {
+        if (_socketRegistry == null) return null;
+        Transform socketTransform = _socketRegistry.GetSocket(socketName);
+        return socketTransform;
+    }
+
+    public GameObject GetEquippedInstance()
+    {
+        DS_EquipmentUser equipmentUser = GetData<DS_EquipmentUser>();
+        return equipmentUser.EquipmentInstance;
+    }
 
     protected virtual void OnActorStart() { _started = true; _stopped = false; }
     protected virtual void OnActorStop() { _started = false; _stopped = true; }
@@ -84,6 +99,11 @@ public class ActorBase : MonoBehaviour, ITagContainer
     {
         ActorID = ActorIDManager.GetUniqueID(gameObject.name);
         name = ActorID;
+        
+        if (Utils.TryGetComponentInChildren(gameObject, out SocketRegistry registry))
+        {
+            _socketRegistry = registry;
+        }
         
         LoadData();
         CreateTagSet();

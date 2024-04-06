@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cdc1b9f446708340a107bfc3d92b9e2, type: 3}
+  m_Name: GameplayTags
+  m_EditorClassIdentifier: 
+  TagsCache:
+  - Tag: Status.Poison
+    HashCode: 51266778-e8cb-40c5-86d8-927e37f3dd39
+  - Tag: Cooldown.Poison
+    HashCode: b3c0707c-7b5d-464f-a4a4-d2475d37d69d
+  - Tag: Cooldown.Cleanse
+    HashCode: 7ce78101-eacc-42e5-8111-530e2890c215
+  - Tag: Immunity.Poison
+    HashCode: 331ea717-399f-4bc6-8ed3-d1f7f01d85ad
+  - Tag: Damage
+    HashCode: f5b6ece8-4e26-4bd9-818c-2622e1d2f1e6
+  - Tag: Damage.Fireball
+    HashCode: 390495d0-3c7d-4e32-9aab-7e72d08f50ee
+  - Tag: Immunity.Damage
+    HashCode: 4da3272b-654e-4f95-862c-62e1bc1c206a
+  - Tag: Status.Burn
+    HashCode: c060d027-6bb5-4995-ad00-73fec0919f65
+  - Tag: MeleeAttack
+    HashCode: 94536e2c-436f-4960-9a94-905822e8e52a
+  - Tag: Ability
+    HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374

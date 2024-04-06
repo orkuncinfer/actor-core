@@ -10,7 +10,7 @@ public static class GlobalData
     {
         string dataKey = key;
         
-        Debug.Log("loaded data with key :" + dataKey);
+        //Debug.Log("GlobalData: Loaded data with key : " + dataKey);
         
         if (_datasets.ContainsKey(dataKey))
         {
@@ -28,14 +28,14 @@ public static class GlobalData
         
         string dataKey = key + dataType;
         
-        Debug.Log("tried to get data with key :" + dataKey);
+        //Debug.Log("GlobalData: Tried to get data with key : " + dataKey);
 
         if (_datasets.ContainsKey(dataKey))
         {
             return (T)_datasets[dataKey];
         }
 
-        Debug.LogWarning($"Data of type '{dataType}' not found!");
+        Debug.LogError($"Data of type '{dataType}' not found!");
         return null;
     }
 }

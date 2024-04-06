@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 925a1e88103487b4b9e30abf1693c1e3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - skin: {fileID: 11400000, guid: 18c3db3181a7c0b4bb533af9376fea8b, type: 2}
+  - m_ViewDataDictionary: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

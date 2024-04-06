@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6425478553280837571
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
+  m_Name: Vitality
+  m_EditorClassIdentifier: 
+  _baseValue: 1
+  _cap: 99
+  _formula: {fileID: 0}
+--- !u!114 &-2301453863403044092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
+  m_Name: Strength
+  m_EditorClassIdentifier: 
+  _baseValue: 1
+  _cap: 99
+  _formula: {fileID: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068512716fe047f7b619241c1e4a1d4d, type: 3}
+  m_Name: DummyStatDataBase
+  m_EditorClassIdentifier: 
+  Stats: []
+  Attributes:
+  - {fileID: 7067557841228162183}
+  - {fileID: 3554555366320680055}
+  PrimaryStats:
+  - {fileID: -2301453863403044092}
+  - {fileID: 4598010073548728297}
+  - {fileID: -6425478553280837571}
+--- !u!114 &3554555366320680055
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
+  m_Name: Health
+  m_EditorClassIdentifier: 
+  _baseValue: 300
+  _cap: -1
+  _formula: {fileID: 0}
+--- !u!114 &4598010073548728297
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
+  m_Name: Inteligence
+  m_EditorClassIdentifier: 
+  _baseValue: 1
+  _cap: 99
+  _formula: {fileID: 0}
+--- !u!114 &7067557841228162183
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
+  m_Name: Mana
+  m_EditorClassIdentifier: 
+  _baseValue: 100
+  _cap: -1
+  _formula: {fileID: 0}

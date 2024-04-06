@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <SplitView fixed-pane-initial-dimension="988" focusable="true" style="flex-grow: 1; height: 822px;">
+        <Core.Editor.NodeGraphView focusable="true" style="flex-grow: 1; width: 400px; height: 1200px;" />
+        <ui:IMGUIContainer name="info-panel" style="max-width: 300px; min-width: 300px; width: 300px; height: 1200px;" />
+    </SplitView>
+</ui:UXML>

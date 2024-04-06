@@ -1,0 +1,32 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="stats" style="flex-grow: 1; font-size: 14px; flex-direction: row; max-height: 20px;">
+        <ui:IMGUIContainer name="iconview" style="background-image: resource(&apos;red-dot&apos;); height: 16px; width: 16px; margin-top: 5px;" />
+    </ui:VisualElement>
+    <uie:ObjectField label="DataBase" type="StatSystem.StatDataBase, Assembly-CSharp-firstpass" name="data-field" style="-unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); font-size: 12px; -unity-text-outline-width: 0; border-top-width: 11px; border-bottom-width: 11px; border-left-color: rgb(51, 51, 51); border-right-color: rgb(51, 51, 51); border-top-color: rgb(51, 51, 51); border-bottom-color: rgb(51, 51, 51); border-right-width: 11px; border-left-width: 11px; cursor: ınitial; transition-duration: 0.2s, 2s; background-color: rgb(51, 51, 51); flex-shrink: 1; flex-grow: 1; padding-top: 0; margin-top: 5px; max-height: 50px; max-width: ınitial; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;" />
+    <uie:Toolbar name="toolbar-tabs" style="margin-top: 10px; margin-bottom: -6px; margin-left: 6px; border-left-color: rgb(43, 43, 43); border-right-color: rgb(43, 43, 43); border-top-color: rgb(43, 43, 43); border-bottom-color: rgb(43, 43, 43); border-bottom-width: 0; background-color: rgba(60, 60, 60, 0);">
+        <uie:ToolbarButton text="Primary Stats" parse-escape-sequences="true" display-tooltip-when-elided="true" name="tb-primarystats" style="border-top-width: 1px; border-top-left-radius: 4px;" />
+        <uie:ToolbarButton text="Stats" parse-escape-sequences="true" display-tooltip-when-elided="true" name="tb-stats" style="border-left-width: 0; border-top-width: 1px;" />
+        <uie:ToolbarButton text="Attributes" parse-escape-sequences="true" display-tooltip-when-elided="true" name="tb-attributes" style="border-left-width: 0; border-top-width: 1px; border-top-right-radius: 4px;" />
+    </uie:Toolbar>
+    <ui:MultiColumnListView show-alternating-row-backgrounds="ContentOnly" show-border="true" name="stats" style="align-self: auto; justify-content: flex-start; margin-top: 5px; margin-right: 0; margin-bottom: 0; margin-left: 2px; flex-grow: 1; min-height: auto; padding-bottom: 0; -unity-text-outline-width: 0; background-color: rgba(0, 0, 0, 0); border-left-color: rgb(50, 50, 50); border-right-color: rgb(50, 50, 50); border-top-color: rgb(50, 50, 50); border-bottom-color: rgb(50, 50, 50); border-top-width: 8px; border-right-width: 8px; border-bottom-width: 8px; border-left-width: 8px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; display: flex;">
+        <ui:Columns>
+            <ui:Column name="name" title="StatName" width="120" />
+            <ui:Column name="starting-health" title="Current Value" width="120" />
+            <ui:Column name="current-health" title="Max Value" width="100" />
+        </ui:Columns>
+    </ui:MultiColumnListView>
+    <ui:MultiColumnListView show-alternating-row-backgrounds="ContentOnly" show-border="true" name="primary-stats" style="align-self: auto; justify-content: flex-start; margin-top: 5px; margin-right: 0; margin-bottom: 0; margin-left: 2px; flex-grow: 1; min-height: auto; padding-bottom: 0; -unity-text-outline-width: 0; background-color: rgba(0, 0, 0, 0); border-left-color: rgb(50, 50, 50); border-right-color: rgb(50, 50, 50); border-top-color: rgb(50, 50, 50); border-bottom-color: rgb(50, 50, 50); border-top-width: 8px; border-right-width: 8px; border-bottom-width: 8px; border-left-width: 8px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; display: flex;">
+        <ui:Columns>
+            <ui:Column name="name" title="StatName" width="120" />
+            <ui:Column name="starting-health" title="Current Value" width="120" />
+            <ui:Column name="current-health" title="Max Value" width="100" />
+        </ui:Columns>
+    </ui:MultiColumnListView>
+    <ui:MultiColumnListView show-alternating-row-backgrounds="ContentOnly" show-border="true" name="attributes" style="align-self: auto; justify-content: flex-start; margin-top: 5px; margin-right: 0; margin-bottom: 0; margin-left: 2px; flex-grow: 1; min-height: auto; padding-bottom: 0; -unity-text-outline-width: 0; background-color: rgba(0, 0, 0, 0); border-left-color: rgb(50, 50, 50); border-right-color: rgb(50, 50, 50); border-top-color: rgb(50, 50, 50); border-bottom-color: rgb(50, 50, 50); border-top-width: 8px; border-right-width: 8px; border-bottom-width: 8px; border-left-width: 8px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; display: flex;">
+        <ui:Columns>
+            <ui:Column name="name" title="StatName" width="120" />
+            <ui:Column name="starting-health" title="Current Value" width="120" />
+            <ui:Column name="current-health" title="Max Value" width="100" />
+        </ui:Columns>
+    </ui:MultiColumnListView>
+</ui:UXML>

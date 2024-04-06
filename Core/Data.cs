@@ -18,7 +18,6 @@ public class Data : MonoBehaviour, IData
     {
         get
         {
-            
             if (OwnerActor)
             {
                 return "Installed to : "  + OwnerActor.name;
@@ -27,7 +26,6 @@ public class Data : MonoBehaviour, IData
             {
                 return "";
             }
-
             return Info;
         }
     }
@@ -45,7 +43,7 @@ public class Data : MonoBehaviour, IData
     
     [ShowIf("IsGlobal")][BoxGroup("InstallMethod")][ValueDropdown("GetAllGenericKeys")]
     public GenericKey DataKey;
-
+    [ShowIf("IsGlobal")]
     public Data DataType;
 
     [HideInInspector]public ActorBase OwnerActor;

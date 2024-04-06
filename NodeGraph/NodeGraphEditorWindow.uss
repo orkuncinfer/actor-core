@@ -1,0 +1,18 @@
+GridBackground {
+    --grid-background-color: rgb(40, 40, 40);
+    --line-color: rgba(95, 115, 135,0.03);
+    --thick-line-color: rgba(95, 115, 135,0.05);
+    --spacing: 15;
+}
+.myTextFieldStyle {
+    color: yellow;
+    background-color: #444444;
+    border-radius: 5px;
+    padding: 2px;
+    align-content: center;
+    width: 65;
+    height: 30;
+    align-self: center;
+
+   
+}
