@@ -15,8 +15,11 @@ MonoBehaviour:
   ModifierDefinitions:
   - rid: 88048006081806342
   m_SpecialEffectDefinition: {fileID: 11400000, guid: fb1a34ec3b86bcd4ba7f92766771e8be, type: 2}
+  _conditionalEffects: []
   _description: 
-  Deneme: 
+  _grantedTags: []
+  _applicationBlockerTags: []
+  _removeEffectsWithTags: []
   references:
     version: 2
     RefIds:
@@ -27,4 +30,4 @@ MonoBehaviour:
         Type: 0
         Formula:
           Graph: {fileID: 0}
-          StaticValue: 10
+          StaticValue: 100

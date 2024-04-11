@@ -9,6 +9,7 @@ public static class NodeGraphHelper
     
     public static void SaveScriptableObjects()
     {
+#if UNITY_EDITOR
         if(SOSaveCache.Count == 0) return;
         foreach (var so in SOSaveCache)
         {
@@ -19,5 +20,7 @@ public static class NodeGraphHelper
         }
         AssetDatabase.SaveAssets();
         SOSaveCache.Clear();
+#endif
+        
     }
 }

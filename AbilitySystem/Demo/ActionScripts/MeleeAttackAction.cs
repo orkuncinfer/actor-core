@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MeleeAttackAction : AbilityAction
 {
+    public GameObject HitEffect;
     private MeleeWeapon _meleeWeapon;
     ActiveAbility _ability;
     private List<Collider> _appliedColliders = new List<Collider>();
@@ -28,6 +29,7 @@ public class MeleeAttackAction : AbilityAction
             _ability.ApplyEffects(obj.gameObject);
             _appliedColliders.Add(obj);
         });
+        GOPoolProvider.Retrieve(HitEffect, obj.ClosestPoint(_meleeWeapon.Collider.center), Quaternion.identity);
     }
 
     public override void OnTick(Actor owner)

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-public class AbilityAction 
+public class AbilityAction
 {
+    public string EventName;
     public virtual void OnStart(Actor owner, ActiveAbility ability)
     {
         

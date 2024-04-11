@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+#if UNITY_EDITOR
+
+
 namespace Core.Editor
 {
     [NodeType(typeof(AbsNode))]
@@ -15,3 +18,4 @@ namespace Core.Editor
         }
     }
 }
+#endif

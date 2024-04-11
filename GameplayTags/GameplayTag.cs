@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor.ShortcutManagement;
+#endif
+
 using UnityEngine;
 [Serializable]
 public class GameplayTag
@@ -34,8 +37,13 @@ public class GameplayTag
         fullTag = newtag;
         
         ParseTagHierarchy();
-    }
 
+        foreach (string VARIABLE in tagHierarchy)
+        {
+            Debug.Log("parsed "+VARIABLE);
+        }
+    }
+#if UNITY_EDITOR
     public void Fetch(GameplayTagsAsset tagsAsset)//not called in runtime
     {
         Debug.Log("fetched");
@@ -44,12 +52,16 @@ public class GameplayTag
             if (tagFetcher.HashCode == HashCode)
             {
                 fullTag = tagFetcher.Tag;
+                Debug.Log("fetchedtag" + fullTag);
+                ParseTagHierarchy();
                 return;
             }
         }
 
         fullTag = "";
     }
+#endif
+  
 
     private void ParseTagHierarchy()
     {
@@ -66,7 +78,18 @@ public class GameplayTag
 
     public bool Matches(GameplayTag other)
     {
-        return other.tagHierarchy.Any(tag => tagHierarchy.Contains(tag));
+        foreach (string otherTag in other.tagHierarchy)
+        {
+            
+            foreach (string thisTag in tagHierarchy)
+            {
+                if (thisTag == otherTag)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public bool MatchesExact(GameplayTag other)

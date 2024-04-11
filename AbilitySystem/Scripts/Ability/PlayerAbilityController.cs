@@ -27,7 +27,7 @@ public class PlayerAbilityController : AbilityController
         }
         if (Input.GetKey(KeyCode.F))
         {
-            TestAbilityFunc(TestAbility);
+            TryActiveAbilityWithDefinition(TestAbility);
         }
     }
 

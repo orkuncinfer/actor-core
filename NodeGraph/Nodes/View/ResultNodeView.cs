@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,3 +16,4 @@ namespace Core.Editor
         }
     }
 }
+#endif

@@ -1,11 +1,15 @@
+
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
 using UnityEngine.UIElements;
+
 
 namespace Core.Editor
 {
@@ -168,4 +172,4 @@ namespace Core.Editor
         }
     }
 }
-
+#endif

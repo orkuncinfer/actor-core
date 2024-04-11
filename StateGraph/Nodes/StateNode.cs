@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using ExtEvents.OdinSerializer;
 using Sirenix.OdinInspector;
+
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditorInternal;
+#endif
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,12 +15,14 @@ public class StateNode : BaseNode
     public BE_State CurrentState;
     public BE_State PreviousState;
 
-    public SerializedObject SerializedState;
-    public ReorderableList ActionList;
-    
+
+#if UNITY_EDITOR
     public List<BaseNode> Dependencies = new List<BaseNode>();
     
-  
+    
+    public SerializedObject SerializedState;
+    public ReorderableList ActionList;
+
     public override void DrawWindow()
     {
         if (CurrentState == null)
@@ -94,6 +99,8 @@ public class StateNode : BaseNode
         });
     }
 
+    
+
     public override void DrawCurve()
     {
         
@@ -116,4 +123,5 @@ public class StateNode : BaseNode
         BehaviourEditor.ClearWindowsFromList(Dependencies);
         Dependencies.Clear();
     }
+#endif
 }

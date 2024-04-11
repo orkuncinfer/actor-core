@@ -2,15 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
+#if UNITY_EDITOR
 using GenericUnityObjects.Editor.Util;
-using Sirenix.OdinInspector;
-using TMPro.EditorUtilities;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
+using TMPro.EditorUtilities;
+
+
+using Sirenix.OdinInspector;
+
+
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 
 
 namespace Core.Editor
@@ -217,3 +222,4 @@ namespace Core.Editor
         }
     }
 }
+#endif

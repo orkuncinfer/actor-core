@@ -25,6 +25,11 @@ public class Projectile : MonoBehaviour
         HandleCollision(collision);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
     protected void HandleCollision(Collision collision)
     {
         if (m_CollisionVisualEffectPrefab != null)

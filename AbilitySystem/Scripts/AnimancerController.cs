@@ -11,8 +11,8 @@ public class AnimancerController : MonoBehaviour
     [SerializeField] private AnimancerComponent _animancerComponent;
     [SerializeField] private AbilityController _abilityController;
     
-    private List<AbilityWindowAction> _abilityWindowActions = new List<AbilityWindowAction>();
-    private List<AbilityWindowAction> _abilityWindowActionsToRemove = new List<AbilityWindowAction>();
+    private readonly List<AbilityAction> _registeredAbilityActions = new List<AbilityAction>();
+    private List<AbilityAction> _abilityWindowActionsToRemove = new List<AbilityAction>();
     private ActiveAbility _lastActivatedAbility;
     private Actor _owner;
     private bool _isLooping;
@@ -25,14 +25,21 @@ public class AnimancerController : MonoBehaviour
 
     private void Update()
     {
-        _abilityWindowActions.ForEach(action => action.Action.OnTick(_owner));
-        
-        _loopRemainingTime -= Time.deltaTime;
-        if(_loopRemainingTime <= 0)
+        for (int i = 0; i < _registeredAbilityActions.Count; i++)
         {
-            _isLooping = false;
-            OnEnd();
+            _registeredAbilityActions[i].OnTick(_owner);
         }
+        
+        if(_loopRemainingTime > 0)
+        {
+            _loopRemainingTime -= Time.deltaTime;
+            if(_loopRemainingTime <= 0)
+            {
+                _isLooping = false;
+                OnEnd();
+            }
+        }
+       
     }
 
 
@@ -90,15 +97,15 @@ public class AnimancerController : MonoBehaviour
         {
             foreach (GameplayTag gameplayTag in activeAbility.Definition.GrantedTagsDuringAbility)
             {
-                _abilityController.GetComponent<TagController>().RemoveTag(gameplayTag.FullTag);
+                _abilityController.GetComponent<TagController>().RemoveTag(gameplayTag);
             }
         }
         
-        foreach (AbilityWindowAction abilityWindowAction in _abilityWindowActions)
+        foreach (AbilityAction abilityWindowAction in _registeredAbilityActions)
         {
-            abilityWindowAction.Action.OnExit(_owner);
+            abilityWindowAction.OnExit(_owner);
         }
-        _abilityWindowActions.Clear();
+        _registeredAbilityActions.Clear();
     }
 
     public void Cast()
@@ -121,12 +128,12 @@ public class AnimancerController : MonoBehaviour
             if (index >= 0)
             {
                  string newEventName = eventName.Substring(0, index);
-                 foreach (AbilityWindowAction windowAction in _lastActivatedAbility.Definition.AbilityWindowActions)
+                 foreach (AbilityAction windowAction in _lastActivatedAbility.Definition.AbilityActions)
                  {
                      if (windowAction.EventName.Equals(newEventName,StringComparison.OrdinalIgnoreCase))
                      {
-                         _abilityWindowActions.Add(windowAction);
-                         windowAction.Action.OnStart(_owner,_lastActivatedAbility);
+                         _registeredAbilityActions.Add(windowAction);
+                         windowAction.OnStart(_owner,_lastActivatedAbility);
                      }
                  }
             }
@@ -138,12 +145,12 @@ public class AnimancerController : MonoBehaviour
             if (index >= 0)
             {
                 string newEventName = eventName.Substring(0, index);
-                foreach (AbilityWindowAction windowAction in _lastActivatedAbility.Definition.AbilityWindowActions)
+                foreach (AbilityAction abilityAction in _lastActivatedAbility.Definition.AbilityActions)
                 {
-                    if (windowAction.EventName.Equals(newEventName,StringComparison.OrdinalIgnoreCase) && _abilityWindowActions.Contains(windowAction))
+                    if (abilityAction.EventName.Equals(newEventName,StringComparison.OrdinalIgnoreCase) && _registeredAbilityActions.Contains(abilityAction))
                     {
-                        windowAction.Action.OnExit(null);
-                        _abilityWindowActions.Remove(windowAction);
+                        abilityAction.OnExit(null);
+                        _registeredAbilityActions.Remove(abilityAction);
                     }
                 }
             }

@@ -86,7 +86,7 @@ MonoBehaviour:
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
-    StaticValue: 0
+    StaticValue: 6
   _isPeriodic: 0
   _period: 0
   _executePeriodicEffectOnApplication: 0

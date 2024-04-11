@@ -70,6 +70,6 @@ public class AbilityControllerEditor : Editor
     private void TestAbility()
     {
         AbilityController controller = (AbilityController)target;
-        controller.TestAbilityFunc(controller.TestAbility);
+        controller.TryActiveAbilityWithDefinition(controller.TestAbility);
     }
 }

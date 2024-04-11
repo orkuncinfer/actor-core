@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+
 using UnityEditor.Experimental.GraphView;
+#endif
 using UnityEngine;
 
 namespace Core.Editor
@@ -11,13 +14,17 @@ namespace Core.Editor
         public CodeFunctionNode RootNode;
         public List<CodeFunctionNode> Nodes = new List<CodeFunctionNode>();
         public List<DSGroup> NodeGroups = new List<DSGroup>();
+#if UNITY_EDITOR
         public Dictionary<Group, DSGroup> TempGroupDictionary = new Dictionary<Group, DSGroup>();
+#endif
+       
 
         public float CalculateValue(GameObject source)
         {
             return RootNode.CalculateValue(source);
         }
-        
+#if UNITY_EDITOR
+
         public void AddNode(CodeFunctionNode node)
         {
             Nodes.Add(node);
@@ -73,7 +80,7 @@ namespace Core.Editor
                 EditorUtility.SetDirty(resultNode);
             }
         }
-
+#endif
         public List<T> FindNodesOfType<T>()
         {
             List<T> nodesOfType = new List<T>();
@@ -86,5 +93,8 @@ namespace Core.Editor
             }
             return nodesOfType;
         }
+        
+                
+
     }
 }

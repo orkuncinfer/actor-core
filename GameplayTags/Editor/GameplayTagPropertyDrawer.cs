@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.DemiEditor;
 using Sirenix.OdinInspector.Editor;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityDropdown.Editor;
 using UnityEngine;
 using UnityEditor;
@@ -22,7 +21,7 @@ public class GameplayTagPropertyDrawer : PropertyDrawer
             // Initialization code here
             if (ReflectionUtils.GetParent(fullTagProperty) is GameplayTag tag)
             {
-                GameplayTagsAsset gameplayTagsAsset = Resources.Load<GameplayTagsAsset>("GameplayTags");
+                GameplayTagsAsset gameplayTagsAsset = Resources.Load<GameplayTagsAsset>("GameplayTagList");
                 tag.Fetch(gameplayTagsAsset);
             }
             isInitialized = true;
@@ -63,7 +62,7 @@ public class GameplayTagPropertyDrawer : PropertyDrawer
 
     private void TagSelectorPopup(Rect rect, SerializedProperty fullTagProperty,GameplayTag gameplayTag)
     {
-        GameplayTagsAsset gameplayTagsAsset = Resources.Load<GameplayTagsAsset>("GameplayTags");
+        GameplayTagsAsset gameplayTagsAsset = Resources.Load<GameplayTagsAsset>("GameplayTagList");
         if (gameplayTagsAsset != null)
         {
            // List<string> dynamicTags = gameplayTagsAsset.tags;

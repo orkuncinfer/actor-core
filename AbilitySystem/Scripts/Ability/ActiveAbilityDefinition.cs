@@ -35,8 +35,19 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
 
      public List<GameplayTag> GrantedTagsDuringAbility;
      
-     public List<AbilityWindowAction> AbilityWindowActions;
+     [SerializeReference][TypeFilter("GetFilteredTypeList")] [ListDrawerSettings(ShowFoldout = true)]
+     public List<AbilityAction> AbilityActions = new List<AbilityAction>();
      
+     public IEnumerable<Type> GetFilteredTypeList()
+     {
+         var baseType = typeof(AbilityAction);
+         var q = baseType.Assembly.GetTypes()
+             .Where(x => !x.IsAbstract)
+             .Where(x => !x.IsGenericTypeDefinition)
+             .Where(x => baseType.IsAssignableFrom(x) && x != baseType); // Exclude the base class itself
+         return q;
+     }
+#if UNITY_EDITOR
      private void Reset()
      {
          if(Cost != null) return;
@@ -61,4 +72,6 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
          AssetDatabase.SaveAssets();
          AssetDatabase.Refresh();
      }
+     
+#endif
 }

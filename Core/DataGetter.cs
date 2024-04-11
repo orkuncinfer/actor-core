@@ -2,7 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+
+#if UNITY_EDITOR
 using Sirenix.OdinInspector.Editor;
+#endif
+
 using UnityEngine;
 [System.Serializable]
 [BoxGroup("DataGetter")]

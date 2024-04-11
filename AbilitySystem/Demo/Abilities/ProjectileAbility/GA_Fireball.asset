@@ -18,12 +18,13 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: dbb302379b427ab4ba5a9df63e5e94b7, type: 2}
-  _animationClip: {fileID: 7400000, guid: 9da5f4e062db75b479d4ffc5c2ac14b0, type: 2}
   _animationName: 
   _isBasicAttack: 1
   _overrideAnimSpeed: 0
   _animationSpeed: 0
+  _animationClip: {fileID: 7400000, guid: 9da5f4e062db75b479d4ffc5c2ac14b0, type: 2}
   _isLoopingAbility: 0
+  _duration: 0
   Cost: {fileID: 6695704546369249453}
   Cooldown: {fileID: 3499710552046339334}
   GrantedTagsDuringAbility:
@@ -31,10 +32,7 @@ MonoBehaviour:
     tagHierarchy:
     - Ability
     HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
-  AbilityWindowActions:
-  - Action:
-      rid: 88048483661774861
-    EventName: attack
+  AbilityWindowActions: []
   m_ProjectileSpeed: 15
   m_ShotType: 3
   m_IsSpinning: 0
@@ -42,10 +40,7 @@ MonoBehaviour:
   m_WeaponId: 
   references:
     version: 2
-    RefIds:
-    - rid: 88048483661774861
-      type: {class: MeleeAttackAction, ns: , asm: Assembly-CSharp-firstpass}
-      data: 
+    RefIds: []
 --- !u!114 &3499710552046339334
 MonoBehaviour:
   m_ObjectHideFlags: 0

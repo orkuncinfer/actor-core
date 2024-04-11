@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModifierDefinitions:
   - rid: 88048083462258688
+  - rid: 4448694647302914049
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects:
   - {fileID: 11400000, guid: 418e039fdfef19142b86eca28ec0ff65, type: 2}
@@ -24,12 +25,7 @@ MonoBehaviour:
     - Damage
     - Damage.Fireball
     HashCode: 390495d0-3c7d-4e32-9aab-7e72d08f50ee
-  _applicationBlockerTags:
-  - fullTag: Immunity.Damage
-    tagHierarchy:
-    - Immunity
-    - Immunity.Damage
-    HashCode: 4da3272b-654e-4f95-862c-62e1bc1c206a
+  _applicationBlockerTags: []
   _removeEffectsWithTags: []
   references:
     version: 2
@@ -42,4 +38,13 @@ MonoBehaviour:
         Formula:
           Graph: {fileID: 0}
           StaticValue: -10
+        CanCriticalHit: 0
+    - rid: 4448694647302914049
+      type: {class: GameplayEffectDamageDefinition, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        StatName: Health
+        Type: 0
+        Formula:
+          Graph: {fileID: 0}
+          StaticValue: 0
         CanCriticalHit: 0

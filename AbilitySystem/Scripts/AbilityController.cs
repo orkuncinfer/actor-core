@@ -40,7 +40,7 @@ public class AbilityController : MonoInitializable, ISavable
     }
 
     [Button]
-    public void TestAbilityFunc(AbilityDefinition definition)
+    public void TryActiveAbilityWithDefinition(AbilityDefinition definition)
     {
         if (Target == null) Target = gameObject;
         TryActivateAbility(definition.name, Target);
@@ -77,7 +77,7 @@ public class AbilityController : MonoInitializable, ISavable
                 
                 foreach (GameplayTag tag in activeAbility.Definition.GrantedTagsDuringAbility)
                 {
-                    m_TagController.AddTag(tag.FullTag);
+                    m_TagController.AddTag(tag);
                 }
                 Debug.Log($"<color=cyan>Ability</color> activated : {abilityName}");
                 return true;
@@ -100,11 +100,6 @@ public class AbilityController : MonoInitializable, ISavable
         
         if (ability.Definition.Cooldown != null)
         {
-            /*if (m_TagController.ContainsAny(ability.Definition.Cooldown.GrantedTags.FullTag))
-            {
-                Debug.Log($"{ability.Definition.name} is on cooldown!");
-                return false;
-            }*/
             if (m_TagController.ContainsAny(ability.Definition.Cooldown.GrantedTags.Select(tag => tag.FullTag)))
             {
                 Debug.Log($"{ability.Definition.name} is on cooldown!");

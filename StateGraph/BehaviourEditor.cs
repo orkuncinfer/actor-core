@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Searcher;
+
+
 using UnityEngine;
 
 public class BehaviourEditor : EditorWindow
@@ -297,3 +301,4 @@ public class BehaviourEditor : EditorWindow
     
     #endregion
 }
+#endif

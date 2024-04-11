@@ -20,6 +20,8 @@ public partial class GameplayEffectController : MonoInitializable
     [ShowInInspector][ReadOnly]protected List<GameplayPersistentEffect> _activeEffects = new List<GameplayPersistentEffect>();
     public List<GameplayPersistentEffect> ActiveEffects => _activeEffects;
     [ShowInInspector][ReadOnly] private List<GameplayEffectDefinition> _effectHistory = new List<GameplayEffectDefinition>();
+    
+    private List<GameplayPersistentEffect> _effectsToRemove = new List<GameplayPersistentEffect>();
 
     [Button]
     public void GetEffect()
@@ -51,7 +53,7 @@ public partial class GameplayEffectController : MonoInitializable
 
     private void HandleDuration()
     {
-        List<GameplayPersistentEffect> effectsToRemove = new List<GameplayPersistentEffect>();
+        _effectsToRemove.Clear();
         foreach (GameplayPersistentEffect activeEffect in _activeEffects)
         {
             if (activeEffect.Definition.IsPeriodic)
@@ -78,7 +80,7 @@ public partial class GameplayEffectController : MonoInitializable
                                 stackableEffect.StackCount--;
                                 if (stackableEffect.StackCount == 0)
                                 {
-                                    effectsToRemove.Add(stackableEffect);
+                                   _effectsToRemove.Add(stackableEffect);
                                 }
                                 else
                                 {
@@ -86,16 +88,16 @@ public partial class GameplayEffectController : MonoInitializable
                                 }
                                 break;
                             case GameplayEffectStackingExpirationPolicy.NeverRefresh:
-                                effectsToRemove.Add(stackableEffect);
+                                _effectsToRemove.Add(stackableEffect);
                                 break;
                         }
                     }
-                    effectsToRemove.Add(activeEffect);
+                    _effectsToRemove.Add(activeEffect);
                 }
             }
         }
 
-        foreach (GameplayPersistentEffect effect in effectsToRemove)
+        foreach (GameplayPersistentEffect effect in _effectsToRemove)
         {   
             RemoveActiveGameplayEffect(effect,false);
         }
@@ -252,7 +254,7 @@ public partial class GameplayEffectController : MonoInitializable
         }
         foreach (var tag in effect.Definition.GrantedTags)
         {
-            _tagController.AddTag(tag.FullTag);
+            _tagController.AddTag(tag);
         }
         
         if (effect.Definition.SpecialPersistentEffectDefinition != null)
@@ -272,7 +274,7 @@ public partial class GameplayEffectController : MonoInitializable
         }
         foreach (var tag in effect.Definition.GrantedTags)
         {
-            _tagController.RemoveTag(tag.FullTag);
+            _tagController.RemoveTag(tag);
         }
 
         if (effect.Definition.SpecialPersistentEffectDefinition != null)

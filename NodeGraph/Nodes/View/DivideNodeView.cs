@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+#if UNITY_EDITOR
+
+
 namespace Core.Editor
 {
     [NodeType(typeof(DivideNode))]
@@ -16,3 +19,4 @@ namespace Core.Editor
         }
     }
 }
+#endif

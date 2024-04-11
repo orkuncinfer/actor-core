@@ -14,6 +14,7 @@ public class TransitionNode : BaseNode
         EnterState = enterState;
         TargetTransition = transition;
     }
+#if UNITY_EDITOR
 
     public override void DrawWindow()
     {
@@ -47,4 +48,6 @@ public class TransitionNode : BaseNode
             BehaviourEditor.DrawNodeCurve(EnterState.WindowRect,rect,true);
         }
     }
+        
+#endif
 }

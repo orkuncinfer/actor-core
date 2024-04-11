@@ -6,6 +6,9 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
+
 public class ReflectionUtils 
 {
     public static object GetParent(SerializedProperty prop)
@@ -54,3 +57,4 @@ public class ReflectionUtils
         return enm.Current;
     }
 }
+#endif

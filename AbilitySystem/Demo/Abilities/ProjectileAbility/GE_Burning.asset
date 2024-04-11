@@ -23,7 +23,12 @@ MonoBehaviour:
     - Status
     - Status.Burn
     HashCode: c060d027-6bb5-4995-ad00-73fec0919f65
-  _applicationBlockerTags: []
+  _applicationBlockerTags:
+  - fullTag: Immunity.Damage
+    tagHierarchy:
+    - Immunity
+    - Immunity.Damage
+    HashCode: 4da3272b-654e-4f95-862c-62e1bc1c206a
   _removeEffectsWithTags: []
   _isInfinite: 0
   _durationFormula:

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cdc1b9f446708340a107bfc3d92b9e2, type: 3}
-  m_Name: GameplayTags
+  m_Name: GameplayTagList
   m_EditorClassIdentifier: 
   TagsCache:
   - Tag: Status.Poison
@@ -29,7 +29,7 @@ MonoBehaviour:
     HashCode: 4da3272b-654e-4f95-862c-62e1bc1c206a
   - Tag: Status.Burn
     HashCode: c060d027-6bb5-4995-ad00-73fec0919f65
-  - Tag: MeleeAttack
-    HashCode: 94536e2c-436f-4960-9a94-905822e8e52a
-  - Tag: Ability
+  - Tag: State.Ability
     HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
+  - Tag: Status
+    HashCode: 26b35c3f-21f2-4409-b490-fedffcca6baa

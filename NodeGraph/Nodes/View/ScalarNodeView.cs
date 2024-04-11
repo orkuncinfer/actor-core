@@ -1,4 +1,5 @@
-﻿using Sirenix.Utilities;
+﻿#if UNITY_EDITOR
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,3 +17,4 @@ namespace Core.Editor
         }
     }
 }
+#endif
