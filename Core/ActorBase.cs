@@ -36,7 +36,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
     private bool _started;
     private bool _stopped;
     
-    protected Dictionary<Type, Data> _datasets = new Dictionary<Type, Data>();
+    [ShowInInspector]protected Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
     
     [SerializeField] private List<GenericKey> _initialTags = new List<GenericKey>();
     private HashSet<string> _tags = new HashSet<string>();
@@ -120,7 +120,16 @@ public class ActorBase : MonoBehaviour, ITagContainer
         Data[] dataComponents = GetComponentsInChildren<Data>();
         foreach (var dataComponent in dataComponents)
         {
-            _datasets[dataComponent.GetType()] = dataComponent;
+            if(dataComponent.IsGlobal) continue;
+            if (dataComponent.UseKey)
+            {
+                string key = dataComponent.DataKey.ID + dataComponent.GetType();
+                _datasets[key] = dataComponent;
+            }
+            else
+            {
+                _datasets[dataComponent.GetType().ToString()] = dataComponent;
+            }
             dataComponent.OwnerActor = this;
         }
     }
@@ -132,11 +141,11 @@ public class ActorBase : MonoBehaviour, ITagContainer
             _tags.Add(_initialTags[i].ID);
         }
     }
-    public T GetData<T>() where T : Data
+    public T GetData<T>(string key = "") where T : Data
     {
-        if (_datasets.ContainsKey(typeof(T)))
+        if (_datasets.ContainsKey(key+typeof(T).ToString()))
         {
-            return (T)_datasets[typeof(T)];
+            return (T)_datasets[key+typeof(T).ToString()];
         }
         else
         {

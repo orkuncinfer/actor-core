@@ -428,9 +428,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f526835eb3293b745983cb2d958d720f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsGlobal: 0
+  IsGlobal: 1
+  UseKey: 0
   DataKey: {fileID: 0}
-  DataType: {fileID: 0}
+  DataType: {fileID: 7874970206263576484}
   OwnerActor: {fileID: 0}
   _currentGameMode: 0
   _requestGameModePause: {fileID: 11400000, guid: 8465da704ba52404cbadc07216eab809, type: 2}
@@ -466,4 +467,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5864809167bf024392c07585e8ded03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetFrameRate: 144
+  _targetFrameRate: 30

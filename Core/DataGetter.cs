@@ -22,7 +22,12 @@ public class DataGetter<T> where T : Data
 
     public void GetData()
     {
-        Data = GlobalData.GetData<T>(Key.ID);
+        string key = "";
+        if (Key != null)
+        {
+            key = Key.ID;
+        }
+        Data = GlobalData.GetData<T>(key);
     }
 
 #if UNITY_EDITOR

@@ -6,10 +6,12 @@ using UnityEngine;
 public class State_GameModeInitialize : MonoState
 {
     private DS_GameMode _gameModeData;
+    [SerializeField] private DataGetter<DS_GameMode> _modeData;
     protected override void OnEnter()
     {
         base.OnEnter();
-        _gameModeData = Owner.GetData<DS_GameMode>();
+        _modeData.GetData();
+        _gameModeData = _modeData.Data;
         
         Actor[] actors = FindObjectsOfType<Actor>();
         foreach (Actor actor in actors)

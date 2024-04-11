@@ -17,7 +17,7 @@ public class SM_GameMode : ActorStateMachine
     protected override void OnEnter()
     {
         base.OnEnter();
-        _gameModeData = Owner.GetData<DS_GameMode>();
+        _gameModeData = GlobalData.GetData<DS_GameMode>();
         
     }
 

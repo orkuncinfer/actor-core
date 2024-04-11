@@ -31,19 +31,28 @@ public class Data : MonoBehaviour, IData
     }
     private void OnEnable()
     {
-       
+       // FIX ME : HANDLE REMOVE DATA ON DISABLE
         if ( IsGlobal)
         {
-            string key = DataKey.ID + DataType.GetType();
+            string key= "";
+            if (UseKey)
+            {
+                key = DataKey.ID + DataType.GetType();
+            }
+            else
+            {
+                key = DataType.GetType().ToString();
+            }
             GlobalData.LoadData(key,DataType);
         }
     }
+  
+    [BoxGroup("InstallMethod")][HorizontalGroup("InstallMethod/Grp1")] public bool IsGlobal;
+    [BoxGroup("InstallMethod")][HorizontalGroup("InstallMethod/Grp1")] public bool UseKey;
     
-    [BoxGroup("InstallMethod")] public bool IsGlobal;
-    
-    [ShowIf("IsGlobal")][BoxGroup("InstallMethod")][ValueDropdown("GetAllGenericKeys")]
+    [ShowIf("UseKey")][BoxGroup("InstallMethod")][ValueDropdown("GetAllGenericKeys")]
     public GenericKey DataKey;
-    [ShowIf("IsGlobal")]
+    [ShowIf("IsGlobal")][GUIColor("GetButtonColor")]
     public Data DataType;
 
     [HideInInspector]public ActorBase OwnerActor;
@@ -70,6 +79,16 @@ public class Data : MonoBehaviour, IData
     private Color GetColorForProperty()
     {
         return new Color(0.35f,.83f,.29f,255);
+    }
+    private  Color GetButtonColor()
+    {
+        Sirenix.Utilities.Editor.GUIHelper.RequestRepaint();
+        if(DataType == null)
+        {
+            return Color.red;
+        }
+        Color color = Color.green;
+        return color;
     }
     
 #if UNITY_EDITOR
