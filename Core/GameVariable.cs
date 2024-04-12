@@ -1,10 +1,8 @@
 using System;
-using GenericUnityObjects;
 using UnityEngine;
 
 [Serializable]
-[CreateGenericAssetMenu] 
-public class GameVariable<T> : GenericScriptableObject
+public class GameVariable<T> : ScriptableObject
 {
     [SerializeField]
     private T value;

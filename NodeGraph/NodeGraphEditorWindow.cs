@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 #if UNITY_EDITOR
-using GenericUnityObjects.Editor.Util;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
-using TMPro.EditorUtilities;
 
 
 using Sirenix.OdinInspector;

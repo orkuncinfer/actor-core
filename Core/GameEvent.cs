@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using GenericUnityObjects;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-[CreateGenericAssetMenu] 
-public class GameEvent<T> : GenericScriptableObject // Restrict T to be a reference type
+public class GameEvent<T> : ScriptableObject // Restrict T to be a reference type
 {
     // Define a UnityEvent that takes a parameter of type T
     private readonly UnityEvent<T> onEventRaisedWithParam = new UnityEvent<T>();

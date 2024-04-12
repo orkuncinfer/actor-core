@@ -27,7 +27,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675b99bfe07b45fb97bf1957cc86fcd2, type: 3}
   m_Name: Stat
   m_EditorClassIdentifier: 
-  Position: {x: -632, y: -92}
+  Position: {x: -677, y: -135}
   Guid: 283a469e8423ad04d91e0ed3276516d7
   _value: 0
   StatName: Agility

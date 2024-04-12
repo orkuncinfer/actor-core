@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DataList : MonoBehaviour
 {
@@ -18,8 +19,8 @@ public class DataList : MonoBehaviour
     private bool _changeNameToggle;
     
     
-    [SerializeReference][TypeFilter("GetFilteredTypeList")] [ListDrawerSettings(ShowFoldout = true)]
-    public List<Data> AbilityActions = new List<Data>();
+    [FormerlySerializedAs("Datas")] [SerializeReference]
+    public List<Data> Datas = new List<Data>();
     
     public IEnumerable<Type> GetFilteredTypeList()
     {

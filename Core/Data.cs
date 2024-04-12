@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 [Serializable]
-public class Data : MonoBehaviour, IData
+public class Data :  MonoBehaviour,IData
 {
     [ShowInInspector]
     [HorizontalGroup("Status")]
@@ -80,6 +79,7 @@ public class Data : MonoBehaviour, IData
     {
         return new Color(0.35f,.83f,.29f,255);
     }
+#if UNITY_EDITOR
     private  Color GetButtonColor()
     {
         Sirenix.Utilities.Editor.GUIHelper.RequestRepaint();
@@ -91,7 +91,7 @@ public class Data : MonoBehaviour, IData
         return color;
     }
     
-#if UNITY_EDITOR
+
     private List<ValueDropdownItem<GenericKey>> GetAllGenericKeys() {
         var allKeys = Resources.FindObjectsOfTypeAll<GenericKey>();
         var dropdownItems = new List<ValueDropdownItem<GenericKey>>();

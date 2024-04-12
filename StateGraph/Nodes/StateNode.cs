@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ExtEvents.OdinSerializer;
 using Sirenix.OdinInspector;
 
 #if UNITY_EDITOR
