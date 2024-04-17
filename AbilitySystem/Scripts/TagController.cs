@@ -9,16 +9,12 @@ using UnityEngine;
 public class TagController : MonoBehaviour
 {
         public GameObject DebugCanvas;
-        [ShowInInspector]private Dictionary<string, int> m_TagCountMap = new Dictionary<string, int>();
-        public event Action<string> tagAdded;
-        public event Action<string> tagRemoved;
         public event Action<GameplayTag> onGameplaytagAdded;
         public event Action<GameplayTag> onGameplaytagRemoved;
-        private ReadOnlyCollection<string> tags => m_TagCountMap.Keys.ToList().AsReadOnly();
+ 
 
         public List<GameplayTag> _gameplayTags;
-    
-
+        
         private void Awake()
         {
             if (Debug.isDebugBuild)
@@ -29,9 +25,6 @@ public class TagController : MonoBehaviour
                 canvas.transform.GetComponent<TagDebugDisplay>().Initialize(this);
             }
         }
-
-    
-
         public bool Matches(GameplayTag gameplayTag)
         {
             for (int i = 0; i < _gameplayTags.Count; i++)
@@ -45,7 +38,7 @@ public class TagController : MonoBehaviour
             return false;
         }
 
-        public bool Contains(string tag)
+       /* public bool Contains(string tag)
         {
             return m_TagCountMap.ContainsKey(tag);
         }
@@ -63,21 +56,8 @@ public class TagController : MonoBehaviour
         public bool SatisfiesRequirements(IEnumerable<string> mustBePresentTags, IEnumerable<string> mustBeAbsentTags)
         {
             return ContainsAll(mustBePresentTags) && !ContainsAny(mustBeAbsentTags);
-        }
-
-       /* public void AddTag(string tag)
-        {
-            if (m_TagCountMap.ContainsKey(tag))
-            {
-                m_TagCountMap[tag]++;
-            }
-            else
-            {
-                m_TagCountMap.Add(tag, 1);
-                Debug.Log($"<color=yellow>Tag</color> added : {tag}");
-                tagAdded?.Invoke(tag);
-            }
         }*/
+        
         public void AddTag(GameplayTag tag)
         {
             if (!_gameplayTags.Contains(tag))
@@ -94,21 +74,4 @@ public class TagController : MonoBehaviour
                 onGameplaytagRemoved?.Invoke(tag);
             }
         }
-
-       /* public void RemoveTag(string tag)
-        {
-            if (m_TagCountMap.ContainsKey(tag))
-            {
-                m_TagCountMap[tag]--;
-                if (m_TagCountMap[tag] == 0)
-                {
-                    m_TagCountMap.Remove(tag);
-                    tagRemoved?.Invoke(tag);
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Attempting to remove a tag that does not exist!");
-            }
-        }*/
 }

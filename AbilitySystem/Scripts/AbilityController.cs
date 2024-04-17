@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 public class AbilityController : MonoInitializable, ISavable
 {
     public List<AbilityDefinition> AbilityDefinitions;
-    
+    public AbilityDefinitionSetSO AbilitySet;
     protected Dictionary<string, Ability> m_Abilities = new Dictionary<string, Ability>();
     public Dictionary<string, Ability> Abilities => m_Abilities;
 
@@ -28,6 +28,8 @@ public class AbilityController : MonoInitializable, ISavable
     {
         _effectController = GetComponent<GameplayEffectController>();
         m_TagController = GetComponent<TagController>();
+
+       
     }
 
     protected virtual void OnEnable()
@@ -79,32 +81,36 @@ public class AbilityController : MonoInitializable, ISavable
                 {
                     m_TagController.AddTag(tag);
                 }
-                Debug.Log($"<color=cyan>Ability</color> activated : {abilityName}");
+                DDebug.Log($"<color=cyan>Ability</color> activated : {abilityName}");
                 return true;
             }
         }
-        Debug.Log($"Ability with name {abilityName} not found!");
+        DDebug.Log($"Ability with name {abilityName} not found!");
         return false;
     }
     
     public bool CanActivateAbility(ActiveAbility ability)
     {
-        foreach (GameplayTag gameplayTag in ability.Definition.GrantedTagsDuringAbility)
+        foreach (GameplayTag gameplayTag in ability.Definition.GrantedTagsDuringAbility) // is busy using ability?
         {
-            if (m_TagController.Contains(gameplayTag.FullTag))
+            if (m_TagController.Matches(gameplayTag))
             {
-                //Debug.Log($"{ability.Definition.name} blocked!");
+                DDebug.Log($"{ability.Definition.name} blocked by {gameplayTag.FullTag}!");
                 return false;
             }
         }
         
-        if (ability.Definition.Cooldown != null)
+        if (ability.Definition.Cooldown != null) // is on cooldown?
         {
-            if (m_TagController.ContainsAny(ability.Definition.Cooldown.GrantedTags.Select(tag => tag.FullTag)))
+            if (ability.Definition.Cooldown.GrantedTags.Count > 0)
             {
-                Debug.Log($"{ability.Definition.name} is on cooldown!");
-                return false;
-            }
+                if (m_TagController.Matches(ability.Definition.Cooldown.GrantedTags.First()))
+                {
+                    DDebug.Log($"{ability.Definition.name} is on cooldown!");
+                    return false;
+                }
+            } 
+            
         }
             
         if (ability.Definition.Cost != null)
@@ -132,15 +138,6 @@ public class AbilityController : MonoInitializable, ISavable
             {
                 passiveAbility.ApplyEffects(gameObject);
             }
-            /*if(abilityDefinition is ActiveAbilityDefinition activeAbilityDefinition)
-            {
-                foreach (var action in activeAbilityDefinition.AbilityWindowActions)
-                {
-                    action.Action.OnStart(GetComponent<Actor>());
-                }
-            }*/
-          
-                
         }
         IsInitialized = true;
         onInitialized?.Invoke();

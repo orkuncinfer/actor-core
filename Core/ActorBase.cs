@@ -117,20 +117,23 @@ public class ActorBase : MonoBehaviour, ITagContainer
     }
     private void LoadData()
     {
-        Data[] dataComponents = GetComponentsInChildren<Data>();
-        foreach (var dataComponent in dataComponents)
+        DataList[] dataListComponents = GetComponentsInChildren<DataList>();
+        foreach (var dataComponent in dataListComponents)
         {
-            if(dataComponent.IsGlobal) continue;
-            if (dataComponent.UseKey)
+            foreach (var data in dataComponent.Datas)
             {
-                string key = dataComponent.DataKey.ID + dataComponent.GetType();
-                _datasets[key] = dataComponent;
+                if(data.IsGlobal) continue;
+                if (data.UseKey)
+                {
+                    string key = data.DataKey.ID + data.GetType();
+                    _datasets[key] = data;
+                }
+                else
+                {
+                    _datasets[data.GetType().ToString()] = data;
+                }
+                data.OwnerActor = this;
             }
-            else
-            {
-                _datasets[dataComponent.GetType().ToString()] = dataComponent;
-            }
-            dataComponent.OwnerActor = this;
         }
     }
 
@@ -193,12 +196,12 @@ public class ActorBase : MonoBehaviour, ITagContainer
     }
 
 
-    [Button][HideIf("_started")]
+    [Button][HideIf("_started")][HideInEditorMode]
     private void TestStartActor()
     {
         StartIfNot();
     }
-    [Button][HideIf("_stopped")]
+    [Button][HideIf("_stopped")][HideInEditorMode]
     private void TestStopActor()
     {
         StopIfNot();

@@ -76,7 +76,7 @@ void ProcessType(object obj, Type type, string path, HashSet<object> visited)
     // Check for cyclic references by examining if we've already visited this object
     if (visited.Contains(obj))
     {
-        Debug.Log("Cyclic reference detected, skipping object: " + path);
+        DDebug.Log("Cyclic reference detected, skipping object: " + path);
         return;
     }
     visited.Add(obj);
@@ -136,7 +136,7 @@ void ProcessGameplayTag(GameplayTag tag)
         GameplayTagsAsset tagsAsset = GetGameplayTagsAsset();
         tag.Fetch(tagsAsset);
 
-        Debug.Log($"Fetched GameplayTag: {tag.FullTag}");
+        DDebug.Log($"Fetched GameplayTag: {tag.FullTag}");
     }
 }
 
@@ -169,7 +169,7 @@ public class GameplayTagFetcher
         if (string.IsNullOrEmpty(HashCode))
         {
             HashCode = Guid.NewGuid().ToString();
-            Debug.Log("newHashCode set: " + HashCode);
+            DDebug.Log("newHashCode set: " + HashCode);
             EditorUtility.SetDirty(asset); 
             AssetDatabase.SaveAssets();
         }

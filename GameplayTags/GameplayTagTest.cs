@@ -13,11 +13,6 @@ public class GameplayTagTest : MonoBehaviour
 
         bool match = tagA.Matches(tagB); // returns true
         bool exact = tagA.MatchesExact(tagB); // returns false
-
-        foreach(var tag in tagA.GetHierarchy())
-        {
-            Debug.Log(tag);
-        }
     }
     [Button]
     public void Test1()
@@ -25,7 +20,7 @@ public class GameplayTagTest : MonoBehaviour
         GameplayTag tagA = "Root.Parent.Tag";
         GameplayTag tagB = "Root.Parent";
         bool match = tagA.Matches(tagB);
-        Debug.Log(match);
+        DDebug.Log(match);
     }
     [Button]
     public void Test2()
@@ -33,7 +28,7 @@ public class GameplayTagTest : MonoBehaviour
         GameplayTag tagA = "Root.Parent.Tag";
         GameplayTag tagB = "Root.Parent";
         bool exact = tagA.MatchesExact(tagB); // returns false
-        Debug.Log(exact);
+        DDebug.Log(exact);
     }
     [Button]
     public void Test3()
@@ -41,21 +36,21 @@ public class GameplayTagTest : MonoBehaviour
         GameplayTag tagA = "Root.Parent.Tag";
         foreach(var tag in tagA.GetHierarchy())
         {
-            Debug.Log(tag);
+            DDebug.Log(tag);
         }
     }
     [Button]
     public void Test4()
     {
-        Debug.Log(tag.ContainsAny(tag2)); 
+        DDebug.Log(tag.ContainsAny(tag2)); 
     }
     [Button]
     public void Test4(string a)
     {
-        Debug.Log(tag.Matches(a));
+        DDebug.Log(tag.Matches(a));
         foreach (var tags in tag.GetHierarchy())
         {
-            Debug.Log(tags);
+            DDebug.Log(tags);
         }
     }
 }

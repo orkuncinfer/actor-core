@@ -26,7 +26,7 @@ public partial class GameplayEffectController : MonoInitializable
     [Button]
     public void GetEffect()
     {
-        Debug.Log(_activeEffects.Count);
+        DDebug.Log(_activeEffects.Count);
     }
     
     private void Update()
@@ -119,7 +119,7 @@ public partial class GameplayEffectController : MonoInitializable
             {
                 if (effectToApply.Definition.ApplicationBlockerTags.Any(t => t.FullTag == tag.FullTag))
                 {
-                    Debug.Log($"Immune to {effectToApply.Definition.name}");
+                    DDebug.Log($"Immune to {effectToApply.Definition.name}");
                     return false;
                 }
             }
@@ -150,7 +150,7 @@ public partial class GameplayEffectController : MonoInitializable
 
                     if (existingStackableEffect.Definition.DenyOverflowApplication)
                     {
-                        Debug.Log("Denied overflow application");
+                        DDebug.Log("Denied overflow application");
                         return false;
                     }
                 }
@@ -279,7 +279,6 @@ public partial class GameplayEffectController : MonoInitializable
 
         if (effect.Definition.SpecialPersistentEffectDefinition != null)
         {
-            Debug.Log("remove unin" + effect.Definition.name);
             StopSpecialEffect(effect);
         }
     }
@@ -315,7 +314,7 @@ public partial class GameplayEffectController : MonoInitializable
                         
                         if (attribute.CurrentValue < cost)
                         {
-                            Debug.Log($"{effectDefinition.name} cannot satisfy costs!  Cost: {cost}, Value: {attribute.CurrentValue}");
+                            DDebug.Log($"{effectDefinition.name} cannot satisfy costs!  Cost: {cost}, Value: {attribute.CurrentValue}");
                             return false;
                         }
                     }

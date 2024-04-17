@@ -10,24 +10,37 @@ using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 [System.Serializable]
 [BoxGroup("DataGetter")]
-[IncludeMyAttributes]
-[InlineProperty(LabelWidth = 30)]
+
 public class DataGetter<T> where T : Data
 {
     [StringInput][ValueDropdown("GetAllGenericKeys")]
     public GenericKey Key;
 
+    public GetterType From;
+
     [HideInEditorMode]
     public T Data;
 
-    public void GetData()
+    [SerializeField][SerializeReference][HideInEditorMode]
+    private Data _retrievedData;
+
+    public void GetData(Actor owner = null)
     {
         string key = "";
         if (Key != null)
         {
             key = Key.ID;
         }
-        Data = GlobalData.GetData<T>(key);
+        
+        if (From == GetterType.Owner)
+        {
+            Data = owner.GetData<T>(key);
+        }
+        else
+        {
+            Data = GlobalData.GetData<T>(key);
+        }
+        _retrievedData = Data;
     }
 
 #if UNITY_EDITOR
@@ -44,6 +57,12 @@ public class DataGetter<T> where T : Data
     }
 #endif
     
+}
+
+public enum GetterType
+{
+    Global,
+    Owner
 }
 
 public class StringInputAttribute : Attribute {}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class MeleeAttackAction : AbilityAction
 {
@@ -8,6 +9,17 @@ public class MeleeAttackAction : AbilityAction
     private MeleeWeapon _meleeWeapon;
     ActiveAbility _ability;
     private List<Collider> _appliedColliders = new List<Collider>();
+    
+    public override AbilityAction Clone()
+    {
+        MeleeAttackAction cloneAction = AbilityActionPool<MeleeAttackAction>.Shared.Get();
+        cloneAction.EventName = EventName;
+        cloneAction.HitEffect = HitEffect;
+        cloneAction._meleeWeapon = _meleeWeapon;
+        cloneAction._ability = _ability;
+        
+        return cloneAction;
+    }
 
     public override void OnStart(Actor owner, ActiveAbility ability)
     {
@@ -19,10 +31,11 @@ public class MeleeAttackAction : AbilityAction
             _ability = ability;
         }
     }
+    
 
     private void OnHit(Collider obj)
     {
-        if (_appliedColliders.Contains(obj))
+        if (_appliedColliders.Contains(obj)) // prevent applying effects to the same collider multiple times
             return;
         _ability.AbilityDefinition.GameplayEffectDefinitions.ForEach(effect =>
         {
@@ -46,6 +59,7 @@ public class MeleeAttackAction : AbilityAction
         {
             _meleeWeapon.onHit -= OnHit;
         }
+        AbilityActionPool<MeleeAttackAction>.Shared.Release(this);
         _appliedColliders.Clear();
     }
 }

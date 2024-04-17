@@ -33,12 +33,15 @@ namespace StatSystem
         }
 
         [Button]
-        void GetStatData(string name)
+        public Attribute GetAttribute(string name)
         {
             if (_stats[name] is Attribute attribute)
             {
-                Debug.Log(attribute.CurrentValue.ToString());
+                DDebug.Log(attribute.CurrentValue.ToString());
+                return attribute;
             }
+
+            return null;
         }
 
         private void OnDestroy()
@@ -76,7 +79,7 @@ namespace StatSystem
             }
         }
 
-        public override void Initialize()
+        public override void  Initialize()
         {
             foreach (StatDefinition definition in DataBase.Stats)
             {

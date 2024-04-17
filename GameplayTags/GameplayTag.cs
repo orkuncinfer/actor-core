@@ -40,19 +40,19 @@ public class GameplayTag
 
         foreach (string VARIABLE in tagHierarchy)
         {
-            Debug.Log("parsed "+VARIABLE);
+            DDebug.Log("parsed "+VARIABLE);
         }
     }
 #if UNITY_EDITOR
     public void Fetch(GameplayTagsAsset tagsAsset)//not called in runtime
     {
-        Debug.Log("fetched");
+        DDebug.Log("fetched");
         foreach (GameplayTagFetcher tagFetcher in tagsAsset.TagsCache)
         {
             if (tagFetcher.HashCode == HashCode)
             {
                 fullTag = tagFetcher.Tag;
-                Debug.Log("fetchedtag" + fullTag);
+                DDebug.Log("fetchedtag" + fullTag);
                 ParseTagHierarchy();
                 return;
             }

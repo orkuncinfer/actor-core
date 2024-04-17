@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f48e6267cf24f22bf1f77ede2349818, type: 3}
   m_Name: ResultNode
   m_EditorClassIdentifier: 
-  Position: {x: 209, y: -112.5}
+  Position: {x: 288.35004, y: -102.99999}
   Guid: ac12fe1fae228384dadc87b2f98c7b25
   Child: {fileID: 8332429141831482690}
 --- !u!114 &7958302597049957833
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675b99bfe07b45fb97bf1957cc86fcd2, type: 3}
   m_Name: Stat
   m_EditorClassIdentifier: 
-  Position: {x: -723, y: 130}
+  Position: {x: -734, y: 147}
   Guid: 005a346d4c176cd47827bde5a3aec153
   _value: 1
   StatName: Strength

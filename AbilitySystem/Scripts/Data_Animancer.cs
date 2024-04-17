@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Animancer;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
+[MovedFrom(false, null, null, "Data_Animancer")]
 public class Data_Animancer : Data
 {
     [SerializeField] private AnimancerComponent _animancerComponent;

@@ -18,22 +18,25 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: d386f8eb084ba09468dbed4bb08198c4, type: 3}
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: f2741c27732b33642a93fc0f8b219f80, type: 2}
-  Actions: []
-  Action:
-    rid: -2
-  _animationClip: {fileID: 7400000, guid: 9da5f4e062db75b479d4ffc5c2ac14b0, type: 2}
   _animationName: 
   _isBasicAttack: 0
   _overrideAnimSpeed: 0
   _animationSpeed: 0
+  _animationClip: {fileID: 7400000, guid: 9da5f4e062db75b479d4ffc5c2ac14b0, type: 2}
+  _isLoopingAbility: 0
+  _duration: 0
   Cost: {fileID: 7539806499375167495}
   Cooldown: {fileID: 3444629564210413127}
-  GrantedTagsDuringAbility: []
+  GrantedTagsDuringAbility:
+  - fullTag: State.Ability
+    tagHierarchy:
+    - State
+    - State.Ability
+    HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
+  AbilityActions: []
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!114 &3444629564210413127
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,6 +5,9 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
+
+
 [CustomEditor(typeof(StatController),true)]
 public class StatControllerEditor : Editor
 {
@@ -55,11 +58,6 @@ public class StatControllerEditor : Editor
         StatController controller = (StatController)target;
         Texture2D greenDot = Resources.Load<Texture2D>("green-dot");
         Texture2D redDot = Resources.Load<Texture2D>("red-dot");
-
-        if (greenDot == null)
-        {
-            Debug.Log("nulll");
-        }
         
         Uxml.CloneTree(root);
         IMGUIContainer initIcon = root.Q<IMGUIContainer>("iconview");
@@ -268,3 +266,4 @@ public class StatControllerEditor : Editor
         selected.style.backgroundColor = new StyleColor(new Color(0.43f,0.42f,0.42f,1));
     }
 }
+#endif

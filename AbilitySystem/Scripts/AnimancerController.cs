@@ -5,11 +5,12 @@ using Animancer;
 using Sirenix.OdinInspector;
 using StatSystem;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class AnimancerController : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _animancerComponent;
-    [SerializeField] private AbilityController _abilityController;
+    private AnimancerComponent _animancerComponent;
+    private AbilityController _abilityController;
     
     private readonly List<AbilityAction> _registeredAbilityActions = new List<AbilityAction>();
     private List<AbilityAction> _abilityWindowActionsToRemove = new List<AbilityAction>();
@@ -19,8 +20,11 @@ public class AnimancerController : MonoBehaviour
     private float _loopRemainingTime;
     private void Start()
     {
+        _owner = transform.root.GetComponent<Actor>();
+        _abilityController = _owner.GetData<Data_Character>().AbilityController;
+        _animancerComponent = GetComponent<AnimancerComponent>();
+        
         _abilityController.onActivatedAbility += OnActivatedAbility;
-        _owner = _abilityController.GetComponent<Actor>();
     }
 
     private void Update()
@@ -88,7 +92,7 @@ public class AnimancerController : MonoBehaviour
         if (_isLooping)
         {
             _animancerComponent.States.Current.Time = 0;
-            Debug.Log("looping return");
+            DDebug.Log("looping return");
             return;   
         }
         
@@ -132,8 +136,9 @@ public class AnimancerController : MonoBehaviour
                  {
                      if (windowAction.EventName.Equals(newEventName,StringComparison.OrdinalIgnoreCase))
                      {
-                         _registeredAbilityActions.Add(windowAction);
-                         windowAction.OnStart(_owner,_lastActivatedAbility);
+                         AbilityAction abilityAction = windowAction.Clone();
+                         _registeredAbilityActions.Add(abilityAction);
+                         abilityAction.OnStart(_owner,_lastActivatedAbility);
                      }
                  }
             }

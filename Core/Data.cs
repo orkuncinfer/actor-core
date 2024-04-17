@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 [Serializable]
-public class Data :  MonoBehaviour,IData
+public class Data : IData
 {
     [ShowInInspector]
     [HorizontalGroup("Status")]
@@ -31,19 +31,7 @@ public class Data :  MonoBehaviour,IData
     private void OnEnable()
     {
        // FIX ME : HANDLE REMOVE DATA ON DISABLE
-        if ( IsGlobal)
-        {
-            string key= "";
-            if (UseKey)
-            {
-                key = DataKey.ID + DataType.GetType();
-            }
-            else
-            {
-                key = DataType.GetType().ToString();
-            }
-            GlobalData.LoadData(key,DataType);
-        }
+        
     }
   
     [BoxGroup("InstallMethod")][HorizontalGroup("InstallMethod/Grp1")] public bool IsGlobal;
@@ -51,8 +39,6 @@ public class Data :  MonoBehaviour,IData
     
     [ShowIf("UseKey")][BoxGroup("InstallMethod")][ValueDropdown("GetAllGenericKeys")]
     public GenericKey DataKey;
-    [ShowIf("IsGlobal")][GUIColor("GetButtonColor")]
-    public Data DataType;
 
     [HideInInspector]public ActorBase OwnerActor;
 
@@ -80,18 +66,6 @@ public class Data :  MonoBehaviour,IData
         return new Color(0.35f,.83f,.29f,255);
     }
 #if UNITY_EDITOR
-    private  Color GetButtonColor()
-    {
-        Sirenix.Utilities.Editor.GUIHelper.RequestRepaint();
-        if(DataType == null)
-        {
-            return Color.red;
-        }
-        Color color = Color.green;
-        return color;
-    }
-    
-
     private List<ValueDropdownItem<GenericKey>> GetAllGenericKeys() {
         var allKeys = Resources.FindObjectsOfTypeAll<GenericKey>();
         var dropdownItems = new List<ValueDropdownItem<GenericKey>>();

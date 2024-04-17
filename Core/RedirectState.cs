@@ -6,12 +6,20 @@ public class RedirectState : MonoState
     protected override void OnEnter()
     {
         base.OnEnter();
+        if (_redirectTo == null)
+        {
+            return;
+        }
        _redirectTo.CheckoutEnter(Owner);
     }
 
     protected override void OnExit()
     {
         base.OnExit();
+        if (_redirectTo == null)
+        {
+            return;
+        }
        _redirectTo.CheckoutExit();
     }
 }

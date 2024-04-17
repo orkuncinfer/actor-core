@@ -18,8 +18,9 @@ public class DataList : MonoBehaviour
 
     private bool _changeNameToggle;
     
-    
-    [FormerlySerializedAs("Datas")] [SerializeReference]
+    [FormerlySerializedAs("Datas")] 
+    [SerializeReference]
+    [ListDrawerSettings(ShowFoldout = true, DraggableItems = false)][Searchable]
     public List<Data> Datas = new List<Data>();
     
     public IEnumerable<Type> GetFilteredTypeList()
@@ -36,6 +37,26 @@ public class DataList : MonoBehaviour
     {
         _changeNameToggle = !_changeNameToggle;
         Description = ChangeName;
+    }
+
+    private void OnEnable()
+    {
+        for (int i = 0; i < Datas.Count; i++)
+        {
+            if ( Datas[i].IsGlobal)
+            {
+                string key= "";
+                if (Datas[i].UseKey)
+                {
+                    key = Datas[i].DataKey.ID + Datas[i].GetType();
+                }
+                else
+                {
+                    key = Datas[i].GetType().ToString();
+                }
+                GlobalData.LoadData(key,Datas[i]);
+            }
+        }
     }
 }
 

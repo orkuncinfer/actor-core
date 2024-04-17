@@ -226,10 +226,10 @@ public class BehaviourEditor : EditorWindow
 
     public  void TryDeleteSelectedNode()
     {
-        Debug.Log("hello1");
+        DDebug.Log("hello1");
         if (_selectedNode is StateNode)
         {
-            Debug.Log("hello1");
+            DDebug.Log("hello1");
             StateNode stn = (StateNode) _selectedNode;
             stn.ClearReferences();
             Windows.Remove(stn);

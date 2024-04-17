@@ -352,7 +352,7 @@ public class TagSelectorWindow : EditorWindow
                     _createTagFieldPos = new Vector2(buttonRect.xMin, buttonRect.y);
                     _createTagString = "";
                     _createTagStringPrefix = item.FullPath + ".";
-                    Debug.Log("Plus clicked");
+                    DDebug.Log("Plus clicked");
                 }
                 else
                 {

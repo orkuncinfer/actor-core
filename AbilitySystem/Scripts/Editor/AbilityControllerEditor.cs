@@ -9,6 +9,9 @@ using UnityEngine.UIElements;
 [CustomEditor(typeof(AbilityController),true)]
 public class AbilityControllerEditor : Editor
 {
+#if UNITY_EDITOR
+    
+
     private Texture2D icon;
     public VisualTreeAsset Uxml;
     public StatController[] ctrl;
@@ -73,3 +76,4 @@ public class AbilityControllerEditor : Editor
         controller.TryActiveAbilityWithDefinition(controller.TestAbility);
     }
 }
+#endif

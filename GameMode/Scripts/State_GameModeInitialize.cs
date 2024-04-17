@@ -28,6 +28,6 @@ public class State_GameModeInitialize : MonoState
     [Button]
     void finished()
     {
-        Debug.Log(IsFinished);
+        DDebug.Log(IsFinished);
     }
 }

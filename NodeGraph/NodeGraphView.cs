@@ -114,7 +114,6 @@ namespace Core.Editor
                     {
                         dsGroup.GroupedNodes.Add(nw.Node);
                         nw.Node.Group = dsGroup.GroupInstance;
-                        Debug.Log("1");
                     }
                          
                     
@@ -158,7 +157,6 @@ namespace Core.Editor
                             Group group = nodeView.Node.Group;
                             if (_nodeGraph.TempGroupDictionary.ContainsKey(group))
                             {
-                                Debug.Log(nodeView.Node.Group);
                                 _nodeGraph.TempGroupDictionary[group].GroupedNodes.Remove(nodeView.Node);
                             }
                         }
@@ -270,7 +268,6 @@ namespace Core.Editor
                             {
                                 group.AddElement(nodeView);
                                 groupedNode.Group = group;
-                                Debug.Log("2");
                             }
                         }
                     }

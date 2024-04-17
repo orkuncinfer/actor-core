@@ -75,7 +75,7 @@ public class GameplayTagPropertyDrawer : PropertyDrawer
 
     private void DropdownMenuOnOnValueSelected(string obj)
     {
-        Debug.Log(obj);
+        DDebug.Log(obj);
     }
 
     private void SetValue(string selectedType, SerializedProperty fullTagProperty)

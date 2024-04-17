@@ -11,6 +11,8 @@ namespace Core
         public float time = 0.5f;
         private Transform m_MainCamera;
         private TextMesh m_TextMesh;
+        
+        
 
         private void Awake()
         {
@@ -25,7 +27,7 @@ namespace Core
 
         public void Animate()
         {
-            transform.DOMove(transform.position + new Vector3(-0.5f,0.5f,0), time).OnKill((OnFinish));
+            transform.DOMove(transform.position + new Vector3(0.3f,0.5f,0), time).OnKill((OnFinish));
             transform.DOScale(Vector3.zero, time).SetEase(Ease.InExpo);
         }
 

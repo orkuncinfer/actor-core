@@ -4,18 +4,19 @@ using LevelSystem;
 using SaveSystem.Scripts.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Core.Editor
 {
     public class LevelController : MonoBehaviour, ILevelable,ISavable
     {
-        [SerializeField] private int m_Level = 1;
+        [SerializeField] private int _initLevel = 1;
         [SerializeField] private int m_CurrentExperience;
         [SerializeField] private NodeGraph m_RequiredExperienceFormula;
 
         private bool m_IsInitialized;
 
-        public int level => m_Level;
+        public int level => _initLevel;
         public event Action levelChanged;
         public event Action currentExperienceChanged;
 
@@ -24,12 +25,12 @@ namespace Core.Editor
             get => m_CurrentExperience;
             set
             {
-                Debug.Log("required : " + requiredExperience);
+                DDebug.Log("required : " + requiredExperience);
                 if (value >= requiredExperience)
                 {
                     m_CurrentExperience = value - requiredExperience;
                     currentExperienceChanged?.Invoke();
-                    m_Level++;
+                    _initLevel++;
                     levelChanged?.Invoke();
                 }
                 else if (value < requiredExperience)
@@ -76,7 +77,7 @@ namespace Core.Editor
 
         public object data => new LevelControllerData
         {
-            level = m_Level,
+            level = _initLevel,
             currentExperience = m_CurrentExperience
         };
         public void Load(object data)
@@ -84,7 +85,7 @@ namespace Core.Editor
             LevelControllerData levelControllerData = (LevelControllerData)data;
             m_CurrentExperience = levelControllerData.currentExperience;
             currentExperienceChanged?.Invoke();
-            m_Level = levelControllerData.level;
+            _initLevel = levelControllerData.level;
             levelChanged?.Invoke();
             loaded?.Invoke();
         }
