@@ -14,6 +14,9 @@ public class PanelInstanceModel : MonoBehaviour
 
     public event Action<PanelInstanceModel> onHideCompleted;
     public event Action<PanelInstanceModel> onShowCompleted;
+    
+    public bool FadeOutOnHide = true;
+    public bool FadeInOnShow = true;
 
     private void Awake()
     {
@@ -33,23 +36,25 @@ public class PanelInstanceModel : MonoBehaviour
 
     IEnumerator HidePanelSequence()
     {
-        while (_canvasGroup.alpha != 0)
+        while (_canvasGroup.alpha != 0 && FadeOutOnHide)
         {
             _canvasGroup.alpha -= Time.deltaTime * 5;
             yield return null;
         }
         gameObject.SetActive(false);
+        _canvasGroup.alpha = 0;
         onHideCompleted?.Invoke(this);
     }
     
     IEnumerator ShowPanelSequence()
     {
         _canvasGroup.alpha = 0;
-        while (_canvasGroup.alpha != 1)
+        while (_canvasGroup.alpha != 1 && FadeInOnShow)
         {
             _canvasGroup.alpha += Time.deltaTime * 5;
             yield return null;
         }
+        _canvasGroup.alpha = 1;
         onShowCompleted?.Invoke(this);
     }
 }

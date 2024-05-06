@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -6,6 +7,12 @@ public class GOPoolMember : MonoBehaviour
     private GameObjectPool _pool;
     private GameObject _prefab;
     public bool ReturnOnDisable;
+
+    private void Start()
+    {
+        if(_pool == null)
+            GOPoolProvider.RegisterNewItemToPool(this, gameObject);
+    }
 
     public void SetPool(GameObjectPool pool, GameObject prefab)
     {

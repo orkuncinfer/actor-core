@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9794fe5fd80b2a0429fc6a84eb91aab4, type: 3}
+  m_Name: PlayerInventory
+  m_EditorClassIdentifier: 
+  InitialSlotCount: 30
+  Width: 0
+  InventoryId: PlayerInventory
+  InventoryData:
+    _slotCount: 0
+    _inventorySlots:
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: itm_0001
+      _itemCount: 11
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: itm_0001
+      _itemCount: 20
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0
+    - _allowedTypes: 
+      _itemID: 
+      _itemCount: 0

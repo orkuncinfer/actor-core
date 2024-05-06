@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class MeleeAttackAction : AbilityAction
+public class AbilityAction_MeleeAttack : AbilityAction
 {
     public GameObject HitEffect;
     private MeleeWeapon _meleeWeapon;
@@ -12,13 +12,13 @@ public class MeleeAttackAction : AbilityAction
     
     public override AbilityAction Clone()
     {
-        MeleeAttackAction cloneAction = AbilityActionPool<MeleeAttackAction>.Shared.Get();
-        cloneAction.EventName = EventName;
-        cloneAction.HitEffect = HitEffect;
-        cloneAction._meleeWeapon = _meleeWeapon;
-        cloneAction._ability = _ability;
+        AbilityAction_MeleeAttack clone = AbilityActionPool<AbilityAction_MeleeAttack>.Shared.Get();
+        clone.EventName = EventName;
+        clone.HitEffect = HitEffect;
+        clone._meleeWeapon = _meleeWeapon;
+        clone._ability = _ability;
         
-        return cloneAction;
+        return clone;
     }
 
     public override void OnStart(Actor owner, ActiveAbility ability)
@@ -59,7 +59,7 @@ public class MeleeAttackAction : AbilityAction
         {
             _meleeWeapon.onHit -= OnHit;
         }
-        AbilityActionPool<MeleeAttackAction>.Shared.Release(this);
+        AbilityActionPool<AbilityAction_MeleeAttack>.Shared.Release(this);
         _appliedColliders.Clear();
     }
 }

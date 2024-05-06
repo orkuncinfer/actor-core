@@ -34,6 +34,11 @@ public partial class GameplayEffectController : MonoInitializable
         HandleDuration();
     }
 
+    protected virtual void Shit()
+    {
+        
+    }
+
     private void OnEnable()
     {
         _statController.onInitialized += OnStatControllerInitialized;

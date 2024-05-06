@@ -10,13 +10,13 @@ namespace Core.Editor
 {
     public class LevelController : MonoBehaviour, ILevelable,ISavable
     {
-        [SerializeField] private int _initLevel = 1;
+        [SerializeField] private int _level = 1;
         [SerializeField] private int m_CurrentExperience;
         [SerializeField] private NodeGraph m_RequiredExperienceFormula;
 
         private bool m_IsInitialized;
 
-        public int level => _initLevel;
+        public int level => _level;
         public event Action levelChanged;
         public event Action currentExperienceChanged;
 
@@ -30,7 +30,7 @@ namespace Core.Editor
                 {
                     m_CurrentExperience = value - requiredExperience;
                     currentExperienceChanged?.Invoke();
-                    _initLevel++;
+                    _level++;
                     levelChanged?.Invoke();
                 }
                 else if (value < requiredExperience)
@@ -77,7 +77,7 @@ namespace Core.Editor
 
         public object data => new LevelControllerData
         {
-            level = _initLevel,
+            level = _level,
             currentExperience = m_CurrentExperience
         };
         public void Load(object data)
@@ -85,7 +85,7 @@ namespace Core.Editor
             LevelControllerData levelControllerData = (LevelControllerData)data;
             m_CurrentExperience = levelControllerData.currentExperience;
             currentExperienceChanged?.Invoke();
-            _initLevel = levelControllerData.level;
+            _level = levelControllerData.level;
             levelChanged?.Invoke();
             loaded?.Invoke();
         }

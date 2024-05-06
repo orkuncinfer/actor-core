@@ -45,7 +45,7 @@ namespace StatSystem
             }
            
             if (newValue < 0) newValue = 0;
-         
+            if(newValue > BaseValue) newValue = BaseValue;
             if (CurrentValue != newValue)
             {
                 int oldValue = _currentValue;

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29c4755121415bb4bba742fe13be4da0, type: 3}
+  m_Name: Monster_Golem
+  m_EditorClassIdentifier: 
+  MonsterID: mns_golem
+  PossibleDrops:
+  - Item: {fileID: 11400000, guid: 3f78e0831166c7d47a358d6beb488690, type: 2}
+    ItemID: item_0002
+    DropChance: 0.1
+  - Item: {fileID: 11400000, guid: c08c5c3a94f8c4f4ab2cc0e3f7931c66, type: 2}
+    ItemID: itm_0001
+    DropChance: 0.08
+  MinGoldDrop: 0
+  MaxGoldDrop: 0

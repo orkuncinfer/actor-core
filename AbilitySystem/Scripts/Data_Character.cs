@@ -1,4 +1,5 @@
-﻿using ECM2;
+﻿using Core.Editor;
+using ECM2;
 using StatSystem;
 
 public class Data_Character : Data
@@ -9,4 +10,5 @@ public class Data_Character : Data
     public GameplayEffectController EffectController;
     public StatController StatController;
     public TagController TagController;
+    public LevelController LevelController;
 }

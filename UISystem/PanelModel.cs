@@ -9,12 +9,16 @@ public class PanelModel
 {
     [InlineButton("Show")]
     public string PanelId;
-
+    [InlineButton("Add")]
     public GameObject PanelPrefab;
-
     
     public void Show()
     {
         CanvasLayer.Instance.ShowPanel(PanelId);
+    }
+
+    public void Add()
+    {
+        CanvasLayer.Instance.ShowAdditive(PanelId);
     }
 }

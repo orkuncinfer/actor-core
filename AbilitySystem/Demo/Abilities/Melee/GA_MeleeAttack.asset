@@ -18,7 +18,6 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: dbb302379b427ab4ba5a9df63e5e94b7, type: 2}
-  _animationName: 
   _isBasicAttack: 1
   _overrideAnimSpeed: 0
   _animationSpeed: 0
@@ -34,14 +33,14 @@ MonoBehaviour:
     - State.Ability
     HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
   AbilityActions:
-  - rid: 4448694647302914051
+  - rid: 3860127071150014479
   references:
     version: 2
     RefIds:
-    - rid: 4448694647302914051
-      type: {class: MeleeAttackAction, ns: , asm: Assembly-CSharp-firstpass}
+    - rid: 3860127071150014479
+      type: {class: AbilityAction_MeleeAttack, ns: , asm: Assembly-CSharp-firstpass}
       data:
-        EventName: attack
+        EventName: Attack
         HitEffect: {fileID: 1438542530079480, guid: 21710859533a00746ad2bdd323061a2d, type: 3}
 --- !u!114 &4067716126298073610
 MonoBehaviour:

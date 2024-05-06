@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb52109eb060433428d3c22d69521853, type: 3}
+  m_Name: UniqItem_Sword
+  m_EditorClassIdentifier: 
+  ID: item_0002
+  ItemName: 
+  Description: 
+  Icon: {fileID: 21300000, guid: a5fd1d31c7504cd4083d950f36ed7511, type: 3}
+  Prefab: {fileID: 0}
+  ItemType: 0
+  IsStackable: 0
+  MaxStack: 1
+  DefaultRarity: 0
+  IsUniqueItem: 0
+  PossibleModifiers:
+  - {fileID: 11400000, guid: c0f0b54824d6ab14aaef321d46565ca0, type: 2}
+  - {fileID: 11400000, guid: 337b6be2788e5a6448a0df02331e694c, type: 2}
+  - {fileID: 11400000, guid: 2a187f2b78f050648abdf387e76d90fb, type: 2}
+  - {fileID: 11400000, guid: 0b8bf80e354f7e544af5fe0195df092f, type: 2}
+  - {fileID: 11400000, guid: 70f5d777792da244e966de6d3237720d, type: 2}
+  - {fileID: 11400000, guid: cac4b1212b226d04a8cb08160321a820, type: 2}

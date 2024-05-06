@@ -7,9 +7,6 @@ using UnityEngine;
 
 public abstract class ActiveAbilityDefinition : AbilityDefinition
 {
-    [SerializeField] protected string _animationName;
-    public string AnimationName => _animationName;
-    
     [SerializeField] private bool _isBasicAttack;
     public bool IsBasicAttack => _isBasicAttack;
 
