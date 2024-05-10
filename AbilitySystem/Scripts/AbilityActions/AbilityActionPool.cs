@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AbilityActionPool<T> where T : AbilityAction, new()
 { 
@@ -8,7 +9,10 @@ public class AbilityActionPool<T> where T : AbilityAction, new()
         get 
         {
             if (_instance == null)
+            {
                 _instance = new AbilityActionPool<T>();
+            }
+                
             return _instance;
         } 
     }
@@ -25,7 +29,6 @@ public class AbilityActionPool<T> where T : AbilityAction, new()
             CountAll++;
             return new T();
         }
-        DDebug.Log("returned an element from pool");
         return _availableObjects.Dequeue();
     }
 

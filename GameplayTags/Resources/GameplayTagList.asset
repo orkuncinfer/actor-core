@@ -33,3 +33,7 @@ MonoBehaviour:
     HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
   - Tag: Status
     HashCode: 26b35c3f-21f2-4409-b490-fedffcca6baa
+  - Tag: Blocker.GetHit
+    HashCode: 0672803e-7082-4040-931f-abe9766f2b0f
+  - Tag: State.IsDead
+    HashCode: 83a4c44d-27ab-481a-9e80-360307a0c519

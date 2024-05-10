@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Database;
+using Firebase.Extensions;
 using Firebase.Firestore;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
@@ -47,37 +48,9 @@ public class InventoryDefinition : ScriptableObject
                 InventoryData.InventorySlots.Add(inventorySlot);
             }
         }
+        _database = FirebaseDatabase.GetInstance("https://templateproject-174cf-default-rtdb.europe-west1.firebasedatabase.app/");
+        _firestore = FirebaseFirestore.DefaultInstance;
     }
-
-    
-    /*public bool ContainsItem(string itemID)
-    {
-        return InventoryData.ItemDataDictionary.ContainsKey(itemID);
-    }
-    
-    public bool ContainsItem(ItemData itemData)
-    {
-        return InventoryData.ItemDataDictionary.ContainsKey(itemData.ItemID);
-    }
-    
-    public int GetCount(string itemID)
-    {
-        if (InventoryData.ItemDataDictionary.ContainsKey(itemID))
-        {
-            return InventoryData.ItemDataDictionary[itemID].Count;
-        }
-        return 0;
-    }
-    
-    public int GetCount(ItemData itemID)
-    {
-        if (InventoryData.ItemDataDictionary.ContainsKey(itemID.ItemID))
-        {
-            return InventoryData.ItemDataDictionary[itemID.ItemID].Count;
-        }
-        return 0;
-    }*/
-    
     public void AddItem(ItemDefinition itemDefinition, int count)
     {
         for (int i = 0; i < InventoryData.InventorySlots.Count; i++) // check if we already have same item
@@ -285,9 +258,8 @@ public class InventoryDefinition : ScriptableObject
             {InventoryId, InventoryData},
         };
  
-        _database = FirebaseDatabase.GetInstance("https://templateproject-174cf-default-rtdb.europe-west1.firebasedatabase.app/");
-        _firestore = FirebaseFirestore.DefaultInstance;
-        await _firestore.Collection("player-data").Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Collection("Inventories").Document(InventoryId).SetAsync(InventoryData).ContinueWith(task =>
+        
+        await _firestore.Collection("player-data").Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Collection("Inventories").Document(InventoryId).SetAsync(InventoryData).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
             {

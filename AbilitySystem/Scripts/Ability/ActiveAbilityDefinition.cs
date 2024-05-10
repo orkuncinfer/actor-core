@@ -16,9 +16,13 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
 
     [SerializeField][ShowIf("_overrideAnimSpeed")] private float _animationSpeed;
     public float AnimationSpeed => _animationSpeed;
-    
+    [HorizontalGroup]
     [SerializeField] private AnimationClip _animationClip;
     public AnimationClip AnimationClip => _animationClip;
+    
+    [HorizontalGroup][PropertyRange(0,1)][Tooltip("At 1 the animation will play until the end, at 0 it will play for 0 seconds")]
+    [SerializeField] private float _playTime = 1f;
+    public float PlayTime => _playTime;
     
     [SerializeField] private bool _isLoopingAbility;
     public bool IsLoopingAbility => _isLoopingAbility;

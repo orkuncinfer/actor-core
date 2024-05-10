@@ -64,6 +64,12 @@ public class AbilityController : MonoInitializable, ISavable
         CurrentAbility = null;
     }
     
+    public void AddAndActivateAbility(AbilityDefinition definition)
+    {
+        AddAbilityIfNotHave(definition);
+        TryActivateAbility(definition.name, Target);
+    }
+    
     public bool TryActivateAbility(string abilityName, GameObject target)
     {
         if (m_Abilities.TryGetValue(abilityName, out Ability ability))
@@ -91,6 +97,12 @@ public class AbilityController : MonoInitializable, ISavable
     
     public bool CanActivateAbility(ActiveAbility ability)
     {
+        if (m_TagController.MatchesExact("State.IsDead"))
+        {
+            DDebug.Log("Can't activate ability while dead!");
+            return false;
+        }
+        
         foreach (GameplayTag gameplayTag in ability.Definition.GrantedTagsDuringAbility) // is busy using ability?
         {
             if (m_TagController.Matches(gameplayTag))
@@ -141,6 +153,18 @@ public class AbilityController : MonoInitializable, ISavable
         }
         IsInitialized = true;
         onInitialized?.Invoke();
+    }
+    
+    public void AddAbilityIfNotHave(AbilityDefinition abilityDefinition)
+    {
+        if (!m_Abilities.ContainsKey(abilityDefinition.name))
+        {
+            AbilityTypeAttribute abilityTypeAttribute = abilityDefinition.GetType().GetCustomAttributes(true)
+                .OfType<AbilityTypeAttribute>().FirstOrDefault();
+            Ability ability =
+                Activator.CreateInstance(abilityTypeAttribute.type, abilityDefinition, this) as Ability;
+            m_Abilities.Add(abilityDefinition.name, ability);
+        }
     }
 
     public virtual object data

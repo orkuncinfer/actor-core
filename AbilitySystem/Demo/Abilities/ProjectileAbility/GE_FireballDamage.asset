@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModifierDefinitions:
   - rid: 88048083462258688
-  - rid: 4448694647302914049
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects:
   - {fileID: 11400000, guid: 418e039fdfef19142b86eca28ec0ff65, type: 2}
@@ -36,15 +35,6 @@ MonoBehaviour:
         StatName: Health
         Type: 0
         Formula:
-          Graph: {fileID: 0}
-          StaticValue: -10
-        CanCriticalHit: 0
-    - rid: 4448694647302914049
-      type: {class: GameplayEffectDamageDefinition, ns: , asm: Assembly-CSharp-firstpass}
-      data:
-        StatName: Health
-        Type: 0
-        Formula:
-          Graph: {fileID: 0}
+          Graph: {fileID: 11400000, guid: aa38453b902d3c94393bf76b0af2d47d, type: 2}
           StaticValue: 0
         CanCriticalHit: 0

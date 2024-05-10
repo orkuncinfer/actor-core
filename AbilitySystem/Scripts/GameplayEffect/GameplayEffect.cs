@@ -25,8 +25,8 @@ public class GameplayEffect
         _definition = definition;
         _source = source;
         _instigator = instigator;
-
-        StatController statController = instigator.GetComponent<StatController>();
+        
+        StatController statController = instigator.GetComponentInChildren<StatController>();
         
         foreach (AbstractGameplayEffectStatModifier modifierDef in definition.ModifierDefinitions)
         {

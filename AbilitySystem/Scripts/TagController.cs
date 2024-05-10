@@ -37,6 +37,20 @@ public class TagController : MonoBehaviour
 
             return false;
         }
+        
+        public bool MatchesExact(GameplayTag gameplayTag)
+        {
+            for (int i = 0; i < _gameplayTags.Count; i++)
+            {
+                if (_gameplayTags[i].MatchesExact(gameplayTag))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    
 
        /* public bool Contains(string tag)
         {

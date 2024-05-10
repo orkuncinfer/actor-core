@@ -14,6 +14,7 @@ namespace Core.Editor
         public void OnValidateSelf()
         {
             onValueValidate?.Invoke(Value);
+            NodeGraphHelper.SetDirty(this);
         }
     }
 }

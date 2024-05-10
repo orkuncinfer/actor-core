@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: -734, y: 424}
   Guid: 3d64e44546f52cd4b829d859df7b0cf7
-  _value: 30
+  _value: 0
   StatName: PhysicalPower
 --- !u!114 &5938514610092541220
 MonoBehaviour:
@@ -247,5 +247,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: -734, y: 147}
   Guid: 005a346d4c176cd47827bde5a3aec153
-  _value: 1
+  _value: 0
   StatName: Strength

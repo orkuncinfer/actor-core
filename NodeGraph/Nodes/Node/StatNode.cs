@@ -7,6 +7,7 @@ namespace Core.Editor
     public class StatNode : CodeFunctionNode
     {
         [SerializeField] private float _value;
+        private StatController _statController;
         public override float Value
         {
             get => _value;
@@ -22,8 +23,9 @@ namespace Core.Editor
 
         public override float CalculateValue(GameObject source)
         {
-            StatController statController = source.GetComponent<StatController>();
-            return statController.Stats[StatName].Value;
+            if (_statController == null)
+                _statController = source.GetComponentInChildren<StatController>();
+            return _statController.Stats[StatName].Value;
         }
 
         public string StatName;

@@ -118,6 +118,12 @@ public partial class GameplayEffectController : MonoInitializable
     {
         bool isAdded = true;
 
+        if (_tagController.MatchesExact("State.IsDead"))
+        {
+            DDebug.Log("Can't apply effect while dead!");
+            return false;
+        }
+        
         foreach (GameplayPersistentEffect activeEffect in _activeEffects)
         {
             foreach (GameplayTag tag in activeEffect.Definition.GrantedTags)

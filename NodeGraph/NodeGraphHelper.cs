@@ -21,6 +21,16 @@ public static class NodeGraphHelper
         AssetDatabase.SaveAssets();
         SOSaveCache.Clear();
 #endif
-        
+    }
+
+    public static void SetDirty(ScriptableObject so)
+    {
+#if UNITY_EDITOR
+        if (so != null)
+        {
+            EditorUtility.SetDirty(so);
+        }
+        SOSaveCache.Add(so);
+#endif
     }
 }

@@ -1,3 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Core.Editor.NodeGraphView focusable="true" style="flex-direction: row; flex-grow: 1; width: auto;" />
+    <Core.Editor.NodeGraphView focusable="true" style="flex-direction: row; flex-grow: 1; width: auto;">
+        <ui:Button text="Save" parse-escape-sequences="true" display-tooltip-when-elided="true" binding-path="save-button" view-data-key="save-button" name="save-button" style="width: 81px; height: 27px;" />
+    </Core.Editor.NodeGraphView>
 </ui:UXML>

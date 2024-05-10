@@ -18,10 +18,11 @@ public class AnimancerController : MonoBehaviour
     private Actor _owner;
     private bool _isLooping;
     private float _loopRemainingTime;
+    private bool _abilityAnimPlaying;
     private void Start()
     {
         _owner = transform.root.GetComponent<Actor>();
-        _abilityController = _owner.GetData<Data_Character>().AbilityController;
+        _abilityController = _owner.GetData<Data_GAS>().AbilityController;
         _animancerComponent = GetComponent<AnimancerComponent>();
         
         _abilityController.onActivatedAbility += OnActivatedAbility;
@@ -43,7 +44,21 @@ public class AnimancerController : MonoBehaviour
                 OnEnd();
             }
         }
-       
+
+        if (_abilityAnimPlaying)
+        {
+            if(_lastActivatedAbility.Definition is ActiveAbilityDefinition activeAbilityDefinition)
+            {
+                if (activeAbilityDefinition.PlayTime < 1)
+                {
+                    if(_animancerComponent.States.Current.NormalizedTime >= activeAbilityDefinition.PlayTime)
+                    {
+                        CancelCurrent();
+                    }
+                    
+                }
+            }
+        }
     }
 
 
@@ -56,7 +71,7 @@ public class AnimancerController : MonoBehaviour
         {
             _animancerComponent.Stop();
             _animancerComponent.Play(ability.Definition.AnimationClip);
-            
+            _abilityAnimPlaying = true;
             if (ability.Definition.IsBasicAttack)
             {
                 float attackSpeedStat = _abilityController.GetComponent<StatController>().Stats["AttackSpeed"].Value;
@@ -95,7 +110,7 @@ public class AnimancerController : MonoBehaviour
             DDebug.Log("looping return");
             return;   
         }
-        
+        _abilityAnimPlaying = false;
         _animancerComponent.States.Current.Events.OnEnd -= OnEnd;
         if (_abilityController.CurrentAbility is ActiveAbility activeAbility)
         {

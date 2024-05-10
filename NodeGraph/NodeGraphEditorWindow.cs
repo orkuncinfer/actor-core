@@ -24,6 +24,7 @@ namespace Core.Editor
         private NodeGraphView _nodeGraphView;
         private VisualElement _infoPanel;
         private UnityEditor.Editor _editor;
+        private Button _saveButton;
         
         private Texture2D m_Icon;
         
@@ -46,11 +47,15 @@ namespace Core.Editor
         
         private void OnEditorUpdate()
         {
-            if (EditorApplication.timeSinceStartup >= nextSaveTime)
+            if (NodeGraphHelper.SOSaveCache != null)
             {
-                NodeGraphHelper.SaveScriptableObjects();
-                nextSaveTime = EditorApplication.timeSinceStartup + SaveInterval;
-            }
+                if(NodeGraphHelper.SOSaveCache.Count > 0)
+                {
+                    _saveButton.text = "Save*";
+                    return;
+                }
+            }   
+            _saveButton.text = "Save";
         }
 
         public static void ShowWindow(NodeGraph nodeGraph)
@@ -78,11 +83,18 @@ namespace Core.Editor
             visualTree.CloneTree(root);
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/actor-core/NodeGraph/NodeGraphEditorWindow.uss");
             root.styleSheets.Add(styleSheet);
-
+            
+            _saveButton = root.Q<Button>("save-button");
+            _saveButton.clickable.clicked += ClickableOnclicked;
             //_infoPanel = root.Q("info-panel");
             _nodeGraphView = root.Q<NodeGraphView>();
             _nodeGraphView.nodeCreationRequest += OnRequestNodeCreation;
             _nodeGraphView.onNodeSelected = OnNodeSelected;
+        }
+
+        private void ClickableOnclicked()
+        {
+            NodeGraphHelper.SaveScriptableObjects();
         }
 
         private void OnNodeSelected(NodeView nodeView)

@@ -23,7 +23,7 @@ public class AbilityLevelNode : CodeFunctionNode
     
             public override float CalculateValue(GameObject source)
             {
-                AbilityController abilityController = source.GetComponent<AbilityController>();
+                AbilityController abilityController = source.GetComponentInChildren<AbilityController>();
                 return abilityController.Abilities[AbilityName].level;
             }
     

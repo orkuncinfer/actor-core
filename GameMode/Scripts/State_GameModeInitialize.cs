@@ -7,6 +7,7 @@ public class State_GameModeInitialize : MonoState
 {
     private DS_GameMode _gameModeData;
     [SerializeField] private DataGetter<DS_GameMode> _modeData;
+    private EventSignal _event;
     protected override void OnEnter()
     {
         base.OnEnter();
