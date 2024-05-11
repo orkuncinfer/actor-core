@@ -156,6 +156,19 @@ public class ActorBase : MonoBehaviour, ITagContainer
             return null;
         }
     }
+    public bool TryGetData<T>(string key, out T data) where T : Data
+    {
+        if (_datasets.ContainsKey(key+typeof(T).ToString()))
+        {
+            data = (T)_datasets[key+typeof(T).ToString()];
+            return true;
+        }
+        else
+        {
+            data = null;
+            return false;
+        }
+    }
     public T GetGlobalData<T>() where T : Data
     {
             //return GlobalData.GetData<T>();

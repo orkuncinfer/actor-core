@@ -25,6 +25,7 @@ public class GooglePlayServicesInitialization : MonoBehaviour
     
     public event Action onFirebaseSignIn;
     
+    public bool GooglePlaySignedIn {get; set;}
     public bool FirebaseSignedIn {get; set;}
 
     private void Awake()
@@ -46,6 +47,7 @@ public class GooglePlayServicesInitialization : MonoBehaviour
         {
             if (success)
             {
+                GooglePlaySignedIn = true;
                 PlayGamesPlatform.Instance.RequestServerSideAccess(
                     false,
                     (string token) => FireBaseSignIn(token)

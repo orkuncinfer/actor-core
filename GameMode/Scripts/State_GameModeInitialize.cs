@@ -23,6 +23,8 @@ public class State_GameModeInitialize : MonoState
         }
         
         _gameModeData.ResetAllVariables();
+        
+        GlobalActorEvents.SetActorsInitialized();
         CheckoutExit();
     }
 

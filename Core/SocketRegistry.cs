@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class SocketRegistry : MonoBehaviour
@@ -14,7 +16,6 @@ public class SocketRegistry : MonoBehaviour
             SocketDictionary.Add(Sockets[i].Key,Sockets[i].Transform);
         }
     }
-    
     public Transform GetSocket(string key)
     {
         if (SocketDictionary.TryGetValue(key, out Transform socket))
@@ -26,6 +27,27 @@ public class SocketRegistry : MonoBehaviour
             Debug.LogError($"{key} , could not found in the socket registry in : {gameObject.name}");
         }
         return null;
+    }
+
+    [Button]
+    public void FindTransformsInRig()
+    {
+        foreach (SocketData socket in Sockets)
+        {
+            Debug.Log("searching for " + socket.Key);
+            if (socket.Transform == null)
+            {
+                if(GetChildGameObject(gameObject,socket.Key) == null) continue;
+                socket.Transform = GetChildGameObject(gameObject, socket.Key).transform;
+            }
+        }
+    }
+    public GameObject GetChildGameObject(GameObject fromGameObject, string withName)
+    {
+        var allKids = fromGameObject.GetComponentsInChildren<Transform>();
+        var kid = allKids.FirstOrDefault(k => k.gameObject.name == withName);
+        if (kid == null) return null;
+        return kid.gameObject;
     }
 }
 

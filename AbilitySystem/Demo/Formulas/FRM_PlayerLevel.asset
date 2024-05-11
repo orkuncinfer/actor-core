@@ -31,7 +31,7 @@ MonoBehaviour:
   Position: {x: -1487, y: 211.5}
   Guid: 58da424973778e34fbd3ec8101f3c44a
   RegisteredToLevelEvent: 0
-  _value: 14
+  _value: 1
   StatName: 
 --- !u!114 &-1337473117741843761
 MonoBehaviour:
@@ -48,7 +48,7 @@ MonoBehaviour:
   Position: {x: -752, y: -81}
   Guid: 85989b05f52c9b248aa61566715ceb7a
   RegisteredToLevelEvent: 0
-  _value: 14
+  _value: 1
   StatName: 
 --- !u!114 &-845512787549050594
 MonoBehaviour:

@@ -14,6 +14,8 @@ public abstract class MonoState : MonoBehaviour
     [HideInInspector]public bool IsRunning = false;
     [HideInInspector]public bool IsFinished = false;
     
+    public event Action<MonoState> onStateFinished;
+    
     [ShowInInspector][HorizontalGroup("Status")][DisplayAsString(FontSize = 14)][PropertyOrder(-1000)][HideLabel][GUIColor("GetColorForProperty")]
     public virtual StateFlags Flags
     {
@@ -41,7 +43,14 @@ public abstract class MonoState : MonoBehaviour
     
     protected Actor Owner;
     protected virtual void OnEnter() { IsRunning = true; }
-    protected virtual void OnExit() { IsRunning = false; IsFinished = true; }
+
+    protected virtual void OnExit()
+    {
+        IsRunning = false; 
+        IsFinished = true; 
+        onStateFinished?.Invoke(this);
+        Debug.Log("State Finished");
+    }
     protected virtual void OnUpdate() { }
     protected virtual void OnFixedUpdate() { }
     protected virtual void OnLateUpdate() { }

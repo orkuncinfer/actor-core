@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
-
-[Serializable]
 public class GameEvent<T> : ScriptableObject // Restrict T to be a reference type
 {
     // Define a UnityEvent that takes a parameter of type T
     private readonly UnityEvent<T> onEventRaisedWithParam = new UnityEvent<T>();
     private readonly UnityEvent onEventRaisedWithoutParam = new UnityEvent();
+
+    public Type EventType;
 
 #if UNITY_EDITOR
     [ShowInInspector] private List<object> _listeners = new List<object>();

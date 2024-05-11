@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SM_GameMode : ActorStateMachine
 {
-    protected override MonoState _initialState => _initialize;
+    protected override MonoState _initialState => _authing;
 
+    [SerializeField] private MonoState _authing;
     [SerializeField] private MonoState _initialize;
     [SerializeField] private MonoState _playing;
     [SerializeField] private MonoState _levelComplete;
@@ -23,11 +24,17 @@ public class SM_GameMode : ActorStateMachine
 
     public override void OnRequireAddTransitions()
     {
+        AddTransition(_authing,_initialize,AuthingToInitialize);
         AddTransition(_initialize,_playing,InitializeToPlaying);
         AddTransition(_playing,_levelComplete,PlayingToComplete);
         AddTransition(_playing,_levelFail,PlayingToFail);
         AddTransition(_loadNext,_initialize,LoadNextToInitialize);
         AddAnyTransition(_loadNext,AnyToLoadNext);
+    }
+
+    private bool AuthingToInitialize()
+    {
+        return _authing.IsFinished;
     }
 
     private bool LoadNextToInitialize()
