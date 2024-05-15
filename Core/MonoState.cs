@@ -49,7 +49,6 @@ public abstract class MonoState : MonoBehaviour
         IsRunning = false; 
         IsFinished = true; 
         onStateFinished?.Invoke(this);
-        Debug.Log("State Finished");
     }
     protected virtual void OnUpdate() { }
     protected virtual void OnFixedUpdate() { }

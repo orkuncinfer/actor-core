@@ -21,7 +21,7 @@ MonoBehaviour:
   IsStackable: 0
   MaxStack: 1
   DefaultRarity: 0
-  IsUniqueItem: 0
+  IsUniqueItem: 1
   PossibleModifiers:
   - {fileID: 11400000, guid: c0f0b54824d6ab14aaef321d46565ca0, type: 2}
   - {fileID: 11400000, guid: 337b6be2788e5a6448a0df02331e694c, type: 2}

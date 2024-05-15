@@ -27,6 +27,8 @@ public class GooglePlayServicesInitialization : MonoBehaviour
     
     public bool GooglePlaySignedIn {get; set;}
     public bool FirebaseSignedIn {get; set;}
+    
+    public bool DedicatedServerSignedIn {get; set;}
 
     private void Awake()
     {

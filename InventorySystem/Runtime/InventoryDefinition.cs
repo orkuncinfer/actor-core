@@ -51,72 +51,47 @@ public class InventoryDefinition : ScriptableObject
         _database = FirebaseDatabase.GetInstance("https://templateproject-174cf-default-rtdb.europe-west1.firebasedatabase.app/");
         _firestore = FirebaseFirestore.DefaultInstance;
     }
-    public void AddItem(ItemDefinition itemDefinition, int count)
+    public int AddItem(ItemDefinition itemDefinition, int count)
     {
-        for (int i = 0; i < InventoryData.InventorySlots.Count; i++) // check if we already have same item
+        int totalAdded = 0;
+
+        for (int i = 0; i < InventoryData.InventorySlots.Count; i++)
         {
-            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ID)
+            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ID && InventoryData.InventorySlots[i].ItemCount < itemDefinition.MaxStack)
             {
-                if(InventoryData.InventorySlots[i].ItemCount < itemDefinition.MaxStack)
+                int spaceAvailable = itemDefinition.MaxStack - InventoryData.InventorySlots[i].ItemCount;
+                int toAdd = Math.Min(spaceAvailable, count);
+                DefineItemToSlot(itemDefinition, toAdd, InventoryData.InventorySlots[i]);
+                totalAdded += toAdd;
+                count -= toAdd;
+
+                if (count == 0) break;
+            }
+        }
+
+        if (count > 0) // Try adding to empty slots if any items are still left to add
+        {
+            for (int i = 0; i < InventoryData.InventorySlots.Count && count > 0; i++)
+            {
+                if (InventoryData.InventorySlots[i].ItemID.IsNullOrWhitespace())
                 {
-                    int emptyCount = itemDefinition.MaxStack - InventoryData.InventorySlots[i].ItemCount;
-                    if (emptyCount >= count)
-                    {
-                        DefineItemToSlot(itemDefinition, count, InventoryData.InventorySlots[i]);
-                        return;
-                    }
-                    if (emptyCount < count)
-                    {
-                        DefineItemToSlot(itemDefinition, emptyCount, InventoryData.InventorySlots[i]);
-                        AddItem(itemDefinition,count-emptyCount);
-                        return;
-                    }
+                    int spaceAvailable = itemDefinition.MaxStack;
+                    int toAdd = Math.Min(spaceAvailable, count);
+                    DefineItemToSlot(itemDefinition, toAdd, InventoryData.InventorySlots[i]);
+                    totalAdded += toAdd;
+                    count -= toAdd;
                 }
             }
         }
 
-        for (int i = 0; i < InventoryData.InventorySlots.Count; i++)
+        if (totalAdded == 0)
         {
-            //if(InventoryData.InventorySlots[i].ReachedMaxStack) continue;
-            if (InventoryData.InventorySlots[i].AllowedTypes.Length != 0) // allowed type filter
-            {
-                bool allowed = false;
-                for (int j = 0; j < InventoryData.InventorySlots[i].AllowedTypes.Length; j++)
-                {
-                    if (InventoryData.InventorySlots[i].AllowedTypes[j] == itemDefinition.ItemType)
-                    {
-                        allowed = true;
-                        break;
-                    }   
-                }
-                if(!allowed) continue;
-            }
-            
-            if (InventoryData.InventorySlots[i].AllowedTypes.Length == 0)
-            {
-                int emptyCount = itemDefinition.MaxStack - InventoryData.InventorySlots[i].ItemCount;
-                if (!InventoryData.InventorySlots[i].ItemID.IsNullOrWhitespace())
-                {
-                    if(itemDefinition.ID != InventoryData.InventorySlots[i].ItemID) continue;
-                }
-               
-                if(emptyCount > 0 && emptyCount >= count)
-                {
-                    DefineItemToSlot(itemDefinition, count, InventoryData.InventorySlots[i]);
-                    return;
-                }
-                if (emptyCount > 0 && emptyCount < count)
-                {
-                    DefineItemToSlot(itemDefinition, emptyCount, InventoryData.InventorySlots[i]);
-                    //InventoryData.InventorySlots[i].ReachedMaxStack = true;
-                    AddItem(itemDefinition,count-emptyCount);
-                    return;
-                }
-                continue;
-            }
+            Debug.Log("Inventory is full or no suitable slot found.");
         }
-        Debug.Log("inventory is full");
+
+        return totalAdded;
     }
+
 
     public bool ContainsItem(ItemDefinition itemDefinition, int count)
     {

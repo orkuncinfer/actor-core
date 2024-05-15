@@ -7,6 +7,8 @@ public class GOPoolMember : MonoBehaviour
     private GameObjectPool _pool;
     private GameObject _prefab;
     public bool ReturnOnDisable;
+    
+    public event Action onBeforeReturnToPool;
 
     private void Start()
     {
@@ -22,8 +24,11 @@ public class GOPoolMember : MonoBehaviour
 
     public void ReturnToPool()
     {
-        if(_prefab && _pool)
+        if (_prefab && _pool)
+        {
+            onBeforeReturnToPool?.Invoke();
             _pool.ReturnToPool(gameObject, _prefab);
+        }
     }
 
     private void OnDisable()

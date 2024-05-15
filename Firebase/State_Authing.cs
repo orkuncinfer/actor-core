@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Firebase.Auth;
+using NetworkShared.Packets.ClientServer;
 using TMPro;
 using UnityEngine;
 
@@ -23,6 +25,8 @@ public class State_Authing : MonoState
         StartCoroutine(WaitForGooglePlaySignIn());
 
 #if UNITY_EDITOR
+        NetworkClient.Instance.TestConnectWithTestId();
+        NetworkClient.Instance.TestAuth();
         CheckoutExit();
 #endif
     }
@@ -53,7 +57,20 @@ public class State_Authing : MonoState
     
     IEnumerator WaitForServerSignIn()
     {
-        while (!GooglePlayServicesInitialization.Instance.FirebaseSignedIn)
+        NetworkClient.Instance.Connect();
+        while (!NetworkClient.Instance.IsConnected)
+        {
+            yield return null;
+        }
+        
+        var authRequest = new Net_AuthRequest
+        {
+            Username = FirebaseAuth.DefaultInstance.CurrentUser.UserId,
+            Password = ""
+        };
+        NetworkClient.Instance.SendServer(authRequest);
+        
+        while (!GooglePlayServicesInitialization.Instance.DedicatedServerSignedIn)
         {
             yield return null;
         }

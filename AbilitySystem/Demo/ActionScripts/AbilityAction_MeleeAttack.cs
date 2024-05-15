@@ -50,7 +50,7 @@ public class AbilityAction_MeleeAttack : AbilityAction
         
         if (OnHitApplyAbility)
         {
-            Debug.Log("tried to apply ability on hit : " + hitActor.name + " with ability : " + OnHitApplyAbility.name);
+            //Debug.Log("tried to apply ability on hit : " + hitActor.name + " with ability : " + OnHitApplyAbility.name);
             abilityController.AddAndActivateAbility(OnHitApplyAbility);
         }
         

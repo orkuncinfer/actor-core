@@ -20,13 +20,11 @@ public class MultiStateComponent : MonoState
 
     private void OnChildStateFinished(MonoState obj)
     {
-        Debug.Log("Child state finished");
         bool allFinished = true;
 
         foreach (MonoState childState in _runningStates)
         {
             if(!childState.IsFinished) allFinished = false;
-            Debug.Log(childState.name + " is finished: " + childState.IsFinished);
         }
         obj.onStateFinished -= OnChildStateFinished;
         
