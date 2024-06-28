@@ -36,7 +36,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
     private bool _started;
     private bool _stopped;
     
-    [ShowInInspector]protected Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
+    [ShowInInspector][ReadOnly][HideInEditorMode]protected Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
     
     [SerializeField] private List<GenericKey> _initialTags = new List<GenericKey>();
     private HashSet<string> _tags = new HashSet<string>();

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Borodar.RainbowCore.RList.Collections;
+using NUnit.Framework.Constraints;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -39,7 +41,9 @@ public class Data : IData
     
     [ShowIf("UseKey")][BoxGroup("InstallMethod")][ValueDropdown("GetAllGenericKeys")]
     public GenericKey DataKey;
-
+    
+    [HideLabel][ProgressBar(0, 0,r:1,g:1,b:1, DrawValueLabel = false,Height = 1)][ReadOnly]
+    public int ProgressBar = 100;
     [HideInInspector]public ActorBase OwnerActor;
 
     private bool _isInstalled => OwnerActor;

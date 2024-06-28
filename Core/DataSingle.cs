@@ -1,12 +1,11 @@
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class DataList : MonoBehaviour
+public class DataSingle : MonoBehaviour
 {
     [HideLabel][HideIf("_changeNameToggle")]
     [DisplayAsString(false, 20, TextAlignment.Center, true)]
@@ -18,10 +17,9 @@ public class DataList : MonoBehaviour
     
     private bool _changeNameToggle;
     
-    [FormerlySerializedAs("Datas")] 
     [SerializeReference]
-    [ListDrawerSettings(ShowFoldout = true, DraggableItems = true)][Searchable]
-    public List<Data> Datas = new List<Data>();
+    [ListDrawerSettings(ShowFoldout = true, DraggableItems = false)]
+    public Data Data = new Data();
     
     public IEnumerable<Type> GetFilteredTypeList()
     {
@@ -41,22 +39,18 @@ public class DataList : MonoBehaviour
 
     private void OnEnable()
     {
-        for (int i = 0; i < Datas.Count; i++)
+        if ( Data.IsGlobal)
         {
-            if ( Datas[i].IsGlobal)
+            string key= "";
+            if (Data.UseKey)
             {
-                string key= "";
-                if (Datas[i].UseKey)
-                {
-                    key = Datas[i].DataKey.ID + Datas[i].GetType();
-                }
-                else
-                {
-                    key = Datas[i].GetType().ToString();
-                }
-                GlobalData.LoadData(key,Datas[i]);
+                key = Data.DataKey.ID + Data.GetType();
             }
+            else
+            {
+                key = Data.GetType().ToString();
+            }
+            GlobalData.LoadData(key,Data);
         }
     }
 }
-

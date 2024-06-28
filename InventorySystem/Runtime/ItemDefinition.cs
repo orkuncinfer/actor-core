@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Firebase.Firestore;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "New Item Definition", menuName = "Inventory System/Items/Item Definition")]
 public class ItemDefinition : ScriptableObject
@@ -10,7 +11,8 @@ public class ItemDefinition : ScriptableObject
     public string ItemName;
     public string Description;
     public Sprite Icon;
-    public GameObject Prefab;
+    public GameObject WorldPrefab;
+    public GameObject UIPrefab;
     public ItemType ItemType;
     public bool IsStackable;
     public int MaxStack;

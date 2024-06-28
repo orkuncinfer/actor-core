@@ -55,6 +55,9 @@ public class AbilityControllerEditor : Editor
         {
             TestAbility();
         };
+        
+        ListView listView = root.Q<ListView>();
+        listView.selectionChanged += ListViewOnselectionChanged;
        // statField = root.Q<ObjectField>("target-field");
         //statField.value = controller.DataBase;
         //statField.RegisterValueChangedCallback(evt => controller.DataBase = evt.newValue as StatDataBase);
@@ -69,6 +72,25 @@ public class AbilityControllerEditor : Editor
         }
         return root;
     }
+
+    private void ListViewOnselectionChanged(IEnumerable<object> obj)
+    {
+        //todo implement
+        Debug.Log("Chosen" + obj.ToString());
+        foreach (var element in obj)
+        {
+            var selectedAbility = obj as AbilityDefinition;
+            if (selectedAbility is AbilityDefinition def)
+            {
+                Debug.Log("Selected: " + def.name);
+            }
+            if (selectedAbility != null)
+            {
+                Debug.Log("Selected: " + selectedAbility.name);
+            }
+        }
+    }
+
 
     private void TestAbility()
     {

@@ -23,8 +23,8 @@ public class ItemDropInstance : MonoBehaviour
 
     private void OnEnable()
     {
-        if(ItemDefinition.Prefab)
-            Instantiate(ItemDefinition.Prefab, transform.position, Quaternion.identity);
+        if(ItemDefinition.WorldPrefab)
+            Instantiate(ItemDefinition.WorldPrefab, transform.position, Quaternion.identity);
     }
 
     private void OnTriggerEnter(Collider other)
