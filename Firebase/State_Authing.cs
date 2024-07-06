@@ -16,17 +16,20 @@ public class State_Authing : MonoState
         Authed,
         AuthFailed
     }
-    [SerializeField] private TextMeshProUGUI _authText;
 
     protected override void OnEnter()
     {
         base.OnEnter();
-        _authText.text = "Authenticating...";
+#if GOOGLE_PLAY_ENABLED
         StartCoroutine(WaitForGooglePlaySignIn());
+#endif
+        
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && SERVER_ENABLED
         NetworkClient.Instance.TestConnectWithTestId();
         NetworkClient.Instance.TestAuth();
+        CheckoutExit();
+#elif UNITY_EDITOR || !GOOGLE_PLAY_ENABLED
         CheckoutExit();
 #endif
     }
@@ -40,7 +43,6 @@ public class State_Authing : MonoState
             yield return null;
         }
         CurrentState = AuthState.GooglePlaySignedIn;
-        _authText.text = "Google Play Signed In";
         StartCoroutine(WaitForFireBaseSignIn());
     }
     
@@ -51,8 +53,12 @@ public class State_Authing : MonoState
             yield return null;
         }
         CurrentState = AuthState.FirebaseSignedIn;
-        _authText.text = "Firebase Signed In";
+
+#if SERVER_ENABLED
         StartCoroutine(WaitForServerSignIn());
+#else
+        CheckoutExit();
+#endif
     }
     
     IEnumerator WaitForServerSignIn()
@@ -76,7 +82,6 @@ public class State_Authing : MonoState
         }
         CurrentState = AuthState.ServerSignedIn;
         CurrentState = AuthState.Authed;
-        _authText.text = "Authed";
         CheckoutExit();
     }
 }

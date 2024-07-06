@@ -82,13 +82,13 @@ public static class InventoryUtils
 
         foreach (ItemDefinition item in _itemDataBase.AllItems)
         {
-            if (!itemDictionary.ContainsKey(item.ID))
+            if (!itemDictionary.ContainsKey(item.ItemId))
             {
-                itemDictionary.Add(item.ID, item);
+                itemDictionary.Add(item.ItemId, item);
             }
             else
             {
-                Debug.LogWarning($"Duplicate ID {item.ID} found in ItemDataBase. Skipping this item.");
+                Debug.LogWarning($"Duplicate ID {item.ItemId} found in ItemDataBase. Skipping this item.");
             }
         }
     }

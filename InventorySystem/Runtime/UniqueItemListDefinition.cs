@@ -64,14 +64,14 @@ public class UniqueItemListDefinition : ScriptableObject
         var _database = FirebaseDatabase.GetInstance("https://templateproject-174cf-default-rtdb.europe-west1.firebasedatabase.app/");
         foreach (UniqueItemDefinition uniqueItem in AllItems)
         {
-            uniqueItemData.ItemID = uniqueItem.ID;
+            uniqueItemData.ItemID = uniqueItem.ItemId;
             uniqueItemData.PossibleModifierIDs = new string[uniqueItem.PossibleModifiers.Length];
             for (int i = 0; i < uniqueItem.PossibleModifiers.Length; i++)
             {
                 uniqueItemData.PossibleModifierIDs[i] = uniqueItem.PossibleModifiers[i].ModifierID;
             }
             
-            _database.GetReference("unique-items/"+uniqueItem.ID).SetRawJsonValueAsync(JsonUtility.ToJson(uniqueItemData,true));
+            _database.GetReference("unique-items/"+uniqueItem.ItemId).SetRawJsonValueAsync(JsonUtility.ToJson(uniqueItemData,true));
         }
     }
     [Button]
@@ -81,7 +81,7 @@ public class UniqueItemListDefinition : ScriptableObject
         for (int i = 0; i < AllItems.Count; i++)
         {
             itemModifierData[i] = new UniqueItemData();
-            itemModifierData[i].ItemID = AllItems[i].ID;
+            itemModifierData[i].ItemID = AllItems[i].ItemId;
             if(AllItems[i] is UniqueItemDefinition uniqueItemDefinition)
             {
                 itemModifierData[i].PossibleModifierIDs = new string[uniqueItemDefinition.PossibleModifiers.Length];

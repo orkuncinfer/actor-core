@@ -1,28 +1,25 @@
 using System;
 using System.Collections;
 using Firebase.Firestore;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
-
+[SOCreatable]
 [CreateAssetMenu(fileName = "New Item Definition", menuName = "Inventory System/Items/Item Definition")]
-public class ItemDefinition : ScriptableObject
+public class ItemDefinition : ItemBaseDefinition
 {
-    public string ID;
-    public string ItemName;
-    public string Description;
-    public Sprite Icon;
     public GameObject WorldPrefab;
     public GameObject UIPrefab;
-    public ItemType ItemType;
+    [FormerlySerializedAs("ItemType")] public RpgItemTypes _rpgItemTypes;
     public bool IsStackable;
     public int MaxStack;
     public ItemRarity DefaultRarity;
     public bool IsUniqueItem;
-
+    
 }
 
-[FirestoreData(ConverterType = typeof(FirestoreEnumNameConverter<ItemType>))]
-public enum ItemType
+[FirestoreData(ConverterType = typeof(FirestoreEnumNameConverter<RpgItemTypes>))]
+public enum RpgItemTypes
 {
     Default,
     Consumable,
@@ -48,4 +45,13 @@ public enum Attributes
     Intellect,
     Stamina,
     Strength
+}
+
+public enum ItemTypes
+{
+    Default,
+    Consumable,
+    Upgrade,
+    Ability,
+    Mission,
 }

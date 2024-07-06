@@ -41,19 +41,19 @@ public class DataList : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("1");
         for (int i = 0; i < Datas.Count; i++)
         {
+            Debug.Log("11");
             if ( Datas[i].IsGlobal)
             {
+                Debug.Log("111");
                 string key= "";
                 if (Datas[i].UseKey)
                 {
-                    key = Datas[i].DataKey.ID + Datas[i].GetType();
+                    key = Datas[i].DataKey.ID;
                 }
-                else
-                {
-                    key = Datas[i].GetType().ToString();
-                }
+                Debug.Log("1111");
                 GlobalData.LoadData(key,Datas[i]);
             }
         }

@@ -72,7 +72,7 @@ public class MonsterListDefinition : ScriptableObject
 
             for (int i = 0; i < monsterData.PossibleDrops.Length; i++)
             {
-                monsterData.PossibleDrops[i].ItemId = monster.PossibleDrops[i].Item.ID;
+                monsterData.PossibleDrops[i].ItemId = monster.PossibleDrops[i].Item.ItemId;
                 //onsterData.PossibleDrops[i].DropChance = Mathf.Round(monsterData.PossibleDrops[i].DropChance * 100f) / 100f;
             }
             
@@ -91,7 +91,7 @@ public class MonsterListDefinition : ScriptableObject
             for (int j = 0; j < AllMonsters[i].PossibleDrops.Length; j++)
             {
                 monsterData[i].PossibleDrops[j] = new ItemDropData();
-                monsterData[i].PossibleDrops[j].ItemId = AllMonsters[i].PossibleDrops[j].Item.ID;
+                monsterData[i].PossibleDrops[j].ItemId = AllMonsters[i].PossibleDrops[j].Item.ItemId;
                 monsterData[i].PossibleDrops[j].DropChance = AllMonsters[i].PossibleDrops[j].DropChance;
             }
         }

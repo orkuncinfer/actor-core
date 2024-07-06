@@ -5,6 +5,6 @@ public class HideLastPanelButton : MonoBehaviour, IPointerUpHandler
 {
     public void OnPointerUp(PointerEventData eventData)
     {
-        CanvasLayer.Instance.HideLastPanel();
+        CanvasManager.Instance.HideLastPanel();
     }
 }

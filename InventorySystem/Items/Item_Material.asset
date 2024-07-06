@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 148c1a5ce18bec84787ea1e31fe7df8c, type: 3}
   m_Name: Item_Material
   m_EditorClassIdentifier: 
-  ID: itm_0001
-  ItemName: 
+  IdemID: 
+  ItemName: Material
   Description: 
   Icon: {fileID: 21300004, guid: a5fd1d31c7504cd4083d950f36ed7511, type: 3}
-  Prefab: {fileID: 0}
+  WorldPrefab: {fileID: 0}
+  UIPrefab: {fileID: 0}
   ItemType: 6
   IsStackable: 1
   MaxStack: 20

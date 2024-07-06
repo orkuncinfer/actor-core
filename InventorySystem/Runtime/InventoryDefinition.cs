@@ -57,7 +57,7 @@ public class InventoryDefinition : ScriptableObject
 
         for (int i = 0; i < InventoryData.InventorySlots.Count; i++)
         {
-            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ID && InventoryData.InventorySlots[i].ItemCount < itemDefinition.MaxStack)
+            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ItemId && InventoryData.InventorySlots[i].ItemCount < itemDefinition.MaxStack)
             {
                 int spaceAvailable = itemDefinition.MaxStack - InventoryData.InventorySlots[i].ItemCount;
                 int toAdd = Math.Min(spaceAvailable, count);
@@ -99,7 +99,7 @@ public class InventoryDefinition : ScriptableObject
   
         foreach (var slot in InventoryData.InventorySlots)
         {
-            if (slot.ItemID == itemDefinition.ID)
+            if (slot.ItemID == itemDefinition.ItemId)
             {
                 availableCount += slot.ItemCount;
             }
@@ -120,7 +120,7 @@ public class InventoryDefinition : ScriptableObject
         int availableCount = 0;
         foreach (var slot in InventoryData.InventorySlots)
         {
-            if (slot.ItemID == itemDefinition.ID)
+            if (slot.ItemID == itemDefinition.ItemId)
             {
                 availableCount += slot.ItemCount;
             }
@@ -134,7 +134,7 @@ public class InventoryDefinition : ScriptableObject
         // Second pass: remove items
         for (int i = InventoryData.InventorySlots.Count - 1; i >= 0; i--)
         {
-            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ID)
+            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ItemId)
             {
                 if (InventoryData.InventorySlots[i].ItemCount > count)
                 {
@@ -200,7 +200,7 @@ public class InventoryDefinition : ScriptableObject
     private void DefineItemToSlot(ItemDefinition itemDefinition, int count, InventorySlot slot)
     {
         slot.ItemCount += count;
-        slot.ItemID = itemDefinition.ID;
+        slot.ItemID = itemDefinition.ItemId;
         //slot.ItemData.Name = itemDefinition.ItemName;
         //TODO: security validation here
         SaveData();

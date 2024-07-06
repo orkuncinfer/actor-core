@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2046863231128135887
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3101941669276826376}
+  - component: {fileID: 5522812133271241748}
+  - component: {fileID: 963976322780767108}
+  m_Layer: 0
+  m_Name: MainMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3101941669276826376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046863231128135887}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7052049253013988634}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5522812133271241748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046863231128135887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23cd919b9a574fe697585712655bf24c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+--- !u!114 &963976322780767108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046863231128135887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f02b882a9ff471f849dd0b6b0db4a3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+  _panelId: MainMenu
 --- !u!1 &7052049253013988636
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +95,7 @@ Transform:
   m_Children:
   - {fileID: 548714525610012503}
   - {fileID: 7052049254233589756}
+  - {fileID: 3101941669276826376}
   - {fileID: 7052049254433454336}
   - {fileID: 7052049253639438168}
   - {fileID: 7052049253595885952}
@@ -69,10 +132,14 @@ MonoBehaviour:
   IsFinished: 0
   _authing: {fileID: 5052060467144053004}
   _initialize: {fileID: 8167127278538150484}
+  _mainMenu: {fileID: 5522812133271241748}
   _playing: {fileID: 7052049254433454337}
   _levelComplete: {fileID: 7052049253639438169}
   _levelFail: {fileID: 7052049253595885953}
   _loadNext: {fileID: 5421585467634375217}
+  _requestGameStart:
+    _addressType: 16
+    _eventKey: {fileID: 11400000, guid: 53b8328258dbdea4ea62382d747fecb3, type: 2}
 --- !u!1 &7052049253355496805
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,13 +545,16 @@ MonoBehaviour:
       data:
         IsGlobal: 1
         UseKey: 0
+        IsPersistent: 0
         DataKey: {fileID: 0}
         OwnerActor: {fileID: 0}
+        IsInstalled: 0
         _currentGameMode: 0
         _requestGameModePause: {fileID: 11400000, guid: 8465da704ba52404cbadc07216eab809, type: 2}
         _requestGameModeFailed: {fileID: 11400000, guid: fa8bf73e9941e4c4e9f8d3d3be379f54, type: 2}
         _requestGameModeCompleted: {fileID: 11400000, guid: 9e4eb5dc9578ab04799c64b7043ae16f, type: 2}
         _requestGameModeLoadNext: {fileID: 11400000, guid: 9e2022308f0eb324dad420d633102d9e, type: 2}
+        listt: []
         _stopped: 0
         _failed: 0
         _completed: 0

@@ -37,3 +37,7 @@ MonoBehaviour:
     HashCode: 0672803e-7082-4040-931f-abe9766f2b0f
   - Tag: State.IsDead
     HashCode: 83a4c44d-27ab-481a-9e80-360307a0c519
+  - Tag: NewTag
+    HashCode: 3e4c2438-376f-4d76-8336-9ce9806942c9
+  - Tag: NewTag.Selena
+    HashCode: 903e9b05-bca1-4883-98c7-77242119f803

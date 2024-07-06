@@ -23,6 +23,7 @@ public class DS_GameMode : Data
     [SerializeField][FoldoutGroup("Events")] private EventSignal _requestGameModeFailed;
     [SerializeField][FoldoutGroup("Events")] private EventSignal _requestGameModeCompleted;
     [SerializeField][FoldoutGroup("Events")] private EventSignal _requestGameModeLoadNext;
+    public List<string> listt;
     
     [SerializeField] private bool _stopped;
     public bool Stopped => _stopped;

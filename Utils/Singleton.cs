@@ -13,7 +13,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             {
                 if (_instance == null)
                 {
-
                     _instance = FindObjectOfType<T>();
 
                     if (_instance == null)
@@ -27,11 +26,11 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                         DontDestroyOnLoad(singletonObject);
                     }
                 }
-
                 return _instance;
             }
         }
     }
+
 
     protected virtual void Awake()
     {
@@ -44,5 +43,13 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    // This method will be called when the game starts
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void InitializeOnLoad()
+    {
+        // Access the Instance property to force initialization
+        var instance = Instance;
     }
 }

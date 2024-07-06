@@ -14,11 +14,11 @@ public class PanelModel
     
     public void Show()
     {
-        CanvasLayer.Instance.ShowPanel(PanelId);
+        CanvasManager.Instance.ShowPanel(PanelId);
     }
 
     public void Add()
     {
-        CanvasLayer.Instance.ShowAdditive(PanelId);
+        CanvasManager.Instance.ShowAdditive(PanelId);
     }
 }

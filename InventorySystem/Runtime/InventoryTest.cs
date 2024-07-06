@@ -14,6 +14,7 @@ public class InventoryTest : MonoBehaviour
     public int AddCount;
     public List<ItemModifierDefinition> ItemModifierDefinitions;
     public GeneratedItemResult GeneratedItemResult;
+    [SerializeField] private MissionDefinition _missionDefinition;
     
     private void Awake()
     {
@@ -36,6 +37,12 @@ public class InventoryTest : MonoBehaviour
     public void SaveInventory()
     {
         InventoryDefinition.SaveInventory();
+    }
+
+    [Button]
+    public void Test()
+    {
+        Debug.Log(_missionDefinition.IsCompleted(null));
     }
     
      

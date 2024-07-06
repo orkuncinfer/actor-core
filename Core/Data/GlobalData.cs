@@ -8,25 +8,35 @@ public static class GlobalData
     
     public static void LoadData<T>(string key,T data) where T : Data
     {
-        string dataKey = key;
-        
+        string dataKey = data.GetType().ToString();
+        Type dataType = data.GetType();
+        if (key != "")
+        {
+            dataKey += ":" + key;
+        }
         //Debug.Log("GlobalData: Loaded data with key : " + dataKey);
         
         if (_datasets.ContainsKey(dataKey))
         {
-            _datasets[dataKey] = data;  // Override existing data.
+            _datasets[dataKey] = data;  
         }
         else
         {
-            _datasets.Add(dataKey, data);  // Add new data.
+            _datasets.Add(dataKey, data);  
         }
+        GlobalDataDisplayer.Instance.FetchData(_datasets);
+        Debug.Log($"$GlobalData: Loaded data with key : {dataKey}");
     }
     
     public static T GetData<T>(string key ="") where T : Data
     {
         Type dataType = typeof(T);
         
-        string dataKey = key + dataType;
+        string dataKey = typeof(T).ToString();
+        if (key != "")
+        {
+            dataKey += ":" + key;
+        }
         
         //Debug.Log("GlobalData: Tried to get data with key : " + dataKey);
 
@@ -35,7 +45,7 @@ public static class GlobalData
             return (T)_datasets[dataKey];
         }
 
-        Debug.LogError($"Data of type '{dataType}' not found!");
+        Debug.LogError($"Data of type '{dataType}' not found! searched with key '{key}'");
         return null;
     }
 }

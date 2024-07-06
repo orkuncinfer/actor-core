@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Borodar.RainbowCore.RList.Collections;
 using NUnit.Framework.Constraints;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -13,9 +12,9 @@ public class Data : IData
     [DisplayAsString(FontSize = 14)]
     [PropertyOrder(-1000)]
     [HideLabel]
-    [ShowIf("_isInstalled")]
+    [ShowIf("IsInstalled")]
     [GUIColor("GetColorForProperty")]
-    public string Info
+    private string Info
     {
         get
         {
@@ -33,23 +32,18 @@ public class Data : IData
     private void OnEnable()
     {
        // FIX ME : HANDLE REMOVE DATA ON DISABLE
-        
     }
-  
-    [BoxGroup("InstallMethod")][HorizontalGroup("InstallMethod/Grp1")] public bool IsGlobal;
-    [BoxGroup("InstallMethod")][HorizontalGroup("InstallMethod/Grp1")] public bool UseKey;
-    
-    [ShowIf("UseKey")][BoxGroup("InstallMethod")][ValueDropdown("GetAllGenericKeys")]
+    [HorizontalGroup("Grp1")][ES3NonSerializable]public bool IsGlobal;
+    [HorizontalGroup("Grp1")][ES3NonSerializable]public bool UseKey;
+    [HorizontalGroup("Grp1")][ES3NonSerializable]public bool IsPersistent;
+    //[HorizontalGroup("Grp1")] public bool IsPersistent;
+    [ShowIf("UseKey")][ValueDropdown("GetAllGenericKeys")]
     public GenericKey DataKey;
     
-    [HideLabel][ProgressBar(0, 0,r:1,g:1,b:1, DrawValueLabel = false,Height = 1)][ReadOnly]
-    public int ProgressBar = 100;
-    [HideInInspector]public ActorBase OwnerActor;
+    [HideInInspector][ES3NonSerializable]public ActorBase OwnerActor;
 
-    private bool _isInstalled => OwnerActor;
+    [HideInInspector]public bool IsInstalled;
     
-    
-    public Actor Actor => OwnerActor as Actor;
     private Dictionary<string, object> values = new Dictionary<string, object>();
 
     public virtual T GetValue<T>(string name)

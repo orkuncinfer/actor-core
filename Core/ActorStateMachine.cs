@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class ActorStateMachine : MonoState
 {
     protected abstract MonoState _initialState { get; }
-    [BoxGroup("space",false)][ShowInInspector][ReadOnly][DisplayAsString][GUIColor("yellow")]protected MonoState _currentState;
+    [BoxGroup("space",false)][ShowInInspector][ReadOnly][DisplayAsString][GUIColor(0.96f,0.91f,0.024f)]protected MonoState _currentState;
     private Dictionary<MonoState, List<Transition>> _transitions = new Dictionary<MonoState, List<Transition>>();
 
     private List<Transition> _anyTransitions = new List<Transition>();

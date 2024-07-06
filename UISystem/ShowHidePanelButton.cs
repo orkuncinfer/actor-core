@@ -27,18 +27,18 @@ public class ShowHidePanelButton : MonoBehaviour, IPointerUpHandler
 
     private void HidePanel()
     {
-        CanvasLayer.Instance.HidePanel(_panelId);
+        CanvasManager.Instance.HidePanel(_panelId);
     }
 
     private void ShowPanel()
     {
         if (_showAdditive)
         {
-            CanvasLayer.Instance.ShowAdditive(_panelId);
+            CanvasManager.Instance.ShowAdditive(_panelId);
         }
         else
         {
-            CanvasLayer.Instance.ShowPanel(_panelId);
+            CanvasManager.Instance.ShowPanel(_panelId);
         }
     }
 }

@@ -16,8 +16,8 @@ public class InventorySlot
         set => _itemData = value;
     }*/
 
-    [SerializeField] private ItemType[] _allowedTypes;
-    public ItemType[] AllowedTypes
+    [SerializeField] private RpgItemTypes[] _allowedTypes;
+    public RpgItemTypes[] AllowedTypes
     {
         get => _allowedTypes;
         set => _allowedTypes = value;
@@ -44,6 +44,6 @@ public class InventorySlot
     public InventorySlot()
     {
         //ItemData = new ItemData();
-        AllowedTypes = new ItemType[]{};
+        AllowedTypes = new RpgItemTypes[]{};
     }
 }

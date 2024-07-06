@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class Actor : ActorBase
 {
     [SerializeField] private MonoState _initialState;

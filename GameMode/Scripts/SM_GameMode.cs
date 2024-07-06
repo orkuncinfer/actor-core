@@ -8,10 +8,13 @@ public class SM_GameMode : ActorStateMachine
 
     [SerializeField] private MonoState _authing;
     [SerializeField] private MonoState _initialize;
+    [SerializeField] private MonoState _mainMenu;
     [SerializeField] private MonoState _playing;
     [SerializeField] private MonoState _levelComplete;
     [SerializeField] private MonoState _levelFail;
     [SerializeField] private MonoState _loadNext;
+
+    [SerializeField] private EventField _requestGameStart;
 
     private DS_GameMode _gameModeData;
 
@@ -20,16 +23,39 @@ public class SM_GameMode : ActorStateMachine
         base.OnEnter();
         _gameModeData = GlobalData.GetData<DS_GameMode>();
         
+        _requestGameStart.Register(Owner,OnRequestGameStart);
+    }
+
+    private void OnRequestGameStart(EventArgs obj)
+    {
+        _gameModeData._currentGameMode = GameMode.Playing;
     }
 
     public override void OnRequireAddTransitions()
     {
         AddTransition(_authing,_initialize,AuthingToInitialize);
+        AddTransition(_initialize,_mainMenu,InitializeToMainMenu);
+        AddTransition(_mainMenu,_playing,MainMenuToPlaying);
         AddTransition(_initialize,_playing,InitializeToPlaying);
         AddTransition(_playing,_levelComplete,PlayingToComplete);
         AddTransition(_playing,_levelFail,PlayingToFail);
         AddTransition(_loadNext,_initialize,LoadNextToInitialize);
         AddAnyTransition(_loadNext,AnyToLoadNext);
+    }
+
+    private bool MainMenuToPlaying()
+    {
+        if(_initialize.IsFinished && _gameModeData._currentGameMode == GameMode.Playing)
+        {
+            _gameModeData._currentGameMode = GameMode.Playing;
+            return true;
+        }
+        return false;
+    }
+
+    private bool InitializeToMainMenu()
+    {
+        return _initialize.IsFinished;
     }
 
     private bool AuthingToInitialize()

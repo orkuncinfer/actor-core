@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PanelInstanceModel : MonoBehaviour
+public class PanelInstanceView : MonoBehaviour
 {
     [ReadOnly]public string PanelId;
 
@@ -12,8 +12,8 @@ public class PanelInstanceModel : MonoBehaviour
 
     private CanvasGroup _canvasGroup;
 
-    public event Action<PanelInstanceModel> onHideCompleted;
-    public event Action<PanelInstanceModel> onShowCompleted;
+    public event Action<PanelInstanceView> onHideCompleted;
+    public event Action<PanelInstanceView> onShowCompleted;
     
     public bool FadeOutOnHide = true;
     public bool FadeInOnShow = true;

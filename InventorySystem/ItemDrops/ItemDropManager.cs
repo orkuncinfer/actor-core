@@ -6,6 +6,7 @@ using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class ItemDropManager : MonoBehaviour
@@ -25,6 +26,8 @@ public class ItemDropManager : MonoBehaviour
     
     [SerializeField] private LineRenderer lineRenderer;
     private Vector3 _itemGroundPos;
+    
+    [SerializeField] private EventField<float> onMobKillesd2;
 
     private void Awake()
     {
@@ -36,6 +39,23 @@ public class ItemDropManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        onMobKillesd2.Register(null,OnMob);
+    }
+
+    private void OnMob(EventArgs obj, float arg1)
+    {
+        Debug.Log("logfired" + arg1);
+    }
+    [Button]
+    public void Raise()
+    {
+        onMobKillesd2.Raise(4);
+    }
+[Button]
+    public void Unregister()
+    {
+        onMobKillesd2.Unregister(null,OnMob);
     }
 
     private void Start()

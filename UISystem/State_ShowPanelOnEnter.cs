@@ -9,6 +9,6 @@ public class State_ShowPanelOnEnter : MonoState
     protected override void OnEnter()
     {
         base.OnEnter();
-        CanvasLayer.Instance.ShowPanel(_panelId);
+        CanvasManager.Instance.ShowPanel(_panelId);
     }
 }
