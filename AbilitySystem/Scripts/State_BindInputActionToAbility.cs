@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class State_BindInputActionToAbility : MonoState
 {
-    [SerializeField] private DataGetter<Data_AbilityDefinition> _abilityData;
+    [FormerlySerializedAs("_abilityData")] [SerializeField] private DSGetter<Data_AbilityDefinition> _abilityDS;
     [SerializeField] private Data_GAS _gasData;
     public InputActionAsset ActionAsset;
     public string ActionName;
@@ -16,7 +17,7 @@ public class State_BindInputActionToAbility : MonoState
     {
         base.OnEnter();
         _gasData = Owner.GetData<Data_GAS>();
-        _abilityData.GetData(Owner);
+        _abilityDS.GetData(Owner);
         
         _abilityAction = ActionAsset.FindAction(ActionName);
         _abilityAction.performed += OnPerformed;
@@ -26,6 +27,6 @@ public class State_BindInputActionToAbility : MonoState
     
     private void OnPerformed(InputAction.CallbackContext obj)
     {
-        _gasData.AbilityController.TryActiveAbilityWithDefinition(_abilityData.Data.AbilityDefinition);
+        _gasData.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);
     }
 }

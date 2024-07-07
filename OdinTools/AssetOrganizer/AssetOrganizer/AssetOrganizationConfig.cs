@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using System;
@@ -80,3 +81,4 @@ public class AssetOrganizationConfig
         return true;
     }
 }
+#endif

@@ -29,7 +29,7 @@ public class ProjectileAbility : ActiveAbility
         if (equipment.TryGetComponent(out RangedWeapon weapon))
         {
             GameObject projectileInstance =
-                GOPoolProvider.Retrieve(definition.projectilePrefab, Vector3.zero, Quaternion.identity);
+                PoolProvider.Retrieve(definition.projectilePrefab, Vector3.zero, Quaternion.identity);
             Projectile projectile = projectileInstance.GetComponent<Projectile>();
 
             projectile.hit += OnHit;

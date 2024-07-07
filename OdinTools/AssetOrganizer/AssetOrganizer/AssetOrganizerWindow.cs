@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
@@ -171,3 +172,4 @@ public class AssetOrganizerWindow : OdinEditorWindow
     [MenuItem("Tools/Asset Organizer")]
     private static void Open() => GetWindow<AssetOrganizerWindow>("Asset Organizer");
 }
+# endif

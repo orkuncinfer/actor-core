@@ -377,6 +377,7 @@ GameObject:
   - component: {fileID: 7052049254433454336}
   - component: {fileID: 7052049254433454337}
   - component: {fileID: 2998997636261931726}
+  - component: {fileID: 3790429822724747882}
   m_Layer: 0
   m_Name: Playing
   m_TagString: Untagged
@@ -428,6 +429,23 @@ MonoBehaviour:
   IsRunning: 0
   IsFinished: 0
   _panelId: Gameplay
+--- !u!114 &3790429822724747882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052049254433454339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c423330dbf0f1469c4ea8bc3af2884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+  _eventField:
+    _addressType: 16
+    _eventKey: {fileID: 11400000, guid: 0f5d2c66804ab2c468d05f8171ecab3d, type: 2}
 --- !u!1 &7052049254446410850
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,7 +496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActorID: 
-  BeginOnStart: 1
+  StartMethod: 2
   _initialTags: []
   _initialState: {fileID: 7052049253013988637}
   _poolMember: {fileID: 7052049254446410849}

@@ -13,6 +13,12 @@ public enum ActorStateFlags
     Started = 1 << 0,
     Stopped = 1 << 1
 }
+public enum ActorStartMethods
+{
+    Auto,
+    Manual,
+    OnStart,
+}
 
 public class ActorBase : MonoBehaviour, ITagContainer
 {
@@ -42,7 +48,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
     }
 
     [ReadOnly] public string ActorID;
-    public bool BeginOnStart;
+    public ActorStartMethods StartMethod;
     private bool _started;
     private bool _stopped;
 
@@ -138,9 +144,9 @@ public class ActorBase : MonoBehaviour, ITagContainer
 
     protected void Start()
     {
-        if (BeginOnStart)
+        if (StartMethod == ActorStartMethods.OnStart)
         {
-            OnActorStart();
+            StartIfNot();
         }
     }
 

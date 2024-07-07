@@ -48,7 +48,7 @@ public static class InventoryUtils
             Debug.LogError("Texture2D to Sprite conversion failed: Texture2D is null");
             return null;
         }
-        Debug.Log("Created new sprite from texture. !! this is costy operation !!");
+        Debug.Log("Created new sprite from texture. !! this is costly operation !!");
         return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
@@ -134,3 +135,4 @@ public sealed class PrefabOverrideDrawer<T> : OdinValueDrawer<T>
         return false;
     }
 }
+#endif

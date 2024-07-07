@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 public class GOPoolMember : MonoBehaviour
 {
-    private GameObjectPool _pool;
+    private ObjectPool _pool;
     private GameObject _prefab;
     public bool ReturnOnDisable;
     
@@ -13,10 +13,10 @@ public class GOPoolMember : MonoBehaviour
     private void Start()
     {
         if(_pool == null)
-            GOPoolProvider.RegisterNewItemToPool(this, gameObject);
+            PoolProvider.RegisterNewItemToPool(this, gameObject);
     }
 
-    public void SetPool(GameObjectPool pool, GameObject prefab)
+    public void SetPool(ObjectPool pool, GameObject prefab)
     {
         _pool = pool;
         _prefab = prefab;

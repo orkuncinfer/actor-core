@@ -168,7 +168,7 @@ public class ItemDropManager : MonoBehaviour
         itemDropInstance.GeneratedItemResult.UpgradeLevel = itemResultPacket.UpgradeLevel;
         
         
-        GameObject labelInstance = GOPoolProvider.Retrieve(LabelPrefab, groundPos, Quaternion.identity);
+        GameObject labelInstance = PoolProvider.Retrieve(LabelPrefab, groundPos, Quaternion.identity);
         WorldItemLabel itemLabel = labelInstance.GetComponent<WorldItemLabel>();
         
         itemDropInstance.LabelInstance = itemLabel;

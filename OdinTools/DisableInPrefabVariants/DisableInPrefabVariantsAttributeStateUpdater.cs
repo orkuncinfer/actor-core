@@ -1,8 +1,9 @@
+#if UNITY_EDITOR
 using DisableInPrefabVariants;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-#if UNITY_EDITOR
+
 [assembly: RegisterStateUpdater(typeof(DisableInPrefabVariantsAttributeStateUpdater))]
 
 namespace DisableInPrefabVariants

@@ -30,4 +30,12 @@ public class DS_PlayerPersistent : Data
         get => _lastTimeRewardCollected;
         set => _lastTimeRewardCollected = value;
     }
+    
+    [SerializeField]
+    private float _attackSpeed; 
+    public float AttackSpeed 
+    {
+        get => _attackSpeed;
+        set => _attackSpeed = value;
+    }
 }

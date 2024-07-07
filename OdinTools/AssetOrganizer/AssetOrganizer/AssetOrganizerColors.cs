@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -15,3 +16,4 @@ public static class AssetOrganizerColors
         ? new Color(1f, 0.5f, 0.5f)
         : new Color(1f, 0.78f, 0.78f);
 }
+#endif

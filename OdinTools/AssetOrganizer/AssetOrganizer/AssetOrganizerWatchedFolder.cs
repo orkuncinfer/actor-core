@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using Sirenix.OdinInspector;
 using System;
 using UnityEditor;
@@ -34,3 +36,5 @@ public class WatchedFolder
         }
     }
 }
+
+#endif
