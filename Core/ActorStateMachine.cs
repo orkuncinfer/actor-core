@@ -27,7 +27,6 @@ public abstract class ActorStateMachine : MonoState
     public override void OnInitialize()
     {
         base.OnInitialize();
-        OnRequireAddTransitions();
     }
 
     protected override void OnEnter()
@@ -36,6 +35,7 @@ public abstract class ActorStateMachine : MonoState
         
         _currentState = _initialState;
         _currentState.CheckoutEnter(Owner);
+        OnRequireAddTransitions();
     }
 
     protected override void OnExit()

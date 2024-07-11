@@ -18,5 +18,4 @@ public class ItemBaseDefinition : ScriptableObject, IItemIdOwner
     public string Description;
     [BoxGroup("Basic Info")][PreviewField(90)][HideLabel][HorizontalGroup("Basic Info/info",Width = 100)]
     public Sprite Icon;
-
 }

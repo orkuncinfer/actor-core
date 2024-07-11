@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class DataManifest : MonoBehaviour
 {
-    public Actor Actor;
+    [ReadOnly]public Actor Actor;
     public bool IsPersistent;
     protected virtual Data[] InstallData()
     {
@@ -22,7 +24,7 @@ public abstract class DataManifest : MonoBehaviour
                 string key = data.GetType().ToString();
                 if (data.UseKey)
                 {
-                    key += ":" + data.DataKey.ID;
+                    key += ":" + data.DataKey;
                 }
                 Debug.Log("Saving Data : " + key);
                 ES3Wrapper.Save(key,data,transform);
@@ -32,7 +34,7 @@ public abstract class DataManifest : MonoBehaviour
 
     private void Awake()
     {
-
+        Actor = FindFirstActorInParents(transform);
        foreach (var data in InstallData())
        {
            string key = "";
@@ -41,7 +43,7 @@ public abstract class DataManifest : MonoBehaviour
                key = data.GetType().ToString();
                if (data.UseKey)
                {
-                   key += ":" + data.DataKey.ID;
+                   key += ":" + data.DataKey;
                }
 
                if (ES3.KeyExists(key))
@@ -55,7 +57,7 @@ public abstract class DataManifest : MonoBehaviour
            {
                if (data.UseKey)
                {
-                   key = data.DataKey.ID;
+                   key = data.DataKey;
                }
                 
                GlobalData.LoadData(key, data);
@@ -65,8 +67,20 @@ public abstract class DataManifest : MonoBehaviour
                Actor.InstallData(InstallData());
            }
        }
-        
-        
-        
+    }
+    
+    private Actor FindFirstActorInParents(Transform currentParent)
+    {
+        if (currentParent == null)
+        {
+            return null; 
+        }
+        Actor actor = currentParent.GetComponent<Actor>();
+
+        if (actor != null)
+        {
+            return actor; 
+        }
+        return FindFirstActorInParents(currentParent.parent);
     }
 }

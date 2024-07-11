@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Firebase.Firestore;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Serialization;
 [SOCreatable]
@@ -16,6 +18,26 @@ public class ItemDefinition : ItemBaseDefinition
     public ItemRarity DefaultRarity;
     public bool IsUniqueItem;
     
+    [SerializeReference]
+    [ListDrawerSettings(ShowFoldout = true, DraggableItems = true)][Searchable(FuzzySearch = true, Recursive = true)]
+    public List<Data> DataList = new List<Data>();
+    
+    public T GetData<T>(string key = "") where T : Data
+    {
+        if (key.IsNullOrWhitespace())
+        {
+            return DataList.Find(x => x.GetType() == typeof(T)) as T;
+        }
+        else
+        {
+            return DataList.Find(x => x.GetType() == typeof(T) && x.DataKey == key) as T;
+        }
+    }
+    public bool TryGetData<T>(out T data) where T : Data
+    {
+        data = DataList.Find(x => x.GetType() == typeof(T)) as T;
+        return data != null;
+    }
 }
 
 [FirestoreData(ConverterType = typeof(FirestoreEnumNameConverter<RpgItemTypes>))]

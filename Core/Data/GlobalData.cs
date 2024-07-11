@@ -5,47 +5,62 @@ using UnityEngine;
 public static class GlobalData
 {
     private static Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
-    
-    public static void LoadData<T>(string key,T data) where T : Data
+    private static HashSet<string> _installedDataKeys = new HashSet<string>();
+
+    public static event Action<Data> OnDataInstalled; 
+
+    public static void LoadData<T>(string key, T data) where T : Data
     {
-        string dataKey = data.GetType().ToString();
-        Type dataType = data.GetType();
-        if (key != "")
-        {
-            dataKey += ":" + key;
-        }
-        //Debug.Log("GlobalData: Loaded data with key : " + dataKey);
-        
+        string dataKey = GetDataKey(data.GetType(), key);
+
         if (_datasets.ContainsKey(dataKey))
         {
-            _datasets[dataKey] = data;  
+            _datasets[dataKey] = data;
         }
         else
         {
-            _datasets.Add(dataKey, data);  
+            _datasets.Add(dataKey, data);
         }
+        
+        data.OnInstalled();
+        _installedDataKeys.Add(dataKey);
+        OnDataInstalled?.Invoke(data);
         GlobalDataDisplayer.Instance.FetchData(_datasets);
-        Debug.Log($"$GlobalData: Loaded data with key : {dataKey}");
+        Debug.Log($"GlobalData: Loaded data with key : {dataKey}");
     }
-    
-    public static T GetData<T>(string key ="") where T : Data
+
+    public static T GetData<T>(string key = "") where T : Data
     {
-        Type dataType = typeof(T);
-        
-        string dataKey = typeof(T).ToString();
-        if (key != "")
-        {
-            dataKey += ":" + key;
-        }
-        
-        //Debug.Log("GlobalData: Tried to get data with key : " + dataKey);
+        string dataKey = GetDataKey(typeof(T), key);
 
         if (_datasets.ContainsKey(dataKey))
         {
+            _datasets[dataKey].OnFirstTimeGet();
             return (T)_datasets[dataKey];
         }
 
-        Debug.LogError($"Data of type '{dataType}' not found! searched with key '{key}'");
+        Debug.LogError($"Data of type '{typeof(T)}' not found! searched with key '{key}'");
         return null;
+    }
+
+    public static void SubscribeToDataInstalled(Action<Data> callback, string key, Type dataType)
+    {
+        OnDataInstalled += callback;
+        string dataKey = GetDataKey(dataType, key);
+
+        if (_installedDataKeys.Contains(dataKey))
+        {
+            callback?.Invoke(_datasets[dataKey]);
+        }
+    }
+
+    private static string GetDataKey(Type dataType, string key)
+    {
+        string dataKey = dataType.ToString();
+        if (!string.IsNullOrEmpty(key))
+        {
+            dataKey += ":" + key;
+        }
+        return dataKey;
     }
 }

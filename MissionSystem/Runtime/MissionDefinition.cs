@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
 
+[SOCreatable]
 [CreateAssetMenu(fileName = "New Mission", menuName = "Mission System")]
 public class MissionDefinition : ItemBaseDefinition
 {
     [SerializeReference] [TypeFilter("GetFilteredTypeList")][ListDrawerSettings(ShowFoldout = true)]
     public List<GameCondition> Conditions = new List<GameCondition>();
     
-    
+    public float[,] Numbers = new float[10, 10];
 
     public bool IsCompleted(ActorBase actor)
     {

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    [ShowInInspector] private Dictionary<GameObject, Queue<GameObject>> _gameObjectPoolDictionary = new Dictionary<GameObject, Queue<GameObject>>();
-    [ShowInInspector] private Dictionary<System.Type, Queue<object>> _objectPoolDictionary = new Dictionary<System.Type, Queue<object>>();
+    [ShowInInspector]
+    private Dictionary<GameObject, Queue<GameObject>> _gameObjectPoolDictionary = new Dictionary<GameObject, Queue<GameObject>>();
+    [ShowInInspector]
+    private Dictionary<System.Type, Queue<object>> _objectPoolDictionary = new Dictionary<System.Type, Queue<object>>();
 
     public GameObject RetrieveFromPool(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
     {
@@ -19,20 +21,13 @@ public class ObjectPool : MonoBehaviour
         if (objectPool.Count == 0)
         {
             obj = Instantiate(prefab, position, rotation, parent);
-            GOPoolMember poolMember;
-            if (obj.transform.TryGetComponent(out GOPoolMember member))
-            {
-                poolMember = member;
-            }
-            else
-            {
-                poolMember = obj.AddComponent<GOPoolMember>();
-            }
+            var poolMember = obj.GetComponent<GOPoolMember>() ?? obj.AddComponent<GOPoolMember>();
             poolMember.SetPool(this, prefab);
         }
         else
         {
             obj = objectPool.Dequeue();
+            Debug.Log("Retrieving object from pool " + obj.name);
             obj.transform.SetPositionAndRotation(position, rotation);
             obj.SetActive(true);
         }
@@ -50,6 +45,7 @@ public class ObjectPool : MonoBehaviour
         }
 
         objectPool.Enqueue(obj);
+        Debug.Log("Returning object to pool " + obj.name);
     }
 
     public T RetrieveFromPool<T>() where T : new()
@@ -63,7 +59,7 @@ public class ObjectPool : MonoBehaviour
 
         if (objectPool.Count == 0)
         {
-            Debug.Log("Creating new object " + type.Name );
+            Debug.Log("Creating new object " + type.Name);
             return new T();
         }
         else

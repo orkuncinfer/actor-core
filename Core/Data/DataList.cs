@@ -51,7 +51,7 @@ public class DataList : MonoBehaviour
                 string key= "";
                 if (Datas[i].UseKey)
                 {
-                    key = Datas[i].DataKey.ID;
+                    key = Datas[i].DataKey;
                 }
                 Debug.Log("1111");
                 GlobalData.LoadData(key,Datas[i]);

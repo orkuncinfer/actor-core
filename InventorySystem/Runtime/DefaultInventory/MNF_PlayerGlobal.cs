@@ -38,4 +38,12 @@ public class DS_PlayerPersistent : Data
         get => _attackSpeed;
         set => _attackSpeed = value;
     }
+    
+    [SerializeField]
+    private int _maxHealth; 
+    public int MaxHealth 
+    {
+        get => _maxHealth;
+        set => _maxHealth = value;
+    }
 }

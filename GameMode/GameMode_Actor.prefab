@@ -137,9 +137,6 @@ MonoBehaviour:
   _levelComplete: {fileID: 7052049253639438169}
   _levelFail: {fileID: 7052049253595885953}
   _loadNext: {fileID: 5421585467634375217}
-  _requestGameStart:
-    _addressType: 16
-    _eventKey: {fileID: 11400000, guid: 53b8328258dbdea4ea62382d747fecb3, type: 2}
 --- !u!1 &7052049253355496805
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,6 +194,7 @@ GameObject:
   - component: {fileID: 7052049253595885952}
   - component: {fileID: 7052049253595885953}
   - component: {fileID: 3859053246006024843}
+  - component: {fileID: 4711004737922463834}
   m_Layer: 0
   m_Name: LevelFail
   m_TagString: Untagged
@@ -248,6 +246,23 @@ MonoBehaviour:
   IsRunning: 0
   IsFinished: 0
   _panelId: Failed
+--- !u!114 &4711004737922463834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052049253595885955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c423330dbf0f1469c4ea8bc3af2884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+  _eventField:
+    _addressType: 16
+    _eventKey: {fileID: 11400000, guid: 35866c77a3d78c847a27e2d0cbc7af14, type: 2}
 --- !u!1 &7052049253639438171
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,6 +274,7 @@ GameObject:
   - component: {fileID: 7052049253639438168}
   - component: {fileID: 7052049253639438169}
   - component: {fileID: 3353778732190763269}
+  - component: {fileID: 692258207654886553}
   m_Layer: 0
   m_Name: LevelComplete
   m_TagString: Untagged
@@ -310,6 +326,23 @@ MonoBehaviour:
   IsRunning: 0
   IsFinished: 0
   _panelId: Completed
+--- !u!114 &692258207654886553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052049253639438171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c423330dbf0f1469c4ea8bc3af2884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+  _eventField:
+    _addressType: 16
+    _eventKey: {fileID: 11400000, guid: 35866c77a3d78c847a27e2d0cbc7af14, type: 2}
 --- !u!1 &7052049254233589759
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,7 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRunning: 0
   IsFinished: 0
-  _modeData:
+  _modeDS:
     Key: {fileID: 0}
     From: 0
     _retrievedData:
@@ -564,14 +597,25 @@ MonoBehaviour:
         IsGlobal: 1
         UseKey: 0
         IsPersistent: 0
-        DataKey: {fileID: 0}
+        DataKey: 
         OwnerActor: {fileID: 0}
         IsInstalled: 0
         _currentGameMode: 0
-        _requestGameModePause: {fileID: 11400000, guid: 8465da704ba52404cbadc07216eab809, type: 2}
-        _requestGameModeFailed: {fileID: 11400000, guid: fa8bf73e9941e4c4e9f8d3d3be379f54, type: 2}
-        _requestGameModeCompleted: {fileID: 11400000, guid: 9e4eb5dc9578ab04799c64b7043ae16f, type: 2}
-        _requestGameModeLoadNext: {fileID: 11400000, guid: 9e2022308f0eb324dad420d633102d9e, type: 2}
+        _requestGameModeStart:
+          _addressType: 0
+          _eventKey: {fileID: 0}
+        _requestGameModePause:
+          _addressType: 0
+          _eventKey: {fileID: 0}
+        _requestGameModeFailed:
+          _addressType: 0
+          _eventKey: {fileID: 0}
+        _requestGameModeCompleted:
+          _addressType: 0
+          _eventKey: {fileID: 0}
+        _requestGameModeLoadNext:
+          _addressType: 0
+          _eventKey: {fileID: 0}
         listt: []
         _stopped: 0
         _failed: 0

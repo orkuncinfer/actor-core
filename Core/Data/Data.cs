@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 [Serializable]
-public class Data : IData
+public class Data :  IData
 {
     [ShowInInspector]
     [HorizontalGroup("Status")]
@@ -33,28 +33,55 @@ public class Data : IData
     {
        // FIX ME : HANDLE REMOVE DATA ON DISABLE
     }
-    [HorizontalGroup("Grp1")][ES3NonSerializable]public bool IsGlobal;
-    [HorizontalGroup("Grp1")][ES3NonSerializable]public bool UseKey;
-    [HorizontalGroup("Grp1")][ES3NonSerializable]public bool IsPersistent;
-    //[HorizontalGroup("Grp1")] public bool IsPersistent;
-    [ShowIf("UseKey")][ValueDropdown("GetAllGenericKeys")]
-    public GenericKey DataKey;
+    [BoxGroup("Grp1",false)][GUIColor(0.35f,.83f,.29f)]
+    [HorizontalGroup("Grp1/1")][ES3NonSerializable]public bool IsGlobal;
+    [BoxGroup("Grp1",false)][GUIColor(0.35f,.83f,.29f)]
+    [HorizontalGroup("Grp1/1")][ES3NonSerializable]public bool UseKey;
+    [BoxGroup("Grp1",false)][GUIColor(0.35f,.83f,.29f)]
+    [HorizontalGroup("Grp1/1")][ES3NonSerializable]public bool IsPersistent;
+  
+    [BoxGroup("Grp1",false)][GUIColor(0.35f,.83f,.29f)]
+    [HorizontalGroup("Grp1/1",marginRight:20)][ES3NonSerializable][HideLabel]
+    [ShowIf("UseKey")][Tag]
+    public string DataKey;
     
     [HideInInspector][ES3NonSerializable]public ActorBase OwnerActor;
 
     [HideInInspector]public bool IsInstalled;
+
+    private bool _retrievedOnce;
     
     private Dictionary<string, object> values = new Dictionary<string, object>();
 
     public virtual T GetValue<T>(string name)
     {
+        if(!_retrievedOnce) OnFirstTimeGet();
         if (values.TryGetValue(name, out object value))
         {
             return (T)value;
         }
+        _retrievedOnce = true;
         return default(T);
     }
 
+    public virtual void OnFirstTimeGet()
+    {
+        
+    }
+
+    public virtual void OnInstalled()
+    {
+        if(OwnerActor)OwnerActor.onActorStopped += OnActorStopped;
+        if(OwnerActor)OwnerActor.onActorStarted += OnActorStarted;
+    }
+
+    public virtual void OnActorStarted()
+    {
+    }
+
+    public virtual void OnActorStopped()
+    {
+    }
     public virtual void SetValue<T>(string name, T value)
     {
         values[name] = value;
@@ -76,6 +103,7 @@ public class Data : IData
         return dropdownItems;
     }
 #endif
+    
 }
 
 public interface IData
@@ -83,8 +111,3 @@ public interface IData
     T GetValue<T>(string name);
     void SetValue<T>(string name, T value);
 }
-
-
-
-
-

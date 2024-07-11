@@ -18,11 +18,13 @@ public enum GameMode
 public class DS_GameMode : Data
 {
     [FormerlySerializedAs("_currentGameModez")] [FormerlySerializedAs("CurrentGameMode")] public GameMode _currentGameMode = GameMode.None;
-    
-    [SerializeField][FoldoutGroup("Events")] private EventSignal _requestGameModePause;
-    [SerializeField][FoldoutGroup("Events")] private EventSignal _requestGameModeFailed;
-    [SerializeField][FoldoutGroup("Events")] private EventSignal _requestGameModeCompleted;
-    [SerializeField][FoldoutGroup("Events")] private EventSignal _requestGameModeLoadNext;
+   
+    [SerializeField] private EventField _requestGameModeStart;
+    [SerializeField] private EventField _requestGameModePause;
+    [SerializeField] private EventField _requestGameModeFailed;
+    [SerializeField] private EventField _requestGameModeCompleted;
+    [SerializeField] private EventField _requestGameModeLoadNext;
+
     public List<string> listt;
     
     [SerializeField] private bool _stopped;
@@ -55,38 +57,49 @@ public class DS_GameMode : Data
         set => _startedActors = value;
     }
 
-    private void Awake()
+    public override void OnInstalled()
     {
-        _requestGameModePause.Register(OnRequestPause);
-        _requestGameModeFailed.Register(OnRequestFailed);
-        _requestGameModeCompleted.Register(OnRequestCompleted);
-        _requestGameModeLoadNext.Register(OnRequestLoadNext);
+        base.OnInstalled();
+        _requestGameModeStart.Register(null,OnRequestStart);
+        _requestGameModePause.Register(null,OnRequestPause);
+        _requestGameModeFailed.Register(null,OnRequestFailed);
+        _requestGameModeCompleted.Register(null,OnRequestCompleted);
+        _requestGameModeLoadNext.Register(null,OnRequestLoadNext);
     }
-    
-    private void OnDestroy()
+
+    private void OnRequestStart(EventArgs obj)
+    {
+        _failed = false;
+        _currentGameMode = GameMode.Playing;
+    }
+
+    private void OnRequestLoadNext(EventArgs obj)
+    {
+        _loadNextTrigger = true;
+    }
+
+    private void OnRequestCompleted(EventArgs obj)
+    {
+        _completed = true;
+    }
+
+    private void OnRequestFailed(EventArgs obj)
+    {
+        _failed = true;
+    }
+
+    private void OnRequestPause(EventArgs obj)
+    {
+        _stopped = true;
+    }
+
+    /* private void OnDestroy()
     {
         _requestGameModePause.Unregister(OnRequestPause);
         _requestGameModeFailed.Unregister(OnRequestFailed);
         _requestGameModeCompleted.Unregister(OnRequestCompleted);
         _requestGameModeLoadNext.Unregister(OnRequestLoadNext);
-    }
-    private void OnRequestLoadNext()
-    {
-        _loadNextTrigger = true;
-    }
-
-    private void OnRequestPause()
-    {
-        _stopped = true;
-    }
-    private void OnRequestFailed()
-    {
-        _failed = true;
-    }
-    private void OnRequestCompleted()
-    {
-        _completed = true;
-    }
+    }*/
 
     public void ResetAllVariables()
     {

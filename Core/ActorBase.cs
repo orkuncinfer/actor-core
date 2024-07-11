@@ -64,6 +64,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
     private HashSet<string> _outputTags => _tags;
 
     public event Action onActorStopped;
+    public event Action onActorStarted;
     public event Action<ITagContainer, string> onTagAdded;
     public event Action<ITagContainer, string> onTagRemoved;
     public event Action<ITagContainer, string> onTagsChanged;
@@ -87,6 +88,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
 
     protected virtual void OnActorStart()
     {
+        onActorStarted?.Invoke();
         _started = true;
         _stopped = false;
     }
@@ -179,6 +181,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
         }
         if (_datasets.ContainsKey(typeof(T) + key))
         {
+            _datasets[typeof(T) + key].OnFirstTimeGet();
             return (T) _datasets[typeof(T) + key];
         }
         else
@@ -200,16 +203,17 @@ public class ActorBase : MonoBehaviour, ITagContainer
     {
         if (data.UseKey)
         {
-            string key = data.GetType() + ":" + data.DataKey.ID;
+            string key = data.GetType() + ":" + data.DataKey;
             _datasets[key] = data;
         }
         else
         {
             _datasets[data.GetType().ToString()] = data;
         }
-
+        
         data.OwnerActor = this;
         data.IsInstalled = true;
+        data.OnInstalled();
     }
 
     public bool TryGetData<T>(string key, out T data) where T : Data
