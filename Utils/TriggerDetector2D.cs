@@ -29,7 +29,6 @@ namespace Heimdallr.Core
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Debug.Log("Trigger Enter");
             Profiler.BeginSample("TriggerEnter");
             _deleteLater = true;
             Profiler.EndSample();

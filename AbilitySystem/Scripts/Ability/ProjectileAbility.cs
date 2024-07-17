@@ -19,7 +19,7 @@ public class ProjectileAbility : ActiveAbility
             projectile.Rigidbody.velocity = Vector3.zero;
             ApplyEffects(data.target);
             projectile.hit -= OnHit;
-            projectile.GetComponent<GOPoolMember>().ReturnToPool();
+            PoolManager.ReleaseObject(projectile.gameObject);
         }
     }
     
@@ -29,7 +29,7 @@ public class ProjectileAbility : ActiveAbility
         if (equipment.TryGetComponent(out RangedWeapon weapon))
         {
             GameObject projectileInstance =
-                PoolProvider.Retrieve(definition.projectilePrefab, Vector3.zero, Quaternion.identity);
+                PoolManager.SpawnObject(definition.projectilePrefab, Vector3.zero, Quaternion.identity);
             Projectile projectile = projectileInstance.GetComponent<Projectile>();
 
             projectile.hit += OnHit;

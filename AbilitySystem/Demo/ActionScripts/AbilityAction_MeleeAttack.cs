@@ -59,7 +59,7 @@ public class AbilityAction_MeleeAttack : AbilityAction
             _ability.ApplyEffects(obj.gameObject);
             _appliedColliders.Add(obj);
         });
-        PoolProvider.Retrieve(HitEffect, obj.ClosestPoint(_meleeWeapon.Collider.center), Quaternion.identity);
+        PoolManager.SpawnObject(HitEffect, obj.ClosestPoint(_meleeWeapon.Collider.center), Quaternion.identity);
     }
 
     public override void OnTick(Actor owner)

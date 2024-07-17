@@ -191,11 +191,11 @@ public class ActorBase : MonoBehaviour, ITagContainer
         }
     }
 
-    public void InstallData(IEnumerable<Data> dataSet)
+    public void InstallData(object[] dataSet)
     {
         foreach (var data in dataSet)
         {
-            InstallData(data);
+            InstallData(data as Data);
         }
     }
 

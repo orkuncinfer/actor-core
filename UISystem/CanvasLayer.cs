@@ -59,7 +59,7 @@ public class CanvasLayer : MonoBehaviour
         if (panelModel != null)
         {
             GameObject newPanelInstance =
-                PoolProvider.Retrieve(panelModel.PanelPrefab, Vector3.zero, Quaternion.identity, transform);
+                PoolManager.SpawnObject(panelModel.PanelPrefab, Vector3.zero, Quaternion.identity, transform);
             newPanelInstance.SetActive(true);
             newPanelInstance.transform.localPosition = Vector3.zero;
             PanelInstanceView instanceView = newPanelInstance.GetComponent<PanelInstanceView>();
@@ -119,7 +119,7 @@ public class CanvasLayer : MonoBehaviour
         }
 
         GameObject newPanelInstance =
-            PoolProvider.Retrieve(panelModel.PanelPrefab, Vector3.zero, Quaternion.identity, transform);
+            PoolManager.SpawnObject(panelModel.PanelPrefab, Vector3.zero, Quaternion.identity, transform);
         newPanelInstance.SetActive(true);
         newPanelInstance.transform.localPosition = Vector3.zero;
         PanelInstanceView instanceView = newPanelInstance.GetComponent<PanelInstanceView>();

@@ -18,8 +18,6 @@ public class ItemDropInstance : MonoBehaviour
     {
         LabelInstance.ActivateLabel();
     }
-    
-    [SerializeField] private GOPoolMember _goPoolMember;
 
     private void OnEnable()
     {
@@ -46,7 +44,7 @@ public class ItemDropInstance : MonoBehaviour
             if (DropCount == 0)
             {
                 ItemDropManager.Instance.PickedUp(LabelInstance);
-                _goPoolMember.ReturnToPool();
+                PoolManager.ReleaseObject(this.gameObject);
             }
         }
     }

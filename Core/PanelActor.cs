@@ -4,7 +4,6 @@ using UnityEngine.Serialization;
 public class PanelActor : ActorBase
 {
     [SerializeField] private MonoState _openedState;
-    [SerializeField] private GOPoolMember _poolMember;
     [SerializeField] private Transform _viewTransform;
 
     protected override void OnActorStart()
@@ -42,9 +41,6 @@ public class PanelActor : ActorBase
             }
         }
 
-        if (_poolMember)
-        {
-            _poolMember.ReturnToPool();
-        }
+        PoolManager.ReleaseObject(gameObject);
     }
 }

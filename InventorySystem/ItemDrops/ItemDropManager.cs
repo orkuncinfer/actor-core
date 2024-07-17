@@ -74,7 +74,7 @@ public class ItemDropManager : MonoBehaviour
     {
         for (int i = 0; i < _pickedUpLabels.Count; i++)
         {
-            _pickedUpLabels[i].transform.GetComponent<GOPoolMember>().ReturnToPool();
+            PoolManager.ReleaseObject(_pickedUpLabels[i].gameObject);
             itemLabels.Remove(_pickedUpLabels[i]);
         }
         _pickedUpLabels.Clear();
@@ -168,7 +168,7 @@ public class ItemDropManager : MonoBehaviour
         itemDropInstance.GeneratedItemResult.UpgradeLevel = itemResultPacket.UpgradeLevel;
         
         
-        GameObject labelInstance = PoolProvider.Retrieve(LabelPrefab, groundPos, Quaternion.identity);
+        GameObject labelInstance = PoolManager.SpawnObject(LabelPrefab, groundPos, Quaternion.identity);
         WorldItemLabel itemLabel = labelInstance.GetComponent<WorldItemLabel>();
         
         itemDropInstance.LabelInstance = itemLabel;

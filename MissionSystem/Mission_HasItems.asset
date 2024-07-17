@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8bd7e64d7593340821389ac3467990, type: 3}
   m_Name: Mission_HasItems
   m_EditorClassIdentifier: 
-  IdemID: 
-  ItemName: 
+  IdemID: Mission_HasItems
+  ItemName: Mission_HasItems
   Description: 
   Icon: {fileID: 0}
   Conditions:

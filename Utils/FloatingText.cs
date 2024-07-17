@@ -6,7 +6,6 @@ namespace Core
 {
     public class FloatingText : MonoBehaviour
     {
-        [SerializeField] private GOPoolMember _poolMember;
         public event Action<FloatingText> finished;
         public float time = 0.5f;
         private Transform m_MainCamera;
@@ -34,7 +33,7 @@ namespace Core
         private void OnFinish()
         {
             finished?.Invoke(this);
-            _poolMember.ReturnToPool();
+            PoolManager.ReleaseObject(gameObject);
         }
 
         private void LateUpdate()

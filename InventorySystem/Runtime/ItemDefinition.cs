@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Firebase.Firestore;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
@@ -22,6 +23,9 @@ public class ItemDefinition : ItemBaseDefinition
     [ListDrawerSettings(ShowFoldout = true, DraggableItems = true)][Searchable(FuzzySearch = true, Recursive = true)]
     public List<Data> DataList = new List<Data>();
     
+    [SerializeReference][TypeFilter("GetFilteredActionList")] [ListDrawerSettings(ShowFoldout = true)]
+    public List<SimpleAction> ItemActions = new List<SimpleAction>();
+    
     public T GetData<T>(string key = "") where T : Data
     {
         if (key.IsNullOrWhitespace())
@@ -37,6 +41,18 @@ public class ItemDefinition : ItemBaseDefinition
     {
         data = DataList.Find(x => x.GetType() == typeof(T)) as T;
         return data != null;
+    }
+    
+    
+    public IEnumerable<Type> GetFilteredActionList()
+    {
+        var baseType = typeof(SimpleAction);
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        var q = assemblies.SelectMany(assembly => assembly.GetTypes())
+            .Where(x => !x.IsAbstract)
+            .Where(x => !x.IsGenericTypeDefinition)
+            .Where(x => baseType.IsAssignableFrom(x) && x != baseType); // Exclude the base class itself
+        return q;
     }
 }
 

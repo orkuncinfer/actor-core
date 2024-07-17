@@ -22,7 +22,6 @@ public class WorldItemLabel : MonoBehaviour,IPointerEnterHandler,IPointerExitHan
     public ItemDropInstance ItemDropInstance;
 
     private Transform _labelParent;
-    private GOPoolMember _goPoolMember;
     private void Start()
     {
         _camera = Camera.main;
@@ -44,8 +43,7 @@ public class WorldItemLabel : MonoBehaviour,IPointerEnterHandler,IPointerExitHan
 
     private void OnEnable()
     {
-        _goPoolMember = GetComponent<GOPoolMember>();
-        _goPoolMember.onBeforeReturnToPool += OnBeforeReturnToPool;
+        PoolManager.onBeforeReturnToPool += OnBeforeReturnToPool;
         _textComponent.gameObject.SetActive(false);
         _hoverBg.gameObject.SetActive(false);
         _normalBg.gameObject.SetActive(false);
@@ -58,7 +56,7 @@ public class WorldItemLabel : MonoBehaviour,IPointerEnterHandler,IPointerExitHan
         _textComponent.gameObject.SetActive(false);
         _hoverBg.gameObject.SetActive(false);
         _normalBg.gameObject.SetActive(false);
-        _goPoolMember.onBeforeReturnToPool -= OnBeforeReturnToPool;
+        PoolManager.onBeforeReturnToPool -= OnBeforeReturnToPool;
     }
     
 

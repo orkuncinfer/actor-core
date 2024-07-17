@@ -3,7 +3,8 @@ using UnityEngine;
 public class Actor : ActorBase
 {
     [SerializeField] private MonoState _initialState;
-    [SerializeField] private GOPoolMember _poolMember;
+    
+    [SerializeField] private bool _returnToPoolOnStop = false;
     protected override void OnActorStart()
     {
         base.OnActorStart();
@@ -21,9 +22,9 @@ public class Actor : ActorBase
                 _initialState.CheckoutExit();
             }
         }
-        if (_poolMember)
+        if (_returnToPoolOnStop)
         {
-            _poolMember.ReturnToPool();
+            PoolManager.ReleaseObject(gameObject);
         }
     }
 }

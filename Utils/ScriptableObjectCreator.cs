@@ -8,12 +8,6 @@ using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
-
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
-public class CreatableAttribute : Attribute
-{
-}
-
 public class ScriptableObjectCreator : OdinMenuEditorWindow
 {
     static HashSet<Type> scriptableObjectTypes = AssemblyUtilities.GetTypes(AssemblyTypeFlags.CustomTypes)
@@ -23,7 +17,7 @@ public class ScriptableObjectCreator : OdinMenuEditorWindow
             !typeof(EditorWindow).IsAssignableFrom(t) &&
             !typeof(Editor).IsAssignableFrom(t) &&
             t.GetCustomAttributes(typeof(SOCreatableAttribute), false).Length > 0)  // Check for the specific attribute
-       .ToHashSet();
+        .ToHashSet();
 
     [MenuItem("Assets/Create Scriptable Object", priority = -1000)]
     private static void ShowDialog()
@@ -67,7 +61,13 @@ public class ScriptableObjectCreator : OdinMenuEditorWindow
         OdinMenuTree tree = new OdinMenuTree(false);
         tree.Config.DrawSearchToolbar = true;
         tree.DefaultMenuStyle = OdinMenuStyle.TreeViewStyle;
-        tree.AddRange(scriptableObjectTypes.Where(x => !x.IsAbstract), GetMenuPathForType).AddThumbnailIcons();
+
+        foreach (var type in scriptableObjectTypes.Where(x => !x.IsAbstract))
+        {
+            var category = GetCategoryForType(type);
+            tree.Add(category + "/" + type.Name.SplitPascalCase(), type);
+        }
+
         tree.SortMenuItemsByName();
         tree.Selection.SelectionConfirmed += x => this.CreateAsset();
         tree.Selection.SelectionChanged += e =>
@@ -92,15 +92,10 @@ public class ScriptableObjectCreator : OdinMenuEditorWindow
         return tree;
     }
 
-    private string GetMenuPathForType(Type t)
+    private string GetCategoryForType(Type t)
     {
-        if (t != null && scriptableObjectTypes.Contains(t))
-        {
-            var name = t.Name.Split('`').First().SplitPascalCase();
-            return GetMenuPathForType(t.BaseType) + "/" + name;
-        }
-
-        return "";
+        var attribute = t.GetCustomAttribute<SOCreatableAttribute>();
+        return attribute?.Category ?? "Uncategorized";
     }
 
     protected override IEnumerable<object> GetTargets()
@@ -131,7 +126,7 @@ public class ScriptableObjectCreator : OdinMenuEditorWindow
     {
         if (this.previewObject)
         {
-            var dest = this.targetFolder + "/new " + this.MenuTree.Selection.First().Name.ToLower() + ".asset";
+            var dest = this.targetFolder + "/new " + this.MenuTree.Selection.First().Name + ".asset";
             dest = AssetDatabase.GenerateUniqueAssetPath(dest);
             AssetDatabase.CreateAsset(this.previewObject, dest);
             AssetDatabase.Refresh();

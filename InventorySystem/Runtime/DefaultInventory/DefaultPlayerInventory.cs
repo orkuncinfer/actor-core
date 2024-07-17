@@ -2,20 +2,58 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using UnityCommunity.UnitySingleton;
 using UnityEngine;
 
-public  class DefaultPlayerInventory : Singleton<DefaultPlayerInventory>
+public  class DefaultPlayerInventory : PersistentMonoSingleton<DefaultPlayerInventory>
 {
     [ShowInInspector] protected Dictionary<string, int> _inventory;
+    [SerializeField] private ItemListDefinition _allItems;
+
+    [ValueDropdown("GetAllItems")]
+    [SerializeField] private ItemBaseDefinition _testItem;
+    
+    [SerializeField] private GameObject _itemAddedDisplayerPrefab;
     
     public event Action<string,int,int> onItemAdded;
     public event Action<string,int,int> onItemRemoved;
     public event Action<string, int,int> onItemChanged; 
     
     [Button]
+    private void AddItemTest(int amount = 1)
+    {
+        AddItem(_testItem.ItemId, amount);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            AddItemTest();
+        }
+    }
+
     public void AddItem(string itemId, int amount)
     {
         GetInventory();
+        ItemBaseDefinition item = _allItems.AllItems.Find(x => x.ItemId == itemId);
+        if (item != null)
+        {
+            if (item is ItemDefinition itemDef)
+            {
+                foreach (var action in itemDef.ItemActions)
+                {
+                    action.OnAction(MainPlayer.Actor);
+                }
+            }
+            if(_itemAddedDisplayerPrefab)
+            {
+                var itemAddedDisplayer = Instantiate(_itemAddedDisplayerPrefab).GetComponentInChildren<BasicItemDisplayer>();
+                itemAddedDisplayer.ItemDefinition = item;
+                itemAddedDisplayer.SetItemCount(amount);
+                itemAddedDisplayer.DisplayItem(item);
+            }
+        }
         int oldAmount = GetItemCount(itemId);
         if (_inventory.ContainsKey(itemId))
         {
@@ -25,6 +63,7 @@ public  class DefaultPlayerInventory : Singleton<DefaultPlayerInventory>
         {
             _inventory.Add(itemId, amount);
         }
+        
         
         onItemAdded?.Invoke(itemId,oldAmount,GetItemCount(itemId));
         onItemChanged?.Invoke(itemId,oldAmount,GetItemCount(itemId));
@@ -71,14 +110,36 @@ public  class DefaultPlayerInventory : Singleton<DefaultPlayerInventory>
         return _inventory.ContainsKey(itemId);
     }
     
-    void GetInventory()
+    public Dictionary<string, int> GetInventory()
     {
         _inventory = GlobalData.GetData<DS_PlayerPersistent>().Inventory;
+        return _inventory;
+    }
+    
+    public ItemBaseDefinition GetItemDefinition(string itemKey)
+    {
+        return _allItems.AllItems.Find(x => x.ItemId == itemKey);
+    }
+    
+    public ItemListDefinition GetAllItemsList()
+    {
+        return _allItems;
     }
 
-    protected override void Awake()
+#if UNITY_EDITOR
+
+
+    private List<ValueDropdownItem<ItemDefinition>> GetAllItems()
     {
-        base.Awake();
-        //_inventory = GlobalData.GetData<DS_PlayerPersistent>().Inventory;
+        var allKeys = Resources.FindObjectsOfTypeAll<ItemDefinition>();
+        var dropdownItems = new List<ValueDropdownItem<ItemDefinition>>();
+        foreach (var key in allKeys)
+        {
+            dropdownItems.Add(new ValueDropdownItem<ItemDefinition>(key.name, key));
+        }
+
+        return dropdownItems;
     }
+#endif
+  
 }

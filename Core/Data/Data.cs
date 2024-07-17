@@ -103,11 +103,45 @@ public class Data :  IData
         return dropdownItems;
     }
 #endif
+
+    public ActorBase Actor => OwnerActor;
+    public string DefaultCategory { get; set; }
+    public Transform Transform { get; set; }
     
+    public string GetLoadKey()
+    {
+        string containerID = "Global"; 
+        string typeName = GetType().Name;
+        string saveFileName = "Default";
+        return containerID + "-" + typeName + DataKey;
+    }
+    public void LoadData(string category = "Default")
+    {
+        string containerID = "Global"; 
+        string typeName = GetType().Name;
+        string saveFileName = category;
+        Debug.Log("Loading Data, ID: "+containerID+"-"+typeName + DataKey + " | File name: " + saveFileName+".save");
+        if (ES3.KeyExists(GetLoadKey()))
+        {
+            ES3.LoadInto(GetLoadKey(),this);
+        }
+    }
+
+    public void SaveData(string category = "Default")
+    {
+        string containerID = "Global"; 
+        string typeName = GetType().Name;
+        string saveFileName = category;
+        ES3.Save(GetLoadKey(),this);
+        Debug.Log("Saving Data, ID: "+containerID+"-"+typeName + DataKey+ " | File name: " + saveFileName+".save");
+    }
 }
 
 public interface IData
 {
-    T GetValue<T>(string name);
-    void SetValue<T>(string name, T value);
+    public ActorBase Actor { get; }
+    public string DefaultCategory { get; set; }
+    public Transform Transform { get; set; }
+    void LoadData(string category = null);
+    void SaveData(string category = null);
 }

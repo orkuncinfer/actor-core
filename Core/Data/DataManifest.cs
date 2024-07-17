@@ -20,14 +20,7 @@ public abstract class DataManifest : MonoBehaviour
         {
             foreach (var data in InstallData())
             {
-                if(!data.IsPersistent) continue;
-                string key = data.GetType().ToString();
-                if (data.UseKey)
-                {
-                    key += ":" + data.DataKey;
-                }
-                Debug.Log("Saving Data : " + key);
-                ES3Wrapper.Save(key,data,transform);
+                data.SaveData();
             }
         }
     }
@@ -40,16 +33,7 @@ public abstract class DataManifest : MonoBehaviour
            string key = "";
            if (IsPersistent)
            {
-               key = data.GetType().ToString();
-               if (data.UseKey)
-               {
-                   key += ":" + data.DataKey;
-               }
-
-               if (ES3.KeyExists(key))
-               {
-                   ES3Wrapper.LoadInto(key,data,transform);
-               }
+               data.LoadData();
            }
            
            key = "";

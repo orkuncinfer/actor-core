@@ -42,7 +42,8 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
      public IEnumerable<Type> GetFilteredTypeList()
      {
          var baseType = typeof(AbilityAction);
-         var q = baseType.Assembly.GetTypes()
+         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+         var q = assemblies.SelectMany(assembly => assembly.GetTypes())
              .Where(x => !x.IsAbstract)
              .Where(x => !x.IsGenericTypeDefinition)
              .Where(x => baseType.IsAssignableFrom(x) && x != baseType); // Exclude the base class itself

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
@@ -11,24 +12,32 @@ public class MNF_PlayerGlobal : DataManifest
     
     protected override Data[] InstallData()
     {
-        return new Data[] { _playerPersistent, _itemUpgrades };
+        return new Data[] { _itemUpgrades, _playerPersistent };
     }
 }
 [System.Serializable]
 public class DS_PlayerPersistent : Data
 {
-    [ShowInInspector]protected Dictionary<string,int> _activeMissions = new Dictionary<string, int>();
-    public Dictionary<string,int> ActiveMissions => _activeMissions;
-    
-    [ShowInInspector]protected Dictionary<string,int> _inventory = new Dictionary<string, int>();
-    public Dictionary<string,int> Inventory => _inventory;
-    
-    [SerializeField]
-    private string _lastTimeRewardCollected; 
-    public string LastTimeRewardCollected 
+    public Dictionary<string,int> ActiveMissions = new Dictionary<string, int>();
+    public Dictionary<string,int> Inventory = new Dictionary<string, int>();
+
+
+    public event Action<int, int> onCurrentLevelChanged; 
+    [SerializeField]private int _currentLevelIndex; 
+    public int CurrentLevelIndex 
     {
-        get => _lastTimeRewardCollected;
-        set => _lastTimeRewardCollected = value;
+        get => _currentLevelIndex;
+        set
+        {
+            int oldValue = _currentLevelIndex;
+            bool isChanged = _currentLevelIndex != value;
+            _currentLevelIndex = value;
+            if (isChanged)
+            {
+                onCurrentLevelChanged?.Invoke(oldValue, value);
+                CurrentLevelIndexSO.Value = value;
+            }
+        }
     }
     
     [SerializeField]
@@ -45,5 +54,20 @@ public class DS_PlayerPersistent : Data
     {
         get => _maxHealth;
         set => _maxHealth = value;
+    }
+    [SerializeField]
+    private string _lastTimeRewardCollected; 
+    public string LastTimeRewardCollected 
+    {
+        get => _lastTimeRewardCollected;
+        set => _lastTimeRewardCollected = value;
+    }
+    
+    [ES3NonSerializable]public IntVar CurrentLevelIndexSO;
+
+    public override void OnInstalled()
+    {
+        base.OnInstalled();
+        CurrentLevelIndexSO.Value = CurrentLevelIndex;
     }
 }
