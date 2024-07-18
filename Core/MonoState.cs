@@ -41,7 +41,7 @@ public abstract class MonoState : MonoBehaviour
         isUpdateOverridden = methodInfo.DeclaringType != typeof(MonoState);
     }
     
-    protected Actor Owner;
+    protected ActorBase Owner;
     protected virtual void OnEnter() { IsRunning = true; }
 
     protected virtual void OnExit()
@@ -56,7 +56,7 @@ public abstract class MonoState : MonoBehaviour
     public virtual void CheckoutEnter(ActorBase ownerActor)
     {
         if (IsRunning) return;
-        Owner = ownerActor as Actor;
+        Owner = ownerActor;
         if(Owner != null)Owner.onActorStopped += OnOwnerActorStopped;
         OnInitialize();
         OnEnter();

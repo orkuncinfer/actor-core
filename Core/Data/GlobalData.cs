@@ -42,6 +42,18 @@ public static class GlobalData
         Debug.LogError($"Data of type '{typeof(T)}' not found! searched with key '{key}'");
         return null;
     }
+    
+    public static bool TryGetData<T>(string key, out T data) where T : Data
+    {
+        if (_datasets.ContainsKey(key + typeof(T).ToString()))
+        {
+            data = (T) _datasets[key + typeof(T).ToString()];
+            return true;
+        }
+
+        data = null;
+        return false;
+    }
 
     public static void SubscribeToDataInstalled(Action<Data> callback, string key, Type dataType)
     {

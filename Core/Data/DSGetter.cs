@@ -24,7 +24,7 @@ public class DSGetter<T> where T : Data
     [SerializeField][SerializeReference][HideInEditorMode]
     private Data _retrievedData;
 
-    public void GetData(Actor owner = null)
+    public void GetData(ActorBase owner = null)
     {
         string key = "";
         if (Key != null)

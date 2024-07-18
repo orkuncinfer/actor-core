@@ -33,11 +33,11 @@ public class CanvasLayer : MonoBehaviour
       
     }
 
-    public void ShowPanel(string panelId)
+    public GameObject ShowPanel(string panelId)
     {
         if (_currentPanel != null)
         {
-            if(panelId == _currentPanel.PanelId) return;
+            if(panelId == _currentPanel.PanelId) return _currentPanel.gameObject;
         }
         
         _lastTriedShowPanelId = panelId;
@@ -48,12 +48,12 @@ public class CanvasLayer : MonoBehaviour
         {
             _instanceList[_instanceList.Count - 1].onHideCompleted += OnLastHideCompleted;
             HideLastPanel();
-            return;
+            return null;
         }
 
         if (_instanceList.Count > 0)
         {
-            if (_instanceList[_instanceList.Count - 1].PanelId == panelId) return;
+            if (_instanceList[_instanceList.Count - 1].PanelId == panelId) return _instanceList[_instanceList.Count - 1].gameObject;
         }
 
         if (panelModel != null)
@@ -65,16 +65,21 @@ public class CanvasLayer : MonoBehaviour
             PanelInstanceView instanceView = newPanelInstance.GetComponent<PanelInstanceView>();
             instanceView.PanelId = panelId;
             instanceView.PanelInstance = newPanelInstance;
-
+            
             _instanceList.Add(instanceView);
-
+            if (instanceView.transform.TryGetComponent(out PanelActor panelActor))
+            {
+                panelActor.StartIfNot();
+            }
             instanceView.ShowPanel();
             _currentPanel = instanceView;
+            return newPanelInstance;
         }
         else
         {
             Debug.LogWarning($"Trying to use panelId = {panelId}, but this is not found in Panels");
         }
+        return null;
     }
 
     private void OnLastHideCompleted(PanelInstanceView obj)
@@ -107,7 +112,7 @@ public class CanvasLayer : MonoBehaviour
 
     #region Additive Panels
 
-    public void ShowAdditive(string panelId)
+    public GameObject ShowAdditive(string panelId)
     {
         _lastTriedShowPanelId = panelId;
 
@@ -115,7 +120,7 @@ public class CanvasLayer : MonoBehaviour
 
         foreach (PanelInstanceView panelInstance in CanvasManager.Instance.PanelStack)
         {
-            if (panelInstance.PanelId == panelId) return;
+            if (panelInstance.PanelId == panelId) return null;
         }
 
         GameObject newPanelInstance =
@@ -125,10 +130,14 @@ public class CanvasLayer : MonoBehaviour
         PanelInstanceView instanceView = newPanelInstance.GetComponent<PanelInstanceView>();
         instanceView.PanelId = panelId;
         instanceView.PanelInstance = newPanelInstance;
-
+        
         CanvasManager.Instance.PanelStack.Push(instanceView);
-
+        if (instanceView.transform.TryGetComponent(out PanelActor panelActor))
+        {
+            panelActor.StartIfNot();
+        }
         instanceView.ShowPanel();
+        return newPanelInstance;
     }
 
     [Button]

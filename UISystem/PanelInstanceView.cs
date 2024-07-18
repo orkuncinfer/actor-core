@@ -2,6 +2,7 @@
 using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class PanelInstanceView : MonoBehaviour
@@ -12,6 +13,8 @@ public class PanelInstanceView : MonoBehaviour
 
     private CanvasGroup _canvasGroup;
 
+    public UnityEvent onShowComplete;
+    public UnityEvent onHideComplete;
     public event Action<PanelInstanceView> onHideCompleted;
     public event Action<PanelInstanceView> onShowCompleted;
     
@@ -44,6 +47,8 @@ public class PanelInstanceView : MonoBehaviour
         gameObject.SetActive(false);
         _canvasGroup.alpha = 0;
         onHideCompleted?.Invoke(this);
+        onHideComplete?.Invoke();
+        PoolManager.ReleaseObject(this.gameObject);
     }
     
     IEnumerator ShowPanelSequence()
@@ -56,5 +61,7 @@ public class PanelInstanceView : MonoBehaviour
         }
         _canvasGroup.alpha = 1;
         onShowCompleted?.Invoke(this);
+        onShowComplete?.Invoke();
+        Debug.Log("Show Complete");
     }
 }

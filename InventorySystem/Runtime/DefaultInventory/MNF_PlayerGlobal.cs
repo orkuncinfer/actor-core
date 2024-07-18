@@ -39,6 +39,23 @@ public class DS_PlayerPersistent : Data
             }
         }
     }
+    public event Action<int, int> onMaxReachedLevelChanged; 
+    [SerializeField]private int _maxReachedLevel; 
+    public int MaxReachedLevel 
+    {
+        get => _maxReachedLevel;
+        set
+        {
+            int oldValue = _maxReachedLevel;
+            bool isChanged = _maxReachedLevel != value;
+            _maxReachedLevel = value;
+            if (isChanged)
+            {
+                onMaxReachedLevelChanged?.Invoke(oldValue, value);
+                //CurrentLevelIndexSO.Value = value;
+            }
+        }
+    }
     
     [SerializeField]
     private float _attackSpeed; 

@@ -28,9 +28,9 @@ public class CanvasManager : PersistentMonoSingleton<CanvasManager>
         }
     }
     
-    public void ShowPanel(string panelId, string layerTag = "Default")
+    public GameObject ShowPanel(string panelId, string layerTag = "Default")
     {
-        GetDesiredLayer(layerTag).ShowPanel(panelId);
+        return GetDesiredLayer(layerTag).ShowPanel(panelId);
     }
     
     public void HidePanel(string panelId, string layerTag = "Default")
@@ -38,9 +38,9 @@ public class CanvasManager : PersistentMonoSingleton<CanvasManager>
         GetDesiredLayer(layerTag).HidePanel(panelId);
     }
     
-    public void ShowAdditive(string panelId,string layerTag = "Default")
+    public GameObject ShowAdditive(string panelId,string layerTag = "Default")
     {
-        GetDesiredLayer(layerTag).ShowAdditive(panelId);
+        return GetDesiredLayer(layerTag).ShowAdditive(panelId);
     }
 
     public void HideLastPanel(string layerTag = "Default")

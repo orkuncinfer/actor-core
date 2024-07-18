@@ -1,10 +1,22 @@
+using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class PanelActor : ActorBase
 {
-    [SerializeField] private MonoState _openedState;
-    [SerializeField] private Transform _viewTransform;
+    [BoxGroup("PanelSettings")][SerializeField] private MonoState _openedState;
+    [BoxGroup("PanelSettings")][SerializeField] private Transform _viewTransform;
+    
+    [BoxGroup("PanelSettings")][ReadOnly]public string PanelId;
+    [BoxGroup("PanelSettings")][ReadOnly]public GameObject PanelInstance;
+    private CanvasGroup _canvasGroup;
+    public event Action<PanelInstanceView> onHideCompleted;
+    public event Action<PanelInstanceView> onShowCompleted;
+    
+    [BoxGroup("PanelSettings")]public bool FadeOutOnHide = true;
+    [BoxGroup("PanelSettings")]public bool FadeInOnShow = true;
 
     protected override void OnActorStart()
     {

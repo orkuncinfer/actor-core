@@ -8,22 +8,12 @@ public enum ShowHidePanelButtonMode
     Show,
     Hide,
 }
-public class ShowHidePanelButton : MonoBehaviour, IPointerUpHandler
+public class ShowHidePanelButton : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private ShowHidePanelButtonMode _mode;
     [SerializeField] private string _panelId;
     [SerializeField] private bool _showAdditive;
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        if (_mode == ShowHidePanelButtonMode.Show)
-        {
-            ShowPanel();
-        }
-        else
-        {
-            HidePanel();
-        }
-    }
+    [SerializeField] private bool _parentToFirstActor;
 
     private void HidePanel()
     {
@@ -32,13 +22,37 @@ public class ShowHidePanelButton : MonoBehaviour, IPointerUpHandler
 
     private void ShowPanel()
     {
+        GameObject instance = null;
         if (_showAdditive)
         {
-            CanvasManager.Instance.ShowAdditive(_panelId);
+            instance = CanvasManager.Instance.ShowAdditive(_panelId);
         }
         else
         {
-            CanvasManager.Instance.ShowPanel(_panelId);
+            instance = CanvasManager.Instance.ShowPanel(_panelId);
+        }
+        Debug.Log("instance is " + instance);
+        if(_parentToFirstActor)
+        {
+            ActorBase actor = ActorUtilities.FindFirstActorInParents(transform);
+            Debug.Log("parented0 " + actor);
+            if (instance != null && actor != null)
+            {
+                Debug.Log("parented " + instance);
+                instance.transform.SetParent(actor.transform);
+            }
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (_mode == ShowHidePanelButtonMode.Show)
+        {
+            ShowPanel();
+        }
+        else
+        {
+            HidePanel();
         }
     }
 }

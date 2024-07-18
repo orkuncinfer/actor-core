@@ -13,6 +13,7 @@ public enum ActorStateFlags
     Started = 1 << 0,
     Stopped = 1 << 1
 }
+
 public enum ActorStartMethods
 {
     Auto,
@@ -49,14 +50,19 @@ public class ActorBase : MonoBehaviour, ITagContainer
 
     [ReadOnly] public string ActorID;
     public ActorStartMethods StartMethod;
+    [SerializeField] private List<GenericKey> _initialTags = new List<GenericKey>();
+    private HashSet<string> _tags = new HashSet<string>();
+    
     private bool _started;
     private bool _stopped;
+    private bool _startedOnce;
+    public bool StartedOnce => _startedOnce;
+    public bool IsRunning => _started && !_stopped;
 
     [ShowInInspector] [ReadOnly] [HideInEditorMode]
     protected Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
 
-    [SerializeField] private List<GenericKey> _initialTags = new List<GenericKey>();
-    private HashSet<string> _tags = new HashSet<string>();
+ 
 
     [ReadOnly]
     [ShowInInspector]
@@ -69,7 +75,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
     public event Action<ITagContainer, string> onTagRemoved;
     public event Action<ITagContainer, string> onTagsChanged;
 
-    protected Actor ParentActor;
+    protected ActorBase ParentActor;
 
     private SocketRegistry _socketRegistry;
 
@@ -90,6 +96,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
     {
         onActorStarted?.Invoke();
         _started = true;
+        _startedOnce = true;
         _stopped = false;
     }
 
@@ -99,7 +106,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
         _stopped = true;
     }
 
-    public void StartIfNot(Actor parentActor = null)
+    public void StartIfNot(ActorBase parentActor = null)
     {
         if (parentActor != null)
         {
@@ -173,12 +180,13 @@ public class ActorBase : MonoBehaviour, ITagContainer
         }
     }
 
-    public T GetData<T>(string key = "") where T : Data
+    public T GetData<T>(string key = "", bool checkGlobal = false) where T : Data
     {
-        if(key != "")
+        if (key != "")
         {
             key = ":" + key;
         }
+
         if (_datasets.ContainsKey(typeof(T) + key))
         {
             _datasets[typeof(T) + key].OnFirstTimeGet();
@@ -186,6 +194,11 @@ public class ActorBase : MonoBehaviour, ITagContainer
         }
         else
         {
+            if (GlobalData.TryGetData<T>(key, out T data))
+            {
+                return data;
+            }
+
             Debug.LogWarning($"Dataset of type {typeof(T).Name} not found");
             return null;
         }
@@ -210,7 +223,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
         {
             _datasets[data.GetType().ToString()] = data;
         }
-        
+
         data.OwnerActor = this;
         data.IsInstalled = true;
         data.OnInstalled();
