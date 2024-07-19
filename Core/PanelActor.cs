@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,21 +13,27 @@ public class PanelActor : ActorBase
     [BoxGroup("PanelSettings")][ReadOnly]public string PanelId;
     [BoxGroup("PanelSettings")][ReadOnly]public GameObject PanelInstance;
     private CanvasGroup _canvasGroup;
-    public event Action<PanelInstanceView> onHideCompleted;
-    public event Action<PanelInstanceView> onShowCompleted;
+    public event Action<PanelActor> onHideCompleted;
+    public event Action<PanelActor> onShowCompleted;
+    
+    public UnityEvent onShowComplete;
+    public UnityEvent onHideComplete;
     
     [BoxGroup("PanelSettings")]public bool FadeOutOnHide = true;
     [BoxGroup("PanelSettings")]public bool FadeInOnShow = true;
+    
 
     protected override void OnActorStart()
     {
         base.OnActorStart();
-        _viewTransform.gameObject.SetActive(false);
+        if(_viewTransform)_viewTransform.gameObject.SetActive(false);
     }
 
     public void OpenPanel()
     {
-        _viewTransform.gameObject.SetActive(true);
+        onShowCompleted?.Invoke(this);
+        onShowComplete?.Invoke();
+        if(_viewTransform)_viewTransform.gameObject.SetActive(true);
         if (_openedState)
         {
             _openedState.CheckoutEnter(this);
@@ -35,11 +42,15 @@ public class PanelActor : ActorBase
 
     public void ClosePanel()
     {
-        _viewTransform.gameObject.SetActive(false);
+        onHideCompleted?.Invoke(this);
+        onHideComplete?.Invoke();
+        if(_viewTransform)_viewTransform.gameObject.SetActive(false);
         if (_openedState)
         {
             _openedState.CheckoutExit();
         }
+        
+        PoolManager.ReleaseObject(this.gameObject);
     }
 
     protected override void OnActorStop()

@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8649069807766009266}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -145,8 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8649069807766009266}
   - component: {fileID: 8649069807766009277}
-  - component: {fileID: -131330395411183354}
-  - component: {fileID: -5443729091795456103}
+  - component: {fileID: 5450148609096343301}
   m_Layer: 5
   m_Name: TGameplay
   m_TagString: Untagged
@@ -168,7 +166,6 @@ RectTransform:
   m_Children:
   - {fileID: 8649069807073028193}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -187,7 +184,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &-131330395411183354
+--- !u!114 &5450148609096343301
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,21 +193,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 8649069807766009267}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53f9c8ab97e84318939760be741696d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bc497473f854156a054a16e4b79039b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActorID: 
+  StartMethod: 1
+  _initialTags: []
+  _openedState: {fileID: 0}
+  _viewTransform: {fileID: 8649069807073028193}
   PanelId: 
   PanelInstance: {fileID: 0}
---- !u!114 &-5443729091795456103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8649069807766009267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2b055da640c6b14c87a8ffa1f59bd1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReturnOnDisable: 1
+  onShowComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  onHideComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  FadeOutOnHide: 1
+  FadeInOnShow: 1

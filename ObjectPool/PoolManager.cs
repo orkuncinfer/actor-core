@@ -87,6 +87,7 @@ public class PoolManager : PersistentMonoSingleton<PoolManager>
 	private GameObject InstantiatePrefab(GameObject prefab, Transform parent = null)
 	{
 		var go = Instantiate(prefab) as GameObject;
+		go.name = go.name.Replace("(Clone)", "[Pooled]");
 		if (root != null) go.transform.parent = root;
 		return go;
 	}

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,9 +33,10 @@ namespace UITabSystem
             if(obj == _activeButton) return;
             StartCoroutine(ChangeTab(obj));
         }
-
-        private void Start()
+        [Button]
+        public void SpawnTabs()
         {
+            _canvasRect = FindFirstParentCanvas().GetComponent<RectTransform>();
             foreach (var tab in Tabs)
             {
                 if(tab.TabContent == null) continue;
@@ -48,12 +50,12 @@ namespace UITabSystem
             BodyParent.anchoredPosition = new Vector2(0, _tabButtons.sizeDelta.y /2);
             BodyParent.sizeDelta = new Vector2(BodyParent.sizeDelta.x, -_tabButtons.sizeDelta.y);
             OnTabClicked(Tabs[DefaultTabIndex].TabButton);
-           
+
         }
 
-        private void Awake()
+        private void Start()
         {
-            _canvasRect = FindFirstParentCanvas().GetComponent<RectTransform>();
+            SpawnTabs();
         }
 
         public Canvas FindFirstParentCanvas()
@@ -83,6 +85,7 @@ namespace UITabSystem
 
         IEnumerator ChangeTab(TabButton tabButton)
         {
+            yield return null;
             _animating = true;
             _activeButton = tabButton;
             float time = 0.25f;
@@ -90,6 +93,8 @@ namespace UITabSystem
             GameObject newTabInstance = _panelActors[tabButton].gameObject;
             RectTransform newTabRectTransform = newTabInstance.GetComponent<RectTransform>();
             PanelActor panelActor = _panelActors[tabButton];
+            panelActor.gameObject.SetActive(true);
+            panelActor.StartIfNot();
             panelActor.OpenPanel();
             if (_lastActiveButton != null)
             {

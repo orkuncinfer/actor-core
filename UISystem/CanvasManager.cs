@@ -9,7 +9,7 @@ public class CanvasManager : PersistentMonoSingleton<CanvasManager>
     [ShowInInspector][HideInEditorMode]private readonly Dictionary<string,CanvasLayer> _layerRegistry = new Dictionary<string, CanvasLayer>();
     [ShowInInspector][HideInEditorMode]private CanvasLayer _defaultLayer;
     
-    [ShowInInspector] public Stack<PanelInstanceView> PanelStack = new Stack<PanelInstanceView>();
+    [ShowInInspector] public Stack<PanelActor> PanelStack = new Stack<PanelActor>();
     
     public void RegisterLayer(string layerTag, CanvasLayer layer, bool isDefault = false)
     {
