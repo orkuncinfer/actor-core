@@ -38,7 +38,7 @@ MonoBehaviour:
     rolloffMode: 0
   ButtonClick:
     clip: {fileID: 0}
-    mixerGroup: {fileID: 0}
+    mixerGroup: {fileID: 8101325403992519045, guid: c1e5fcbb6fc25be4da5bafb7fdb69060, type: 2}
     loop: 0
     playOnAwake: 0
     frequentSound: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
     rolloffMode: 0
   ButtonDown:
     clip: {fileID: 8300000, guid: bf4bb8ed483034721a2417198b2ef9ac, type: 3}
-    mixerGroup: {fileID: 0}
+    mixerGroup: {fileID: 8101325403992519045, guid: c1e5fcbb6fc25be4da5bafb7fdb69060, type: 2}
     loop: 0
     playOnAwake: 0
     frequentSound: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
     rolloffMode: 0
   ButtonUp:
     clip: {fileID: 8300000, guid: 18f0f5e1103cf435382328ebb75f3e82, type: 3}
-    mixerGroup: {fileID: 0}
+    mixerGroup: {fileID: 8101325403992519045, guid: c1e5fcbb6fc25be4da5bafb7fdb69060, type: 2}
     loop: 0
     playOnAwake: 0
     frequentSound: 0

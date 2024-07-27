@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Serialization;
-[SOCreatable]
+[SOCreatable("Items")]
 [CreateAssetMenu(fileName = "New Item Definition", menuName = "Inventory System/Items/Item Definition")]
 public class ItemDefinition : ItemBaseDefinition
 {
@@ -19,9 +19,7 @@ public class ItemDefinition : ItemBaseDefinition
     public ItemRarity DefaultRarity;
     public bool IsUniqueItem;
     
-    [SerializeReference]
-    [ListDrawerSettings(ShowFoldout = true, DraggableItems = true)][Searchable(FuzzySearch = true, Recursive = true)]
-    public List<Data> DataList = new List<Data>();
+
     
     [SerializeReference][TypeFilter("GetFilteredActionList")] [ListDrawerSettings(ShowFoldout = true)]
     public List<SimpleAction> ItemActions = new List<SimpleAction>();

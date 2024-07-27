@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
-[SOCreatable]
+[SOCreatable("Items")]
 public class ItemListDefinition : ScriptableObject
 {
     public List<ItemBaseDefinition> AllItems = new List<ItemBaseDefinition>();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
+using WolarGames.Variables;
 
 public class MNF_PlayerGlobal : DataManifest
 {
@@ -81,10 +82,12 @@ public class DS_PlayerPersistent : Data
     }
     
     [ES3NonSerializable]public IntVar CurrentLevelIndexSO;
+    [ES3NonSerializable]public IntVariable CurrentLevelIndexVariable;
 
     public override void OnInstalled()
     {
         base.OnInstalled();
         CurrentLevelIndexSO.Value = CurrentLevelIndex;
+        CurrentLevelIndexSO.LoadVariable();
     }
 }
