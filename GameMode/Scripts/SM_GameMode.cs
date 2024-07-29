@@ -10,18 +10,19 @@ public class SM_GameMode : ActorStateMachine
     [SerializeField] private MonoState _initialize;
     [SerializeField] private MonoState _mainMenu;
     [SerializeField] private MonoState _playing;
+    [SerializeField] private MonoState _paused;
     [SerializeField] private MonoState _levelComplete;
     [SerializeField] private MonoState _levelFail;
     [SerializeField] private MonoState _loadNext;
 
 
     
-    private DS_GameMode _gameModeData;
+    private DS_GameModeRuntime _gameModeRuntimeData;
 
     protected override void OnEnter()
     {
         base.OnEnter();
-        _gameModeData = GlobalData.GetData<DS_GameMode>();
+        _gameModeRuntimeData = GlobalData.GetData<DS_GameModeRuntime>();
         
     }
     protected override void OnExit()
@@ -31,12 +32,12 @@ public class SM_GameMode : ActorStateMachine
 
     private void OnRequestGameFail(EventArgs obj)
     {
-        _gameModeData._currentGameMode = GameMode.Failed;
+        _gameModeRuntimeData._currentGameMode = GameMode.Failed;
     }
 
     private void OnRequestGameStart(EventArgs obj)
     {
-        _gameModeData._currentGameMode = GameMode.Playing;
+        _gameModeRuntimeData._currentGameMode = GameMode.Playing;
     }
 
     public override void OnRequireAddTransitions()
@@ -45,8 +46,10 @@ public class SM_GameMode : ActorStateMachine
         AddTransition(_initialize,_mainMenu,InitializeToMainMenu);
         AddTransition(_mainMenu,_playing,MainMenuToPlaying);
         AddTransition(_initialize,_playing,InitializeToPlaying);
+        AddTransition(_paused,_playing,PausedToPlaying);
         AddTransition(_playing,_levelComplete,PlayingToComplete);
         AddTransition(_playing,_levelFail,PlayingToFail);
+        AddTransition(_playing,_paused,PlayingToPaused);
         AddTransition(_levelFail,_playing,FailToPlaying);
         AddTransition(_loadNext,_initialize,LoadNextToInitialize);
         AddAnyTransition(_loadNext,AnyToLoadNext);
@@ -54,7 +57,7 @@ public class SM_GameMode : ActorStateMachine
 
     private bool FailToPlaying()
     {
-        if (_gameModeData._currentGameMode == GameMode.Playing)
+        if (_gameModeRuntimeData._currentGameMode == GameMode.Playing)
         {
             return true;
         }
@@ -63,9 +66,9 @@ public class SM_GameMode : ActorStateMachine
 
     private bool MainMenuToPlaying()
     {
-        if(_initialize.IsFinished && _gameModeData._currentGameMode == GameMode.Playing)
+        if(_initialize.IsFinished && _gameModeRuntimeData._currentGameMode == GameMode.Playing)
         {
-            _gameModeData._currentGameMode = GameMode.Playing;
+            _gameModeRuntimeData._currentGameMode = GameMode.Playing;
             return true;
         }
         return false;
@@ -88,10 +91,10 @@ public class SM_GameMode : ActorStateMachine
 
     private bool AnyToLoadNext()
     {
-        if (_gameModeData.LoadNextTrigger)
+        if (_gameModeRuntimeData.LoadNextTrigger)
         {
-            _gameModeData._currentGameMode = GameMode.LoadingNext;
-            _gameModeData.LoadNextTrigger = false;
+            _gameModeRuntimeData._currentGameMode = GameMode.LoadingNext;
+            _gameModeRuntimeData.LoadNextTrigger = false;
             return true;
         }
 
@@ -100,9 +103,9 @@ public class SM_GameMode : ActorStateMachine
 
     private bool PlayingToFail()
     {
-        if (_gameModeData.Failed)
+        if (_gameModeRuntimeData.Failed)
         {
-            _gameModeData._currentGameMode = GameMode.Failed;
+            _gameModeRuntimeData._currentGameMode = GameMode.Failed;
             return true;
         }
         return false;
@@ -110,9 +113,9 @@ public class SM_GameMode : ActorStateMachine
 
     private bool PlayingToComplete()
     {
-        if (_gameModeData.Completed)
+        if (_gameModeRuntimeData.Completed)
         {
-            _gameModeData._currentGameMode = GameMode.Completed;
+            _gameModeRuntimeData._currentGameMode = GameMode.Completed;
             return true;
         }
         return false;
@@ -122,7 +125,27 @@ public class SM_GameMode : ActorStateMachine
     {
         if (_initialize.IsFinished)
         {
-            _gameModeData._currentGameMode = GameMode.Playing;
+            _gameModeRuntimeData._currentGameMode = GameMode.Playing;
+            return true;
+        }
+        return false;
+    }
+    
+    private bool PlayingToPaused()
+    {
+        if (_gameModeRuntimeData.Paused)
+        {
+            _gameModeRuntimeData._currentGameMode = GameMode.Paused;
+            return true;
+        }
+        return false;
+    }
+    
+    private bool PausedToPlaying()
+    {
+        if (!_gameModeRuntimeData.Paused)
+        {
+            _gameModeRuntimeData._currentGameMode = GameMode.Playing;
             return true;
         }
         return false;

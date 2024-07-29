@@ -197,7 +197,7 @@ namespace Heimdallr.Core
         {
 
             string assetPath = AssetDatabase.GetAssetPath(this);
-            string globalSymbol = _mustBeGlobal ? "GlobalOnly_" : "";
+            string globalSymbol = _mustBeGlobal ? "Global_" : "";
             string firstArgSeparator = string.IsNullOrEmpty(_arg1Type) ? "" : "_";
             string secondArgSeparator = string.IsNullOrEmpty(_arg2Type) ? "" : "_";
             string returnArgSeparator = string.IsNullOrEmpty(_returnType) ? "" : "_";

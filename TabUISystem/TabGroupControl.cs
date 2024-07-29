@@ -10,7 +10,6 @@ namespace UITabSystem
 {
     public class TabGroupControl : MonoBehaviour
     {
-        
         public RectTransform BodyParent;
         [SerializeField] private RectTransform _tabOverlay;
         [SerializeField] private RectTransform _tabButtons;
@@ -81,6 +80,19 @@ namespace UITabSystem
             if(_activeButton == null) return;
             
             _tabOverlay.localPosition = Vector3.Lerp(_tabOverlay.localPosition, _activeButton.transform.localPosition, Time.deltaTime * 10);
+        }
+        
+        public void CloseCurrentTab()
+        {
+            PanelActor panelActor = _panelActors[_activeButton];
+            panelActor.ClosePanel();
+        }
+        public void OpenCurrentTab()
+        {
+            if(_activeButton == null) return;
+            PanelActor panelActor = _panelActors[_activeButton];
+            panelActor.gameObject.SetActive(true);
+            panelActor.OpenPanel();
         }
 
         IEnumerator ChangeTab(TabButton tabButton)

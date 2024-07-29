@@ -62,6 +62,85 @@ MonoBehaviour:
   IsRunning: 0
   IsFinished: 0
   _panelId: MainMenu
+--- !u!1 &6987930798687795965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9182452957225896832}
+  - component: {fileID: 7644047392995924215}
+  - component: {fileID: 7594707985364674725}
+  - component: {fileID: 8256827527551581996}
+  m_Layer: 0
+  m_Name: Paused
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9182452957225896832
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6987930798687795965}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7052049253013988634}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7644047392995924215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6987930798687795965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23cd919b9a574fe697585712655bf24c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+--- !u!114 &7594707985364674725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6987930798687795965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a55cd7eda6606f4ab4f4e2d296faf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+  _timeScale: 0
+  _returnDefaultOnExit: 1
+--- !u!114 &8256827527551581996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6987930798687795965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f02b882a9ff471f849dd0b6b0db4a3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+  _panelId: Paused
 --- !u!1 &7052049253013988636
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,6 +176,7 @@ Transform:
   - {fileID: 7052049254233589756}
   - {fileID: 3101941669276826376}
   - {fileID: 7052049254433454336}
+  - {fileID: 9182452957225896832}
   - {fileID: 7052049253639438168}
   - {fileID: 7052049253595885952}
   - {fileID: 7052049253355496802}
@@ -134,6 +214,7 @@ MonoBehaviour:
   _initialize: {fileID: 8167127278538150484}
   _mainMenu: {fileID: 5522812133271241748}
   _playing: {fileID: 7052049254433454337}
+  _paused: {fileID: 7644047392995924215}
   _levelComplete: {fileID: 7052049253639438169}
   _levelFail: {fileID: 7052049253595885953}
   _loadNext: {fileID: 5421585467634375217}
@@ -392,6 +473,36 @@ MonoBehaviour:
   _modeDS:
     Key: {fileID: 0}
     From: 0
+    Data:
+      IsGlobal: 0
+      UseKey: 0
+      IsPersistent: 0
+      DataKey: 
+      OwnerActor: {fileID: 0}
+      IsInstalled: 0
+      _currentGameMode: 0
+      _requestGameModeStart:
+        _addressType: 0
+        _eventKey: {fileID: 0}
+      _requestGameModePause:
+        _addressType: 0
+        _eventKey: {fileID: 0}
+      _requestGameModeContinue:
+        _addressType: 0
+        _eventKey: {fileID: 0}
+      _requestGameModeFailed:
+        _addressType: 0
+        _eventKey: {fileID: 0}
+      _requestGameModeCompleted:
+        _addressType: 0
+        _eventKey: {fileID: 0}
+      _requestGameModeLoadNext:
+        _addressType: 0
+        _eventKey: {fileID: 0}
+      _stopped: 0
+      _failed: 0
+      _completed: 0
+      _paused: 0
     _retrievedData:
       rid: -2
   references:
@@ -489,12 +600,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7052049254446410848}
   - component: {fileID: 7052049254446410851}
-  - component: {fileID: 7052049254446410849}
-  - component: {fileID: 393830176703118316}
   - component: {fileID: 7911191645074324780}
-  - component: {fileID: 7044343926985206421}
+  - component: {fileID: 3525235902873422066}
+  - component: {fileID: 4790292833420043885}
   m_Layer: 0
-  m_Name: GameMode_Actor
+  m_Name: GAMEMODE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,33 +642,7 @@ MonoBehaviour:
   StartMethod: 2
   _initialTags: []
   _initialState: {fileID: 7052049253013988637}
-  _poolMember: {fileID: 7052049254446410849}
---- !u!114 &7052049254446410849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7052049254446410850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2b055da640c6b14c87a8ffa1f59bd1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReturnOnDisable: 0
---- !u!114 &393830176703118316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7052049254446410850}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bf8ca5f4c9098d4ab7f6b692f81fc58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showFPS: 1
+  _returnToPoolOnStop: 0
 --- !u!114 &7911191645074324780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,7 +656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetFrameRate: 144
---- !u!114 &7044343926985206421
+--- !u!114 &3525235902873422066
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -581,46 +665,66 @@ MonoBehaviour:
   m_GameObject: {fileID: 7052049254446410850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ecdd8fc0068a9d4a930a481eba2c681, type: 3}
+  m_Script: {fileID: 11500000, guid: 9875d3cb3b92ac44eb65a7d6fd295e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: 
-  ChangeName: 
-  Datas:
-  - rid: 4448694695146815594
-  references:
-    version: 2
-    RefIds:
-    - rid: 4448694695146815594
-      type: {class: DS_GameMode, ns: , asm: Assembly-CSharp-firstpass}
-      data:
-        IsGlobal: 1
-        UseKey: 0
-        IsPersistent: 0
-        DataKey: 
-        OwnerActor: {fileID: 0}
-        IsInstalled: 0
-        _currentGameMode: 0
-        _requestGameModeStart:
-          _addressType: 0
-          _eventKey: {fileID: 0}
-        _requestGameModePause:
-          _addressType: 0
-          _eventKey: {fileID: 0}
-        _requestGameModeFailed:
-          _addressType: 0
-          _eventKey: {fileID: 0}
-        _requestGameModeCompleted:
-          _addressType: 0
-          _eventKey: {fileID: 0}
-        _requestGameModeLoadNext:
-          _addressType: 0
-          _eventKey: {fileID: 0}
-        listt: []
-        _stopped: 0
-        _failed: 0
-        _completed: 0
-        _currentLevelIndex: {fileID: 0}
+  Actor: {fileID: 0}
+  _gameModeRuntime:
+    IsGlobal: 1
+    UseKey: 0
+    IsPersistent: 0
+    DataKey: 
+    OwnerActor: {fileID: 0}
+    IsInstalled: 0
+    _currentGameMode: 0
+    _requestGameModeStart:
+      _addressType: 16
+      _eventKey: {fileID: 11400000, guid: 53b8328258dbdea4ea62382d747fecb3, type: 2}
+    _requestGameModePause:
+      _addressType: 16
+      _eventKey: {fileID: 11400000, guid: 693ca64ee7210e149a3b2548a465298a, type: 2}
+    _requestGameModeContinue:
+      _addressType: 16
+      _eventKey: {fileID: 11400000, guid: 8e092d48b498d1048ba85fcb3fa63ad7, type: 2}
+    _requestGameModeFailed:
+      _addressType: 16
+      _eventKey: {fileID: 11400000, guid: dde2943af0defb34087c165877736b85, type: 2}
+    _requestGameModeCompleted:
+      _addressType: 16
+      _eventKey: {fileID: 11400000, guid: 922743c51339feb408bb77dea49b9e8f, type: 2}
+    _requestGameModeLoadNext:
+      _addressType: 16
+      _eventKey: {fileID: 11400000, guid: 0d00055d86a78914bbeace759575baac, type: 2}
+    _stopped: 0
+    _failed: 0
+    _completed: 0
+    _paused: 0
+  _gameModePersistent:
+    IsGlobal: 1
+    UseKey: 0
+    IsPersistent: 1
+    DataKey: 
+    OwnerActor: {fileID: 0}
+    IsInstalled: 0
+    _currentLevelIndex: 0
+    _maxReachedLevelIndex: 0
+--- !u!114 &4790292833420043885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052049254446410850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd93ea16bcb2eb047a002c59c21b597c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: This is the start point of the game. All game should run in lifecycle of
+    this actor.
+  _height: 20
+  _color: {r: 1, g: 0.8, b: 0.3, a: 1}
+  _drawIcon: 1
 --- !u!1 &7224218158467727453
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,13 +31,15 @@ public class PanelActor : ActorBase
 
     public void OpenPanel()
     {
-        onShowCompleted?.Invoke(this);
-        onShowComplete?.Invoke();
         if(_viewTransform)_viewTransform.gameObject.SetActive(true);
+        gameObject.SetActive(true);
         if (_openedState)
         {
+            Debug.Log("31-  "+ gameObject.activeInHierarchy);
             _openedState.CheckoutEnter(this);
         }
+        onShowCompleted?.Invoke(this);
+        onShowComplete?.Invoke();
     }
 
     public void ClosePanel()
@@ -50,7 +52,7 @@ public class PanelActor : ActorBase
             _openedState.CheckoutExit();
         }
         
-        PoolManager.ReleaseObject(this.gameObject);
+        PoolManager.ReleaseObject(this.gameObject,false);
     }
 
     protected override void OnActorStop()

@@ -8,7 +8,7 @@ public enum ShowHidePanelButtonMode
     Show,
     Hide,
 }
-public class ShowHidePanelButton : MonoBehaviour, IPointerClickHandler
+public class Btn_ShowHidePanel : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private ShowHidePanelButtonMode _mode;
     [SerializeField] private string _panelId;

@@ -12,16 +12,7 @@ namespace WolarGames.Variables
     /// Generic base variable that all other variables inherit
     public abstract class Variable<T> : ScriptableObject
     {
-        [Button]
-        public void SaveVariable()
-        {
-            ES3.Save(name, CurrentValue);
-        }
-        [Button]
-        public void LoadVariable()
-        {
-            CurrentValue = ES3.Load(name, DefaultValue);
-        }
+        
         // This used to be #if UNITY_EDITOR but there was a problem with memory layout on desktop platforms
         [Multiline]
         public string DeveloperDescription = "";
@@ -51,6 +42,10 @@ namespace WolarGames.Variables
 #else
                     if (OnValueChanged != null) {
                         OnValueChanged(value);
+                        if (Application.isPlaying)
+                        {
+                            SaveVariable();
+                        }
                     }
 #endif
                 }
@@ -78,6 +73,16 @@ namespace WolarGames.Variables
 
         private void OnEnable() {
             CurrentValue = DefaultValue;
+        }
+        
+        public void SaveVariable()
+        {
+            ES3.Save(name, CurrentValue);
+            Debug.Log($"Variable {name} saved");
+        }
+        public void LoadVariable()
+        {
+            CurrentValue = ES3.Load(name, DefaultValue);
         }
 
         public static implicit operator T(Variable<T> variable) {

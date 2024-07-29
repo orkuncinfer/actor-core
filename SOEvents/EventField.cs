@@ -28,7 +28,7 @@ public struct EventField : ISerializationCallbackReceiver
     [DisableInPlayMode] [SerializeField] [HideLabel] [HorizontalGroup(GroupID = "install", Width = 0.2f)]
     private EventAddressType _addressType;
 
-    [ValueDropdown("GetAllAppropriateKeys")]
+    [ValueDropdown("GetAllAppropriateKeys", DropdownWidth = 250, NumberOfItemsBeforeEnablingSearch = 2)]
     [ValidateInput("ValidateCurrentKey")]
     [OnValueChanged("OnEventKeyChanged")]
     [DisableInPlayMode]

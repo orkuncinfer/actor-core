@@ -15,17 +15,17 @@ public enum GameMode
     Completed,
     LoadingNext
 }
-public class DS_GameMode : Data
+[Serializable]
+public class DS_GameModeRuntime : Data
 {
     [FormerlySerializedAs("_currentGameModez")] [FormerlySerializedAs("CurrentGameMode")] public GameMode _currentGameMode = GameMode.None;
    
     [SerializeField] private EventField _requestGameModeStart;
     [SerializeField] private EventField _requestGameModePause;
+    [SerializeField] private EventField _requestGameModeContinue;
     [SerializeField] private EventField _requestGameModeFailed;
     [SerializeField] private EventField _requestGameModeCompleted;
     [SerializeField] private EventField _requestGameModeLoadNext;
-
-    public List<string> listt;
     
     [SerializeField] private bool _stopped;
     public bool Stopped => _stopped;
@@ -35,19 +35,15 @@ public class DS_GameMode : Data
     
     [SerializeField] private bool _completed;
     public bool Completed => _completed;
+    
+    [SerializeField] private bool _paused;
+    public bool Paused => _paused;
 
     private bool _loadNextTrigger;
     public bool LoadNextTrigger
     {
         get => _loadNextTrigger;
         set => _loadNextTrigger = value;
-    }
-    
-    [SerializeField] private IntVar _currentLevelIndex;
-    public IntVar CurrentLevelIndex
-    {
-        get => _currentLevelIndex;
-        set => _currentLevelIndex = value;
     }
     
     private List<Actor> _startedActors = new List<Actor>();
@@ -65,6 +61,13 @@ public class DS_GameMode : Data
         _requestGameModeFailed.Register(null,OnRequestFailed);
         _requestGameModeCompleted.Register(null,OnRequestCompleted);
         _requestGameModeLoadNext.Register(null,OnRequestLoadNext);
+        _requestGameModeContinue.Register(null,OnRequestContinue);
+    }
+
+    private void OnRequestContinue(EventArgs obj)
+    {
+        _stopped = false;
+        _paused = false;
     }
 
     private void OnRequestStart(EventArgs obj)
@@ -91,6 +94,7 @@ public class DS_GameMode : Data
     private void OnRequestPause(EventArgs obj)
     {
         _stopped = true;
+        _paused = true;
     }
 
     /* private void OnDestroy()

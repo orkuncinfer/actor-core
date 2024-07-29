@@ -6,14 +6,14 @@ using UnityEngine.Serialization;
 
 public class State_GameModeInitialize : MonoState
 {
-    private DS_GameMode _gameModeData;
-    [FormerlySerializedAs("_modeData")] [SerializeField] private DSGetter<DS_GameMode> _modeDS;
+    private DS_GameModeRuntime _gameModeRuntimeData;
+    [FormerlySerializedAs("_modeData")] [SerializeField] private DSGetter<DS_GameModeRuntime> _modeDS;
     private EventSignal _event;
     protected override void OnEnter()
     {
         base.OnEnter();
         _modeDS.GetData();
-        _gameModeData = _modeDS.Data;
+        _gameModeRuntimeData = _modeDS.Data;
         
         Actor[] actors = FindObjectsOfType<Actor>();
         foreach (Actor actor in actors)
@@ -21,10 +21,10 @@ public class State_GameModeInitialize : MonoState
             if(actor == Owner) continue;
             if(actor.StartMethod != ActorStartMethods.Auto) continue;
             actor.StartIfNot();
-            _gameModeData.StartedActors.Add(actor);
+            _gameModeRuntimeData.StartedActors.Add(actor);
         }
         
-        _gameModeData.ResetAllVariables();
+        _gameModeRuntimeData.ResetAllVariables();
         
         GlobalActorEvents.SetActorsInitialized();
         CheckoutExit();

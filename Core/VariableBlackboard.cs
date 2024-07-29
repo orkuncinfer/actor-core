@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using WolarGames.Variables;
 
 public class VariableBlackboard : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class VariableBlackboard : MonoBehaviour
     {
         foreach (var variable in Variables)
         {
-            variable.Variable.SaveVariable();
+            variable.Asset.SaveVariable();
         }
     }
     
@@ -30,12 +31,13 @@ public class VariableBlackboard : MonoBehaviour
     {
         foreach (var variable in Variables)
         {
-            variable.Variable.LoadVariable();
+            variable.Asset.LoadVariable();
         }
     }
 }
 [Serializable]
 public class BlackboardVariable
 {
-    [HorizontalGroup]public ScriptableVar Variable;
+    [HorizontalGroup]public Variable<object> Asset;
+    [HorizontalGroup]public object Value;
 }

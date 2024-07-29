@@ -67,9 +67,9 @@ public class PoolManager : PersistentMonoSingleton<PoolManager>
 		return clone;
 	}
 
-	public void releaseObject(GameObject clone)
+	public void releaseObject(GameObject clone,bool setInactive = true)
 	{
-		clone.SetActive(false);
+		if(setInactive)clone.SetActive(false);
 
 		if(instanceLookup.ContainsKey(clone))
 		{
@@ -119,10 +119,10 @@ public class PoolManager : PersistentMonoSingleton<PoolManager>
 		return Instance.spawnObject(prefab, position, rotation, parent);
 	}
 
-	public static void ReleaseObject(GameObject clone)
+	public static void ReleaseObject(GameObject clone,bool setInactive = true)
 	{
 		onBeforeReturnToPool?.Invoke();
-		Instance.releaseObject(clone);
+		Instance.releaseObject(clone,setInactive);
 	}
 
 	#endregion
