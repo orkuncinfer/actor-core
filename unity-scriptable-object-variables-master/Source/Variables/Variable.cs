@@ -44,7 +44,7 @@ namespace WolarGames.Variables
                         OnValueChanged(value);
                         if (Application.isPlaying)
                         {
-                            SaveVariable();
+                            //SaveVariable();
                         }
                     }
 #endif

@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [System.Serializable]
 public class SerializableDictionary<TKey, TValue>
 {
-    [SerializeField]
+    [SerializeField][ListDrawerSettings(ShowIndexLabels = true)]
     private List<TKey> keys = new List<TKey>();
 
-    [SerializeField]
+    [SerializeField][ListDrawerSettings(ShowIndexLabels = true)]
     private List<TValue> values = new List<TValue>();
 
     public Dictionary<TKey, TValue> ToDictionary()
