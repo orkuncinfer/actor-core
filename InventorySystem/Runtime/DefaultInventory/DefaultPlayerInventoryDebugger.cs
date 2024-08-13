@@ -27,6 +27,8 @@ public class DefaultPlayerInventoryDebugger : MonoBehaviour
         DefaultPlayerInventory.Instance.onItemChanged += OnItemChanged;
         
         PopulateInventory();
+        OnItemListButtonClicked();
+        OnInventoryButtonClicked();
     }
 
     private void OnDestroy()

@@ -15,11 +15,11 @@ public class State_GameModeLoadNextLevel : MonoState
 
         if (_gameModeRuntimeData.Completed)
         {
-            _gameModePersistentData.CurrentLevelIndex++;
+           /* _gameModePersistentData.CurrentLevelIndex++;
             if(_gameModePersistentData.CurrentLevelIndex > _gameModePersistentData.MaxReachedLevelIndex)
             {
                 _gameModePersistentData.MaxReachedLevelIndex = _gameModePersistentData.CurrentLevelIndex;
-            }
+            }*/ // this code moved to State_LevelComplete.cs
         }
         _gameModeRuntimeData.ResetAllVariables();
         CheckoutExit();

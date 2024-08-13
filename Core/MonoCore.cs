@@ -9,20 +9,27 @@ public class MonoCore : MonoBehaviour
     private void Awake()
     {
         GlobalActorEvents.onActorsInitialized += OnActorsInitialized;
+        GlobalActorEvents.onGameModeStopped += OnGameStopped;
     }
 
     private void OnDestroy()
     {
         GlobalActorEvents.onActorsInitialized -= OnActorsInitialized;
+        GlobalActorEvents.onGameModeStopped -= OnGameStopped;
     }
 
     private void OnActorsInitialized()
     {
-        OnReady();
+        OnGameReady();
         _initialized = true;
     }
 
-    protected virtual void OnReady()
+    protected virtual void OnGameReady()
+    {
+        
+    }
+
+    protected virtual void OnGameStopped()
     {
         
     }
@@ -31,7 +38,7 @@ public class MonoCore : MonoBehaviour
     {
         if (_initialized)
         {
-            OnReady();
+            OnGameReady();
         }
     }
 }

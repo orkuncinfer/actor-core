@@ -2,8 +2,9 @@ using AudioSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using UnityEngine.Events;
 
-public class FancyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class FancyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
 {
     // Define the scale values and animation duration
     [SerializeField] private float scaleDownValue = 0.8f;
@@ -13,6 +14,8 @@ public class FancyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private Vector3 originalScale;
     private Sequence currentSequence;
+    
+    public UnityEvent OnClick;
 
     void Start()
     {
@@ -47,5 +50,10 @@ public class FancyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         currentSequence.Append(transform.DOScale(originalScale, animationDuration).SetEase(Ease.OutBounce));
         currentSequence.Play();
         SoundManager.Instance.CreateSoundBuilder().Play(SoundManager.Instance.Container.ButtonUp);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnClick.Invoke();
     }
 }

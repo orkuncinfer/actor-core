@@ -24,9 +24,50 @@ public abstract class DataManifest : MonoBehaviour
         }
     }
 
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        SaveData();
+    }
+
     private void Awake()
     {
         Actor = FindFirstActorInParents(transform);
+        foreach (var data in InstallData())
+        {
+            string key = "";
+            if (data.IsPersistent)
+            {
+                data.LoadData();
+            }
+
+            key = "";
+            if (data.IsGlobal)
+            {
+                if (data.UseKey)
+                {
+                    key = data.DataKey;
+                }
+
+                GlobalData.LoadData(key, data);
+            }
+            else
+            {
+                Actor.InstallData(InstallData());
+            }
+        }
+    }
+    
+    public void SaveData()
+    {
+        foreach (var data in InstallData())
+        {
+            if(!data.IsPersistent) continue;
+            data.SaveData();
+        }
+    }
+
+    public void LoadData()
+    {
         foreach (var data in InstallData())
         {
             string key = "";

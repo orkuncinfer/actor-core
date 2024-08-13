@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ItemBaseDefinition : ScriptableObject, IItemIdOwner
 {
     public string ItemId
     {
-        get => IdemID;
-        set => IdemID = value;
+        get => ItemID;
+        set => ItemID = value;
     }
-    [BoxGroup("Basic Info")][VerticalGroup("Basic Info/info/row2")][LabelWidth(100)][InlineButton("SetId", "Generate")]
-    public string IdemID;
-    [BoxGroup("Basic Info")][VerticalGroup("Basic Info/info/row2")][LabelWidth(100)][InlineButton("SetName", "Generate")]
+    [LockableField("_itemIDLocked")][BoxGroup("Basic Info")][VerticalGroup("Basic Info/info/row2")][LabelWidth(100)][InlineButton("SetId", "Generate")]
+    public string ItemID;
+    [SerializeField][HideInInspector]private bool _itemIDLocked;
+    [LockableField("_itemNameLocked")][BoxGroup("Basic Info")][VerticalGroup("Basic Info/info/row2")][LabelWidth(100)][InlineButton("SetName", "Generate")]
     public string ItemName;
+    [SerializeField][HideInInspector]private bool _itemNameLocked;
     [BoxGroup("Basic Info")][VerticalGroup("Basic Info/info/row2")][TextArea(3,9)][LabelWidth(200)]
     public string Description;
     [BoxGroup("Basic Info")][PreviewField(90)][HideLabel][HorizontalGroup("Basic Info/info",Width = 100)]
@@ -39,15 +44,33 @@ public class ItemBaseDefinition : ScriptableObject, IItemIdOwner
     }
     public void SetId()
     {
+        _itemIDLocked = true;
         string input = name;
         string prefix = "ItemAsset_";
         if (input.StartsWith(prefix))
         {
-            IdemID = input.Substring(prefix.Length);
+            ItemID = input.Substring(prefix.Length);
         }
         else
         {
-            IdemID = input;
+            ItemID = input;
         }
+    }
+    
+    public T GetData<T>(string key = "") where T : Data
+    {
+        if (key.IsNullOrWhitespace())
+        {
+            return DataList.Find(x => x.GetType() == typeof(T)) as T;
+        }
+        else
+        {
+            return DataList.Find(x => x.GetType() == typeof(T) && x.DataKey == key) as T;
+        }
+    }
+    public bool TryGetData<T>(out T data) where T : Data
+    {
+        data = DataList.Find(x => x.GetType() == typeof(T)) as T;
+        return data != null;
     }
 }

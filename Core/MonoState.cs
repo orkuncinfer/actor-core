@@ -55,6 +55,7 @@ public abstract class MonoState : MonoBehaviour
     protected virtual void OnLateUpdate() { }
     public virtual void CheckoutEnter(ActorBase ownerActor)
     {
+        if(enabled == false) return;
         if (IsRunning) return;
         Owner = ownerActor;
         if(Owner != null)Owner.onActorStopped += OnOwnerActorStopped;

@@ -35,7 +35,6 @@ public class PanelActor : ActorBase
         gameObject.SetActive(true);
         if (_openedState)
         {
-            Debug.Log("31-  "+ gameObject.activeInHierarchy);
             _openedState.CheckoutEnter(this);
         }
         onShowCompleted?.Invoke(this);
