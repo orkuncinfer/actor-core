@@ -7,13 +7,11 @@ using UnityEngine.Serialization;
 public class State_GameModeInitialize : MonoState
 {
     private DS_GameModeRuntime _gameModeRuntimeData;
-    [FormerlySerializedAs("_modeData")] [SerializeField] private DSGetter<DS_GameModeRuntime> _modeDS;
     private EventSignal _event;
     protected override void OnEnter()
     {
         base.OnEnter();
-        _modeDS.GetData();
-        _gameModeRuntimeData = _modeDS.Data;
+        _gameModeRuntimeData = Owner.GetData<DS_GameModeRuntime>();
         
         Actor[] actors = FindObjectsOfType<Actor>();
         foreach (Actor actor in actors)

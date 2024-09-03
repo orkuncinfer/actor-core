@@ -13,8 +13,8 @@ using UnityEngine;
 
 public class DSGetter<T> where T : Data
 {
-    [StringInput][ValueDropdown("GetAllGenericKeys")]
-    public GenericKey Key;
+    [StringInput][Tag]//[ValueDropdown("GetAllGenericKeys")]
+    public string Key;
 
     public GetterType From;
 
@@ -29,7 +29,7 @@ public class DSGetter<T> where T : Data
         string key = "";
         if (Key != null)
         {
-            key = Key.ID;
+            key = Key;
         }
         
         if (From == GetterType.Owner)

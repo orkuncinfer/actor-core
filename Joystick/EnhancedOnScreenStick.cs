@@ -19,9 +19,7 @@ namespace EnhancedOnScreenControls
     [RequireComponent(typeof(RectTransform))]
     public class EnhancedOnScreenStick : OnScreenControl, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
-        [InputControl(layout = "Vector2")]
-        [FormerlySerializedAs("controlPath")]
-        [SerializeField]
+        [InputControl(layout = "Vector2")] [FormerlySerializedAs("controlPath")] [SerializeField]
         string internalControlPath;
 
         [SerializeField] StickType stickType;
@@ -31,6 +29,8 @@ namespace EnhancedOnScreenControls
 
         [SerializeField] RectTransform background;
         [SerializeField] RectTransform handle;
+        [SerializeField] private PanelActor _panelActor;
+        private Canvas canvas => _panelActor.OwnerCanvas;
         public Vector3 _initBackgroundPosition;
 
         public event Action onPointerDown;
@@ -43,7 +43,7 @@ namespace EnhancedOnScreenControls
         public bool IsButton;
         public bool IsAimable;
         public bool IsDisabled;
-        
+
         protected override string controlPathInternal
         {
             get => internalControlPath;
@@ -68,13 +68,9 @@ namespace EnhancedOnScreenControls
             set => deadZone = value;
         }
 
-        
-        Canvas canvas;
 
         protected void Awake()
         {
-            
-            canvas = GetComponentInParent<Canvas>();
             _backgroundImage = background.GetComponent<Image>();
             if (showOnlyWhenPressed) background.gameObject.SetActive(false);
 
@@ -93,12 +89,12 @@ namespace EnhancedOnScreenControls
             var camera = canvas.worldCamera;
             var startPositionInWorld = RectTransformUtility.WorldToScreenPoint(camera, background.position);
             _initialMousePosition = eventData.position - startPositionInWorld;
-            
+
             if (IsAimable)
             {
                 _backgroundImage.enabled = true;
             }
-           
+
 
             if (stickType != StickType.Fixed)
             {
@@ -106,14 +102,16 @@ namespace EnhancedOnScreenControls
 
                 // Convert screen point to local point in canvas
                 Vector2 localPoint;
-                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(background.transform.parent.GetComponent<RectTransform>(), eventData.position, eventData.pressEventCamera, out localPoint))
+                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                        background.transform.parent.GetComponent<RectTransform>(), eventData.position,
+                        eventData.pressEventCamera, out localPoint))
                 {
                     // Set the local position of the background to the converted point
                     background.localPosition = localPoint;
                 }
             }
-            
-            if(IsAimable)
+
+            if (IsAimable)
                 handle.anchoredPosition = Vector2.zero;
             OnDrag(eventData);
         }
@@ -125,12 +123,13 @@ namespace EnhancedOnScreenControls
             SentDefaultValueToControl();
 
             handle.anchoredPosition = Vector2.zero;
-           
+
             if (showOnlyWhenPressed) background.gameObject.SetActive(false);
             if (IsAimable)
             {
                 _backgroundImage.enabled = false;
             }
+
             RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
 
             // Convert screen point to local point in canvas
@@ -140,7 +139,7 @@ namespace EnhancedOnScreenControls
         public void OnDrag(PointerEventData eventData)
         {
             if (IsDisabled) return;
-            if(IsButton && !IsAimable) return;
+            if (IsButton && !IsAimable) return;
             var camera = canvas.worldCamera;
             var position = RectTransformUtility.WorldToScreenPoint(camera, background.position);
 
@@ -148,7 +147,9 @@ namespace EnhancedOnScreenControls
             {
                 _initialMousePosition = Vector2.zero;
             }
-            var input = ((eventData.position - position) - _initialMousePosition) / (movementRange * canvas.scaleFactor);
+
+            var input = ((eventData.position - position) - _initialMousePosition) /
+                        (movementRange * canvas.scaleFactor);
             var rawMagnitude = input.magnitude;
             var normalized = input.normalized;
 
@@ -162,8 +163,9 @@ namespace EnhancedOnScreenControls
                 var difference = movementRange * (rawMagnitude - 1f) * normalized;
                 background.anchoredPosition += difference;
             }
+
             handle.anchoredPosition = input * movementRange;
-            
+
             onPointerDrag?.Invoke(input);
         }
     }

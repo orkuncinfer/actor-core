@@ -18,11 +18,11 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: d386f8eb084ba09468dbed4bb08198c4, type: 3}
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: f2741c27732b33642a93fc0f8b219f80, type: 2}
-  _animationName: 
   _isBasicAttack: 0
   _overrideAnimSpeed: 0
   _animationSpeed: 0
   _animationClip: {fileID: 7400000, guid: 9da5f4e062db75b479d4ffc5c2ac14b0, type: 2}
+  _playTime: 1
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: 7539806499375167495}

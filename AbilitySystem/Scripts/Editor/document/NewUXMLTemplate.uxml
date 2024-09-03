@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <uie:Toolbar name="toolbar-tabs" style="margin-top: 10px; margin-bottom: -6px; margin-left: 6px; border-left-color: rgb(43, 43, 43); border-right-color: rgb(43, 43, 43); border-top-color: rgb(43, 43, 43); border-bottom-color: rgb(43, 43, 43); border-bottom-width: 0; background-color: rgba(60, 60, 60, 0);">
+        <uie:ToolbarButton text="Attributes" parse-escape-sequences="true" display-tooltip-when-elided="true" name="tb-attributes" style="border-left-width: 0; border-top-width: 1px; border-top-right-radius: 4px;" />
+        <uie:ToolbarButton text="Primary Stats" parse-escape-sequences="true" display-tooltip-when-elided="true" name="tb-primarystats" style="border-top-width: 1px; border-top-left-radius: 4px;" />
+        <uie:ToolbarButton text="Stats" parse-escape-sequences="true" display-tooltip-when-elided="true" name="tb-stats" style="border-left-width: 0; border-top-width: 1px;" />
+    </uie:Toolbar>
+</ui:UXML>

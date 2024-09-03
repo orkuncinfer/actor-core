@@ -21,7 +21,7 @@ MonoBehaviour:
   _overrideAnimSpeed: 0
   _animationSpeed: 0
   _animationClip: {fileID: 7400000, guid: 92c9d02f84c67ff408b7c6d5636f8a78, type: 3}
-  _playTime: 0.597
+  _playTime: 0.58
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: 4067716126298073610}

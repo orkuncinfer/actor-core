@@ -297,7 +297,6 @@ GameObject:
   - component: {fileID: 123149727117272239}
   - component: {fileID: 3601335475447503514}
   - component: {fileID: 6349030791122748107}
-  - component: {fileID: 45480651409843439}
   m_Layer: 5
   m_Name: WorldItemLabel
   m_TagString: Untagged
@@ -455,6 +454,7 @@ MonoBehaviour:
   _hoverBg: {fileID: 5627541787911312554}
   WidthSpacing: 0.1
   IsMoving: 0
+  ItemDropInstance: {fileID: 0}
 --- !u!114 &6349030791122748107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,16 +471,3 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &45480651409843439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8234480367887579702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2b055da640c6b14c87a8ffa1f59bd1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReturnOnDisable: 0

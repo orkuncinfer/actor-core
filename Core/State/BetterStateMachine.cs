@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public abstract class ActorStateMachine : MonoState
+public abstract class BetterStateMachine : MonoState
 {
     protected abstract MonoState _initialState { get; }
     [BoxGroup("space",false)][ShowInInspector][ReadOnly][DisplayAsString][GUIColor(0.96f,0.91f,0.024f)]protected MonoState _currentState;
-    private Dictionary<MonoState, List<Transition>> _transitions = new Dictionary<MonoState, List<Transition>>();
 
     private List<Transition> _anyTransitions = new List<Transition>();
+
+    [SerializeField] private List<StateField> _states;
     
     private class Transition
     {
@@ -44,7 +45,7 @@ public abstract class ActorStateMachine : MonoState
         _currentState.CheckoutExit();
     }
 
-    protected override void OnUpdate()
+   /* protected override void OnUpdate()
     {
         base.OnUpdate();
         if (_currentState != null)
@@ -70,9 +71,9 @@ public abstract class ActorStateMachine : MonoState
                 }
             }
         }
-    }
+    }*/
 
-    public void AddTransition(MonoState fromState, MonoState toState, System.Func<bool> condition)
+   /* public void AddTransition(MonoState fromState, MonoState toState, System.Func<bool> condition)
     {
         if (!_transitions.ContainsKey(fromState))
         {
@@ -83,7 +84,7 @@ public abstract class ActorStateMachine : MonoState
     public void AddAnyTransition(MonoState toState, System.Func<bool> condition)
     {
         _anyTransitions.Add(new Transition(toState, condition));
-    }
+    }*/
 
     public void SetState(MonoState newState)
     {

@@ -8,7 +8,6 @@ using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Serialization;
 [SOCreatable("Items")]
-[CreateAssetMenu(fileName = "New Item Definition", menuName = "Inventory System/Items/Item Definition")]
 public class ItemDefinition : ItemBaseDefinition
 {
     public GameObject WorldPrefab;

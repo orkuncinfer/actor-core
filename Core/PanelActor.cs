@@ -21,6 +21,12 @@ public class PanelActor : ActorBase
     
     [BoxGroup("PanelSettings")]public bool FadeOutOnHide = true;
     [BoxGroup("PanelSettings")]public bool FadeInOnShow = true;
+
+    public Canvas OwnerCanvas
+    {
+        get;
+        set;
+    }
     
 
     protected override void OnActorStart()

@@ -26,6 +26,8 @@ namespace UITabSystem
         
         private Dictionary<TabButton,PanelActor> _panelActors = new Dictionary<TabButton, PanelActor>();
         
+        private PanelActor _currentPanelActor;
+        
         public void OnTabClicked(TabButton obj)
         {
             if (_animating) return;
@@ -41,7 +43,9 @@ namespace UITabSystem
                 if(tab.TabContent == null) continue;
                 GameObject tabInstance = Instantiate(tab.TabContent.gameObject, BodyParent);
                 PanelActor panelActor = tabInstance.GetComponent<PanelActor>();
+                panelActor.OwnerCanvas = _currentPanelActor.OwnerCanvas;
                 panelActor.StartIfNot();
+              
                 _panelActors.Add(tab.TabButton, panelActor);
             }
 
@@ -54,6 +58,7 @@ namespace UITabSystem
 
         private void Start()
         {
+            _currentPanelActor = GetComponent<PanelActor>();
             SpawnTabs();
         }
 

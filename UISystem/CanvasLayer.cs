@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 
 using UnityEngine;
 
+[RequireComponent(typeof(Canvas))]
 public class CanvasLayer : MonoBehaviour
 {
     [SerializeField] private GenericKey _layerTag;
@@ -19,9 +20,13 @@ public class CanvasLayer : MonoBehaviour
     [ReadOnly] [SerializeField] private PanelActor _currentPanel;
 
     [SerializeField] private bool _registerAsDefaultLayer;
+    
+    private Canvas _canvas;
 
     private void Start()
     {
+        _canvas = GetComponent<Canvas>();
+        
         if (_registerAsDefaultLayer)
         {
             CanvasManager.Instance.RegisterLayer(_layerTag.ID, this,true);
@@ -65,6 +70,7 @@ public class CanvasLayer : MonoBehaviour
             PanelActor instanceView = newPanelInstance.GetComponent<PanelActor>();
             instanceView.PanelId = panelId;
             instanceView.PanelInstance = newPanelInstance;
+            instanceView.OwnerCanvas = _canvas;
             
             _instanceList.Add(instanceView);
             if (instanceView.transform.TryGetComponent(out PanelActor panelActor))
@@ -130,6 +136,7 @@ public class CanvasLayer : MonoBehaviour
         PanelActor instanceView = newPanelInstance.GetComponent<PanelActor>();
         instanceView.PanelId = panelId;
         instanceView.PanelInstance = newPanelInstance;
+        instanceView.OwnerCanvas = _canvas;
         
         CanvasManager.Instance.PanelStack.Push(instanceView);
         if (instanceView.transform.TryGetComponent(out PanelActor panelActor))

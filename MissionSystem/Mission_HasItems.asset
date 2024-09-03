@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8bd7e64d7593340821389ac3467990, type: 3}
   m_Name: Mission_HasItems
   m_EditorClassIdentifier: 
-  IdemID: Mission_HasItems
+  ItemID: 
+  _itemIDLocked: 0
   ItemName: Mission_HasItems
+  _itemNameLocked: 0
   Description: 
   Icon: {fileID: 0}
+  DataList: []
   Conditions:
   - rid: 658624090137952256
   references:

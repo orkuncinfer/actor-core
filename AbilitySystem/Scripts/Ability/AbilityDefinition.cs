@@ -23,6 +23,7 @@ public abstract class AbilityDefinition : ScriptableObject
     [SerializeField] private Sprite _icon;
     public Sprite Icon  => _icon;
     
+    [Tooltip("These effects are applied to the target of the ability, for melee you should do this manually in the ability action")]
     [SerializeField] private List<GameplayEffectDefinition> _gameplayEffectDefinitions;
     public List<GameplayEffectDefinition> GameplayEffectDefinitions => _gameplayEffectDefinitions;
     

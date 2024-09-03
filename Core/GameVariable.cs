@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 [Serializable]
-public class GameVariable<T> : ScriptableObject
+public class GameVariable<T> : ScriptableObject // should be deprecated, use Variable<T> instead
 {
     [SerializeField]
     private T value;

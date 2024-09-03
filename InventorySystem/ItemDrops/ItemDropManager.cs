@@ -186,6 +186,44 @@ public class ItemDropManager : MonoBehaviour
         itemLabels.Add(itemLabel);
     }
 
+    [Button]
+    public void DebugSpawnPathFollower()
+    {
+        Vector3 groundPos = transform.position;
+        
+        if(Physics.Raycast(transform.position + Vector3.up*10, Vector3.down, out RaycastHit hit, 500, GroundLayer)) 
+        {
+            if (hit.collider != null)
+            {
+                groundPos = hit.point;
+                Debug.Log("Hit ground");
+            }
+        }
+        
+        GameObject itemMeshInstance = Instantiate(DropPrefab, groundPos, Quaternion.identity);
+        PathFollower pathFollower = itemMeshInstance.GetComponent<PathFollower>();
+        ItemDropInstance itemDropInstance = itemMeshInstance.GetComponent<ItemDropInstance>();
+        
+        
+        
+        GameObject labelInstance = PoolManager.SpawnObject(LabelPrefab, groundPos, Quaternion.identity);
+        WorldItemLabel itemLabel = labelInstance.GetComponent<WorldItemLabel>();
+        
+        itemDropInstance.LabelInstance = itemLabel;
+        itemLabel.ItemDropInstance = itemDropInstance;
+        Vector3 endPos = groundPos + Vector3.forward * -2;
+        DrawArc(transform.position, endPos);
+        Vector3[] pathArray = new Vector3[lineRenderer.positionCount];
+        lineRenderer.GetPositions(pathArray);
+        pathFollower.Initialize(pathArray,.4f,endPos);
+        
+        labelInstance.transform.SetParent(WorldCanvas.transform);
+        labelInstance.transform.position = groundPos;
+        
+        itemLabel.Initialize(LabelParent,endPos );
+        itemLabels.Add(itemLabel);
+    }
+
  
     
     void DrawArc(Vector3 startPoint, Vector3 endPoint)
