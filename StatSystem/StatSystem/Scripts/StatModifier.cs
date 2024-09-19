@@ -12,7 +12,7 @@ namespace StatSystem
     public class StatModifier
     {
         public object Source { get; set; }
-        public int Magnitude { get; set; }
+        public float Magnitude { get; set; }
         public ModifierOperationType Type { get; set; }
         
         public override string ToString()

@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7997588029451832054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e345321dcc89464c9d9dbeba5c41ca3f, type: 3}
+  m_Name: Multiply
+  m_EditorClassIdentifier: 
+  Position: {x: -140, y: -222}
+  Guid: a2cef1fb2c5b56749b50d5f2495bb4b9
+  inputA: {fileID: 4119867726409794010}
+  inputB: {fileID: 4844713255867040249}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd319cf92cc547e1b8316184c5fedfa5, type: 3}
+  m_Name: FRM_Health
+  m_EditorClassIdentifier: 
+  RootNode: {fileID: 7209337703918835244}
+  Nodes:
+  - {fileID: 7209337703918835244}
+  - {fileID: 4119867726409794010}
+  - {fileID: -7997588029451832054}
+  - {fileID: 4844713255867040249}
+  NodeGroups: []
+--- !u!114 &4119867726409794010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675b99bfe07b45fb97bf1957cc86fcd2, type: 3}
+  m_Name: Stat
+  m_EditorClassIdentifier: 
+  Position: {x: -393, y: -265}
+  Guid: 753c0bb14c1faac4e8190c864a56f020
+  _value: 1
+  StatName: Strength
+--- !u!114 &4844713255867040249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 606b7c3b13554a3f90aff0b17d4cda3b, type: 3}
+  m_Name: Float
+  m_EditorClassIdentifier: 
+  Position: {x: -364, y: -118}
+  Guid: 94f4a0bad7026dc4786164221941b3ad
+  _value: 2
+--- !u!114 &7209337703918835244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f48e6267cf24f22bf1f77ede2349818, type: 3}
+  m_Name: ResultNode
+  m_EditorClassIdentifier: 
+  Position: {x: 288.35004, y: -102.99999}
+  Guid: ac12fe1fae228384dadc87b2f98c7b25
+  Child: {fileID: -7997588029451832054}

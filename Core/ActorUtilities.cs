@@ -6,16 +6,15 @@ public static class ActorUtilities
 {
     public static ActorBase FindFirstActorInParents(Transform currentParent)
     {
-        if (currentParent == null)
+        while (currentParent != null)
         {
-            return null; 
+            ActorBase actor = currentParent.GetComponent<ActorBase>();
+            if (actor != null)
+            {
+                return actor;
+            }
+            currentParent = currentParent.parent;
         }
-        ActorBase actor = currentParent.GetComponent<ActorBase>();
-
-        if (actor != null)
-        {
-            return actor; 
-        }
-        return FindFirstActorInParents(currentParent.parent);
+        return null;
     }
 }

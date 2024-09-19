@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,6 +18,15 @@ public static class DDebugSettings
                 {
                     DDebug.enableLogging = newLoggingEnabled;
                     DDebug.SavePreferences();
+                }
+
+                foreach(EDebugType debugType in Enum.GetValues(typeof(EDebugType)))
+                {
+                    var newLoggingEnabledType = EditorGUILayout.Toggle("Enable " + debugType + " Logging", DDebug.enableLogging);
+                    if (newLoggingEnabledType != DDebug.enableLogging)
+                    {
+                        
+                    }
                 }
             },
 

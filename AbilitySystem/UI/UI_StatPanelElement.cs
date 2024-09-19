@@ -20,7 +20,7 @@ public class UI_StatPanelElement : MonoBehaviour
         _nameText.text = ThisStat.Definition.name;
         _levelText.text = ThisStat.Value.ToString();
         OnStatPointChanged();
-        ThisStat.onValueChanged += OnStatLeveled;
+        ThisStat.onStatValueChanged += OnStatStatLeveled;
         StatController.onStatPointsChanged += OnStatPointChanged;
         _levelUpButton.onClick.AddListener(OnLevelUpButtonClicked);
     }
@@ -37,7 +37,7 @@ public class UI_StatPanelElement : MonoBehaviour
         }
     }
 
-    private void OnStatLeveled()
+    private void OnStatStatLeveled()
     {
         _levelText.text = ThisStat.Value.ToString();
     }

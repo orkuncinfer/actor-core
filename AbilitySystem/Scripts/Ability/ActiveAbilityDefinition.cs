@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BandoWare.GameplayTags;
+using NUnit.Framework;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -35,6 +37,8 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
      public GameplayPersistentEffectDefinition Cooldown;
 
      public List<GameplayTag> GrantedTagsDuringAbility;
+     [Tooltip("These effects are applied to the user of the ability and are removed after the ability is done")]
+     public List<GameplayEffectDefinition> GrantedEffectsDuringAbility;
      
      [SerializeReference][TypeFilter("GetFilteredTypeList")] [ListDrawerSettings(ShowFoldout = true)]
      public List<AbilityAction> AbilityActions = new List<AbilityAction>();
@@ -50,7 +54,7 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
          return q;
      }
 #if UNITY_EDITOR
-     private void Reset()
+     private void Awake()
      {
          if(Cost != null) return;
          if(Cooldown != null) return;
@@ -58,7 +62,6 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
          {
              return;
          }
-     
          GameplayEffectDefinition costItem = ScriptableObject.CreateInstance<GameplayEffectDefinition>();
          Cost = costItem;
          costItem.name = "Cost";
@@ -74,6 +77,5 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
          AssetDatabase.SaveAssets();
          AssetDatabase.Refresh();
      }
-     
 #endif
 }

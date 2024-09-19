@@ -16,22 +16,23 @@ public class AbilityController : MonoInitializable, ISavable
 
     private GameplayEffectController _effectController;
     private TagController m_TagController;
-    public ActiveAbility CurrentAbility;
+    public ActiveAbility LastUsedAbility;
+    public List<ActiveAbility> ActiveAbilities;
+    
     public GameObject Target;
     public event Action<ActiveAbility> onActivatedAbility;
     public event Action onCancelCurrentAbility;
 
     public AbilityDefinition TestAbility;
+  
     public event Action onInitialized;
     
     protected virtual void Awake()
     {
         _effectController = GetComponent<GameplayEffectController>();
         m_TagController = GetComponent<TagController>();
-
-       
+        
     }
-
     protected virtual void OnEnable()
     {
         _effectController.onInitialized += OnEffectControllerInitialized;
@@ -61,7 +62,7 @@ public class AbilityController : MonoInitializable, ISavable
     public void CancelCurrentAbility()
     {
         onCancelCurrentAbility?.Invoke();
-        CurrentAbility = null;
+        LastUsedAbility = null;
     }
     
     public void AddAndActivateAbility(AbilityDefinition definition)
@@ -79,15 +80,15 @@ public class AbilityController : MonoInitializable, ISavable
                 if (!CanActivateAbility(activeAbility))
                     return false;
                 this.Target = target;
-                CurrentAbility = activeAbility;
+                LastUsedAbility = activeAbility;
                 CommitAbility(activeAbility);
                 onActivatedAbility?.Invoke(activeAbility);
-                
+                ActiveAbilities.Add(activeAbility);
+                activeAbility.StartAbility();
                 foreach (GameplayTag tag in activeAbility.Definition.GrantedTagsDuringAbility)
                 {
                     m_TagController.AddTag(tag);
                 }
-                DDebug.Log($"<color=cyan>Ability</color> activated : {abilityName}");
                 return true;
             }
         }
@@ -135,6 +136,26 @@ public class AbilityController : MonoInitializable, ISavable
     {
          _effectController.ApplyGameplayEffectToSelf(new GameplayEffect(ability.Definition.Cost, ability, gameObject));
         _effectController.ApplyGameplayEffectToSelf(new GameplayPersistentEffect(ability.Definition.Cooldown, ability, gameObject));
+    }
+    
+    public void CancelAbilityIfActive(ActiveAbility ability)
+    {
+        if (ActiveAbilities.Contains(ability))
+        {
+            ActiveAbilities.Remove(ability);
+            ability.EndAbility();
+            
+        }
+    }
+    public void CancelAbilityIfActive(string abilityName)
+    {
+        if (m_Abilities.TryGetValue(abilityName, out Ability ability))
+        {
+            if (ability is ActiveAbility activeAbility)
+            {
+                CancelAbilityIfActive(activeAbility);
+            }
+        }
     }
 
     public override void Initialize()

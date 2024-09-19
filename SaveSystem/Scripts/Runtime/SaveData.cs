@@ -36,6 +36,7 @@ namespace SaveSystem.Scripts.Runtime
 
         public void Load()
         {
+            Debug.Log("Loaded Data");
             FileManager.LoadFromBinaryFile(m_Path, out m_Data);
             m_LoadDataChannel.Load();
             m_Data.Clear();

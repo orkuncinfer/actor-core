@@ -43,6 +43,7 @@ public class PlayerStatController : StatController
             if (Input.GetKeyDown(KeyCode.W))
             {
                 StatPoints++;
+                //Debug.Log("Attribute is " + GetAttribute("MoveSpeed"));
             }
         }
         private void OnDisable()
@@ -87,7 +88,7 @@ public class PlayerStatController : StatController
                     foreach (LevelNode levelNode in levelNodes)
                     {
                         levelNode.levelable = _levelable;
-                        _levelable.levelChanged += currentStat.CalculateValue;
+                        _levelable.levelChanged += currentStat.CalculateStatValue;
                     }
                 }
             }

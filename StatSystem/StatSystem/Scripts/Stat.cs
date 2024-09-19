@@ -17,8 +17,10 @@ namespace StatSystem
       protected int _value;
       public int Value => _value;
       public virtual int BaseValue => _definition.BaseValue;
+      
       public event Action<int,int> onValueChangedWithArgs;
-      public event Action onValueChanged;
+      public event Action onStatValueChanged;
+      
       protected List<StatModifier> _modifiers = new List<StatModifier>();
       protected StatController _controller;
       
@@ -31,33 +33,40 @@ namespace StatSystem
 
       public virtual void Initialize()
       {
-         CalculateValue();
+         CalculateStatValue();
       }
    
       public void AddModifier(StatModifier modifier)
       {
          _modifiers.Add(modifier);
+         CalculateStatValue();
       }
    
       public void RemoveModifierFromSource(object source)
       {
+         foreach (var mod in _modifiers)
+         {
+            if(mod.Source == source)
+            {
+               //Debug.Log("Removing modifier : " + mod.Magnitude + mod.Source);
+            }
+         }
          int num = _modifiers.RemoveAll(modifier=> modifier.Source == source);
          if (num > 0)
          {
-            CalculateValue();
+            CalculateStatValue();
          }
       }
       
-      internal void CalculateValue()
+      internal void CalculateStatValue()
       {
-         int finalValue = BaseValue;
+         float finalValue = BaseValue;
 
          if (_definition.Formula != null && _definition.Formula.RootNode != null)
          {
-            finalValue = Mathf.RoundToInt(_definition.Formula.RootNode.CalculateValue(_controller.gameObject));
+            finalValue += Mathf.RoundToInt(_definition.Formula.RootNode.CalculateValue(_controller.gameObject));
             //Debug.Log("stat is" + finalValue);
          }
-   
          
          _modifiers.Sort((x, y) => x.Type.CompareTo(y.Type));
    
@@ -82,11 +91,11 @@ namespace StatSystem
          if (_value != finalValue)
          {
             int oldValue = _value;
-            _value = finalValue;
+            _value = Mathf.RoundToInt(finalValue);
             onValueChangedWithArgs?.Invoke(oldValue,_value);
-            onValueChanged?.Invoke();
+            onStatValueChanged?.Invoke();
          }
-         _value = finalValue;
+         _value = Mathf.RoundToInt(finalValue);
       }
    }
 }

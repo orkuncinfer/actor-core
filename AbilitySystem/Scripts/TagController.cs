@@ -15,7 +15,7 @@ public class TagController : MonoBehaviour
 
         public List<GameplayTag> _gameplayTags;
         
-        private void Awake()
+        private void ShowDebug()
         {
             if (Debug.isDebugBuild)
             {

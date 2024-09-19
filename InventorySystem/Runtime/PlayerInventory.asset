@@ -20,19 +20,19 @@ MonoBehaviour:
     _inventorySlots:
     - _allowedTypes: 
       _itemID: 
+      _itemCount: 5
+    - _allowedTypes: 
+      _itemID: 
       _itemCount: 0
     - _allowedTypes: 
       _itemID: 
       _itemCount: 0
     - _allowedTypes: 
-      _itemID: itm_0001
-      _itemCount: 11
-    - _allowedTypes: 
       _itemID: 
       _itemCount: 0
     - _allowedTypes: 
-      _itemID: itm_0001
-      _itemCount: 20
+      _itemID: 
+      _itemCount: 0
     - _allowedTypes: 
       _itemID: 
       _itemCount: 0

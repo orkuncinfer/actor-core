@@ -6,4 +6,5 @@ public enum TagEnum
     MoveSpeed,
     Damage,
     Locomotion,
+    Ability_Sprint
 }

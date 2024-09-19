@@ -7,6 +7,6 @@ public class PlayerActor : Actor
     protected override void Awake()
     {
         base.Awake();
-        MainPlayer.Actor = this;
+        ActorRegistry.PlayerActor = this;
     }
 }

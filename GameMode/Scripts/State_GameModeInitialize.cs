@@ -20,6 +20,7 @@ public class State_GameModeInitialize : MonoState
             if(actor.StartMethod != ActorStartMethods.Auto) continue;
             actor.StartIfNot();
             _gameModeRuntimeData.StartedActors.Add(actor);
+            ActorRegistry.RegisterActor(actor);
         }
         
         _gameModeRuntimeData.ResetAllVariables();

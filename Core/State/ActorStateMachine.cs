@@ -6,8 +6,9 @@ public abstract class ActorStateMachine : MonoState
 {
     protected abstract MonoState _initialState { get; }
     [BoxGroup("space",false)][ShowInInspector][ReadOnly][DisplayAsString][GUIColor(0.96f,0.91f,0.024f)]protected MonoState _currentState;
+    public MonoState CurrentState => _currentState;
     private Dictionary<MonoState, List<Transition>> _transitions = new Dictionary<MonoState, List<Transition>>();
-
+    
     private List<Transition> _anyTransitions = new List<Transition>();
 
     [SerializeField] private List<StateField> _states;

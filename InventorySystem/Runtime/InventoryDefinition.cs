@@ -20,7 +20,7 @@ using Formatting = System.Xml.Formatting;
 
 
 [CreateAssetMenu(fileName = "New Inventory Definition", menuName = "Inventory System/Inventory Definition")]
-public class InventoryDefinition : ScriptableObject
+public class InventoryDefinition : ScriptableObject,ISerializationCallbackReceiver
 {
 
     public int InitialSlotCount;
@@ -57,7 +57,7 @@ public class InventoryDefinition : ScriptableObject
 
         for (int i = 0; i < InventoryData.InventorySlots.Count; i++)
         {
-            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ItemId && InventoryData.InventorySlots[i].ItemCount < itemDefinition.MaxStack)
+            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ItemId && InventoryData.InventorySlots[i].ItemCount < itemDefinition.MaxStack)// If the item already exissts and there is space in the slot
             {
                 int spaceAvailable = itemDefinition.MaxStack - InventoryData.InventorySlots[i].ItemCount;
                 int toAdd = Math.Min(spaceAvailable, count);
@@ -151,7 +151,6 @@ public class InventoryDefinition : ScriptableObject
             }
         }
     }
-    
     public void RemoveEntireSlot(InventorySlot slot)
     {
         slot.ItemID = null;
@@ -184,7 +183,6 @@ public class InventoryDefinition : ScriptableObject
                 }
             }
         }
-        
         (InventoryData.InventorySlots[index1], InventoryData.InventorySlots[index2]) = (InventoryData.InventorySlots[index2], InventoryData.InventorySlots[index1]);
         onInventoryChanged?.Invoke();
     }
@@ -199,11 +197,12 @@ public class InventoryDefinition : ScriptableObject
     }
     private void DefineItemToSlot(ItemDefinition itemDefinition, int count, InventorySlot slot)
     {
+        Debug.Log("Adding " + count + " " + itemDefinition.ItemName + " to slot " + slot);
         slot.ItemCount += count;
         slot.ItemID = itemDefinition.ItemId;
         //slot.ItemData.Name = itemDefinition.ItemName;
         //TODO: security validation here
-        SaveData();
+        SaveDataFirestore();
         onInventoryChanged?.Invoke();
     }
 
@@ -213,9 +212,7 @@ public class InventoryDefinition : ScriptableObject
     [Button]
     public void SaveInventory()
     {
-        //string json = JsonConvert.SerializeObject(InventorySlots, Formatting.Indented);
-        //File.WriteAllText(Application.persistentDataPath + savePath, json);
-        SaveData();
+        SaveDataFirestore();
     }
 
     public void SetInventoryData(InventoryData data)
@@ -224,15 +221,14 @@ public class InventoryDefinition : ScriptableObject
         onInventoryChanged?.Invoke();
     }
     
-    public async void  SaveData()
+    public async void  SaveDataFirestore()
     {
+        if(AuthManager.Instance.HasAnyConnection == false) return;
         //string json = JsonConvert.SerializeObject(InventoryData);
-       
         //Debug.Log("data is " + json);
         var playerData = new Dictionary<string, object>{    
             {InventoryId, InventoryData},
         };
- 
         
         await _firestore.Collection("player-data").Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Collection("Inventories").Document(InventoryId).SetAsync(InventoryData).ContinueWithOnMainThread(task =>
         {
@@ -251,22 +247,16 @@ public class InventoryDefinition : ScriptableObject
                 Debug.Log("SaveAsync completed successfully.");
             }
         });
-        //await _database.GetReference(GooglePlayServicesInitialization.Instance.ThisUser.UserId + "/MainInventory").SetRawJsonValueAsync(JsonUtility.ToJson(InventoryData,true));
-        //_database.GetReference(GooglePlayServicesInitialization.Instance.ThisUser.UserId + "/MainInventory").SetRawJsonValueAsync(JsonUtility.ToJson(InventoryData,true));
-
-        //CloudSaveService.Instance.Data.Player.SaveAsync(playerData);
-        /*try
-        {
-            await CloudSaveService.Instance.Data.Player.SaveAsync(playerData);
-            Debug.Log($"Data saved successfully: {string.Join(", ", playerData.Select(kv => $"{kv.Key}={kv.Value}"))}");
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Failed to save data: {ex.Message}");
-        }
-        Debug.Log($"Saved data {string.Join(',', playerData)}");*/
     }
+    
 
     #endregion
-   
+
+    public void OnBeforeSerialize()
+    {
+    }
+
+    public void OnAfterDeserialize()
+    {
+    }
 }

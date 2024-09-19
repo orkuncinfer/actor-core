@@ -27,23 +27,21 @@ public class ItemDropInstance : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collided with " + other.name);
         if (other.transform.TryGetComponent(out Actor actor))
         {
             if(!actor.ContainsTag("Player")) return;
         }
     }
-
+    [Button]
     public void Collect()
     {
-        Debug.Log(GeneratedItemResult.ItemId + " collected");
         int added = InventoryDefinition.AddItem(ItemDefinition, DropCount);
         if (added > 0)
         {
             DropCount -= added;
             if (DropCount == 0)
             {
-                ItemDropManager.Instance.PickedUp(LabelInstance);
+                if(LabelInstance)ItemDropManager.Instance.PickedUp(LabelInstance);
                 PoolManager.ReleaseObject(this.gameObject);
             }
         }

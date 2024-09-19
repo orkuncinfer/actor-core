@@ -120,7 +120,7 @@ public class Data :  IData
         string containerID = "Global"; 
         string typeName = GetType().Name;
         string saveFileName = category;
-        Debug.Log("Loading Data, ID: "+containerID+"-"+typeName + DataKey + " | File name: " + saveFileName+".save");
+        DDebug.Log("Loading Data, ID: "+containerID+"-"+typeName + DataKey + " | File name: " + saveFileName+".save");
         if (ES3.KeyExists(GetLoadKey()))
         {
             ES3.LoadInto(GetLoadKey(),this);
@@ -133,7 +133,7 @@ public class Data :  IData
         string typeName = GetType().Name;
         string saveFileName = category;
         ES3.Save(GetLoadKey(),this);
-        Debug.Log("Saving Data, ID: "+containerID+"-"+typeName + DataKey+ " | File name: " + saveFileName+".save");
+        DDebug.Log("Saving Data, ID: "+containerID+"-"+typeName + DataKey+ " | File name: " + saveFileName+".save");
     }
 }
 

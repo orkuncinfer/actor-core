@@ -11,8 +11,13 @@ namespace StatSystem
 
         public PrimaryStat(StatDefinition definition, StatController controller) : base(definition,controller)
         {
-            _baseValue = definition.BaseValue;
-            CalculateValue();
+            //CalculateStatValue();
+        }
+
+        public override void Initialize()
+        {
+            _baseValue = Definition.BaseValue;
+            base.Initialize();
         }
 
         internal void Add(int amount)
@@ -22,7 +27,7 @@ namespace StatSystem
                 return;
             }
             _baseValue += amount;
-            CalculateValue();
+            CalculateStatValue();
         }
 
         internal void Subtract(int amount)
@@ -32,7 +37,7 @@ namespace StatSystem
                 return;
             }
             _baseValue -= amount;
-            CalculateValue();
+            CalculateStatValue();
         }
         
         
@@ -47,7 +52,7 @@ namespace StatSystem
         {
             PrimaryStatData statData = (PrimaryStatData) data;
             _baseValue = statData.BaseValue;
-            CalculateValue();
+            CalculateStatValue();
         }
         
         [Serializable]

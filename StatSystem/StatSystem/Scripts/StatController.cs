@@ -19,7 +19,7 @@ namespace StatSystem
 
         public event Action onInitialized;
         public event Action onWillUninitialize;
-        public event Action onStatIsModified;
+        public event Action<Stat> onStatIsModified;
 
         [ShowInInspector]public List<Attribute> AttributeList = new List<Attribute>(); 
         [ShowInInspector]public List<Stat> StatList = new List<Stat>();
@@ -58,10 +58,10 @@ namespace StatSystem
                     List<StatNode> statNodes = currentStat.Definition.Formula.FindNodesOfType<StatNode>();
                     foreach (var statNode in statNodes)
                     {
-                        if (_stats.TryGetValue(statNode.StatName.Trim(), out Stat stat))
+                        if (_stats.TryGetValue(statNode.StatName.Trim(), out Stat stat))//formuldeki herhangi bir stat değiştiğinde formülün sahibini tekrar hesaplar
                         {
                             statNode.Stat = stat;
-                            stat.onValueChanged += currentStat.CalculateValue;
+                            stat.onStatValueChanged += currentStat.CalculateStatValue;
                         }
                         else
                         {
@@ -87,21 +87,21 @@ namespace StatSystem
                 Stat stat = new Stat(definition,this);
                 _stats.Add(definition.name,stat);
                 StatList.Add(stat);
-                stat.onValueChanged += StatIsModified;
+                stat.onStatValueChanged += () => StatIsModified(stat);
             }
             foreach (StatDefinition definition in DataBase.PrimaryStats)
             {
-                PrimaryStat stat = new PrimaryStat(definition,this);
-                _stats.Add(definition.name,stat);
-                PrimaryStatList.Add(stat);
-                stat.onValueChanged += StatIsModified;
+                PrimaryStat primaryStat = new PrimaryStat(definition,this);
+                _stats.Add(definition.name,primaryStat);
+                PrimaryStatList.Add(primaryStat);
+                primaryStat.onStatValueChanged += () => StatIsModified(primaryStat);
             }
             foreach (StatDefinition definition in DataBase.Attributes)
             {
-                Attribute stat = new Attribute(definition,this);
-                _stats.Add(definition.name,stat);
-                AttributeList.Add(stat);
-                stat.onCurrentValueChanged += StatIsModified;
+                Attribute attribute = new Attribute(definition,this);
+                _stats.Add(definition.name,attribute);
+                AttributeList.Add(attribute);
+                attribute.onCurrentValueChanged += () => StatIsModified(attribute);
             }
             InitializeStatFormula();
 
@@ -113,9 +113,9 @@ namespace StatSystem
             IsInitialized = true;
         }
 
-        private void StatIsModified()
+        private void StatIsModified(Stat stat)
         {
-            onStatIsModified?.Invoke();
+            onStatIsModified?.Invoke(stat);
         }
 
         #region SaveSystem

@@ -34,7 +34,7 @@ public class AbilityActionPool<T> where T : AbilityAction, new()
 
     public void Release(T element)
     {
-        element.Reset();  // Assuming Reset is a method to clean up the object for reuse
+        element.Reset(); 
         _availableObjects.Enqueue(element);
     }
 }

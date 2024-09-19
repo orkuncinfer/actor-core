@@ -36,14 +36,14 @@ public class GameplayEffect
                 float calculatedMagnitude = modifierDef.Formula.CalculateValue(instigator);
                 HealthModifier healthModifier = new HealthModifier
                 {
-                    Magnitude = Mathf.RoundToInt(calculatedMagnitude),
+                    Magnitude = calculatedMagnitude,
                     IsCriticalHit = false
                 };
                 if (damageDefinition.CanCriticalHit)
                 {
                     if (statController.Stats["CritChance"].Value / 100f >= Random.value)
                     {
-                        healthModifier.Magnitude = Mathf.RoundToInt(healthModifier.Magnitude * (1 + (statController.Stats["CritMultiplier"].Value / 100f)));
+                        healthModifier.Magnitude = healthModifier.Magnitude * (1 + (statController.Stats["CritMultiplier"].Value / 100f));
                         healthModifier.IsCriticalHit = true;
                     }
                 }
@@ -62,7 +62,7 @@ public class GameplayEffect
                 }
                 statModifier = new StatModifier()
                 {
-                    Magnitude = Mathf.RoundToInt(magnitude)
+                    Magnitude = magnitude
                 };
             }
 

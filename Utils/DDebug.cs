@@ -10,7 +10,7 @@ public static class DDebug
         enableLogging = PlayerPrefs.GetInt("EnableDDebugLogging", 1) == 1;
     }
 
-    public static void Log(object message)
+    public static void Log(object message, EDebugType debugType = EDebugType.General)
     {
         if (enableLogging)
             Debug.Log(message);
@@ -40,4 +40,12 @@ public static class DDebug
         PlayerPrefs.SetInt("EnableDDebugLogging", enableLogging ? 1 : 0);
         PlayerPrefs.Save();
     }
+    
+    
+}
+public enum EDebugType
+{
+    General,
+    Stats,
+    SaveSystem,
 }

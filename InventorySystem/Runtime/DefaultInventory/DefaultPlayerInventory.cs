@@ -43,7 +43,7 @@ public  class DefaultPlayerInventory : PersistentMonoSingleton<DefaultPlayerInve
             {
                 foreach (var action in itemDef.ItemActions)
                 {
-                    action.OnAction(MainPlayer.Actor);
+                    action.OnAction(ActorRegistry.PlayerActor);
                 }
             }
             if(_itemAddedDisplayerPrefab)

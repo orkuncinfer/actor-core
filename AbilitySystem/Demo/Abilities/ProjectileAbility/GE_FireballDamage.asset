@@ -15,8 +15,7 @@ MonoBehaviour:
   ModifierDefinitions:
   - rid: 88048083462258688
   m_SpecialEffectDefinition: {fileID: 0}
-  _conditionalEffects:
-  - {fileID: 11400000, guid: 418e039fdfef19142b86eca28ec0ff65, type: 2}
+  _conditionalEffects: []
   _description: 
   _grantedTags:
   - fullTag: Damage.Fireball
@@ -36,5 +35,5 @@ MonoBehaviour:
         Type: 0
         Formula:
           Graph: {fileID: 11400000, guid: aa38453b902d3c94393bf76b0af2d47d, type: 2}
-          StaticValue: 0
+          StaticValue: -20
         CanCriticalHit: 0

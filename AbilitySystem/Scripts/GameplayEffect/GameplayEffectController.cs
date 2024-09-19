@@ -71,7 +71,6 @@ public partial class GameplayEffectController : MonoInitializable
                     activeEffect.RemainingPeriod = activeEffect.Definition.Period;
                 }
             }
-            
             if(!activeEffect.Definition.IsInfinite)
             {
                 activeEffect.RemainingDuration = Math.Max(activeEffect.RemainingDuration - Time.deltaTime, 0f);
@@ -238,7 +237,21 @@ public partial class GameplayEffectController : MonoInitializable
         RemoveUninhibitedEffects(effect);
     }
 
-    
+    public void RemoveEffectWithDefinition(GameplayEffectDefinition effectDefinition)
+    {
+        List<GameplayPersistentEffect> effectsToRemove = new List<GameplayPersistentEffect>();
+        foreach (GameplayPersistentEffect effect in _activeEffects)
+        {
+            if (effect.Definition == effectDefinition)
+            {
+                effectsToRemove.Add(effect);
+            }
+        }
+        foreach (var effectToRemove in effectsToRemove)
+        {
+            RemoveActiveGameplayEffect(effectToRemove,true);
+        }
+    }
 
     private void AddGameplayEffect(GameplayPersistentEffect persistentEffect)
     {
@@ -260,7 +273,14 @@ public partial class GameplayEffectController : MonoInitializable
         {
             if(_statController.Stats.TryGetValue(effect.Definition.ModifierDefinitions[i].StatName, out Stat stat))
             {
-                stat.AddModifier(effect.Modifiers[i]);
+                if (stat is Attribute attr)
+                {
+                    attr.ApplyTempModifier(effect.Modifiers[i]);
+                }
+                else
+                {
+                    stat.AddModifier(effect.Modifiers[i]);
+                }
             }
         }
         foreach (var tag in effect.Definition.GrantedTags)
@@ -295,6 +315,11 @@ public partial class GameplayEffectController : MonoInitializable
     }
     
     private void ExecuteGameplayEffect(GameplayEffect effect)
+    {
+       ApplyEffectModifiers(effect);
+    }
+
+    void ApplyEffectModifiers(GameplayEffect effect)
     {
         for (int i = 0; i < effect.Modifiers.Count; i++)
         {

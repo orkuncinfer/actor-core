@@ -42,6 +42,25 @@ public abstract class Ability : ISavable
         ApplyEffectsInternal(_abilityDefinition.GameplayEffectDefinitions,other);
     }
 
+    internal void ApplyEffectsToSelf()
+    {
+        if (_abilityDefinition is ActiveAbilityDefinition activeAbilityDefinition)
+        {
+            ApplyEffectsInternal(activeAbilityDefinition.GrantedEffectsDuringAbility, _controller.gameObject);
+        }
+    }
+    internal void RemoveOngoingEffects()
+    {
+        if (_abilityDefinition is ActiveAbilityDefinition activeAbilityDefinition)
+        {
+            GameplayEffectController effectController = _controller.GetComponent<GameplayEffectController>();
+            foreach (GameplayEffectDefinition effectDefinition in activeAbilityDefinition.GrantedEffectsDuringAbility)
+            {
+                effectController.RemoveEffectWithDefinition(effectDefinition);
+            }
+        }
+    }
+
     private void ApplyEffectsInternal(List<GameplayEffectDefinition> effectDefinitions, GameObject other)
     {
         GameplayEffectController effectController = other.GetComponentInChildren<GameplayEffectController>();

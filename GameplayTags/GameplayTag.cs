@@ -46,7 +46,6 @@ public class GameplayTag
 #if UNITY_EDITOR
     public void Fetch(GameplayTagsAsset tagsAsset)//not called in runtime
     {
-        DDebug.Log("fetched");
         foreach (GameplayTagFetcher tagFetcher in tagsAsset.TagsCache)
         {
             if (tagFetcher.HashCode == HashCode)

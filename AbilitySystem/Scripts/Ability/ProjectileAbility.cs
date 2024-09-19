@@ -23,7 +23,7 @@ public class ProjectileAbility : ActiveAbility
         }
     }
     
-    public void Shoot(GameObject target)
+    public void Shoot(GameObject target) // called when "Shoot" event is triggered on the ability animation clip.
     {
         GameObject equipment = Owner.GetEquippedInstance();
         if (equipment.TryGetComponent(out RangedWeapon weapon))

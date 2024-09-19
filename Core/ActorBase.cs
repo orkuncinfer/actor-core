@@ -61,6 +61,8 @@ public class ActorBase : MonoBehaviour, ITagContainer
 
     [ShowInInspector] [ReadOnly] [HideInEditorMode]
     protected Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
+    
+    protected Dictionary<Type,object> _services = new Dictionary<Type, object>();
 
  
 
@@ -247,6 +249,30 @@ public class ActorBase : MonoBehaviour, ITagContainer
     {
         //return GlobalData.GetData<T>();
         return null;
+    }
+    
+    public object GetService<T> ()
+    {
+        return _services[typeof(T)];
+    }
+    
+    public bool TryGetService<T>(out T service)
+    {
+        if (_services.ContainsKey(typeof(T)))
+        {
+            service = (T) _services[typeof(T)];
+            return true;
+        }
+        else
+        {
+            service = default;
+            return false;
+        }
+    }
+    
+    public void AddService<T>(T service)
+    {
+        _services[typeof(T)] = service;
     }
 
     public bool ContainsTag(string t)

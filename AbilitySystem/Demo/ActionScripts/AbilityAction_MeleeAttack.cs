@@ -13,19 +13,21 @@ public class AbilityAction_MeleeAttack : AbilityAction
     
     public override AbilityAction Clone()
     {
+        base.Clone();
         AbilityAction_MeleeAttack clone = AbilityActionPool<AbilityAction_MeleeAttack>.Shared.Get();
         clone.EventName = EventName;
         clone.HitEffect = HitEffect;
         clone._meleeWeapon = _meleeWeapon;
         clone._ability = _ability;
         clone.OnHitApplyAbility = OnHitApplyAbility;
-        
+        clone._hasTick = true;
         return clone;
     }
 
     public override void OnStart(Actor owner, ActiveAbility ability)
     {
         base.OnStart(owner, ability);
+        Debug.Log("Melee attack started");
         if (owner.GetEquippedInstance().TryGetComponent(out MeleeWeapon weapon))
         {
             _meleeWeapon = weapon;
@@ -65,13 +67,15 @@ public class AbilityAction_MeleeAttack : AbilityAction
     public override void OnTick(Actor owner)
     {
         base.OnTick(owner);
+        Debug.Log("Melee attack tick");
         if(_meleeWeapon)
             _meleeWeapon.Cast();
     }
 
-    public override void OnExit(Actor owner)
+    public override void OnExit()
     {
-        base.OnExit(owner);
+        base.OnExit();
+        Debug.Log("Melee attack ended");
         if (_meleeWeapon)
         {
             _meleeWeapon.onHit -= OnHit;

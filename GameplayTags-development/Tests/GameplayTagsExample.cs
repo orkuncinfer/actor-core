@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BandoWare.GameplayTags;
 using UnityEngine;
 
-public static class MainPlayer
-{
-    public static PlayerActor Actor;
-}
+[assembly: GameplayTag("CrowdControl.Slow")]

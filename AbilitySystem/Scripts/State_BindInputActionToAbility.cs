@@ -11,6 +11,7 @@ public class State_BindInputActionToAbility : MonoState
     [SerializeField] private Data_GAS _gasData;
     public InputActionAsset ActionAsset;
     public string ActionName;
+    public bool CancelOnRelease;
     
     private InputAction _abilityAction;
     protected override void OnEnter()
@@ -21,10 +22,17 @@ public class State_BindInputActionToAbility : MonoState
         
         _abilityAction = ActionAsset.FindAction(ActionName);
         _abilityAction.performed += OnPerformed;
+        _abilityAction.canceled += OnCanceled;
         
         _abilityAction?.Enable();
     }
-    
+
+    private void OnCanceled(InputAction.CallbackContext obj)
+    {
+        if(CancelOnRelease)
+            _gasData.AbilityController.CancelAbilityIfActive(_abilityDS.Data.AbilityDefinition.name);
+    }
+
     private void OnPerformed(InputAction.CallbackContext obj)
     {
         _gasData.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);

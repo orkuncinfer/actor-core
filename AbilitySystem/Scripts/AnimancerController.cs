@@ -11,51 +11,81 @@ public class AnimancerController : MonoBehaviour
 {
     private AnimancerComponent _animancerComponent;
     private AbilityController _abilityController;
-    
-    private readonly List<AbilityAction> _registeredAbilityActions = new List<AbilityAction>();
+
+    private readonly List<AbilityAction> _registeredAbilityActionList = new List<AbilityAction>();
     private List<AbilityAction> _abilityWindowActionsToRemove = new List<AbilityAction>();
+    private Dictionary<Type, AbilityAction> _abilityActions = new Dictionary<Type, AbilityAction>();
     private ActiveAbility _lastActivatedAbility;
+    [ShowInInspector] private ActiveAbility _currentActiveAbility;
     private Actor _owner;
     private bool _isLooping;
     private float _loopRemainingTime;
     private bool _abilityAnimPlaying;
+
+    private AnimancerState _currentAbilityState;
+
     private void Start()
     {
         _owner = transform.root.GetComponent<Actor>();
         _abilityController = _owner.GetData<Data_GAS>().AbilityController;
         _animancerComponent = GetComponent<AnimancerComponent>();
-        
+
         _abilityController.onActivatedAbility += OnActivatedAbility;
     }
 
     private void Update()
     {
-        for (int i = 0; i < _registeredAbilityActions.Count; i++)
+        for (int i = 0; i < _registeredAbilityActionList.Count; i++)
         {
-            _registeredAbilityActions[i].OnTick(_owner);
+            if (_registeredAbilityActionList[i].HasTick && _registeredAbilityActionList[i].IsRunning)
+                _registeredAbilityActionList[i].OnTick(_owner);
         }
-        
-        if(_loopRemainingTime > 0)
+
+        if (_loopRemainingTime > 0)
         {
             _loopRemainingTime -= Time.deltaTime;
-            if(_loopRemainingTime <= 0)
+            if (_loopRemainingTime <= 0)
             {
                 _isLooping = false;
-                OnEnd();
+                OnEnd(_abilityController.LastUsedAbility);
             }
         }
 
         if (_abilityAnimPlaying)
         {
-            if(_lastActivatedAbility.Definition is ActiveAbilityDefinition activeAbilityDefinition)
+            // if the ability has a playtime and the animation has reached that time, cancel the ability
+            if (_currentActiveAbility.Definition is ActiveAbilityDefinition activeAbilityDefinition)
             {
                 if (activeAbilityDefinition.PlayTime < 1)
                 {
-                    if(_animancerComponent.States.Current.NormalizedTime >= activeAbilityDefinition.PlayTime)
+                    if (_animancerComponent.States.Current.NormalizedTime >= activeAbilityDefinition.PlayTime)
                     {
                         CancelCurrent();
                     }
-                    
+                }
+            }
+
+            if (_currentActiveAbility != null)
+            {
+                foreach (var action in _currentActiveAbility.Definition.AbilityActions)
+                {
+                    if(action.ActivationPolicy != AbilityAction.EAbilityActionActivationPolicy.AnimWindow) continue;
+                    AbilityAction clonedAction = _abilityActions[action.GetType()];
+                    if (action.AnimWindow.x <= _animancerComponent.States.Current.NormalizedTime)
+                    {
+                        if (!_registeredAbilityActionList.Contains(action) && !clonedAction.IsRunning && !clonedAction.HasExecutedOnce)
+                        {
+                            clonedAction.OnStart(_owner, _currentActiveAbility);
+                        }
+                    }
+
+                    if (action.AnimWindow.y <= _animancerComponent.States.Current.NormalizedTime)
+                    {
+                        if (_abilityActions.ContainsKey(action.GetType()) && clonedAction.IsRunning)
+                        {
+                            clonedAction.OnExit();
+                        }
+                    }
                 }
             }
         }
@@ -67,110 +97,146 @@ public class AnimancerController : MonoBehaviour
         _isLooping = ability.Definition.IsLoopingAbility;
         _loopRemainingTime = ability.Definition.Duration;
         _lastActivatedAbility = ability;
+        _currentActiveAbility = ability;
+
+        foreach (AbilityAction actionsToClone in ability.Definition.AbilityActions)
+        {
+            AbilityAction clonedAction = actionsToClone.Clone();
+            _abilityActions.Add(clonedAction.GetType(), clonedAction);
+            if (!_registeredAbilityActionList.Contains(clonedAction))
+            {
+                _registeredAbilityActionList.Add(clonedAction);
+            }
+        }
+
         if (ability.Definition.AnimationClip)
         {
             _animancerComponent.Stop();
-            _animancerComponent.Play(ability.Definition.AnimationClip);
+            _currentAbilityState = _animancerComponent.Play(ability.Definition.AnimationClip);
+            _currentAbilityState.Events.OnEnd = () => OnEnd(ability);
             _abilityAnimPlaying = true;
             if (ability.Definition.IsBasicAttack)
             {
                 float attackSpeedStat = _abilityController.GetComponent<StatController>().Stats["AttackSpeed"].Value;
-                _animancerComponent.States.Current.Speed = (attackSpeedStat/100f) / (1 / ability.Definition.AnimationClip.length);
+                _animancerComponent.States.Current.Speed =
+                    (attackSpeedStat / 100f) / (1 / ability.Definition.AnimationClip.length);
             }
             else
             {
                 if (ability.Definition.OverrideAnimSpeed)
                 {
-                    _animancerComponent.States.Current.Speed = ability.Definition.AnimationSpeed / (1 / ability.Definition.AnimationClip.length);
+                    _animancerComponent.States.Current.Speed = ability.Definition.AnimationSpeed /
+                                                               (1 / ability.Definition.AnimationClip.length);
                 }
             }
-
-            _animancerComponent.States.Current.Events.OnEnd += OnEnd;
-            
         }
         else
         {
-            Cast();
+            ReCast(ability);
         }
-        
     }
+
     [Button]
     public void CancelCurrent()
     {
         _isLooping = false;
-        //_animancerComponent.States.Current.Stop();
-        OnEnd();
+        OnEnd(_abilityController.LastUsedAbility);
     }
 
-    private void OnEnd()
+    private void OnEnd(ActiveAbility ability)
     {
         if (_isLooping)
         {
             _animancerComponent.States.Current.Time = 0;
-            DDebug.Log("looping return");
-            return;   
+            return;
         }
+
         _abilityAnimPlaying = false;
-        _animancerComponent.States.Current.Events.OnEnd -= OnEnd;
-        if (_abilityController.CurrentAbility is ActiveAbility activeAbility)
+        if (ability is ActiveAbility activeAbility) // possible bug
         {
             foreach (GameplayTag gameplayTag in activeAbility.Definition.GrantedTagsDuringAbility)
             {
                 _abilityController.GetComponent<TagController>().RemoveTag(gameplayTag);
             }
         }
-        
-        foreach (AbilityAction abilityWindowAction in _registeredAbilityActions)
-        {
-            abilityWindowAction.OnExit(_owner);
-        }
-        _registeredAbilityActions.Clear();
+
+        _registeredAbilityActionList.Clear();
+        _abilityActions.Clear();
+
+        _abilityController.CancelAbilityIfActive(ability);
+
+        _currentActiveAbility = null;
+        _currentAbilityState = null;
     }
 
-    public void Cast()
+    public void ReCast(ActiveAbility ability)
     {
-        if (_abilityController.CurrentAbility is SingleTargetAbility singleTargetAbility)
+        if (ability is SingleTargetAbility singleTargetAbility)
         {
             singleTargetAbility.Cast(_abilityController.Target);
         }
-        if (_abilityController.CurrentAbility is ProjectileAbility projectileAbility)
+
+        if (ability is ProjectileAbility projectileAbility)
         {
             projectileAbility.Shoot(_abilityController.Target);
         }
     }
-    
+
+    public void Cast()
+    {
+        if (_currentActiveAbility is SingleTargetAbility singleTargetAbility)
+        {
+            singleTargetAbility.Cast(_abilityController.Target);
+        }
+
+        if (_currentActiveAbility is ProjectileAbility projectileAbility)
+        {
+            projectileAbility.Shoot(_abilityController.Target);
+        }
+    }
+
     public void AnimEvent(string eventName)
     {
+        if (_currentActiveAbility == null) return;
         if (eventName.EndsWith("_Start", StringComparison.OrdinalIgnoreCase))
         {
             int index = eventName.IndexOf("_Start", StringComparison.OrdinalIgnoreCase);
             if (index >= 0)
             {
-                 string newEventName = eventName.Substring(0, index);
-                 foreach (AbilityAction windowAction in _lastActivatedAbility.Definition.AbilityActions)
-                 {
-                     if (windowAction.EventName.Equals(newEventName,StringComparison.OrdinalIgnoreCase))
-                     {
-                         AbilityAction abilityAction = windowAction.Clone();
-                         _registeredAbilityActions.Add(abilityAction);
-                         abilityAction.OnStart(_owner,_lastActivatedAbility);
-                     }
-                 }
+                string newEventName = eventName.Substring(0, index);
+                foreach (AbilityAction abilityAction in _currentActiveAbility.Definition.AbilityActions)
+                {
+                    if (!abilityAction.UseAnimEvent) continue;
+                    if (abilityAction.EventName.Equals(newEventName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (_abilityActions.ContainsKey(abilityAction.GetType()))
+                        {
+                            _abilityActions[abilityAction.GetType()].OnStart(_owner, _currentActiveAbility);
+                        }
+                        else
+                        {
+                        }
+                    }
+                }
             }
         }
-        
+
         if (eventName.EndsWith("_End", StringComparison.OrdinalIgnoreCase))
         {
             int index = eventName.IndexOf("_End", StringComparison.OrdinalIgnoreCase);
             if (index >= 0)
             {
                 string newEventName = eventName.Substring(0, index);
-                foreach (AbilityAction abilityAction in _lastActivatedAbility.Definition.AbilityActions)
+                
+                foreach (AbilityAction abilityAction in _currentActiveAbility.Definition.AbilityActions)
                 {
-                    if (abilityAction.EventName.Equals(newEventName,StringComparison.OrdinalIgnoreCase) && _registeredAbilityActions.Contains(abilityAction))
+                    AbilityAction clonedAction = _abilityActions[abilityAction.GetType()];
+                    if (!abilityAction.UseAnimEvent) continue;
+                    if (clonedAction.EventName.Equals(newEventName, StringComparison.OrdinalIgnoreCase))
                     {
-                        abilityAction.OnExit(null);
-                        _registeredAbilityActions.Remove(abilityAction);
+                        clonedAction.OnExit();
+                        _abilityActions.Remove(clonedAction.GetType());
+                        _registeredAbilityActionList.Remove(clonedAction);
                     }
                 }
             }

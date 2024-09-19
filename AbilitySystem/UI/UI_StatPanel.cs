@@ -7,16 +7,14 @@ using UnityEngine.Serialization;
 
 public class UI_StatPanel : MonoBehaviour
 {
-    [FormerlySerializedAs("_playerData")] [SerializeField] private DSGetter<Data_Player> _playerDS;
     [SerializeField] private GameObject _statElementPrefab;
 
     [SerializeField] private GameObject _statElementsContainer;
-
+    [SerializeField] private StatController _statController;
   
     private void Start()
     {
-        _playerDS.GetData();
-        if (_playerDS.Data.StatController.PrimaryStatList.Count > 0)
+        if (_statController.PrimaryStatList.Count > 0)
         {
             GenerateAbilityElements();
         }
@@ -25,7 +23,7 @@ public class UI_StatPanel : MonoBehaviour
     [Button]
     private void GenerateAbilityElements()
     {
-        for (int i = 0; i < _playerDS.Data.StatController.PrimaryStatList.Count; i++)
+        for (int i = 0; i < _statController.PrimaryStatList.Count; i++)
         {
             GameObject instance = Instantiate(_statElementPrefab, Vector3.zero, Quaternion.identity);
             instance.transform.SetParent(_statElementsContainer.transform);
@@ -33,8 +31,8 @@ public class UI_StatPanel : MonoBehaviour
             instance.transform.localScale = Vector3.one;
 
             UI_StatPanelElement abilityElement = instance.GetComponent<UI_StatPanelElement>();
-            abilityElement.ThisStat = _playerDS.Data.StatController.PrimaryStatList[i];
-            abilityElement.StatController = _playerDS.Data.StatController;
+            abilityElement.ThisStat = _statController.PrimaryStatList[i];
+            abilityElement.StatController = (PlayerStatController)_statController;
         }
     }
 }

@@ -62,6 +62,7 @@ MonoBehaviour:
   IsRunning: 0
   IsFinished: 0
   _panelId: MainMenu
+  _continueWithoutMenu: 0
 --- !u!1 &6987930798687795965
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,6 +142,7 @@ MonoBehaviour:
   IsRunning: 0
   IsFinished: 0
   _panelId: Paused
+  _continueWithoutMenu: 0
 --- !u!1 &7052049253013988636
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRunning: 0
   IsFinished: 0
+  _states: []
   _authing: {fileID: 5052060467144053004}
   _initialize: {fileID: 8167127278538150484}
   _mainMenu: {fileID: 5522812133271241748}
@@ -329,6 +332,7 @@ MonoBehaviour:
   IsRunning: 0
   IsFinished: 0
   _panelId: Failed
+  _continueWithoutMenu: 0
 --- !u!114 &4711004737922463834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,6 +447,7 @@ MonoBehaviour:
   IsRunning: 0
   IsFinished: 0
   _panelId: Completed
+  _continueWithoutMenu: 0
 --- !u!114 &692258207654886553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,46 +556,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRunning: 0
   IsFinished: 0
-  _modeDS:
-    Key: {fileID: 0}
-    From: 0
-    Data:
-      IsGlobal: 0
-      UseKey: 0
-      IsPersistent: 0
-      DataKey: 
-      OwnerActor: {fileID: 0}
-      IsInstalled: 0
-      _currentGameMode: 0
-      _requestGameModeStart:
-        _addressType: 0
-        _eventKey: {fileID: 0}
-      _requestGameModePause:
-        _addressType: 0
-        _eventKey: {fileID: 0}
-      _requestGameModeContinue:
-        _addressType: 0
-        _eventKey: {fileID: 0}
-      _requestGameModeFailed:
-        _addressType: 0
-        _eventKey: {fileID: 0}
-      _requestGameModeCompleted:
-        _addressType: 0
-        _eventKey: {fileID: 0}
-      _requestGameModeLoadNext:
-        _addressType: 0
-        _eventKey: {fileID: 0}
-      _stopped: 0
-      _failed: 0
-      _completed: 0
-      _paused: 0
-    _retrievedData:
-      rid: -2
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
 --- !u!1 &7052049254433454339
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +619,7 @@ MonoBehaviour:
   IsRunning: 0
   IsFinished: 0
   _panelId: Gameplay
+  _continueWithoutMenu: 0
 --- !u!114 &3790429822724747882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,6 +650,8 @@ GameObject:
   - component: {fileID: 7911191645074324780}
   - component: {fileID: 3525235902873422066}
   - component: {fileID: 4790292833420043885}
+  - component: {fileID: 4513401195864836998}
+  - component: {fileID: 1237746900886828101}
   m_Layer: 0
   m_Name: GAMEMODE
   m_TagString: Untagged
@@ -806,6 +774,35 @@ MonoBehaviour:
   _height: 20
   _color: {r: 1, g: 0.8, b: 0.3, a: 1}
   _drawIcon: 1
+--- !u!114 &4513401195864836998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052049254446410850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890c61de71da0f34ba6abab101fa3c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1237746900886828101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052049254446410850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82e8997c5c901ef458280009ea3ca02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionAsset: {fileID: -944628639613478452, guid: 857877e365f181e48a2c6e0021ad4183, type: 3}
+  _debuggerScale: 1.5
+  _spacing: 2.85
+  _padding: 10
+  _location: 0
 --- !u!1 &7224218158467727453
 GameObject:
   m_ObjectHideFlags: 0

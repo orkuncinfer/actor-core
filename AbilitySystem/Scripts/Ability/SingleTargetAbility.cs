@@ -7,8 +7,7 @@ public class SingleTargetAbility : ActiveAbility
     {
         
     }
-
-    public void Cast(GameObject target)
+    public void Cast(GameObject target) // called when "Cast" event is triggered on the ability animation clip.
     {
         ApplyEffects(target);
     }

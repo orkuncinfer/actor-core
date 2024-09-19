@@ -93,7 +93,7 @@ public abstract class DataManifest : MonoBehaviour
         }
     }
 
-    private static Actor FindFirstActorInParents(Transform currentParent)
+    public static Actor FindFirstActorInParents(Transform currentParent)
     {
         if (currentParent == null)
         {

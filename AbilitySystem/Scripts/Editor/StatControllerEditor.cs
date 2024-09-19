@@ -245,14 +245,19 @@ public class StatControllerEditor : Editor
         
         if (_currentListView == null && controller.IsInitialized)
         {
-            _currentListView = _primaryStatsListView;
+            _currentListView = _attributesListView;
+            _primaryStatsListView.style.display = DisplayStyle.None;
+            _statsListView.style.display = DisplayStyle.None;
+            _attributesListView.style.display = DisplayStyle.None;
+            
             _currentListView.style.display = DisplayStyle.Flex;
-            SetButtonColorSelected(tb_primarystats);
+            
+            SetButtonColorSelected(tb_attributes);
         }else if (_currentListView != null)
         {
             _currentListView.RefreshItems();
         }
-       _attributesListView.RefreshItems();
+        _attributesListView.RefreshItems();
         
         return root;
     }
