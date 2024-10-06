@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: -393, y: -265}
   Guid: 753c0bb14c1faac4e8190c864a56f020
-  _value: 1
+  _value: 0
   StatName: Strength
 --- !u!114 &4844713255867040249
 MonoBehaviour:

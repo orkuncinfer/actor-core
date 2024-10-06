@@ -37,7 +37,11 @@ MonoBehaviour:
     - Blocker
     - Blocker.GetHit
     HashCode: 0672803e-7082-4040-931f-abe9766f2b0f
+  GrantedEffectsDuringAbility: []
   AbilityActions: []
+  ContainerTest:
+    m_SerializedExplicitTags:
+    - Ability.Crouch
   references:
     version: 2
     RefIds: []

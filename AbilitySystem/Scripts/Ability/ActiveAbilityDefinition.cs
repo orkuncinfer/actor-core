@@ -42,6 +42,8 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
      
      [SerializeReference][TypeFilter("GetFilteredTypeList")] [ListDrawerSettings(ShowFoldout = true)]
      public List<AbilityAction> AbilityActions = new List<AbilityAction>();
+
+     public GameplayTagContainer ContainerTest;
      
      public IEnumerable<Type> GetFilteredTypeList()
      {

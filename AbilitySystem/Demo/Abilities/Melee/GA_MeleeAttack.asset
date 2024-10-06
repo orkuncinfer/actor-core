@@ -37,6 +37,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dbb302379b427ab4ba5a9df63e5e94b7, type: 2}
   AbilityActions:
   - rid: 3860127071150014479
+  ContainerTest:
+    m_SerializedExplicitTags:
+    - Ability.Crouch
   references:
     version: 2
     RefIds:
@@ -45,7 +48,7 @@ MonoBehaviour:
       data:
         ActivationPolicy: 0
         EventName: Attack
-        AnimWindow: {x: 0.17975858, y: 0.3252853}
+        AnimWindow: {x: 0.17336401, y: 0.36280143}
         HitEffect: {fileID: 1438542530079480, guid: 21710859533a00746ad2bdd323061a2d, type: 3}
         OnHitApplyAbility: {fileID: 11400000, guid: c4bebbc8c67c42c4db8d77af3cbb521e, type: 2}
 --- !u!114 &4067716126298073610

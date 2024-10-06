@@ -43,6 +43,8 @@ namespace Core.Editor
         {
             _nodeGraphView.Save();
             NodeGraphHelper.SaveScriptableObjects();
+            
+            EditorApplication.update -= OnEditorUpdate;
         }
         
         private void OnEditorUpdate()
