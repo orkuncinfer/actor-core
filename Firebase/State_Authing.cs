@@ -35,7 +35,7 @@ public class State_Authing : MonoState
     }
 
     public AuthState CurrentState = AuthState.None;
-    
+#if UNITY_ANDROID
     IEnumerator WaitForGooglePlaySignIn()
     {
         while (!GooglePlayServicesInitialization.Instance.GooglePlaySignedIn)
@@ -84,4 +84,5 @@ public class State_Authing : MonoState
         CurrentState = AuthState.Authed;
         CheckoutExit();
     }
+ #endif
 }

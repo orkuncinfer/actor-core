@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Linq;
 using System.Reflection;
@@ -78,3 +79,4 @@ public static class AnimationPreviewPlayer {
 }
 
 }
+#endif

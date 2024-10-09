@@ -7,7 +7,7 @@ using Firebase.Firestore;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UnityEngine;
-
+#if UNITY_ANDROID
 public class FirestoreInventorySynchronizer : MonoBehaviour
 {
     [SerializeField] private InventoryDefinition _inventory;
@@ -57,3 +57,4 @@ public class FirestoreInventorySynchronizer : MonoBehaviour
         GooglePlayServicesInitialization.Instance.onFirebaseSignIn -= RegisterListeners;
     }
 }
+#endif

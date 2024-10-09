@@ -3,7 +3,7 @@ using NetworkShared.Attributes;
 using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
 using UnityEngine;
-
+#if UNITY_ANDROID
 [HandlerRegister(PacketType.OnAuth)]
 public class OnAuthHandler : IPacketHandler
 { 
@@ -15,3 +15,4 @@ public class OnAuthHandler : IPacketHandler
         GooglePlayServicesInitialization.Instance.DedicatedServerSignedIn = true;
     }
 }
+#endif

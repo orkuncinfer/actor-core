@@ -1,3 +1,4 @@
+#if UNITY_ANDROID
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -157,3 +158,4 @@ public class GooglePlayServicesInitialization : MonoBehaviour
     
     
 }
+#endif
