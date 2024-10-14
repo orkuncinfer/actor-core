@@ -21,6 +21,7 @@ public class AbilityController : MonoInitializable, ISavable
     
     public GameObject Target;
     public event Action<ActiveAbility> onActivatedAbility;
+    public event Action<ActiveAbility> onCanceledAbility; 
     public event Action onCancelCurrentAbility;
 
     public AbilityDefinition TestAbility;
@@ -144,7 +145,7 @@ public class AbilityController : MonoInitializable, ISavable
         {
             ActiveAbilities.Remove(ability);
             ability.EndAbility();
-            
+            onCanceledAbility?.Invoke(ability);
         }
     }
     public void CancelAbilityIfActive(string abilityName)

@@ -23,6 +23,7 @@ public class AnimancerController : MonoBehaviour
     private bool _abilityAnimPlaying;
 
     private AnimancerState _currentAbilityState;
+    
 
     private void Start()
     {
@@ -31,6 +32,7 @@ public class AnimancerController : MonoBehaviour
         _animancerComponent = GetComponent<AnimancerComponent>();
 
         _abilityController.onActivatedAbility += OnActivatedAbility;
+        _abilityController.onCanceledAbility += OnCanceledAbility;
     }
 
     private void Update()
@@ -90,7 +92,22 @@ public class AnimancerController : MonoBehaviour
             }
         }
     }
-
+    private void OnCanceledAbility(ActiveAbility ability)
+    {
+        Debug.Log("end1");
+        foreach (AbilityAction abilityAction in ability.Definition.AbilityActions) // exit lifetime actions
+        {
+            Debug.Log("end2");
+            AbilityAction clonedAction = _abilityActions[abilityAction.GetType()];
+            if (abilityAction.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
+            {
+                Debug.Log("end3");
+                clonedAction.OnExit();
+                _abilityActions.Remove(clonedAction.GetType());
+                _registeredAbilityActionList.Remove(clonedAction);
+            }
+        }
+    }
 
     private void OnActivatedAbility(ActiveAbility ability)
     {
@@ -102,7 +119,11 @@ public class AnimancerController : MonoBehaviour
         foreach (AbilityAction actionsToClone in ability.Definition.AbilityActions)
         {
             AbilityAction clonedAction = actionsToClone.Clone();
-            _abilityActions.Add(clonedAction.GetType(), clonedAction);
+            if(_abilityActions.ContainsKey(clonedAction.GetType()) == false)_abilityActions.Add(clonedAction.GetType(), clonedAction);
+            if (actionsToClone.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
+            {
+                clonedAction.OnStart(_owner, ability);
+            }
             if (!_registeredAbilityActionList.Contains(clonedAction))
             {
                 _registeredAbilityActionList.Add(clonedAction);
@@ -143,7 +164,7 @@ public class AnimancerController : MonoBehaviour
         OnEnd(_abilityController.LastUsedAbility);
     }
 
-    private void OnEnd(ActiveAbility ability)
+    private void OnEnd(ActiveAbility ability) // the animation has came to an end
     {
         if (_isLooping)
         {
@@ -157,6 +178,19 @@ public class AnimancerController : MonoBehaviour
             foreach (GameplayTag gameplayTag in activeAbility.Definition.GrantedTagsDuringAbility)
             {
                 _abilityController.GetComponent<TagController>().RemoveTag(gameplayTag);
+            }
+        }
+        Debug.Log("end1");
+        foreach (AbilityAction abilityAction in ability.Definition.AbilityActions) // exit lifetime actions
+        {
+            Debug.Log("end2");
+            AbilityAction clonedAction = _abilityActions[abilityAction.GetType()];
+            if (abilityAction.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
+            {
+                Debug.Log("end3");
+                clonedAction.OnExit();
+                _abilityActions.Remove(clonedAction.GetType());
+                _registeredAbilityActionList.Remove(clonedAction);
             }
         }
 

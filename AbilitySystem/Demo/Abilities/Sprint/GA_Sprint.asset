@@ -81,7 +81,17 @@ MonoBehaviour:
   GrantedTagsDuringAbility: []
   GrantedEffectsDuringAbility:
   - {fileID: 11400000, guid: 65e28cdbc4cb06b48b8d231b4dbcc308, type: 2}
-  AbilityActions: []
+  AbilityActions:
+  - rid: 3670662723831857152
+  ContainerTest:
+    m_SerializedExplicitTags: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3670662723831857152
+      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 2
+        EventName: 
+        AnimWindow: {x: 0, y: 0}
+        ToggleAiming: 0

@@ -115,6 +115,7 @@ namespace StatSystem
 
         private void StatIsModified(Stat stat)
         {
+            //Debug.Log("Stat is modified : " + stat.Definition.name + " : " + stat.Value);
             onStatIsModified?.Invoke(stat);
         }
 

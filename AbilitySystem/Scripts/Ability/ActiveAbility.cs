@@ -13,7 +13,6 @@ public class ActiveAbility : Ability
         public virtual void StartAbility()
         {
             ApplyEffectsToSelf();
-            StartLifetimeAbilityActions();
             if(Definition.AnimationClip == null)StaticUpdater.onUpdate += TickAbilityActions;
             DDebug.Log($"<color=cyan>Ability</color> activated : {Definition.name}");
         }
@@ -21,36 +20,11 @@ public class ActiveAbility : Ability
         public virtual void EndAbility()
         {
             RemoveOngoingEffects();
-            EndAbilityActions();
             if(Definition.AnimationClip == null)StaticUpdater.onUpdate -= TickAbilityActions;
             DDebug.Log($"<color=red>Ability</color> ended : {Definition.name}");
           
         }
-
-        private void StartLifetimeAbilityActions()
-        {
-            if(Definition.AbilityActions != null && Definition.AbilityActions.Count > 0)
-            {
-                foreach (AbilityAction action in Definition.AbilityActions)
-                {
-                    if(!action.EventName.IsNullOrWhitespace() && action.UseAnimEvent) return;
-                    if(!action.UseAnimEvent) return;
-                    action.OnStart(Owner, this);
-                }
-            }
-        }
-        private void EndAbilityActions()
-        {
-            if(Definition.AbilityActions != null && Definition.AbilityActions.Count > 0)
-            {
-                foreach (AbilityAction action in Definition.AbilityActions)
-                {
-                    if(!action.IsRunning) return;
-                    if(!action.EventName.IsNullOrWhitespace()) return;
-                    action.OnExit();
-                }
-            }
-        }
+     
         private void TickAbilityActions() // tick ability that has no animation
         {
             if(Definition.AbilityActions != null && Definition.AbilityActions.Count > 0)
