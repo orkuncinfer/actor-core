@@ -21,6 +21,8 @@ public class AbilityAction
     [ShowIf("UseAnimEvent")]public string EventName;
     [MinMaxSlider(0,1)][ShowIf("UseAnimWindow")]public Vector2 AnimWindow;
 
+    protected AbilityDefinition Definition;
+    
     private bool _isRunning;
     public bool IsRunning => _isRunning;
     
@@ -46,6 +48,7 @@ public class AbilityAction
     }
     public virtual void OnStart(Actor owner, ActiveAbility ability)
     {
+        Definition = ability.Definition;
         _isRunning = true;
         _hasExecutedOnce = true;
     }

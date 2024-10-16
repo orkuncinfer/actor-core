@@ -13,6 +13,11 @@ public class ActiveAbility : Ability
         public virtual void StartAbility()
         {
             ApplyEffectsToSelf();
+            TagController tagController = Owner.GetComponentInChildren<TagController>();
+            foreach (GameplayTag tag in Definition.GrantedTagsDuringAbility)
+            {
+                tagController.AddTag(tag);
+            }
             if(Definition.AnimationClip == null)StaticUpdater.onUpdate += TickAbilityActions;
             DDebug.Log($"<color=cyan>Ability</color> activated : {Definition.name}");
         }
@@ -20,6 +25,11 @@ public class ActiveAbility : Ability
         public virtual void EndAbility()
         {
             RemoveOngoingEffects();
+            TagController tagController = Owner.GetData<Data_GAS>().TagController;
+            foreach (GameplayTag tag in Definition.GrantedTagsDuringAbility)
+            {
+                tagController.RemoveTag(tag);
+            }
             if(Definition.AnimationClip == null)StaticUpdater.onUpdate -= TickAbilityActions;
             DDebug.Log($"<color=red>Ability</color> ended : {Definition.name}");
           

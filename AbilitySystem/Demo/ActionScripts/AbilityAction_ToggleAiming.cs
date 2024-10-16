@@ -25,7 +25,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
         if (_weightHandler != null)
         {
             _initialAimingState = _weightHandler.IsAiming;
-           _weightHandler.IsAiming = ToggleAiming;
+           _weightHandler.ToggleAiming(ToggleAiming);
         }
         Debug.Log("test341");
     }

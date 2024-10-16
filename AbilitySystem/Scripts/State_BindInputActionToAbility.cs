@@ -27,6 +27,13 @@ public class State_BindInputActionToAbility : MonoState
         _abilityAction?.Enable();
     }
 
+    protected override void OnExit()
+    {
+        base.OnExit();
+        _abilityAction.performed -= OnPerformed;
+        _abilityAction.canceled -= OnCanceled;
+    }
+
     private void OnCanceled(InputAction.CallbackContext obj)
     {
         if(CancelOnRelease)

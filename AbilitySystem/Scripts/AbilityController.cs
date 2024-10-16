@@ -25,6 +25,8 @@ public class AbilityController : MonoInitializable, ISavable
     public event Action onCancelCurrentAbility;
 
     public AbilityDefinition TestAbility;
+
+    private ActorBase _owner;
   
     public event Action onInitialized;
     
@@ -32,7 +34,8 @@ public class AbilityController : MonoInitializable, ISavable
     {
         _effectController = GetComponent<GameplayEffectController>();
         m_TagController = GetComponent<TagController>();
-        
+        _owner = ActorUtilities.FindFirstActorInParents(transform);
+
     }
     protected virtual void OnEnable()
     {
@@ -66,7 +69,7 @@ public class AbilityController : MonoInitializable, ISavable
         LastUsedAbility = null;
     }
     
-    public void AddAndActivateAbility(AbilityDefinition definition)
+    public void AddAndTryActivateAbility(AbilityDefinition definition)
     {
         AddAbilityIfNotHave(definition);
         TryActivateAbility(definition.name, Target);
@@ -86,10 +89,7 @@ public class AbilityController : MonoInitializable, ISavable
                 onActivatedAbility?.Invoke(activeAbility);
                 ActiveAbilities.Add(activeAbility);
                 activeAbility.StartAbility();
-                foreach (GameplayTag tag in activeAbility.Definition.GrantedTagsDuringAbility)
-                {
-                    m_TagController.AddTag(tag);
-                }
+                
                 return true;
             }
         }
@@ -172,6 +172,7 @@ public class AbilityController : MonoInitializable, ISavable
             {
                 passiveAbility.ApplyEffects(gameObject);
             }
+            ability.Owner = _owner as Actor;
         }
         IsInitialized = true;
         onInitialized?.Invoke();
@@ -185,6 +186,7 @@ public class AbilityController : MonoInitializable, ISavable
                 .OfType<AbilityTypeAttribute>().FirstOrDefault();
             Ability ability =
                 Activator.CreateInstance(abilityTypeAttribute.type, abilityDefinition, this) as Ability;
+            ability.Owner = _owner as Actor;
             m_Abilities.Add(abilityDefinition.name, ability);
         }
     }

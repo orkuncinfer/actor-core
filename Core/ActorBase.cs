@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using BandoWare.GameplayTags;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -64,8 +65,8 @@ public class ActorBase : MonoBehaviour, ITagContainer
     
     protected Dictionary<Type,object> _services = new Dictionary<Type, object>();
 
- 
-
+    public GameplayTagContainer GameplayTags;
+    
     [ReadOnly]
     [ShowInInspector]
     [HideInEditorMode]

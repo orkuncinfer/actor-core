@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95830e1a269b49308eda88a503d26679, type: 3}
-  m_Name: GA_Sprint
+  m_Name: GA_InteractionStandard
   m_EditorClassIdentifier: 
   _title: 
   _description: 
@@ -78,18 +78,22 @@ MonoBehaviour:
   _duration: 0
   Cost: {fileID: -657316294236542774}
   Cooldown: {fileID: -210694448143317016}
-  GrantedTagsDuringAbility: []
-  GrantedEffectsDuringAbility:
-  - {fileID: 11400000, guid: 65e28cdbc4cb06b48b8d231b4dbcc308, type: 2}
+  GrantedTagsDuringAbility:
+  - fullTag: State.Interaction
+    tagHierarchy:
+    - State
+    - State.Interaction
+    HashCode: a22a60b5-b83d-49ca-9734-dc1ceaca7883
+  GrantedEffectsDuringAbility: []
   AbilityActions:
-  - rid: 3670662740903198781
+  - rid: 3670662740903198780
   ContainerTest:
     m_SerializedExplicitTags: []
   references:
     version: 2
     RefIds:
-    - rid: 3670662740903198781
-      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
+    - rid: 3670662740903198780
+      type: {class: AbilityAction_StartInteraction, ns: , asm: Assembly-CSharp-firstpass}
       data:
         ActivationPolicy: 2
         EventName: 

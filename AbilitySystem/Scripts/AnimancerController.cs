@@ -98,6 +98,7 @@ public class AnimancerController : MonoBehaviour
         foreach (AbilityAction abilityAction in ability.Definition.AbilityActions) // exit lifetime actions
         {
             Debug.Log("end2");
+            if(_abilityActions.ContainsKey(abilityAction.GetType()) == false) continue;
             AbilityAction clonedAction = _abilityActions[abilityAction.GetType()];
             if (abilityAction.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
             {
