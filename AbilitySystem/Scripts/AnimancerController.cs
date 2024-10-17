@@ -24,7 +24,7 @@ public class AnimancerController : MonoBehaviour
 
     private AnimancerState _currentAbilityState;
     
-
+    private Action _onAnimationEnd;
     private void Start()
     {
         _owner = transform.root.GetComponent<Actor>();
@@ -49,7 +49,7 @@ public class AnimancerController : MonoBehaviour
             if (_loopRemainingTime <= 0)
             {
                 _isLooping = false;
-                OnEnd(_abilityController.LastUsedAbility);
+                OnAnimEnd(_abilityController.LastUsedAbility);
             }
         }
 
@@ -112,6 +112,7 @@ public class AnimancerController : MonoBehaviour
 
     private void OnActivatedAbility(ActiveAbility ability)
     {
+        Debug.Log("Activated ability");
         _isLooping = ability.Definition.IsLoopingAbility;
         _loopRemainingTime = ability.Definition.Duration;
         _lastActivatedAbility = ability;
@@ -135,7 +136,7 @@ public class AnimancerController : MonoBehaviour
         {
             _animancerComponent.Stop();
             _currentAbilityState = _animancerComponent.Play(ability.Definition.AnimationClip);
-            _currentAbilityState.Events.OnEnd = () => OnEnd(ability);
+            _currentAbilityState.Events.OnEnd +=TestEnd;
             _abilityAnimPlaying = true;
             if (ability.Definition.IsBasicAttack)
             {
@@ -158,14 +159,21 @@ public class AnimancerController : MonoBehaviour
         }
     }
 
+    public void TestEnd()
+    {
+        Debug.Log("TestEnd31");
+        _currentAbilityState.Events.OnEnd -=TestEnd;
+        OnAnimEnd(_lastActivatedAbility);
+    }
+
     [Button]
     public void CancelCurrent()
     {
         _isLooping = false;
-        OnEnd(_abilityController.LastUsedAbility);
+        OnAnimEnd(_abilityController.LastUsedAbility);
     }
 
-    private void OnEnd(ActiveAbility ability) // the animation has came to an end
+    private void OnAnimEnd(ActiveAbility ability) // the animation has came to an end
     {
         if (_isLooping)
         {
@@ -198,7 +206,7 @@ public class AnimancerController : MonoBehaviour
         _registeredAbilityActionList.Clear();
         _abilityActions.Clear();
 
-        _abilityController.CancelAbilityIfActive(ability);
+        _abilityController.AbilityDoneAnimating(ability);
 
         _currentActiveAbility = null;
         _currentAbilityState = null;

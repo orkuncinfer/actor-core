@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95830e1a269b49308eda88a503d26679, type: 3}
-  m_Name: GA_InteractionStandard
+  m_Name: GA_Unequip
   m_EditorClassIdentifier: 
   _title: 
   _description: 
@@ -72,8 +72,9 @@ MonoBehaviour:
   _isBasicAttack: 0
   _overrideAnimSpeed: 0
   _animationSpeed: 0
-  _animationClip: {fileID: 0}
+  _animationClip: {fileID: 7400000, guid: 8d91addad9b9984419735284e71b8eac, type: 2}
   _playTime: 1
+  _avatarMask: {fileID: 31900000, guid: 7978911be5f9a524a8b11c7076a2b658, type: 2}
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: -657316294236542774}
@@ -87,16 +88,17 @@ MonoBehaviour:
     HashCode: 3dfe870d-c954-43a6-a9dd-bc6d99ade74d
   GrantedEffectsDuringAbility: []
   AbilityActions:
-  - rid: 3670662740903198780
+  - rid: 3670662776026824706
   ContainerTest:
     m_SerializedExplicitTags: []
   references:
     version: 2
     RefIds:
-    - rid: 3670662740903198780
-      type: {class: AbilityAction_StartInteraction, ns: , asm: Assembly-CSharp-firstpass}
+    - rid: 3670662776026824706
+      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
       data:
         ActivationPolicy: 2
         EventName: 
         AnimWindow: {x: 0, y: 0}
         ToggleAiming: 0
+        BackToDefaultOnExit: 0

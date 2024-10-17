@@ -6,6 +6,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
     ActiveAbility _ability;
 
     public bool ToggleAiming;
+    public bool BackToDefaultOnExit = true;
     private AimIKWeightHandler _weightHandler;
     
     private bool _initialAimingState;
@@ -15,6 +16,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
         clone._weightHandler = _weightHandler;
         clone.ToggleAiming = ToggleAiming;
         clone._initialAimingState = _initialAimingState;
+        clone.BackToDefaultOnExit = BackToDefaultOnExit;
         return clone;
     }
 
@@ -33,7 +35,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
     public override void OnExit()
     {
         base.OnExit();
-        if (_weightHandler != null)
+        if (_weightHandler != null && BackToDefaultOnExit)
         {
             _weightHandler.IsAiming = _initialAimingState;
         }

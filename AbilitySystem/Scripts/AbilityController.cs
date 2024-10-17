@@ -138,7 +138,14 @@ public class AbilityController : MonoInitializable, ISavable
          _effectController.ApplyGameplayEffectToSelf(new GameplayEffect(ability.Definition.Cost, ability, gameObject));
         _effectController.ApplyGameplayEffectToSelf(new GameplayPersistentEffect(ability.Definition.Cooldown, ability, gameObject));
     }
-    
+    public void AbilityDoneAnimating(ActiveAbility ability) // ability finished successfully at end of animation
+    {
+        if (ActiveAbilities.Contains(ability))
+        {
+            ActiveAbilities.Remove(ability);
+            ability.EndAbility();
+        }
+    }
     public void CancelAbilityIfActive(ActiveAbility ability)
     {
         if (ActiveAbilities.Contains(ability))

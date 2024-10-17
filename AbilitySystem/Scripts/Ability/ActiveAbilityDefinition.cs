@@ -12,19 +12,23 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
     [SerializeField] private bool _isBasicAttack;
     public bool IsBasicAttack => _isBasicAttack;
 
-    [HideIf("_isBasicAttack")]
+    [HideIf("_isBasicAttack")][FoldoutGroup("AnimConfig")]
     [SerializeField] private bool _overrideAnimSpeed;
     public bool OverrideAnimSpeed => _overrideAnimSpeed;
 
-    [SerializeField][ShowIf("_overrideAnimSpeed")] private float _animationSpeed;
+    [SerializeField][ShowIf("_overrideAnimSpeed")][FoldoutGroup("AnimConfig")] private float _animationSpeed;
     public float AnimationSpeed => _animationSpeed;
-    [HorizontalGroup]
+    [HorizontalGroup][FoldoutGroup("AnimConfig")]
     [SerializeField] private AnimationClip _animationClip;
     public AnimationClip AnimationClip => _animationClip;
     
-    [HorizontalGroup][PropertyRange(0,1)][Tooltip("At 1 the animation will play until the end, at 0 it will play for 0 seconds")]
+    [HorizontalGroup][FoldoutGroup("AnimConfig")][PropertyRange(0,1)][Tooltip("At 1 the animation will play until the end, at 0 it will play for 0 seconds")]
     [SerializeField] private float _playTime = 1f;
     public float PlayTime => _playTime;
+    
+    [FoldoutGroup("AnimConfig")]
+    [SerializeField] private AvatarMask _avatarMask;
+    public AvatarMask AvatarMask => _avatarMask;
     
     [SerializeField] private bool _isLoopingAbility;
     public bool IsLoopingAbility => _isLoopingAbility;

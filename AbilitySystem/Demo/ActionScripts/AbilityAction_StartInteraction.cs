@@ -51,10 +51,7 @@ public class AbilityAction_StartInteraction : AbilityAction
     public override void OnExit()
     {
         base.OnExit();
-        if (_weightHandler != null)
-        {
-            _weightHandler.IsAiming = _initialAimingState;
-        }
+       
         Debug.Log("test31 end");
     }
 }
