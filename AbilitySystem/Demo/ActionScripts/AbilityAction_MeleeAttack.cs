@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BandoWare.GameplayTags;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -42,7 +43,7 @@ public class AbilityAction_MeleeAttack : AbilityAction
         Actor hitActor = obj.GetComponent<Actor>();
         AbilityController abilityController = hitActor.GetData<Data_GAS>().AbilityController;
         Data_GAS gasData = hitActor.GetData<Data_GAS>();
-        if (gasData.TagController.MatchesExact("State.IsDead"))
+        if (hitActor.GameplayTags.HasTagExact("State.IsDead"))
         {
             return;
         }

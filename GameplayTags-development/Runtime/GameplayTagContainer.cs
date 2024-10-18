@@ -174,6 +174,8 @@ namespace BandoWare.GameplayTags
       [SerializeField]
       private List<string> m_SerializedExplicitTags;
 
+      public event Action OnTagChanged;
+
       private GameplayTagContainerIndices m_Indices = new();
 
       /// <summary>
@@ -368,6 +370,11 @@ namespace BandoWare.GameplayTags
       {
          GameplayTagContainerUtility.GetParentTags(m_Indices.Implicit, tag, parentTags);
       }
+      
+      public string[] GetSerializedExplicitTags()
+      {
+         return m_SerializedExplicitTags.ToArray();
+      }
 
       /// <inheritdoc />
       public void GetChildTags(GameplayTag tag, List<GameplayTag> childTags)
@@ -406,6 +413,7 @@ namespace BandoWare.GameplayTags
 
          m_Indices.Explicit.Insert(~index, tag.RuntimeIndex);
          AddImplicitTagsFor(tag);
+         OnTagChanged?.Invoke();
       }
 
       /// <inheritdoc />
@@ -434,6 +442,7 @@ namespace BandoWare.GameplayTags
 
          m_Indices.Explicit.RemoveAt(index);
          FillImplictTags();
+         OnTagChanged?.Invoke();
       }
 
       /// <inheritdoc />
@@ -454,6 +463,7 @@ namespace BandoWare.GameplayTags
             }
 
             m_Indices.Explicit.RemoveAt(index);
+            OnTagChanged?.Invoke();
          }
 
          FillImplictTags();

@@ -245,9 +245,16 @@ public class GasDebugger : MonoBehaviour
         GUILayout.Label("Owned Tags :", tagsHeaderStyle);
         GUILayout.Space(scaledSpacing);
         
-        for (int i = 0; i < _tagController._gameplayTags.Count; i++)
+       /* for (int i = 0; i < actor.GameplayTags.TagCount; i++)
         {
             string tag = _tagController._gameplayTags[i].FullTag;
+            GUILayout.Label($"{tag}", myStyle);
+            GUILayout.Space(scaledSpacing * 0.8f);
+        }*/
+
+        foreach (var gameplayTag in actor.GameplayTags.GetExplicitTags())
+        {
+            string tag = gameplayTag.ToString();
             GUILayout.Label($"{tag}", myStyle);
             GUILayout.Space(scaledSpacing * 0.8f);
         }

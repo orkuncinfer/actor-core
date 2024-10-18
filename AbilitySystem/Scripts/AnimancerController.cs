@@ -184,9 +184,9 @@ public class AnimancerController : MonoBehaviour
         _abilityAnimPlaying = false;
         if (ability is ActiveAbility activeAbility) // possible bug
         {
-            foreach (GameplayTag gameplayTag in activeAbility.Definition.GrantedTagsDuringAbility)
+            foreach (var gameplayTag in activeAbility.Definition.GrantedTagsDuringAbility)
             {
-                _abilityController.GetComponent<TagController>().RemoveTag(gameplayTag);
+               _owner.GameplayTags.RemoveTag(gameplayTag);
             }
         }
         Debug.Log("end1");

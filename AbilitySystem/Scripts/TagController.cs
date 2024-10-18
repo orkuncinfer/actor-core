@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class TagController : MonoBehaviour
 {
-        public GameObject DebugCanvas;
+       /* public GameObject DebugCanvas;
         public event Action<GameplayTag> onGameplaytagAdded;
         public event Action<GameplayTag> onGameplaytagRemoved;
  
@@ -70,7 +70,7 @@ public class TagController : MonoBehaviour
         public bool SatisfiesRequirements(IEnumerable<string> mustBePresentTags, IEnumerable<string> mustBeAbsentTags)
         {
             return ContainsAll(mustBePresentTags) && !ContainsAny(mustBeAbsentTags);
-        }*/
+        }
         
         public void AddTag(GameplayTag tag)
         {
@@ -87,5 +87,5 @@ public class TagController : MonoBehaviour
                 _gameplayTags.Remove(tag);
                 onGameplaytagRemoved?.Invoke(tag);
             }
-        }
+        }*/
 }

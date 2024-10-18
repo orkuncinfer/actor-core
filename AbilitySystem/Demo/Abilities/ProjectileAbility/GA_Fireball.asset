@@ -18,21 +18,22 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: dbb302379b427ab4ba5a9df63e5e94b7, type: 2}
-  _animationName: 
   _isBasicAttack: 1
   _overrideAnimSpeed: 0
   _animationSpeed: 0
   _animationClip: {fileID: 7400000, guid: 9da5f4e062db75b479d4ffc5c2ac14b0, type: 2}
+  _playTime: 1
+  _avatarMask: {fileID: 0}
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: 6695704546369249453}
   Cooldown: {fileID: 3499710552046339334}
   GrantedTagsDuringAbility:
-  - fullTag: Ability
-    tagHierarchy:
-    - Ability
-    HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
-  AbilityWindowActions: []
+    m_SerializedExplicitTags: []
+  GrantedEffectsDuringAbility: []
+  AbilityActions: []
+  ContainerTest:
+    m_SerializedExplicitTags: []
   m_ProjectileSpeed: 15
   m_ShotType: 3
   m_IsSpinning: 0
@@ -57,9 +58,15 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags:
+    - Ability
+    - CrowdControl
+    - CrowdControl.Slow
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
@@ -88,9 +95,12 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: Mana
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   references:
     version: 2
     RefIds:

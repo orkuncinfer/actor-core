@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BandoWare.GameplayTags;
 using Sirenix.OdinInspector;
 using StatSystem;
 using UnityEngine;
@@ -22,6 +23,8 @@ public partial class GameplayEffectController : MonoInitializable
     [ShowInInspector][ReadOnly] private List<GameplayEffectDefinition> _effectHistory = new List<GameplayEffectDefinition>();
     
     private List<GameplayPersistentEffect> _effectsToRemove = new List<GameplayPersistentEffect>();
+    
+    private ActorBase _owner;
 
     [Button]
     public void GetEffect()
@@ -33,16 +36,13 @@ public partial class GameplayEffectController : MonoInitializable
     {
         HandleDuration();
     }
-
-    protected virtual void Shit()
-    {
-        
-    }
-
+    
     private void OnEnable()
     {
         _statController.onInitialized += OnStatControllerInitialized;
         if(_statController.IsInitialized) OnStatControllerInitialized();
+        
+        _owner = ActorUtilities.FindFirstActorInParents(transform);
     }
 
     private void OnDisable()
@@ -117,7 +117,7 @@ public partial class GameplayEffectController : MonoInitializable
     {
         bool isAdded = true;
 
-        if (_tagController.MatchesExact("State.IsDead"))
+        if (_owner.GameplayTags.HasTagExact("State.IsDead"))
         {
             DDebug.Log("Can't apply effect while dead!");
             return false;
@@ -125,9 +125,9 @@ public partial class GameplayEffectController : MonoInitializable
         
         foreach (GameplayPersistentEffect activeEffect in _activeEffects)
         {
-            foreach (GameplayTag tag in activeEffect.Definition.GrantedTags)
+            foreach (var tag in activeEffect.Definition.GrantedTags)
             {
-                if (effectToApply.Definition.ApplicationBlockerTags.Any(t => t.FullTag == tag.FullTag))
+                if (effectToApply.Definition.ApplicationBlockerTags.Any(t => t == tag))
                 {
                     DDebug.Log($"Immune to {effectToApply.Definition.name}");
                     return false;
@@ -196,12 +196,12 @@ public partial class GameplayEffectController : MonoInitializable
             ApplyGameplayEffectToSelf(conditionalEffectInstance);
         }
 
-        List<GameplayPersistentEffect> effectsToRemove = new List<GameplayPersistentEffect>();
+        List<GameplayPersistentEffect> effectsToRemove = new List<GameplayPersistentEffect>();// check if it works!
         foreach (GameplayPersistentEffect activeEffect in _activeEffects)
         {
-            foreach (GameplayTag tag in activeEffect.Definition.GrantedTags)
+            foreach (var tag in activeEffect.Definition.GrantedTags)
             {
-                if (effectToApply.Definition.RemoveEffectsWithTags.Any(t => t.FullTag == tag.FullTag))
+                if (effectToApply.Definition.RemoveEffectsWithTags.Any(t => t == tag))
                 {
                     effectsToRemove.Add(activeEffect);
                 }
@@ -285,7 +285,7 @@ public partial class GameplayEffectController : MonoInitializable
         }
         foreach (var tag in effect.Definition.GrantedTags)
         {
-            _tagController.AddTag(tag);
+            _owner.GameplayTags.AddTag(tag);
         }
         
         if (effect.Definition.SpecialPersistentEffectDefinition != null)
@@ -305,7 +305,7 @@ public partial class GameplayEffectController : MonoInitializable
         }
         foreach (var tag in effect.Definition.GrantedTags)
         {
-            _tagController.RemoveTag(tag);
+            _owner.GameplayTags.RemoveTag(tag);
         }
 
         if (effect.Definition.SpecialPersistentEffectDefinition != null)

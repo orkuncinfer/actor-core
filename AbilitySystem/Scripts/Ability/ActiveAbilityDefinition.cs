@@ -40,7 +40,7 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
      
      public GameplayPersistentEffectDefinition Cooldown;
 
-     public List<GameplayTag> GrantedTagsDuringAbility;
+     public GameplayTagContainer GrantedTagsDuringAbility;
      [Tooltip("These effects are applied to the user of the ability and are removed after the ability is done")]
      public List<GameplayEffectDefinition> GrantedEffectsDuringAbility;
      

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TagDebugDisplay : MonoBehaviour
 {
-    private Camera _camera;
+    /*private Camera _camera;
     private TextMeshProUGUI _text;
     public TagController TagController;
     private bool _initialized;
@@ -36,5 +36,5 @@ public class TagDebugDisplay : MonoBehaviour
         }
         
         _text.text = tagText;
-    }
+    }*/
 }

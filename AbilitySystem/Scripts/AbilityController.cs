@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BandoWare.GameplayTags;
 using SaveSystem.Scripts.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -99,15 +100,15 @@ public class AbilityController : MonoInitializable, ISavable
     
     public bool CanActivateAbility(ActiveAbility ability)
     {
-        if (m_TagController.MatchesExact("State.IsDead"))
+        if (_owner.GameplayTags.HasTagExact("State.IsDead"))
         {
             DDebug.Log("Can't activate ability while dead!");
             return false;
         }
         
-        foreach (GameplayTag gameplayTag in ability.Definition.GrantedTagsDuringAbility) // is busy using ability?
+        foreach (var gameplayTag in ability.Definition.GrantedTagsDuringAbility) // is busy using ability?
         {
-            if (m_TagController.Matches(gameplayTag))
+            if (_owner.GameplayTags.HasTagExact(gameplayTag))
             {
                 //DDebug.Log($"{ability.Definition.name} blocked by {gameplayTag.FullTag}!");
                 return false;
@@ -116,9 +117,9 @@ public class AbilityController : MonoInitializable, ISavable
         
         if (ability.Definition.Cooldown != null) // is on cooldown?
         {
-            if (ability.Definition.Cooldown.GrantedTags.Count > 0)
+            if (ability.Definition.Cooldown.GrantedTags.TagCount > 0)
             {
-                if (m_TagController.Matches(ability.Definition.Cooldown.GrantedTags.First()))
+                if (_owner.GameplayTags.HasTag(ability.Definition.Cooldown.GrantedTags.First()))
                 {
                     DDebug.Log($"{ability.Definition.name} is on cooldown!");
                     return false;

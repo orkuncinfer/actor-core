@@ -64,8 +64,8 @@ public class ActorBase : MonoBehaviour, ITagContainer
     protected Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
     
     protected Dictionary<Type,object> _services = new Dictionary<Type, object>();
-
-    public GameplayTagContainer GameplayTags;
+    
+    public GameplayTagContainer GameplayTags = new GameplayTagContainer();
     
     [ReadOnly]
     [ShowInInspector]

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using BandoWare.GameplayTags;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -34,19 +35,19 @@ public class GameplayEffectDefinition : ScriptableObject
     [Tooltip("These tags are applied to the actor I am applied to")]
     [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
     [TitleGroup("Tags/Tags")]
-    [SerializeField] protected List<GameplayTag> _grantedTags;
-    public List<GameplayTag> GrantedTags => _grantedTags;
+    [SerializeField] protected GameplayTagContainer _grantedTags;
+    public GameplayTagContainer GrantedTags => _grantedTags;
     
     [Tooltip("If target have these tags, this effect will not be applied")]
     [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
     [TitleGroup("Tags/Tags")]
-    [SerializeField] protected List<GameplayTag> _applicationBlockerTags;
-    public List<GameplayTag> ApplicationBlockerTags => _applicationBlockerTags;
+    [SerializeField] protected GameplayTagContainer _applicationBlockerTags;
+    public GameplayTagContainer ApplicationBlockerTags => _applicationBlockerTags;
 
     [BoxGroup("Tags", ShowLabel = false)]
     [TitleGroup("Tags/Tags")][ListDrawerSettings(ShowFoldout = true)]
-    [SerializeField] protected List<GameplayTag> _removeEffectsWithTags;
-    public List<GameplayTag> RemoveEffectsWithTags => _removeEffectsWithTags;
+    [SerializeField] protected GameplayTagContainer _removeEffectsWithTags;
+    public GameplayTagContainer RemoveEffectsWithTags => _removeEffectsWithTags;
     
     
     public IEnumerable<Type> GetFilteredTypeList()

@@ -16,9 +16,12 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   references:
     version: 2
     RefIds: []
@@ -38,9 +41,12 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
@@ -74,11 +80,14 @@ MonoBehaviour:
   _animationSpeed: 0
   _animationClip: {fileID: 0}
   _playTime: 1
+  _avatarMask: {fileID: 0}
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: -657316294236542774}
   Cooldown: {fileID: -210694448143317016}
-  GrantedTagsDuringAbility: []
+  GrantedTagsDuringAbility:
+    m_SerializedExplicitTags:
+    - Ability.Crouch
   GrantedEffectsDuringAbility:
   - {fileID: 11400000, guid: 65e28cdbc4cb06b48b8d231b4dbcc308, type: 2}
   AbilityActions:
@@ -95,3 +104,4 @@ MonoBehaviour:
         EventName: 
         AnimWindow: {x: 0, y: 0}
         ToggleAiming: 0
+        BackToDefaultOnExit: 1
