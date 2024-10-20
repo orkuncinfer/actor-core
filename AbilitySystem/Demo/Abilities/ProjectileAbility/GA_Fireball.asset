@@ -28,12 +28,10 @@ MonoBehaviour:
   _duration: 0
   Cost: {fileID: 6695704546369249453}
   Cooldown: {fileID: 3499710552046339334}
-  GrantedTagsDuringAbility:
+  _grantedTagsDuringAbility:
     m_SerializedExplicitTags: []
   GrantedEffectsDuringAbility: []
   AbilityActions: []
-  ContainerTest:
-    m_SerializedExplicitTags: []
   m_ProjectileSpeed: 15
   m_ShotType: 3
   m_IsSpinning: 0

@@ -14,6 +14,7 @@ public class State_BindInputActionToAbility : MonoState
     public bool CancelOnRelease;
     
     private InputAction _abilityAction;
+    private bool _start;
     protected override void OnEnter()
     {
         base.OnEnter();
@@ -34,6 +35,15 @@ public class State_BindInputActionToAbility : MonoState
         _abilityAction.canceled -= OnCanceled;
     }
 
+    protected override void OnUpdate()
+    {
+        base.OnUpdate();
+        if (_start)
+        {
+          //  _gasData.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);
+        }
+    }
+
     private void OnCanceled(InputAction.CallbackContext obj)
     {
         if(CancelOnRelease)
@@ -42,6 +52,7 @@ public class State_BindInputActionToAbility : MonoState
 
     private void OnPerformed(InputAction.CallbackContext obj)
     {
+        _start = true;
         _gasData.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);
     }
 }

@@ -7,6 +7,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
 
     public bool ToggleAiming;
     public bool BackToDefaultOnExit = true;
+    public bool IsInstant;
     private AimIKWeightHandler _weightHandler;
     
     private bool _initialAimingState;
@@ -17,6 +18,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
         clone.ToggleAiming = ToggleAiming;
         clone._initialAimingState = _initialAimingState;
         clone.BackToDefaultOnExit = BackToDefaultOnExit;
+        clone.IsInstant = IsInstant;
         return clone;
     }
 
@@ -27,9 +29,8 @@ public class AbilityAction_ToggleAiming : AbilityAction
         if (_weightHandler != null)
         {
             _initialAimingState = _weightHandler.IsAiming;
-           _weightHandler.ToggleAiming(ToggleAiming);
+           _weightHandler.ToggleAiming(ToggleAiming, IsInstant);
         }
-        Debug.Log("test341");
     }
 
     public override void OnExit()
@@ -37,8 +38,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
         base.OnExit();
         if (_weightHandler != null && BackToDefaultOnExit)
         {
-            _weightHandler.IsAiming = _initialAimingState;
+            _weightHandler.ToggleAiming(_initialAimingState, IsInstant);
         }
-        Debug.Log("test342 end");
     }
 }

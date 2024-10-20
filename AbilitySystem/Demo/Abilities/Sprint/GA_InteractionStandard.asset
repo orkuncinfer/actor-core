@@ -16,9 +16,12 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   references:
     version: 2
     RefIds: []
@@ -38,9 +41,12 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
@@ -70,26 +76,39 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _gameplayEffectDefinitions: []
   _isBasicAttack: 0
+  _abilityLayer: 0
   _overrideAnimSpeed: 0
   _animationSpeed: 0
-  _animationClip: {fileID: 0}
-  _playTime: 1
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 1
+  _avatarMask: {fileID: 0}
+  _animationLayer: 0
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: -657316294236542774}
   Cooldown: {fileID: -210694448143317016}
-  GrantedTagsDuringAbility:
-  - fullTag: State.Ability.UpperBody
-    tagHierarchy:
-    - State
-    - State.Ability
-    - State.Ability.UpperBody
-    HashCode: 3dfe870d-c954-43a6-a9dd-bc6d99ade74d
+  _abilitySlotTags:
+    m_SerializedExplicitTags: []
+  _grantedTagsDuringAbility:
+    m_SerializedExplicitTags:
+    - AbilitySlot.BaseBody
+  _activationRequiredTags:
+    m_SerializedExplicitTags: []
+  _activationBlockedTags:
+    m_SerializedExplicitTags: []
+  _cancelAbilitiesWithTag:
+    m_SerializedExplicitTags: []
   GrantedEffectsDuringAbility: []
   AbilityActions:
   - rid: 3670662740903198780
-  ContainerTest:
-    m_SerializedExplicitTags: []
   references:
     version: 2
     RefIds:

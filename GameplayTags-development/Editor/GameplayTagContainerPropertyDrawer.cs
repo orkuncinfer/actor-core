@@ -34,7 +34,7 @@ namespace BandoWare.GameplayAbilities.Editor
             return Mathf.Max
             (
                tagNamesProperty.arraySize * EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing,
-               (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing) * 2
+               (/*EditorGUIUtility.singleLineHeight +*/ EditorGUIUtility.standardVerticalSpacing) * 2
             );
          }
 
@@ -69,7 +69,7 @@ namespace BandoWare.GameplayAbilities.Editor
 
          if (explicitTagsProperty.arraySize > 0)
          {
-            DrawClearAllButton(position, explicitTagsProperty);
+            //DrawClearAllButton(position, explicitTagsProperty);
          }
 
          if (explicitTagsProperty.hasMultipleDifferentValues)
@@ -88,7 +88,7 @@ namespace BandoWare.GameplayAbilities.Editor
       private static void OnMultipleValuesGUI(Rect position, SerializedProperty explicitTagsProperty)
       {
          s_TempContent.text = "Multiple tag values present.";
-         Debug.Log("s_TempContent.text");
+
          Rect rect = position;
          rect.xMin += k_ButtonsWidth + k_Gap;
          rect.height = EditorGUIUtility.singleLineHeight;

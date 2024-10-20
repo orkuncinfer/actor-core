@@ -1,53 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Animancer;
 using BandoWare.GameplayTags;
 using NUnit.Framework;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class ActiveAbilityDefinition : AbilityDefinition
 {
-    [SerializeField] private bool _isBasicAttack;
     public bool IsBasicAttack => _isBasicAttack;
-
+    [SerializeField] private bool _isBasicAttack;
+    
+    public int AbilityLayer => _abilityLayer;
+    [SerializeField][Tooltip("The ability can only be activated if there is no other ability active on the same layer")]
+    private int _abilityLayer;
+    
+    public bool OverrideAnimSpeed => _overrideAnimSpeed;
     [HideIf("_isBasicAttack")][FoldoutGroup("AnimConfig")]
     [SerializeField] private bool _overrideAnimSpeed;
-    public bool OverrideAnimSpeed => _overrideAnimSpeed;
 
-    [SerializeField][ShowIf("_overrideAnimSpeed")][FoldoutGroup("AnimConfig")] private float _animationSpeed;
     public float AnimationSpeed => _animationSpeed;
-    [HorizontalGroup][FoldoutGroup("AnimConfig")]
-    [SerializeField] private AnimationClip _animationClip;
-    public AnimationClip AnimationClip => _animationClip;
+    [SerializeField][ShowIf("_overrideAnimSpeed")][FoldoutGroup("AnimConfig")] private float _animationSpeed;
+    [FoldoutGroup("AnimConfig")]
+    [SerializeField] private ClipTransition _clipTransition;
     
-    [HorizontalGroup][FoldoutGroup("AnimConfig")][PropertyRange(0,1)][Tooltip("At 1 the animation will play until the end, at 0 it will play for 0 seconds")]
-    [SerializeField] private float _playTime = 1f;
-    public float PlayTime => _playTime;
+    public ClipTransition ClipTransition => _clipTransition;
     
+    public AnimationClip AnimationClip => _clipTransition.Clip;
+    
+    public float EndTime => _endTime;
+    [FoldoutGroup("AnimConfig")][PropertyRange(0,1)][Tooltip("At 1 the animation will play until the end, at 0 it will play for 0 seconds")]
+    [SerializeField] private float _endTime = 1f;
+    
+    public AvatarMask AvatarMask => _avatarMask;
     [FoldoutGroup("AnimConfig")]
     [SerializeField] private AvatarMask _avatarMask;
-    public AvatarMask AvatarMask => _avatarMask;
+
+    public int AnimationLayer => _animationLayer;
+    [FoldoutGroup("AnimConfig")]
+    [SerializeField]
+    private int _animationLayer = 0;
     
-    [SerializeField] private bool _isLoopingAbility;
     public bool IsLoopingAbility => _isLoopingAbility;
+    [SerializeField] private bool _isLoopingAbility;
        
-    [SerializeField][ShowIf("_isLoopingAbility")] private float _duration;
     public float Duration => _duration;
+    [SerializeField][ShowIf("_isLoopingAbility")] private float _duration;
 
      public GameplayEffectDefinition Cost;
      
      public GameplayPersistentEffectDefinition Cooldown;
-
-     public GameplayTagContainer GrantedTagsDuringAbility;
-     [Tooltip("These effects are applied to the user of the ability and are removed after the ability is done")]
+     public GameplayTagContainer AbilitySlotTags => _abilitySlotTags; // IMPLEMENTED // TESTED
+     [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
+     [TitleGroup("Tags/Tags")]
+     [SerializeField][Tooltip("These tags will be added to the user while the ability is active and this ability will not be able to be activated if the user has any of these tags")]
+     private GameplayTagContainer _abilitySlotTags;
+     public GameplayTagContainer GrantedTagsDuringAbility => _grantedTagsDuringAbility;
+     [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
+     [TitleGroup("Tags/Tags")]
+     [SerializeField][Tooltip("These effects are applied to the user of the ability and are removed after the ability is done")]
+     private GameplayTagContainer _grantedTagsDuringAbility;
+     
+     public GameplayTagContainer ActivationRequiredTags => _activationRequiredTags; // NOT IMPLEMENTED // NOT TESTED
+     [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
+     [TitleGroup("Tags/Tags")]
+     [SerializeField][Tooltip("This ability can only be activated if the user has these tags")]
+     private GameplayTagContainer _activationRequiredTags;
+     public GameplayTagContainer ActivationBlockedTags => _activationBlockedTags; // NOT IMPLEMENTED // NOT TESTED
+     [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
+     [TitleGroup("Tags/Tags")]
+     [SerializeField][Tooltip("This ability is blocked if the user has any of these tags")]
+     private GameplayTagContainer _activationBlockedTags;
+     
+     public GameplayTagContainer CancelAbilitiesWithTag => _cancelAbilitiesWithTag; // NOT IMPLEMENTED // NOT TESTED
+     [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
+     [TitleGroup("Tags/Tags")]
+     [SerializeField][Tooltip("Abilities with these tags will be canceled when this ability is activated")]
+     private GameplayTagContainer _cancelAbilitiesWithTag;
+     
+     [Space(5)]
      public List<GameplayEffectDefinition> GrantedEffectsDuringAbility;
      
      [SerializeReference][TypeFilter("GetFilteredTypeList")] [ListDrawerSettings(ShowFoldout = true)]
      public List<AbilityAction> AbilityActions = new List<AbilityAction>();
-
-     public GameplayTagContainer ContainerTest;
+     
      
      public IEnumerable<Type> GetFilteredTypeList()
      {

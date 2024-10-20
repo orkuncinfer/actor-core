@@ -28,9 +28,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 606b7c3b13554a3f90aff0b17d4cda3b, type: 3}
   m_Name: Float
   m_EditorClassIdentifier: 
-  Position: {x: -734, y: 586}
+  Position: {x: -962, y: 640}
   Guid: 6a941555dedfad74dada088c7339c9e6
   _value: 1.5
+--- !u!114 &-2678125831703634748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bdc04276722401886a8780bacb34762, type: 3}
+  m_Name: Group
+  m_EditorClassIdentifier: 
+  Position: {x: -987, y: 132}
+  GroupedNodes:
+  - {fileID: 9002448843913122696}
+  - {fileID: -769494799420131826}
+  - {fileID: 5309785721098525862}
+  - {fileID: -120120239905818358}
+  - {fileID: -5458192683531818509}
+  - {fileID: 5938514610092541220}
+  Title: Group Name
+  Guid: a81e0e48-2541-4ead-8cda-3b12401d59a5
 --- !u!114 &-1606193932363116470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e345321dcc89464c9d9dbeba5c41ca3f, type: 3}
   m_Name: Multiply
   m_EditorClassIdentifier: 
-  Position: {x: -541, y: 231}
+  Position: {x: -769, y: 285}
   Guid: e31c058201e4b074a8f3afb7707a7df9
   inputA: {fileID: 9002448843913122696}
   inputB: {fileID: 5938514610092541220}
@@ -75,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e345321dcc89464c9d9dbeba5c41ca3f, type: 3}
   m_Name: Multiply
   m_EditorClassIdentifier: 
-  Position: {x: -535, y: 434}
+  Position: {x: -763, y: 488}
   Guid: c4dd13b85d06daa45bbaeaf45ad5a313
   inputA: {fileID: 5309785721098525862}
   inputB: {fileID: -5458192683531818509}
@@ -107,7 +129,8 @@ MonoBehaviour:
   - {fileID: -5946348167850282891}
   - {fileID: -1606193932363116470}
   - {fileID: 8332429141831482690}
-  NodeGroups: []
+  NodeGroups:
+  - {fileID: -2678125831703634748}
 --- !u!114 &622753673092257267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675b99bfe07b45fb97bf1957cc86fcd2, type: 3}
   m_Name: Stat
   m_EditorClassIdentifier: 
-  Position: {x: -734, y: 424}
+  Position: {x: -962, y: 478}
   Guid: 3d64e44546f52cd4b829d859df7b0cf7
   _value: 30
   StatName: PhysicalPower
@@ -168,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 606b7c3b13554a3f90aff0b17d4cda3b, type: 3}
   m_Name: Float
   m_EditorClassIdentifier: 
-  Position: {x: -683, y: 284}
+  Position: {x: -962, y: 327}
   Guid: 2aa91a4bc0e5c5b4983bbb62c5f75dba
   _value: 2
 --- !u!114 &7209337703918835244
@@ -245,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675b99bfe07b45fb97bf1957cc86fcd2, type: 3}
   m_Name: Stat
   m_EditorClassIdentifier: 
-  Position: {x: -734, y: 147}
+  Position: {x: -962, y: 191}
   Guid: 005a346d4c176cd47827bde5a3aec153
   _value: 1
   StatName: Strength

@@ -31,6 +31,10 @@ public class AbilityAction
 
     protected bool _hasTick;
     public bool HasTick => _hasTick;
+
+    protected ActorBase Owner;
+    
+    public ActiveAbility ActiveAbility {get; set;}
    
     public virtual AbilityAction Clone()
     {
@@ -38,7 +42,7 @@ public class AbilityAction
         _isRunning = false;
         return new AbilityAction
         {
-            EventName = this.EventName
+            EventName = this.EventName,
         };
     }
     
@@ -48,6 +52,8 @@ public class AbilityAction
     }
     public virtual void OnStart(Actor owner, ActiveAbility ability)
     {
+        this.ActiveAbility = ability;
+        Owner = owner;
         Definition = ability.Definition;
         _isRunning = true;
         _hasExecutedOnce = true;

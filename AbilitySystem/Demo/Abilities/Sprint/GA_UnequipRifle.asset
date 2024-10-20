@@ -16,9 +16,12 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   references:
     version: 2
     RefIds: []
@@ -38,9 +41,12 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
@@ -62,7 +68,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95830e1a269b49308eda88a503d26679, type: 3}
-  m_Name: GA_Unequip
+  m_Name: GA_UnequipRifle
   m_EditorClassIdentifier: 
   _title: 
   _description: 
@@ -70,27 +76,39 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _gameplayEffectDefinitions: []
   _isBasicAttack: 0
+  _abilityLayer: 0
   _overrideAnimSpeed: 0
   _animationSpeed: 0
-  _animationClip: {fileID: 7400000, guid: 8d91addad9b9984419735284e71b8eac, type: 2}
-  _playTime: 1
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 8d91addad9b9984419735284e71b8eac, type: 2}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 0.802
   _avatarMask: {fileID: 31900000, guid: 7978911be5f9a524a8b11c7076a2b658, type: 2}
+  _animationLayer: 1
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: -657316294236542774}
   Cooldown: {fileID: -210694448143317016}
-  GrantedTagsDuringAbility:
-  - fullTag: State.Ability.UpperBody
-    tagHierarchy:
-    - State
-    - State.Ability
-    - State.Ability.UpperBody
-    HashCode: 3dfe870d-c954-43a6-a9dd-bc6d99ade74d
+  _abilitySlotTags:
+    m_SerializedExplicitTags: []
+  _grantedTagsDuringAbility:
+    m_SerializedExplicitTags: []
+  _activationRequiredTags:
+    m_SerializedExplicitTags: []
+  _activationBlockedTags:
+    m_SerializedExplicitTags: []
+  _cancelAbilitiesWithTag:
+    m_SerializedExplicitTags: []
   GrantedEffectsDuringAbility: []
   AbilityActions:
   - rid: 3670662776026824706
-  ContainerTest:
-    m_SerializedExplicitTags: []
+  - rid: 3670662858425761806
   references:
     version: 2
     RefIds:
@@ -99,6 +117,16 @@ MonoBehaviour:
       data:
         ActivationPolicy: 2
         EventName: 
-        AnimWindow: {x: 0, y: 0}
+        AnimWindow: {x: 0.1263707, y: 0.6584577}
         ToggleAiming: 0
         BackToDefaultOnExit: 0
+        IsInstant: 0
+    - rid: 3670662858425761806
+      type: {class: AbilityAction_Unequip, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 0
+        EventName: 
+        AnimWindow: {x: 0.38389322, y: 0.8650433}
+        _attachToSocket: 1
+        _socketName: WeaponBack
+        _lerpSpeed: 3

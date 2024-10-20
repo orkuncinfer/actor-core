@@ -117,11 +117,11 @@ public partial class GameplayEffectController : MonoInitializable
     {
         bool isAdded = true;
 
-        if (_owner.GameplayTags.HasTagExact("State.IsDead"))
+        /*if (_owner.GameplayTags.HasTagExact("State.IsDead"))
         {
             DDebug.Log("Can't apply effect while dead!");
             return false;
-        }
+        }*/
         
         foreach (GameplayPersistentEffect activeEffect in _activeEffects)
         {
@@ -283,10 +283,7 @@ public partial class GameplayEffectController : MonoInitializable
                 }
             }
         }
-        foreach (var tag in effect.Definition.GrantedTags)
-        {
-            _owner.GameplayTags.AddTag(tag);
-        }
+        _owner.GameplayTags.AddTags(effect.Definition.GrantedTags);
         
         if (effect.Definition.SpecialPersistentEffectDefinition != null)
         {
@@ -303,10 +300,8 @@ public partial class GameplayEffectController : MonoInitializable
                 stat.RemoveModifierFromSource(effect);
             }
         }
-        foreach (var tag in effect.Definition.GrantedTags)
-        {
-            _owner.GameplayTags.RemoveTag(tag);
-        }
+        
+        _owner.GameplayTags.RemoveTags(effect.Definition.GrantedTags);
 
         if (effect.Definition.SpecialPersistentEffectDefinition != null)
         {

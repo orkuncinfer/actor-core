@@ -18,13 +18,12 @@ MonoBehaviour:
   _conditionalEffects: []
   _description: 
   _grantedTags:
-  - fullTag: Status.Sprint
-    tagHierarchy:
-    - Status
-    - Status.Sprint
-    HashCode: 3a339270-36fa-4303-a5a7-602b3f507774
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+    m_SerializedExplicitTags:
+    - State.Movement.Sprint
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   _isInfinite: 1
   _durationFormula:
     Graph: {fileID: 0}

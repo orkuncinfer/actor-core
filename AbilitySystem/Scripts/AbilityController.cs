@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using BandoWare.GameplayTags;
@@ -16,28 +15,26 @@ public class AbilityController : MonoInitializable, ISavable
     public Dictionary<string, Ability> Abilities => m_Abilities;
 
     private GameplayEffectController _effectController;
-    private TagController m_TagController;
     public ActiveAbility LastUsedAbility;
-    public List<ActiveAbility> ActiveAbilities;
-    
+    private List<ActiveAbility> _activeAbilities = new List<ActiveAbility>();
+
     public GameObject Target;
     public event Action<ActiveAbility> onActivatedAbility;
-    public event Action<ActiveAbility> onCanceledAbility; 
+    public event Action<ActiveAbility> onCanceledAbility;
     public event Action onCancelCurrentAbility;
 
     public AbilityDefinition TestAbility;
 
     private ActorBase _owner;
-  
+
     public event Action onInitialized;
-    
+
     protected virtual void Awake()
     {
         _effectController = GetComponent<GameplayEffectController>();
-        m_TagController = GetComponent<TagController>();
         _owner = ActorUtilities.FindFirstActorInParents(transform);
-
     }
+
     protected virtual void OnEnable()
     {
         _effectController.onInitialized += OnEffectControllerInitialized;
@@ -53,6 +50,25 @@ public class AbilityController : MonoInitializable, ISavable
         if (Target == null) Target = gameObject;
         TryActivateAbility(definition.name, Target);
     }
+    
+    public List<ActiveAbility> GetActiveAbilities()
+    {
+        return _activeAbilities;
+    }
+
+    public void TryActiveAbilityWithDefinition(AbilityDefinition definition, out ActiveAbility outAbility)
+    {
+        if (Target == null) Target = gameObject;
+        if (TryActivateAbility(definition.name, Target))
+        {
+            outAbility = LastUsedAbility;
+        }
+        else
+        {
+            outAbility = null;
+        }
+    }
+
 
     protected virtual void OnDisable()
     {
@@ -63,58 +79,56 @@ public class AbilityController : MonoInitializable, ISavable
     {
         Initialize();
     }
-    
+
     public void CancelCurrentAbility()
     {
         onCancelCurrentAbility?.Invoke();
         LastUsedAbility = null;
     }
-    
+
     public void AddAndTryActivateAbility(AbilityDefinition definition)
     {
         AddAbilityIfNotHave(definition);
         TryActivateAbility(definition.name, Target);
     }
-    
+
     public bool TryActivateAbility(string abilityName, GameObject target)
     {
+        Debug.Log("try activate");
         if (m_Abilities.TryGetValue(abilityName, out Ability ability))
         {
             if (ability is ActiveAbility activeAbility)
             {
-                if (!CanActivateAbility(activeAbility))
-                    return false;
+                Debug.Log("try activate1");
+                if (!CanActivateAbility(activeAbility)) return false;
                 this.Target = target;
+                Debug.Log("try activate2");
                 LastUsedAbility = activeAbility;
-                CommitAbility(activeAbility);
+                ApplyAbilityEffects(activeAbility);
                 onActivatedAbility?.Invoke(activeAbility);
-                ActiveAbilities.Add(activeAbility);
+                _activeAbilities.Add(activeAbility);
                 activeAbility.StartAbility();
-                
                 return true;
             }
         }
+
         DDebug.Log($"Ability with name {abilityName} not found!");
         return false;
     }
-    
+
     public bool CanActivateAbility(ActiveAbility ability)
     {
-        if (_owner.GameplayTags.HasTagExact("State.IsDead"))
-        {
-            DDebug.Log("Can't activate ability while dead!");
-            return false;
-        }
+        /* if (_owner.GameplayTags.HasTagExact("State.IsDead"))
+         {
+             DDebug.Log("Can't activate ability while dead!");
+             return false;
+         }
         
-        foreach (var gameplayTag in ability.Definition.GrantedTagsDuringAbility) // is busy using ability?
+        if (_activeAbilities.Contains(ability))
         {
-            if (_owner.GameplayTags.HasTagExact(gameplayTag))
-            {
-                //DDebug.Log($"{ability.Definition.name} blocked by {gameplayTag.FullTag}!");
-                return false;
-            }
-        }
-        
+            return false; // already using an instance of this ability
+        }*/
+        Debug.Log("canactivate0");
         if (ability.Definition.Cooldown != null) // is on cooldown?
         {
             if (ability.Definition.Cooldown.GrantedTags.TagCount > 0)
@@ -124,38 +138,72 @@ public class AbilityController : MonoInitializable, ISavable
                     DDebug.Log($"{ability.Definition.name} is on cooldown!");
                     return false;
                 }
-            } 
-            
+            }
         }
-            
+        Debug.Log("canactivate2");
         if (ability.Definition.Cost != null)
-            return _effectController.CanApplyAttributeModifiers(ability.Definition.Cost);
-           
+        {
+            bool haveCost = _effectController.CanApplyAttributeModifiers(ability.Definition.Cost);
+            if (!haveCost) return false;
+        }
+        
+
+        int abilityLayer = ability.Definition.AbilityLayer;
+        bool abilityLayerIsBusy = false;
+        Debug.Log("canactivate1");
+        foreach (ActiveAbility activeAbility in _activeAbilities)
+        {
+            if(activeAbility.AnimancerState == null) continue;
+            if (activeAbility.Definition.AbilityLayer == abilityLayer)
+            {
+                if (activeAbility.CanBeCanceled == false)
+                {
+                    abilityLayerIsBusy = true;
+                }
+                else
+                {
+                    Debug.Log("return truee1");
+                    CancelAbilityIfActive(ability);
+                    //return true;
+                }
+            }
+        }
+        Debug.Log("ability layer busY? " + abilityLayerIsBusy);
+        if (abilityLayerIsBusy)
+        {
+            DDebug.Log("Ability layer is busy");
+            return false;
+        }
+        Debug.Log("return truee");
         return true;
     }
-    
-    private void CommitAbility(ActiveAbility ability)
+
+    private void ApplyAbilityEffects(ActiveAbility ability)
     {
-         _effectController.ApplyGameplayEffectToSelf(new GameplayEffect(ability.Definition.Cost, ability, gameObject));
-        _effectController.ApplyGameplayEffectToSelf(new GameplayPersistentEffect(ability.Definition.Cooldown, ability, gameObject));
+        _effectController.ApplyGameplayEffectToSelf(new GameplayEffect(ability.Definition.Cost, ability, gameObject));
+        _effectController.ApplyGameplayEffectToSelf(new GameplayPersistentEffect(ability.Definition.Cooldown, ability,
+            gameObject));
     }
+
     public void AbilityDoneAnimating(ActiveAbility ability) // ability finished successfully at end of animation
     {
-        if (ActiveAbilities.Contains(ability))
+        if (_activeAbilities.Contains(ability))
         {
-            ActiveAbilities.Remove(ability);
+            _activeAbilities.Remove(ability);
             ability.EndAbility();
         }
     }
+
     public void CancelAbilityIfActive(ActiveAbility ability)
     {
-        if (ActiveAbilities.Contains(ability))
+        if (_activeAbilities.Contains(ability))
         {
-            ActiveAbilities.Remove(ability);
+            _activeAbilities.Remove(ability);
             ability.EndAbility();
             onCanceledAbility?.Invoke(ability);
         }
     }
+
     public void CancelAbilityIfActive(string abilityName)
     {
         if (m_Abilities.TryGetValue(abilityName, out Ability ability))
@@ -180,12 +228,14 @@ public class AbilityController : MonoInitializable, ISavable
             {
                 passiveAbility.ApplyEffects(gameObject);
             }
+
             ability.Owner = _owner as Actor;
         }
+
         IsInitialized = true;
         onInitialized?.Invoke();
     }
-    
+
     public void AddAbilityIfNotHave(AbilityDefinition abilityDefinition)
     {
         if (!m_Abilities.ContainsKey(abilityDefinition.name))
@@ -209,17 +259,17 @@ public class AbilityController : MonoInitializable, ISavable
             {
                 if (ability is ISavable savable)
                 {
-                    abilities.Add(ability.AbilityDefinition.name,savable.data);
+                    abilities.Add(ability.AbilityDefinition.name, savable.data);
                 }
             }
-            
+
             return new AbilityControllerData
             {
                 Abilities = abilities
             };
-        } 
-        
+        }
     }
+
     public virtual void Load(object data)
     {
         AbilityControllerData abilityControllerData = (AbilityControllerData)data;
@@ -231,7 +281,7 @@ public class AbilityController : MonoInitializable, ISavable
             }
         }
     }
-    
+
     [Serializable]
     protected class AbilityControllerData
     {

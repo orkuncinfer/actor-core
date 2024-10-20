@@ -85,15 +85,13 @@ MonoBehaviour:
   _duration: 0
   Cost: {fileID: -657316294236542774}
   Cooldown: {fileID: -210694448143317016}
-  GrantedTagsDuringAbility:
+  _grantedTagsDuringAbility:
     m_SerializedExplicitTags:
-    - Ability.Crouch
+    - Ability.Movement.Sprint
   GrantedEffectsDuringAbility:
   - {fileID: 11400000, guid: 65e28cdbc4cb06b48b8d231b4dbcc308, type: 2}
   AbilityActions:
   - rid: 3670662740903198781
-  ContainerTest:
-    m_SerializedExplicitTags: []
   references:
     version: 2
     RefIds:

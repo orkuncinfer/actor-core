@@ -19,27 +19,39 @@ MonoBehaviour:
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: 418e039fdfef19142b86eca28ec0ff65, type: 2}
   _isBasicAttack: 1
+  _abilityLayer: 0
   _overrideAnimSpeed: 0
   _animationSpeed: 0
-  _animationClip: {fileID: 7400000, guid: 041e69a79ba9cdb42a71cfa2fd5544b7, type: 2}
-  _playTime: 1
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 041e69a79ba9cdb42a71cfa2fd5544b7, type: 2}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 1
+  _avatarMask: {fileID: 0}
+  _animationLayer: 0
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: 4067716126298073610}
   Cooldown: {fileID: 8640851072352510199}
-  GrantedTagsDuringAbility:
-  - fullTag: State.Ability
-    tagHierarchy:
-    - State
-    - State.Ability
-    HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
-  GrantedEffectsDuringAbility:
-  - {fileID: 11400000, guid: dbb302379b427ab4ba5a9df63e5e94b7, type: 2}
+  _abilitySlotTags:
+    m_SerializedExplicitTags: []
+  _grantedTagsDuringAbility:
+    m_SerializedExplicitTags:
+    - AbilitySlot.BaseBody
+  _activationRequiredTags:
+    m_SerializedExplicitTags: []
+  _activationBlockedTags:
+    m_SerializedExplicitTags: []
+  _cancelAbilitiesWithTag:
+    m_SerializedExplicitTags: []
+  GrantedEffectsDuringAbility: []
   AbilityActions:
   - rid: 3860127071150014479
-  ContainerTest:
-    m_SerializedExplicitTags:
-    - Ability.Crouch
   references:
     version: 2
     RefIds:
@@ -67,9 +79,12 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   references:
     version: 2
     RefIds: []
@@ -89,9 +104,12 @@ MonoBehaviour:
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
