@@ -146,6 +146,15 @@ public class AbilityController : MonoInitializable, ISavable
             bool haveCost = _effectController.CanApplyAttributeModifiers(ability.Definition.Cost);
             if (!haveCost) return false;
         }
+
+        foreach (var requiredTag in ability.Definition.ActivationRequiredTags)
+        {
+            if(_owner.GameplayTags.HasTag(requiredTag) == false)
+            {
+                DDebug.Log($"Can't activate ability {ability.Definition.name} because required tag {requiredTag} is missing");
+                return false;
+            }
+        }
         
 
         int abilityLayer = ability.Definition.AbilityLayer;

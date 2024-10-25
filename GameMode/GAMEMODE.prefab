@@ -690,6 +690,8 @@ MonoBehaviour:
   ActorID: 
   StartMethod: 2
   _initialTags: []
+  GameplayTags:
+    m_SerializedExplicitTags: []
   _initialState: {fileID: 7052049253013988637}
   _returnToPoolOnStop: 0
 --- !u!114 &7911191645074324780
@@ -803,6 +805,7 @@ MonoBehaviour:
   _spacing: 2.85
   _padding: 10
   _location: 0
+  _startActive: 1
 --- !u!1 &7224218158467727453
 GameObject:
   m_ObjectHideFlags: 0

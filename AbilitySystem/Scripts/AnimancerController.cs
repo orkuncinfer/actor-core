@@ -12,10 +12,8 @@ public class AnimancerController : MonoBehaviour
 {
     private AnimancerComponent _animancerComponent;
     private AbilityController _abilityController;
-
-    private readonly List<AbilityAction> _registeredAbilityActionList = new List<AbilityAction>();
-    private List<AbilityAction> _abilityWindowActionsToRemove = new List<AbilityAction>();
-    private Dictionary<Type, AbilityAction> _abilityActions = new Dictionary<Type, AbilityAction>();
+    
+  
     private ActiveAbility _lastActivatedAbility;
     [ShowInInspector] private ActiveAbility _currentActiveAbility;
     private Actor _owner;
@@ -47,12 +45,6 @@ public class AnimancerController : MonoBehaviour
         {
             
         }
-        
-        for (int i = 0; i < _registeredAbilityActionList.Count; i++)
-        {
-            if (_registeredAbilityActionList[i].HasTick && _registeredAbilityActionList[i].IsRunning)
-                _registeredAbilityActionList[i].OnTick(_owner);
-        }
 
         if (_loopRemainingTime > 0)
         {
@@ -83,48 +75,43 @@ public class AnimancerController : MonoBehaviour
             {
                 EndOrInterrupted(_currentAbilityAnimState, _currentActiveAbility);
             }
+            
+            foreach (var action in ability.AbilityActions)
+            {
+                if (action.ActivationPolicy != AbilityAction.EAbilityActionActivationPolicy.AnimWindow) continue;
+                if (action.AnimWindow.x <= action.ActiveAbility.AnimancerState.NormalizedTime)
+                {
+                    if (!action.IsRunning &&
+                        !action.HasExecutedOnce)
+                    {
+                        action.OnStart(_owner, _currentActiveAbility);
+                    }
+                }
+                if (action.AnimWindow.y <= action.ActiveAbility.AnimancerState.NormalizedTime && action.IsRunning)
+                {
+                    action.OnExit();
+                }
+                if (action.HasTick && action.IsRunning)
+                    action.OnTick(_owner);
+            }
         }
 
         if (_abilityAnimPlaying)
         {
             if (_currentActiveAbility != null)
             {
-                foreach (var action in _currentActiveAbility.Definition.AbilityActions)
-                {
-                    if (action.ActivationPolicy != AbilityAction.EAbilityActionActivationPolicy.AnimWindow) continue;
-                    AbilityAction clonedAction = _abilityActions[action.GetType()];
-                    if (action.AnimWindow.x <= action.ActiveAbility.AnimancerState.NormalizedTime)
-                    {
-                        if (!_registeredAbilityActionList.Contains(action) && !clonedAction.IsRunning &&
-                            !clonedAction.HasExecutedOnce)
-                        {
-                            clonedAction.OnStart(_owner, _currentActiveAbility);
-                        }
-                    }
-
-                    if (action.AnimWindow.y <= action.ActiveAbility.AnimancerState.NormalizedTime)
-                    {
-                        if (_abilityActions.ContainsKey(action.GetType()) && clonedAction.IsRunning)
-                        {
-                            clonedAction.OnExit();
-                        }
-                    }
-                }
+                
             }
         }
     }
 
     private void OnCanceledAbility(ActiveAbility ability)
     {
-        foreach (AbilityAction abilityAction in ability.Definition.AbilityActions) // exit lifetime actions
+        foreach (AbilityAction abilityAction in ability.AbilityActions) // exit lifetime actions
         {
-            if (_abilityActions.ContainsKey(abilityAction.GetType()) == false) continue;
-            AbilityAction clonedAction = _abilityActions[abilityAction.GetType()];
             if (abilityAction.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
             {
-                clonedAction.OnExit();
-                _abilityActions.Remove(clonedAction.GetType());
-                _registeredAbilityActionList.Remove(clonedAction);
+                abilityAction.OnExit();
             }
         }
     }
@@ -139,16 +126,17 @@ public class AnimancerController : MonoBehaviour
         foreach (AbilityAction actionsToClone in ability.Definition.AbilityActions)
         {
             AbilityAction clonedAction = actionsToClone.Clone();
-            if (_abilityActions.ContainsKey(clonedAction.GetType()) == false)
-                _abilityActions.Add(clonedAction.GetType(), clonedAction);
+            clonedAction.ActiveAbility = ability;
+            clonedAction.AnimWindow = actionsToClone.AnimWindow;
+            clonedAction.EventName = actionsToClone.EventName;
+            clonedAction.ActivationPolicy = actionsToClone.ActivationPolicy;
+            
+            if(ability.AbilityActions == null) ability.AbilityActions = new List<AbilityAction>();
+            ability.AbilityActions.Add(clonedAction);
+         
             if (actionsToClone.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
             {
                 clonedAction.OnStart(_owner, ability);
-            }
-
-            if (!_registeredAbilityActionList.Contains(clonedAction))
-            {
-                _registeredAbilityActionList.Add(clonedAction);
             }
         }
 
@@ -202,11 +190,14 @@ public class AnimancerController : MonoBehaviour
         //animState.Events.OnEnd -= onEndAction;
  
         _onEndActions.Remove(animState);
-        OnAnimEnd(activeAbility);
-        if (_onEndActions.TryGetValue(animState, out System.Action onEndAction))
+        foreach (AbilityAction action in activeAbility.AbilityActions)
         {
-            
+            if (action.IsRunning)
+            {
+                action.OnExit();
+            }
         }
+        OnAnimEnd(activeAbility);
     }
 
     
@@ -232,21 +223,15 @@ public class AnimancerController : MonoBehaviour
             _owner.GameplayTags.RemoveTags(activeAbility.Definition.GrantedTagsDuringAbility);
         }
 
-        foreach (AbilityAction abilityAction in ability.Definition.AbilityActions) // exit lifetime actions
+        foreach (AbilityAction abilityAction in ability.AbilityActions) // exit lifetime actions
         {
-            if (_abilityActions.TryGetValue(abilityAction.GetType(), out AbilityAction clonedAction))
+            if (abilityAction.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
             {
-                if (abilityAction.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
-                {
-                    clonedAction.OnExit();
-                    _abilityActions.Remove(clonedAction.GetType());
-                    _registeredAbilityActionList.Remove(clonedAction);
-                }
+                abilityAction.OnExit();
             }
         }
-
-        _registeredAbilityActionList.Clear();
-        _abilityActions.Clear();
+        
+        //_abilityActions.Clear();
         _abilityController.AbilityDoneAnimating(ability);
 
         _currentActiveAbility = null;
@@ -288,18 +273,12 @@ public class AnimancerController : MonoBehaviour
             if (index >= 0)
             {
                 string newEventName = eventName.Substring(0, index);
-                foreach (AbilityAction abilityAction in _currentActiveAbility.Definition.AbilityActions)
+                foreach (AbilityAction abilityAction in _currentActiveAbility.AbilityActions)
                 {
                     if (!abilityAction.UseAnimEvent) continue;
                     if (abilityAction.EventName.Equals(newEventName, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (_abilityActions.ContainsKey(abilityAction.GetType()))
-                        {
-                            _abilityActions[abilityAction.GetType()].OnStart(_owner, _currentActiveAbility);
-                        }
-                        else
-                        {
-                        }
+                        abilityAction.OnStart(_owner, _currentActiveAbility);
                     }
                 }
             }
@@ -312,15 +291,12 @@ public class AnimancerController : MonoBehaviour
             {
                 string newEventName = eventName.Substring(0, index);
 
-                foreach (AbilityAction abilityAction in _currentActiveAbility.Definition.AbilityActions)
+                foreach (AbilityAction abilityAction in _currentActiveAbility.AbilityActions)
                 {
-                    AbilityAction clonedAction = _abilityActions[abilityAction.GetType()];
                     if (!abilityAction.UseAnimEvent) continue;
-                    if (clonedAction.EventName.Equals(newEventName, StringComparison.OrdinalIgnoreCase))
+                    if (abilityAction.EventName.Equals(newEventName, StringComparison.OrdinalIgnoreCase))
                     {
-                        clonedAction.OnExit();
-                        _abilityActions.Remove(clonedAction.GetType());
-                        _registeredAbilityActionList.Remove(clonedAction);
+                        abilityAction.OnExit();
                     }
                 }
             }

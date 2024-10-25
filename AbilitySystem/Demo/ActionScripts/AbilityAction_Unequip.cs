@@ -24,13 +24,14 @@ public class AbilityAction_Unequip : AbilityAction
         Debug.Log("Unequip onstart");
         if (Owner.GetEquippedInstance().TryGetComponent(out Equipable equipable))
         {
+            equipable.OnUnequip(Owner);
             Transform socket = Owner.GetSocket(_socketName);
             if (socket != null)
             {
                 equipable.transform.DORotate(socket.transform.eulerAngles, .5f);
                 equipable.transform.DOMove(socket.position, .5f).OnComplete(() =>
                 {
-                    equipable.OnUnequip(Owner);
+                    Owner.GetData<DS_EquipmentUser>().UnequipCurrent(false);
                     if (_attachToSocket)
                     {
                         equipable.transform.SetParent(socket);
@@ -44,9 +45,9 @@ public class AbilityAction_Unequip : AbilityAction
     {
         base.OnExit();
         Debug.Log("Unequip onexit");
-        if (Owner.GetEquippedInstance().TryGetComponent(out Equipable equipable))
+        /*if (Owner.GetEquippedInstance().TryGetComponent(out Equipable equipable))
         {
             Owner.GetData<DS_EquipmentUser>().UnequipCurrent();
-        }
+        }*/
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using StatSystem;
 using UnityEditor;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class GasDebugger : MonoBehaviour
     [SerializeField] private float _spacing = 10f;
     [SerializeField] private float _padding = 10f;
     [SerializeField] private ELocation _location;
+    [SerializeField] private bool _startActive;
 
     private InputActionMap _playerControlMap;
     private InputAction _debugToggleAction;
@@ -53,6 +55,15 @@ public class GasDebugger : MonoBehaviour
         _isMouseLocked = Cursor.lockState == CursorLockMode.Locked;
         UnityConsole.ConsoleGUI.Initialize();
         UnityConsole.ConsoleGUI.ToggleKey = KeyCode.Alpha0;
+        
+        DOVirtual.DelayedCall(2f, () =>
+        {
+            if (_startActive)
+            {
+                OnActorChanged(ActorRegistry.PlayerActor);
+                _showDebugger = true;
+            }
+        });
     }
 
     private void Update()

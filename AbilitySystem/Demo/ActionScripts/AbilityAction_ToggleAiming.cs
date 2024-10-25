@@ -1,4 +1,5 @@
 ﻿using ECM2;
+using RootMotion.FinalIK;
 using UnityEngine;
 
 public class AbilityAction_ToggleAiming : AbilityAction
@@ -8,7 +9,9 @@ public class AbilityAction_ToggleAiming : AbilityAction
     public bool ToggleAiming;
     public bool BackToDefaultOnExit = true;
     public bool IsInstant;
+    public bool ReleaseLeftHand;
     private AimIKWeightHandler _weightHandler;
+    private FullBodyBipedIK _ik;
     
     private bool _initialAimingState;
     public override AbilityAction Clone()
@@ -19,18 +22,33 @@ public class AbilityAction_ToggleAiming : AbilityAction
         clone._initialAimingState = _initialAimingState;
         clone.BackToDefaultOnExit = BackToDefaultOnExit;
         clone.IsInstant = IsInstant;
+        clone.ReleaseLeftHand = ReleaseLeftHand;
         return clone;
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+        _ik = null;
+        _weightHandler = null;
     }
 
     public override void OnStart(Actor owner, ActiveAbility ability)
     {
         base.OnStart(owner, ability);
         _weightHandler = owner.GetComponentInChildren<AimIKWeightHandler>();
+        _ik = owner.GetComponentInChildren<FullBodyBipedIK>();
         if (_weightHandler != null)
         {
             _initialAimingState = _weightHandler.IsAiming;
            _weightHandler.ToggleAiming(ToggleAiming, IsInstant);
         }
+
+        if (ReleaseLeftHand)
+        {
+            _ik.solver.leftHandEffector.positionWeight = 0;
+        }
+           
     }
 
     public override void OnExit()

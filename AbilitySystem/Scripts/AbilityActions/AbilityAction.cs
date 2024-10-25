@@ -43,6 +43,7 @@ public class AbilityAction
         return new AbilityAction
         {
             EventName = this.EventName,
+            AnimWindow = this.AnimWindow,
         };
     }
     
