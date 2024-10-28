@@ -86,23 +86,27 @@ public class AbilityController : MonoInitializable, ISavable
         LastUsedAbility = null;
     }
 
-    public void AddAndTryActivateAbility(AbilityDefinition definition)
+    public ActiveAbility AddAndTryActivateAbility(AbilityDefinition definition)
     {
         AddAbilityIfNotHave(definition);
-        TryActivateAbility(definition.name, Target);
+        if(TryActivateAbility(definition.name, Target))
+        {
+            return LastUsedAbility;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public bool TryActivateAbility(string abilityName, GameObject target)
     {
-        Debug.Log("try activate");
         if (m_Abilities.TryGetValue(abilityName, out Ability ability))
         {
             if (ability is ActiveAbility activeAbility)
             {
-                Debug.Log("try activate1");
                 if (!CanActivateAbility(activeAbility)) return false;
                 this.Target = target;
-                Debug.Log("try activate2");
                 LastUsedAbility = activeAbility;
                 ApplyAbilityEffects(activeAbility);
                 onActivatedAbility?.Invoke(activeAbility);
@@ -111,7 +115,6 @@ public class AbilityController : MonoInitializable, ISavable
                 return true;
             }
         }
-
         DDebug.Log($"Ability with name {abilityName} not found!");
         return false;
     }
@@ -128,7 +131,6 @@ public class AbilityController : MonoInitializable, ISavable
         {
             return false; // already using an instance of this ability
         }*/
-        Debug.Log("canactivate0");
         if (ability.Definition.Cooldown != null) // is on cooldown?
         {
             if (ability.Definition.Cooldown.GrantedTags.TagCount > 0)
@@ -140,7 +142,6 @@ public class AbilityController : MonoInitializable, ISavable
                 }
             }
         }
-        Debug.Log("canactivate2");
         if (ability.Definition.Cost != null)
         {
             bool haveCost = _effectController.CanApplyAttributeModifiers(ability.Definition.Cost);
@@ -159,7 +160,7 @@ public class AbilityController : MonoInitializable, ISavable
 
         int abilityLayer = ability.Definition.AbilityLayer;
         bool abilityLayerIsBusy = false;
-        Debug.Log("canactivate1");
+        
         foreach (ActiveAbility activeAbility in _activeAbilities)
         {
             if(activeAbility.AnimancerState == null) continue;
@@ -171,19 +172,16 @@ public class AbilityController : MonoInitializable, ISavable
                 }
                 else
                 {
-                    Debug.Log("return truee1");
                     CancelAbilityIfActive(ability);
                     //return true;
                 }
             }
         }
-        Debug.Log("ability layer busY? " + abilityLayerIsBusy);
         if (abilityLayerIsBusy)
         {
             DDebug.Log("Ability layer is busy");
             return false;
         }
-        Debug.Log("return truee");
         return true;
     }
 

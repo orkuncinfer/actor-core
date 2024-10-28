@@ -9,7 +9,10 @@ public class SocketRegistry : MonoBehaviour
 {
     public List<SocketData> Sockets;
 
+    public List<string> Slots;
+
     public Dictionary<string, Transform> SocketDictionary = new Dictionary<string, Transform>();
+    [ShowInInspector]public Dictionary<string,Transform> SlotDictionary = new Dictionary<string, Transform>();
     private void Awake()
     {
         //ReInstantiateSockets();
@@ -17,6 +20,10 @@ public class SocketRegistry : MonoBehaviour
         for (int i = 0; i < Sockets.Count; i++)
         {
             SocketDictionary.Add(Sockets[i].Key,Sockets[i].Transform);
+        }
+        for (int i = 0; i < Slots.Count; i++)
+        {
+            SlotDictionary.Add(Slots[i],null);
         }
     }
 
@@ -27,7 +34,6 @@ public class SocketRegistry : MonoBehaviour
 
         for (int i = 0; i < Sockets.Count; i++)
         {
-            if(Sockets[i].IsBone) continue;
             Transform originalTransform = originalTransforms[i];
 
             // Create an empty GameObject to replace the original
@@ -91,5 +97,5 @@ public class SocketData
 {
     public string Key;
     [HorizontalGroup()]public Transform Transform;
-    [HorizontalGroup(100)] public bool IsBone;
 }
+

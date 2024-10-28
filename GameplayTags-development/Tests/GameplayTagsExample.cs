@@ -39,3 +39,5 @@ using UnityEngine;
 [assembly: GameplayTag("Equipment.Primary")]
 [assembly: GameplayTag("Equipment.Secondary")]
 [assembly: GameplayTag("Equipment.Primary.Ranged.Rifle")]
+
+[assembly: GameplayTag("Item.Equipment.Ranged.Rifle")]

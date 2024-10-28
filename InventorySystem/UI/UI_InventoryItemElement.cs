@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemElement_UI : MonoBehaviour
+public class UI_InventoryItemElement : UI_ItemElement
 {   
     [SerializeField] private Image _itemIcon;
     [SerializeField] private Image _rarityBadge;
@@ -15,27 +15,34 @@ public class ItemElement_UI : MonoBehaviour
     public string ItemID;
     
     public int SlotIndex;
-    public void SetItemData(string itemID, InventorySlot slotData)
+    public override void SetItemData(string itemID, InventorySlot slotData)
     {
+        base.SetItemData(itemID, slotData);
         ItemDefinition = InventoryUtils.FindItemWithId(itemID);
-        _itemIcon.sprite = ItemDefinition.Icon;
-        _itemIcon.color = Color.white;
-        _itemCount.text = slotData.ItemCount.ToString();
+        if(_itemIcon)_itemIcon.sprite = ItemDefinition.Icon;
+        if(_itemIcon)_itemIcon.color = Color.white;
+        if(_itemCount)_itemCount.text = slotData.ItemCount.ToString();
         
         Sprite rarityBadge = InventoryUtils.GetRarityBadge(ItemDefinition.DefaultRarity);
-        _rarityBadge.sprite = rarityBadge;
-        _rarityBadge.gameObject.SetActive(true);
-        if (slotData.ItemCount > 1)
+        if(_rarityBadge)_rarityBadge.sprite = rarityBadge;
+        if(_rarityBadge)_rarityBadge.gameObject.SetActive(true);
+        
+        if (_itemCount)
         {
-            _itemCount.gameObject.SetActive(true);
-        }
-        else
-        {
-            _itemCount.gameObject.SetActive(false);
+            if (slotData.ItemCount > 1)
+            {
+                _itemCount.gameObject.SetActive(true);
+            }
+            else
+            {
+                _itemCount.gameObject.SetActive(false);
+            }
         }
     }
-    public void ClearItemData()
+
+    public override void ClearItemData()
     {
+        base.ClearItemData();
         ItemDefinition = null;
         _itemIcon.sprite = null;
         _itemIcon.color = Color.clear;

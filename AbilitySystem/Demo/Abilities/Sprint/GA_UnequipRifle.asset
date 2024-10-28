@@ -128,7 +128,7 @@ MonoBehaviour:
       data:
         ActivationPolicy: 0
         EventName: 
-        AnimWindow: {x: 0.48071, y: 0.72421885}
+        AnimWindow: {x: 0.4510085, y: 0.72421885}
         _attachToSocket: 1
         _socketName: WeaponBack
-        _lerpSpeed: 3
+        _lerpSpeed: 10

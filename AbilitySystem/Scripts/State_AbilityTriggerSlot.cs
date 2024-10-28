@@ -12,6 +12,7 @@ public class AbilityTriggerInfo
     public string ActionName;
     public bool CancelOnRelease;
 }
+
 public class State_AbilityTriggerSlot : MonoState
 {
         [SerializeField] private Data_GAS _gasData;

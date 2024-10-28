@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEditor;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using BandoWare.GameplayTags;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
@@ -20,37 +21,58 @@ using Formatting = System.Xml.Formatting;
 
 
 [CreateAssetMenu(fileName = "New Inventory Definition", menuName = "Inventory System/Inventory Definition")]
-public class InventoryDefinition : ScriptableObject,ISerializationCallbackReceiver
+public class InventoryDefinition : MonoBehaviour
 {
 
     public int InitialSlotCount;
     public int Width;
     public string InventoryId;
+
+    public bool CreateOnInitialize = false;
     
     public InventoryData InventoryData = new InventoryData();
+    
+    public ItemPack[] InitialItems;
 
    public event Action onInventoryChanged;
 
     private string savePath => "/" + InventoryId;
     private FirebaseDatabase _database;
-    private FirebaseFirestore _firestore;   
+    private FirebaseFirestore _firestore;
+
+    private void Awake()
+    {
+        Initialize();
+    }
 
     [Button]
     public void Initialize()
     {
-        InventoryData = new InventoryData();
-        if(InventoryData.InventorySlots == null || InventoryData.InventorySlots.Count == 0)
+        if (CreateOnInitialize)
         {
-            InventoryData.InventorySlots = new List<InventorySlot>();
-            for (int i = 0; i < InitialSlotCount; i++)
+            InventoryData = new InventoryData();
+            if(InventoryData.InventorySlots == null || InventoryData.InventorySlots.Count == 0)
             {
-                InventorySlot inventorySlot = new InventorySlot();
-                InventoryData.InventorySlots.Add(inventorySlot);
+                InventoryData.InventorySlots = new List<InventorySlot>();
+                for (int i = 0; i < InitialSlotCount; i++)
+                {
+                    InventorySlot inventorySlot = new InventorySlot();
+                    InventoryData.InventorySlots.Add(inventorySlot);
+                }
+            }
+        }
+        foreach (var itemPack in InitialItems)
+        {
+            if (itemPack.ItemDefinition != null)
+            {
+                Debug.Log("added item " + itemPack.ItemDefinition.ItemName + " to inventory");
+                AddItem(itemPack.ItemDefinition, itemPack.Count);
             }
         }
         _database = FirebaseDatabase.GetInstance("https://templateproject-174cf-default-rtdb.europe-west1.firebasedatabase.app/");
         _firestore = FirebaseFirestore.DefaultInstance;
     }
+    [Button]
     public int AddItem(ItemDefinition itemDefinition, int count)
     {
         int totalAdded = 0;
@@ -73,9 +95,21 @@ public class InventoryDefinition : ScriptableObject,ISerializationCallbackReceiv
         {
             for (int i = 0; i < InventoryData.InventorySlots.Count && count > 0; i++)
             {
+                bool containsAny = false;
+                foreach (var gameplayTag in itemDefinition.ItemTags)
+                {
+                    if(InventoryData.InventorySlots[i].AllowedTags.HasTag(gameplayTag))
+                    {
+                        containsAny = true;
+                        break;
+                    }
+                }
+                if(!containsAny && InventoryData.InventorySlots[i].AllowedTags.TagCount > 0) continue;
+                
                 if (InventoryData.InventorySlots[i].ItemID.IsNullOrWhitespace())
                 {
                     int spaceAvailable = itemDefinition.MaxStack;
+                    if (itemDefinition.MaxStack == 0) spaceAvailable = 1;
                     int toAdd = Math.Min(spaceAvailable, count);
                     DefineItemToSlot(itemDefinition, toAdd, InventoryData.InventorySlots[i]);
                     totalAdded += toAdd;
@@ -205,6 +239,12 @@ public class InventoryDefinition : ScriptableObject,ISerializationCallbackReceiv
         SaveDataFirestore();
         onInventoryChanged?.Invoke();
     }
+    [Serializable]
+    public class ItemPack
+    {
+        public ItemDefinition ItemDefinition;
+        public int Count;
+    }
 
 
     #region Save/Load
@@ -251,12 +291,5 @@ public class InventoryDefinition : ScriptableObject,ISerializationCallbackReceiv
     
 
     #endregion
-
-    public void OnBeforeSerialize()
-    {
-    }
-
-    public void OnAfterDeserialize()
-    {
-    }
+    
 }

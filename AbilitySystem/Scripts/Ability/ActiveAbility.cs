@@ -42,7 +42,7 @@ public class ActiveAbility : Ability
            
             DDebug.Log($"<color=red>Ability</color> ended : {Definition.name}");
           
-            
+            AbilityActions.Clear();
             
             if(Definition.AnimationClip == null)StaticUpdater.onUpdate -= TickAbilityActions;
         }

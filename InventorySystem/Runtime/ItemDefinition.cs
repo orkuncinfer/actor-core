@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BandoWare.GameplayTags;
 using Firebase.Firestore;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
@@ -17,7 +18,8 @@ public class ItemDefinition : ItemBaseDefinition
     public int MaxStack;
     public ItemRarity DefaultRarity;
     public bool IsUniqueItem;
-    
+
+    public GameplayTagContainer ItemTags;
 
     
     [SerializeReference][TypeFilter("GetFilteredActionList")] [ListDrawerSettings(ShowFoldout = true)]

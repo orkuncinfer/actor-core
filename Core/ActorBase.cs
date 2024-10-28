@@ -80,6 +80,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
 
     protected ActorBase ParentActor;
 
+    public SocketRegistry SocketRegistry => _socketRegistry;
     private SocketRegistry _socketRegistry;
 
     public Transform GetSocket(string socketName)

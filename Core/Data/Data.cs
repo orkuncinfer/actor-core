@@ -47,7 +47,7 @@ public class Data :  IData
     
     [HideInInspector][ES3NonSerializable]public ActorBase OwnerActor;
 
-    [HideInInspector]public bool IsInstalled;
+    [HideInInspector][ES3NonSerializable]public bool IsInstalled;
 
     private bool _retrievedOnce;
     
@@ -115,7 +115,7 @@ public class Data :  IData
         string saveFileName = "Default";
         return containerID + "-" + typeName + DataKey;
     }
-    public void LoadData(string category = "Default")
+    public void LoadData(string category = "DefaultData")
     {
         string containerID = "Global"; 
         string typeName = GetType().Name;
@@ -127,7 +127,7 @@ public class Data :  IData
         }
     }
 
-    public void SaveData(string category = "Default")
+    public void SaveData(string category = "DefaultData")
     {
         string containerID = "Global"; 
         string typeName = GetType().Name;

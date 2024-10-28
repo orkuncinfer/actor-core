@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using BandoWare.GameplayTags;
 using Firebase.Firestore;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -15,12 +16,12 @@ public class InventorySlot
         get => _itemData;
         set => _itemData = value;
     }*/
-
-    [SerializeField] private RpgItemTypes[] _allowedTypes;
-    public RpgItemTypes[] AllowedTypes
+    
+    [SerializeField] private GameplayTagContainer _allowedTags;
+    public GameplayTagContainer AllowedTags
     {
-        get => _allowedTypes;
-        set => _allowedTypes = value;
+        get => _allowedTags;
+        set => _allowedTags = value;
     }
     
     [SerializeField]
@@ -44,6 +45,5 @@ public class InventorySlot
     public InventorySlot()
     {
         //ItemData = new ItemData();
-        AllowedTypes = new RpgItemTypes[]{};
     }
 }

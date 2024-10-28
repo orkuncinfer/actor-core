@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-657316294236542774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
+  m_Name: Cost
+  m_EditorClassIdentifier: 
+  ModifierDefinitions: []
+  m_SpecialEffectDefinition: {fileID: 0}
+  _conditionalEffects: []
+  _description: 
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &-210694448143317016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
+  m_Name: Cooldown
+  m_EditorClassIdentifier: 
+  ModifierDefinitions: []
+  m_SpecialEffectDefinition: {fileID: 0}
+  _conditionalEffects: []
+  _description: 
+  _grantedTags:
+    m_SerializedExplicitTags: []
+  _applicationBlockerTags:
+    m_SerializedExplicitTags: []
+  _removeEffectsWithTags:
+    m_SerializedExplicitTags: []
+  _isInfinite: 0
+  _durationFormula:
+    Graph: {fileID: 0}
+    StaticValue: 0
+  _isPeriodic: 0
+  _period: 0
+  _executePeriodicEffectOnApplication: 0
+  _specialPersistentEffectDefinition: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95830e1a269b49308eda88a503d26679, type: 3}
+  m_Name: GA_EquipPistol
+  m_EditorClassIdentifier: 
+  _title: 
+  _description: 
+  _maxLevel: 20
+  _icon: {fileID: 0}
+  _gameplayEffectDefinitions: []
+  _isBasicAttack: 0
+  _abilityLayer: 0
+  _overrideAnimSpeed: 0
+  _animationSpeed: 0
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 0f3f8af981c30274ebae3892adf95127, type: 2}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 1
+  _avatarMask: {fileID: 31900000, guid: 7978911be5f9a524a8b11c7076a2b658, type: 2}
+  _animationLayer: 1
+  _isLoopingAbility: 0
+  _duration: 0
+  Cost: {fileID: -657316294236542774}
+  Cooldown: {fileID: -210694448143317016}
+  _abilitySlotTags:
+    m_SerializedExplicitTags: []
+  _grantedTagsDuringAbility:
+    m_SerializedExplicitTags: []
+  _activationRequiredTags:
+    m_SerializedExplicitTags: []
+  _activationBlockedTags:
+    m_SerializedExplicitTags: []
+  _cancelAbilitiesWithTag:
+    m_SerializedExplicitTags: []
+  GrantedEffectsDuringAbility: []
+  AbilityActions:
+  - rid: 3670662776026824706
+  - rid: 3670662970885799960
+  references:
+    version: 2
+    RefIds:
+    - rid: 3670662776026824706
+      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 2
+        EventName: 
+        AnimWindow: {x: 0.1263707, y: 0.6584577}
+        ToggleAiming: 0
+        BackToDefaultOnExit: 0
+        IsInstant: 1
+        ReleaseLeftHand: 1
+    - rid: 3670662970885799960
+      type: {class: AbilityAction_Equip, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 0
+        EventName: 
+        AnimWindow: {x: 0.37236288, y: 0.8892405}
+        _equipSocketName: body_side
+        _lerpSpeed: 3
+        _hand: 1

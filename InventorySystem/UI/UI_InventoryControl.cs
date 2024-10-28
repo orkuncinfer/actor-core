@@ -5,14 +5,15 @@ using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class InventoryControl_UI : MonoBehaviour
+public class UI_InventoryControl : MonoBehaviour
 {
     [SerializeField] private InventoryDefinition _inventoryDefinition;
     [SerializeField] private GridLayoutGroup _inventoryLayout;
-    [SerializeField] private ItemElement_UI ItemElementPrefab;
-    [SerializeField] private ItemElement_UI _ghostItemElementPrefab;
+    [FormerlySerializedAs("_uıItemElementPrefab")] [FormerlySerializedAs("ItemElementPrefab")] [SerializeField] private UI_InventoryItemElement _uıInventoryItemElementPrefab;
+    [FormerlySerializedAs("_ghostUIItemElementPrefab")] [FormerlySerializedAs("_ghostItemElementPrefab")] [SerializeField] private UI_InventoryItemElement _ghostUIInventoryItemElementPrefab;
     [SerializeField] private GameObject _garbageDragArea;
 
     [SerializeField] private EventSignal _onAuthCompleted;
@@ -26,10 +27,10 @@ public class InventoryControl_UI : MonoBehaviour
     private bool _pointerDown;
     private Vector2 _pointerDownPosition;
     public bool _draggingItem;
-    public ItemElement_UI _draggedItem;
+    [FormerlySerializedAs("_draggedUIItem")] [FormerlySerializedAs("_draggedItem")] public UI_InventoryItemElement _draggedUIInventoryItem;
     private GameObject _draggingGhostItemInstance;
 
-    private Dictionary<int, ItemElement_UI> _itemElements = new Dictionary<int, ItemElement_UI>();
+    private Dictionary<int, UI_InventoryItemElement> _itemElements = new Dictionary<int, UI_InventoryItemElement>();
     
 
     private void Awake()
@@ -68,19 +69,19 @@ public class InventoryControl_UI : MonoBehaviour
     {
         for (int i = 0; i < _inventoryDefinition.InventoryData.InventorySlots.Count; i++)
         {
-            ItemElement_UI itemElement = Instantiate(ItemElementPrefab, _inventoryLayout.transform);
-            _itemElements.Add(i, itemElement);
+            UI_InventoryItemElement uıInventoryItemElement = Instantiate(_uıInventoryItemElementPrefab, _inventoryLayout.transform);
+            _itemElements.Add(i, uıInventoryItemElement);
             if (!_inventoryDefinition.InventoryData.InventorySlots[i].ItemID.IsNullOrWhitespace())
             {
-                itemElement.SetItemData(_inventoryDefinition.InventoryData.InventorySlots[i].ItemID,
+                uıInventoryItemElement.SetItemData(_inventoryDefinition.InventoryData.InventorySlots[i].ItemID,
                     _inventoryDefinition.InventoryData.InventorySlots[i]);
             }
             else
             {
-                itemElement.ItemDefinition = null;
+                uıInventoryItemElement.ItemDefinition = null;
             }
 
-            itemElement.SlotIndex = i;
+            uıInventoryItemElement.SlotIndex = i;
         }
 
         _inventoryDefinition.onInventoryChanged += OnInventoryChanged;
@@ -100,38 +101,38 @@ public class InventoryControl_UI : MonoBehaviour
             _pointerDown = true;
             _pointerDownPosition = Input.mousePosition;
             if (_hoveredItemInfo == null) return;
-            if (_hoveredItemInfo.transform.TryGetComponent(out ItemElement_UI itemElement))
+            if (_hoveredItemInfo.transform.TryGetComponent(out UI_InventoryItemElement itemElement))
             {
                 if (itemElement.ItemDefinition != null)
                 {
-                    _draggedItem = itemElement;
+                    _draggedUIInventoryItem = itemElement;
                 }
             }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (_draggedItem != null)
+            if (_draggedUIInventoryItem != null)
             {
-                if (_hoveredItemInfo.transform.TryGetComponent(out ItemElement_UI hoveredItemElement))
+                if (_hoveredItemInfo.transform.TryGetComponent(out UI_InventoryItemElement hoveredItemElement))
                 {
                     InventorySlot draggedSlot =
-                        _inventoryDefinition.InventoryData.InventorySlots[_draggedItem.SlotIndex];
+                        _inventoryDefinition.InventoryData.InventorySlots[_draggedUIInventoryItem.SlotIndex];
                     InventorySlot hoveredSlot =
                         _inventoryDefinition.InventoryData.InventorySlots[hoveredItemElement.SlotIndex];
                     
                     if (hoveredItemElement.ItemDefinition == null) // hovered is empty
                     {
                         hoveredItemElement.SetItemData(draggedSlot.ItemID, draggedSlot);
-                        _draggedItem.ClearItemData();
-                        _inventoryDefinition.SwapOrMergeItems(_draggedItem.SlotIndex, hoveredItemElement.SlotIndex);
+                        _draggedUIInventoryItem.ClearItemData();
+                        _inventoryDefinition.SwapOrMergeItems(_draggedUIInventoryItem.SlotIndex, hoveredItemElement.SlotIndex);
                     }
                     else
                     {
                         ItemDefinition temp = hoveredItemElement.ItemDefinition;
                         hoveredItemElement.SetItemData(draggedSlot.ItemID, draggedSlot);
-                        _draggedItem.SetItemData(hoveredSlot.ItemID, hoveredSlot);
-                        _inventoryDefinition.SwapOrMergeItems(_draggedItem.SlotIndex, hoveredItemElement.SlotIndex);
+                        _draggedUIInventoryItem.SetItemData(hoveredSlot.ItemID, hoveredSlot);
+                        _inventoryDefinition.SwapOrMergeItems(_draggedUIInventoryItem.SlotIndex, hoveredItemElement.SlotIndex);
                     }
                 }
             }
@@ -142,28 +143,28 @@ public class InventoryControl_UI : MonoBehaviour
 
                 if (_hoveredItemInfo == _garbageDragArea)
                 {
-                    _draggedItem.ClearItemData();
+                    _draggedUIInventoryItem.ClearItemData();
                     _inventoryDefinition.RemoveEntireSlot(
-                        _inventoryDefinition.InventoryData.InventorySlots[_draggedItem.SlotIndex]);
+                        _inventoryDefinition.InventoryData.InventorySlots[_draggedUIInventoryItem.SlotIndex]);
                 }
             }
 
 
             _pointerDown = false;
-            _draggedItem = null;
+            _draggedUIInventoryItem = null;
         }
 
         if (Input.GetMouseButton(0))
         {
             if (Vector2.Distance(_pointerDownPosition, Input.mousePosition) > 10f && !_draggingItem &&
-                _draggedItem != null)
+                _draggedUIInventoryItem != null)
             {
                 _draggingItem = true;
 
-                _draggingGhostItemInstance = Instantiate(_ghostItemElementPrefab.gameObject, transform);
+                _draggingGhostItemInstance = Instantiate(_ghostUIInventoryItemElementPrefab.gameObject, transform);
                 //ItemDefinition itemDefinition = InventoryUtils.FindItemWithId(_draggedItem.ItemData.ItemID);
-                InventorySlot draggedSlot = _inventoryDefinition.InventoryData.InventorySlots[_draggedItem.SlotIndex];
-                _draggingGhostItemInstance.GetComponent<ItemElement_UI>().SetItemData(draggedSlot.ItemID, draggedSlot);
+                InventorySlot draggedSlot = _inventoryDefinition.InventoryData.InventorySlots[_draggedUIInventoryItem.SlotIndex];
+                _draggingGhostItemInstance.GetComponent<UI_InventoryItemElement>().SetItemData(draggedSlot.ItemID, draggedSlot);
             }
 
             if (_draggingGhostItemInstance != null)

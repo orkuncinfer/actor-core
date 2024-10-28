@@ -73,7 +73,7 @@ public class AnimancerController : MonoBehaviour
             }
             if (ability.AnimancerState.EffectiveWeight <= 0 && ability.AnimationReachedFullWeight)
             {
-                EndOrInterrupted(_currentAbilityAnimState, _currentActiveAbility);
+                EndOrInterrupted(_currentAbilityAnimState, ability);
             }
             
             foreach (var action in ability.AbilityActions)
@@ -84,7 +84,7 @@ public class AnimancerController : MonoBehaviour
                     if (!action.IsRunning &&
                         !action.HasExecutedOnce)
                     {
-                        action.OnStart(_owner, _currentActiveAbility);
+                        action.OnStart(_owner, ability);
                     }
                 }
                 if (action.AnimWindow.y <= action.ActiveAbility.AnimancerState.NormalizedTime && action.IsRunning)
@@ -179,15 +179,13 @@ public class AnimancerController : MonoBehaviour
 
     public void EndOrInterrupted(AnimancerState animState, ActiveAbility activeAbility)
     {
-        Debug.Log($"anim state : {animState.Clip.name} : {activeAbility}");
+        //Debug.Log($"anim state : {animState.Clip.name} : {activeAbility}");
         if (animState == null || activeAbility == null) return;
         int layer = activeAbility.Definition.AnimationLayer;
         if (layer > 0)
         {
             _animancerComponent.Layers[layer].StartFade(0, activeAbility.Definition.ClipTransition.FadeDuration);
         }
-            
-        //animState.Events.OnEnd -= onEndAction;
  
         _onEndActions.Remove(animState);
         foreach (AbilityAction action in activeAbility.AbilityActions)

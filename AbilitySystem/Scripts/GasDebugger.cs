@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Oddworm.Framework;
 using StatSystem;
 using UnityEditor;
 using UnityEngine;
@@ -34,6 +35,7 @@ public class GasDebugger : MonoBehaviour
     private TagController _tagController;
     private StatController _statController;
     private ActorStateMachine[] _stateMachines;
+    private Collider[] _actorColliders;
 
     private bool _isMouseLocked;
 
@@ -80,6 +82,22 @@ public class GasDebugger : MonoBehaviour
                 Time.timeScale = 0.2f;
             }
         }
+
+        if (_actorColliders != null && _showDebugger)
+        {
+            for (int i = _actorColliders.Length - 1; i >= 0; i--)
+            {
+                if (_actorColliders[i] is BoxCollider)
+                {
+                    DbgDraw.WireCube(_actorColliders[i].transform.position, _actorColliders[i].transform.rotation, _actorColliders[i].bounds.size, Color.green);
+                }
+                if(_actorColliders[i] is CapsuleCollider capsuleCollider)
+                {
+                    DbgDraw.WireCapsule(capsuleCollider.transform.position + capsuleCollider.center, capsuleCollider.transform.rotation, capsuleCollider.radius, capsuleCollider.height,Color.green);
+                }
+            }
+        }
+        
     }
 
     private void OnPerformed(InputAction.CallbackContext obj)
@@ -293,5 +311,6 @@ public class GasDebugger : MonoBehaviour
         _tagController = actor.GetComponentInChildren<TagController>();
         _statController = actor.GetComponentInChildren<StatController>();
         _stateMachines = actor.GetComponentsInChildren<ActorStateMachine>();
+        _actorColliders = actor.GetComponentsInChildren<Collider>();
     }
 }
