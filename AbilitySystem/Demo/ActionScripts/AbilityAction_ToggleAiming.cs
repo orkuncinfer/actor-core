@@ -41,7 +41,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
         if (_weightHandler != null)
         {
             _initialAimingState = _weightHandler.IsAiming;
-           _weightHandler.ToggleAiming(ToggleAiming, IsInstant);
+           //_weightHandler.ToggleAiming(ToggleAiming, IsInstant);
         }
 
         if (ReleaseLeftHand)
@@ -56,7 +56,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
         base.OnExit();
         if (_weightHandler != null && BackToDefaultOnExit)
         {
-            _weightHandler.ToggleAiming(_initialAimingState, IsInstant);
+            //_weightHandler.ToggleAiming(_initialAimingState, IsInstant);
         }
     }
 }

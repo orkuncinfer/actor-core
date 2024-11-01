@@ -53,11 +53,11 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
      public GameplayEffectDefinition Cost;
      
      public GameplayPersistentEffectDefinition Cooldown;
-     public GameplayTagContainer AbilitySlotTags => _abilitySlotTags; // IMPLEMENTED // TESTED
+     public GameplayTagContainer AbilityTags => _abilityTags; // IMPLEMENTED // TESTED
      [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
      [TitleGroup("Tags/Tags")]
-     [SerializeField][Tooltip("These tags will be added to the user while the ability is active and this ability will not be able to be activated if the user has any of these tags")]
-     private GameplayTagContainer _abilitySlotTags;
+     [SerializeField][Tooltip("The ability has these tags for use of other operations")]
+     private GameplayTagContainer _abilityTags;
      public GameplayTagContainer GrantedTagsDuringAbility => _grantedTagsDuringAbility;
      [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
      [TitleGroup("Tags/Tags")]

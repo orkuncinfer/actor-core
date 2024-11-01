@@ -20,6 +20,9 @@ using UnityEngine;
 [assembly: GameplayTag("Ability.SingleTarget")]
 [assembly: GameplayTag("Ability.Melee")]
 [assembly: GameplayTag("Ability.Ranged")]
+[assembly: GameplayTag("Ability.Ranged.Shooting")]
+[assembly: GameplayTag("Ability.Aim.Focus")]
+[assembly: GameplayTag("Ability.Reloading")]
 
 [assembly: GameplayTag("State.Movement.Sprint")]
 [assembly: GameplayTag("State.Movement.Jump")]

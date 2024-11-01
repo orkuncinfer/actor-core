@@ -65,6 +65,12 @@ public abstract class Ability : ISavable
     {
         GameplayEffectController effectController = other.GetComponentInChildren<GameplayEffectController>();
 
+        if (effectController == null)
+        {
+            DDebug.Log("No effect controller found on " + other.name +" by ability " + AbilityDefinition.name);
+            return;
+        }
+        
         foreach (GameplayEffectDefinition effectDefinition in effectDefinitions)
         {
             EffectTypeAttribute attribute = effectDefinition.GetType().GetCustomAttributes(true)

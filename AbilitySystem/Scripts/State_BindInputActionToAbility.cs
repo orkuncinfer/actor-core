@@ -12,6 +12,7 @@ public class State_BindInputActionToAbility : MonoState
     public InputActionAsset ActionAsset;
     public string ActionName;
     public bool CancelOnRelease;
+    public bool TryActivateWhenHolding;
     
     private InputAction _abilityAction;
     private bool _start;
@@ -38,14 +39,15 @@ public class State_BindInputActionToAbility : MonoState
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        if (_start)
+        if (_start && TryActivateWhenHolding)
         {
-          //  _gasData.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);
+          _gasData.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);
         }
     }
 
     private void OnCanceled(InputAction.CallbackContext obj)
     {
+        _start = false;
         if(CancelOnRelease)
             _gasData.AbilityController.CancelAbilityIfActive(_abilityDS.Data.AbilityDefinition.name);
     }

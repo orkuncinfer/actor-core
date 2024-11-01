@@ -95,7 +95,7 @@ MonoBehaviour:
   _duration: 0
   Cost: {fileID: -657316294236542774}
   Cooldown: {fileID: -210694448143317016}
-  _abilitySlotTags:
+  _abilityTags:
     m_SerializedExplicitTags: []
   _grantedTagsDuringAbility:
     m_SerializedExplicitTags: []
@@ -105,24 +105,15 @@ MonoBehaviour:
   _activationBlockedTags:
     m_SerializedExplicitTags: []
   _cancelAbilitiesWithTag:
-    m_SerializedExplicitTags: []
+    m_SerializedExplicitTags:
+    - Ability.Aim
   GrantedEffectsDuringAbility: []
   AbilityActions:
-  - rid: 3670662776026824706
   - rid: 3670662858425761806
+  - rid: 3670663040529596421
   references:
     version: 2
     RefIds:
-    - rid: 3670662776026824706
-      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
-      data:
-        ActivationPolicy: 2
-        EventName: 
-        AnimWindow: {x: 0.1263707, y: 0.6584577}
-        ToggleAiming: 0
-        BackToDefaultOnExit: 0
-        IsInstant: 1
-        ReleaseLeftHand: 1
     - rid: 3670662858425761806
       type: {class: AbilityAction_Unequip, ns: , asm: Assembly-CSharp-firstpass}
       data:
@@ -132,3 +123,13 @@ MonoBehaviour:
         _attachToSocket: 1
         _socketName: WeaponBack
         _lerpSpeed: 10
+    - rid: 3670663040529596421
+      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 2
+        EventName: 
+        AnimWindow: {x: 0, y: 0}
+        ToggleAiming: 0
+        BackToDefaultOnExit: 0
+        IsInstant: 1
+        ReleaseLeftHand: 1

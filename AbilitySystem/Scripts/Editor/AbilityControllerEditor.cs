@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-
+/*
 [CustomEditor(typeof(AbilityController),true)]
 public class AbilityControllerEditor : Editor
 {
@@ -98,4 +98,4 @@ public class AbilityControllerEditor : Editor
         controller.TryActiveAbilityWithDefinition(controller.TestAbility);
     }
 }
-#endif
+#endif*/

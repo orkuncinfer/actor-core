@@ -34,6 +34,7 @@ public class AbilityAction
 
     protected ActorBase Owner;
     
+    
     public ActiveAbility ActiveAbility {get; set;}
    
     public virtual AbilityAction Clone()

@@ -11,7 +11,7 @@ public class AbilityController : MonoInitializable, ISavable
 {
     public List<AbilityDefinition> AbilityDefinitions;
     public AbilityDefinitionSetSO AbilitySet;
-    protected Dictionary<string, Ability> m_Abilities = new Dictionary<string, Ability>();
+    [ShowInInspector]protected Dictionary<string, Ability> m_Abilities = new Dictionary<string, Ability>();
     public Dictionary<string, Ability> Abilities => m_Abilities;
 
     private GameplayEffectController _effectController;
@@ -109,6 +109,7 @@ public class AbilityController : MonoInitializable, ISavable
                 this.Target = target;
                 LastUsedAbility = activeAbility;
                 ApplyAbilityEffects(activeAbility);
+                CancelWithTagCheck(activeAbility);
                 onActivatedAbility?.Invoke(activeAbility);
                 _activeAbilities.Add(activeAbility);
                 activeAbility.StartAbility();
@@ -117,6 +118,18 @@ public class AbilityController : MonoInitializable, ISavable
         }
         DDebug.Log($"Ability with name {abilityName} not found!");
         return false;
+    }
+
+    private void CancelWithTagCheck(ActiveAbility activeAbility)
+    {
+        if(activeAbility.Definition.CancelAbilitiesWithTag.TagCount == 0) return;
+        for(int i = _activeAbilities.Count - 1; i >= 0; i--)
+        {
+            if (activeAbility.Definition.CancelAbilitiesWithTag.HasAny(_activeAbilities[i].Definition.AbilityTags))
+            {
+                CancelAbilityIfActive(_activeAbilities[i]);
+            }
+        }
     }
 
     public bool CanActivateAbility(ActiveAbility ability)
@@ -157,12 +170,18 @@ public class AbilityController : MonoInitializable, ISavable
             }
         }
         
+        if (ability.Definition.ActivationBlockedTags.HasAnyExact(_owner.GameplayTags))
+        {
+            //DDebug.Log($"Can't activate ability {ability.Definition.name} because blocked tag is present");
+            return false;
+        }
 
         int abilityLayer = ability.Definition.AbilityLayer;
         bool abilityLayerIsBusy = false;
         
         foreach (ActiveAbility activeAbility in _activeAbilities)
         {
+            if (activeAbility.Definition.name == ability.Definition.name) return false; // already using an instance of this ability
             if(activeAbility.AnimancerState == null) continue;
             if (activeAbility.Definition.AbilityLayer == abilityLayer)
             {
@@ -253,6 +272,14 @@ public class AbilityController : MonoInitializable, ISavable
                 Activator.CreateInstance(abilityTypeAttribute.type, abilityDefinition, this) as Ability;
             ability.Owner = _owner as Actor;
             m_Abilities.Add(abilityDefinition.name, ability);
+        }
+    }
+    public void RemoveAbilityIfHave(AbilityDefinition abilityDefinition)
+    {
+        if (m_Abilities.ContainsKey(abilityDefinition.name))
+        {
+            m_Abilities[abilityDefinition.name] = null;
+            m_Abilities.Remove(abilityDefinition.name);
         }
     }
 

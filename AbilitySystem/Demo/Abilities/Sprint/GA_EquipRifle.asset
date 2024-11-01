@@ -95,7 +95,7 @@ MonoBehaviour:
   _duration: 0
   Cost: {fileID: -657316294236542774}
   Cooldown: {fileID: -210694448143317016}
-  _abilitySlotTags:
+  _abilityTags:
     m_SerializedExplicitTags: []
   _grantedTagsDuringAbility:
     m_SerializedExplicitTags: []
@@ -107,21 +107,10 @@ MonoBehaviour:
     m_SerializedExplicitTags: []
   GrantedEffectsDuringAbility: []
   AbilityActions:
-  - rid: 3670662776026824706
   - rid: 3670662970885799960
   references:
     version: 2
     RefIds:
-    - rid: 3670662776026824706
-      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
-      data:
-        ActivationPolicy: 2
-        EventName: 
-        AnimWindow: {x: 0.1263707, y: 0.6584577}
-        ToggleAiming: 0
-        BackToDefaultOnExit: 0
-        IsInstant: 1
-        ReleaseLeftHand: 1
     - rid: 3670662970885799960
       type: {class: AbilityAction_Equip, ns: , asm: Assembly-CSharp-firstpass}
       data:

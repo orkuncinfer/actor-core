@@ -24,7 +24,7 @@ public class State_EquipHandling : MonoState
             abilityAction?.Enable();
         }
         
-        //EquipInventorySlot(0);
+        EquipInventorySlot(0);
     }
 
     public void EquipInventorySlot(int slotIndex)
@@ -35,6 +35,7 @@ public class State_EquipHandling : MonoState
             ItemDefinition itemDefinition = InventoryUtils.FindItemWithId(EquipmentInventory.InventoryData.InventorySlots[slotIndex].ItemID);
             Transform equipmentInSlot = Owner.SocketRegistry.SlotDictionary[itemDefinition.GetData<Data_Equippable>().UnequipSlotName];
             
+            Debug.Log("Tried to equip " + itemDefinition.name);
             if (equipmentUser.EquipmentInstance != null)
             {
                 if(equipmentUser.EquipmentInstance.GetComponent<Equippable>().ItemDefinition == itemDefinition)// we already equipped same item

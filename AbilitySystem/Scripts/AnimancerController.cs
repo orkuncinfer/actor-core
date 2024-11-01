@@ -107,6 +107,7 @@ public class AnimancerController : MonoBehaviour
 
     private void OnCanceledAbility(ActiveAbility ability)
     {
+        if (ability.AbilityActions == null) return;
         foreach (AbilityAction abilityAction in ability.AbilityActions) // exit lifetime actions
         {
             if (abilityAction.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
@@ -217,7 +218,6 @@ public class AnimancerController : MonoBehaviour
         _abilityAnimPlaying = false;
         if (ability is ActiveAbility activeAbility) // possible bug
         {
-            _owner.GameplayTags.RemoveTags(activeAbility.Definition.AbilitySlotTags);
             _owner.GameplayTags.RemoveTags(activeAbility.Definition.GrantedTagsDuringAbility);
         }
 
@@ -229,7 +229,7 @@ public class AnimancerController : MonoBehaviour
             }
         }
         
-        //_abilityActions.Clear();
+        ability.AbilityActions?.Clear();
         _abilityController.AbilityDoneAnimating(ability);
 
         _currentActiveAbility = null;

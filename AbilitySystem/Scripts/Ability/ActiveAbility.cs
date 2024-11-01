@@ -28,7 +28,6 @@ public class ActiveAbility : Ability
             ApplyEffectsToSelf();
             TagController tagController = Owner.GetComponentInChildren<TagController>();
             Owner.GameplayTags.AddTags(Definition.GrantedTagsDuringAbility);
-            Owner.GameplayTags.AddTags(Definition.AbilitySlotTags);
             if(Definition.AnimationClip == null)StaticUpdater.onUpdate += TickAbilityActions;
             DDebug.Log($"<color=cyan>Ability</color> activated : {Definition.name}");
         }
@@ -38,13 +37,24 @@ public class ActiveAbility : Ability
             onFinished?.Invoke(this);
             RemoveOngoingEffects();
             Owner.GameplayTags.RemoveTags(Definition.GrantedTagsDuringAbility);
-            Owner.GameplayTags.RemoveTags(Definition.AbilitySlotTags);
            
             DDebug.Log($"<color=red>Ability</color> ended : {Definition.name}");
-          
-            AbilityActions.Clear();
+
+            if (AbilityActions != null)
+            {
+                foreach (var abilityAction in AbilityActions)
+                {
+                    abilityAction.OnExit();
+                }
+                AbilityActions?.Clear();
+            }
             
             if(Definition.AnimationClip == null)StaticUpdater.onUpdate -= TickAbilityActions;
+        }
+        
+        public void TryCancelAbility()
+        {
+            Owner.GetData<Data_GAS>().AbilityController.CancelAbilityIfActive(this);
         }
      
         private void TickAbilityActions() // tick ability that has no animation

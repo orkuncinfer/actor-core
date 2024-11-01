@@ -32,6 +32,7 @@ public class AbilityAction_Unequip : AbilityAction
     public override void OnStart(Actor owner, ActiveAbility ability)
     {
         base.OnStart(owner, ability);
+        
         if (Owner.GetEquippedInstance().TryGetComponent(out Equippable equipable))
         {
             _equippable = equipable;
@@ -52,7 +53,6 @@ public class AbilityAction_Unequip : AbilityAction
     {
         base.OnTick(owner);
         Transform socket = Owner.GetSocket(_socketName);
-        Debug.Log("Socket: " + socket);
         if (socket != null)
         {
             _equippable.transform.position = Vector3.Lerp(_equippable.transform.position, socket.position, _lerpSpeed * Time.deltaTime);
