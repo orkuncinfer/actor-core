@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Animancer;
 using Sirenix.OdinInspector;
 using UnityEngine;
 [Serializable]
@@ -34,7 +35,6 @@ public class AbilityAction
 
     protected ActorBase Owner;
     
-    
     public ActiveAbility ActiveAbility {get; set;}
    
     public virtual AbilityAction Clone()
@@ -47,7 +47,11 @@ public class AbilityAction
             AnimWindow = this.AnimWindow,
         };
     }
-    
+
+    protected void RequestEndAbility()
+    {
+        Owner.GetData<Data_GAS>().AbilityController.CancelAbilityIfActive(ActiveAbility);
+    }
     public virtual void Reset()
     {
         EventName = null;

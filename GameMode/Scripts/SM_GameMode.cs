@@ -40,7 +40,7 @@ public class SM_GameMode : ActorStateMachine
         _gameModeRuntimeData._currentGameMode = GameMode.Playing;
     }
 
-    public override void OnRequireAddTransitions()
+    protected override void OnRequireAddTransitions()
     {
         AddTransition(_authing,_initialize,AuthingToInitialize);
         AddTransition(_initialize,_mainMenu,InitializeToMainMenu);

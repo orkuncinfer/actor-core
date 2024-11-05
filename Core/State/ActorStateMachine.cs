@@ -10,8 +10,6 @@ public abstract class ActorStateMachine : MonoState
     private Dictionary<MonoState, List<Transition>> _transitions = new Dictionary<MonoState, List<Transition>>();
     
     private List<Transition> _anyTransitions = new List<Transition>();
-
-    [SerializeField] private List<StateField> _states;
     
     private class Transition
     {
@@ -25,7 +23,7 @@ public abstract class ActorStateMachine : MonoState
         }
     }
 
-    public abstract void OnRequireAddTransitions();
+    protected abstract void OnRequireAddTransitions();
 
     public override void OnInitialize()
     {

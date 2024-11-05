@@ -141,18 +141,33 @@ public class AnimancerController : MonoBehaviour
             }
         }
 
-        if (ability.Definition.AnimationClip)
+        if (ability.Definition.UseCustomAnim)
+        {
+            ability.onCustomClipTransitionSet += OnCustomAnimSet;
+        }
+        else
+        {
+            PlayClipTransition(ability);
+        }
+    }
+
+    private void OnCustomAnimSet(ActiveAbility ability)
+    {
+        PlayClipTransition(ability,ability.CustomClipTransition);
+    }
+
+    public void PlayClipTransition(ActiveAbility ability, ClipTransition customAnim = null)
+    {
+        if (ability.Definition.AnimationClip || ability.Definition.UseCustomAnim)
         {
             int layer = ability.Definition.AnimationLayer;
             if(ability.Definition.AvatarMask) _animancerComponent.Layers[layer].SetMask(ability.Definition.AvatarMask);
 
+            ClipTransition clip = ability.Definition.ClipTransition;
+            if(customAnim != null) clip = customAnim;
             ability.PreviousAnimancerState = _animancerComponent.Layers[layer].CurrentState;
-            _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(ability.Definition.ClipTransition);
+            _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(clip);
             ability.AnimancerState = _currentAbilityAnimState;
-            
-            /*Action onEndAction = () => EndOrInterrupted(_currentAbilityAnimState, ability);
-            _onEndActions[_currentAbilityAnimState] = onEndAction;
-            _currentAbilityAnimState.Events.OnEnd += onEndAction;*/
             
             _currentAbilityAnimationReachedFullWeight = false;
             _abilityAnimPlaying = true;
@@ -172,7 +187,7 @@ public class AnimancerController : MonoBehaviour
                 }
             }
         }
-        else
+        else if(ability.Definition.AnimationClip == null && ability.Definition.UseCustomAnim == false)
         {
             ReCast(ability);
         }

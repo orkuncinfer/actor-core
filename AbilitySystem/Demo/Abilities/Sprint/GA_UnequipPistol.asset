@@ -101,7 +101,7 @@ MonoBehaviour:
     m_SerializedExplicitTags: []
   _activationRequiredTags:
     m_SerializedExplicitTags:
-    - Equipment.Primary.Ranged.Rifle
+    - Equipment.Secondary.Ranged.Pistol
   _activationBlockedTags:
     m_SerializedExplicitTags: []
   _cancelAbilitiesWithTag:

@@ -1,13 +1,20 @@
 ﻿using RootMotion.FinalIK;
+using UnityEngine;
 
 public class AbilityAction_ShootingWeapon : AbilityAction
 {
+    private enum EShootType
+    {
+        Automatic,
+        Single
+    }
+    [SerializeField] private EShootType _shootType;
     private AimIKWeightHandler _weightHandler;
     private Gun _heldGun;
     public override AbilityAction Clone()
     {
         AbilityAction_ShootingWeapon clone = AbilityActionPool<AbilityAction_ShootingWeapon>.Shared.Get();
-
+        clone._shootType = _shootType;
         return clone;
     }
 
@@ -35,6 +42,8 @@ public class AbilityAction_ShootingWeapon : AbilityAction
             if (_weightHandler.AimIKWeight >= 1)
             {
                 _heldGun.Fire(ActiveAbility);
+                if(_shootType == EShootType.Single)
+                    RequestEndAbility();
             }
         }
     }

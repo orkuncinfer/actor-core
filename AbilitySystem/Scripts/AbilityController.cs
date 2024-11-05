@@ -43,30 +43,41 @@ public class AbilityController : MonoInitializable, ISavable
             OnEffectControllerInitialized();
         }
     }
-
-    [Button]
-    public void TryActiveAbilityWithDefinition(AbilityDefinition definition)
-    {
-        if (Target == null) Target = gameObject;
-        TryActivateAbility(definition.name, Target);
-    }
     
     public List<ActiveAbility> GetActiveAbilities()
     {
         return _activeAbilities;
     }
 
-    public void TryActiveAbilityWithDefinition(AbilityDefinition definition, out ActiveAbility outAbility)
+    public ActiveAbility TryActiveAbilityWithDefinition(AbilityDefinition definition)
     {
         if (Target == null) Target = gameObject;
         if (TryActivateAbility(definition.name, Target))
         {
-            outAbility = LastUsedAbility;
+            return LastUsedAbility;
         }
         else
         {
-            outAbility = null;
+           return null;
         }
+    }
+
+    public ActiveAbility TryActivateAbilityWithGameplayTag(BandoWare.GameplayTags.GameplayTag tag)
+    {
+        foreach (var ability in m_Abilities)
+        {
+            if(ability.Value.AbilityDefinition is ActiveAbilityDefinition activeAbilityDefinition)
+            {
+                if (activeAbilityDefinition.AbilityTags.HasTag(tag))
+                {
+                    if (TryActivateAbility(ability.Key, Target))
+                    {
+                        return LastUsedAbility;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 
@@ -206,8 +217,8 @@ public class AbilityController : MonoInitializable, ISavable
 
     private void ApplyAbilityEffects(ActiveAbility ability)
     {
-        _effectController.ApplyGameplayEffectToSelf(new GameplayEffect(ability.Definition.Cost, ability, gameObject));
-        _effectController.ApplyGameplayEffectToSelf(new GameplayPersistentEffect(ability.Definition.Cooldown, ability,
+        if(ability.Definition.Cost)_effectController.ApplyGameplayEffectToSelf(new GameplayEffect(ability.Definition.Cost, ability, gameObject));
+        if(ability.Definition.Cooldown)_effectController.ApplyGameplayEffectToSelf(new GameplayPersistentEffect(ability.Definition.Cooldown, ability,
             gameObject));
     }
 
@@ -237,6 +248,17 @@ public class AbilityController : MonoInitializable, ISavable
             if (ability is ActiveAbility activeAbility)
             {
                 CancelAbilityIfActive(activeAbility);
+            }
+        }
+    }
+    
+    public void CancelAbilityWithGameplayTag(BandoWare.GameplayTags.GameplayTag tag)
+    {
+        for(int i = _activeAbilities.Count - 1; i >= 0; i--)
+        {
+            if (_activeAbilities[i].Definition.AbilityTags.HasTag(tag))
+            {
+                CancelAbilityIfActive(_activeAbilities[i]);
             }
         }
     }

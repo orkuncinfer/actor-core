@@ -1,4 +1,7 @@
-﻿public class AbilityAction_ReloadWeapon : AbilityAction
+﻿using Animancer;
+using UnityEngine;
+
+public class AbilityAction_ReloadWeapon : AbilityAction
 {
     ActiveAbility _ability;
     
@@ -22,7 +25,12 @@
     {
         base.OnStart(owner, ability);
         _weightHandler = owner.GetComponentInChildren<AimIKWeightHandler>();
-    
+
+        ItemDefinition weaponItem = owner.GetEquippedInstance().GetComponent<Equippable>().ItemDefinition;
+        ClipTransition reloadClip = weaponItem.GetData<Data_Gun>().ReloadClip;
+        ability.SetAnimData(reloadClip);
+        owner.GetComponentInChildren<AnimancerController>().PlayClipTransition(ability,reloadClip);
+        
         _heldGun = owner.GetEquippedInstance().GetComponent<Gun>();
         _heldGun.Reload();
     }

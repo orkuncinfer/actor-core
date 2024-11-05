@@ -17,6 +17,9 @@ public class ActiveAbility : Ability
         public event Action<ActiveAbility> onStarted;
         public event Action<ActiveAbility> onFinished;
         public List<AbilityAction> AbilityActions;
+        
+        public event Action<ActiveAbility> onCustomClipTransitionSet;
+        public ClipTransition CustomClipTransition;
         public ActiveAbility(ActiveAbilityDefinition definition, AbilityController controller) : base(definition, controller)
         {
         }
@@ -68,8 +71,12 @@ public class ActiveAbility : Ability
                 }
             }
         }
-        
 
+        public void SetAnimData(ClipTransition clipTransition) 
+        {
+            CustomClipTransition = clipTransition;
+            onCustomClipTransitionSet?.Invoke(this);
+        }
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder(base.ToString());

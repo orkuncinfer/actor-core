@@ -5,4 +5,5 @@ using UnityEngine;
 public class StateField
 {
     public MonoState State;
+    public List<StateTransition> Transitions = new List<StateTransition>();
 }

@@ -79,6 +79,7 @@ MonoBehaviour:
   _isBasicAttack: 0
   _abilityLayer: 0
   _overrideAnimSpeed: 0
+  _useCustomAnim: 0
   _animationSpeed: 0
   _clipTransition:
     _FadeDuration: 0.25

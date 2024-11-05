@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 public abstract class ActiveAbilityDefinition : AbilityDefinition
 {
@@ -22,14 +23,18 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
     [HideIf("_isBasicAttack")][FoldoutGroup("AnimConfig")]
     [SerializeField] private bool _overrideAnimSpeed;
 
+    public bool UseCustomAnim => _useCustomAnim;
+    [SerializeField] private bool _useCustomAnim;
+    
     public float AnimationSpeed => _animationSpeed;
     [SerializeField][ShowIf("_overrideAnimSpeed")][FoldoutGroup("AnimConfig")] private float _animationSpeed;
+    public ClipTransition ClipTransition => _clipTransition;
     [FoldoutGroup("AnimConfig")]
     [SerializeField] private ClipTransition _clipTransition;
     
-    public ClipTransition ClipTransition => _clipTransition;
-    
     public AnimationClip AnimationClip => _clipTransition.Clip;
+    
+    
     
     public float EndTime => _endTime;
     [FoldoutGroup("AnimConfig")][PropertyRange(0,1)][Tooltip("At 1 the animation will play until the end, at 0 it will play for 0 seconds")]
@@ -50,9 +55,27 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
     public float Duration => _duration;
     [SerializeField][ShowIf("_isLoopingAbility")] private float _duration;
 
-     public GameplayEffectDefinition Cost;
+     [HorizontalGroup(GroupID = "createCost", Width = 0.8f)]public GameplayEffectDefinition Cost;
+#if UNITY_EDITOR
+     [Button("Create")]
+     [HorizontalGroup(GroupID = "createCost", Width = 0.15f)]
+    private void CreateCost() { CreateCostAsset(); }
+         [Button(SdfIconType.Trash)]
+         [HorizontalGroup(GroupID = "createCost", Width = 0.05f)]
+     private void DeleteCost() { RemoveSubAsset(this,Cost); }
+#endif   
      
-     public GameplayPersistentEffectDefinition Cooldown;
+     [HorizontalGroup(GroupID = "createCd", Width = 0.8f)]public GameplayPersistentEffectDefinition Cooldown;
+#if UNITY_EDITOR
+    [Button("Create")]
+    [HorizontalGroup(GroupID = "createCd", Width = 0.15f)]
+    private void CreateCd() { CreateCdAsset(); }
+    [Button(SdfIconType.Trash)]
+    [HorizontalGroup(GroupID = "createCd", Width = 0.05f)]
+    private void DeleteCd() { RemoveSubAsset(this,Cooldown); }
+#endif
+
+     
      public GameplayTagContainer AbilityTags => _abilityTags; // IMPLEMENTED // TESTED
      [BoxGroup("Tags", ShowLabel = false)][ListDrawerSettings(ShowFoldout = true)]
      [TitleGroup("Tags/Tags")]
@@ -99,26 +122,39 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
          return q;
      }
 #if UNITY_EDITOR
-     private void Awake()
+     private void CreateCostAsset()
      {
          if(Cost != null) return;
-         if(Cooldown != null) return;
-         if (!AssetDatabase.Contains(this))
-         {
-             return;
-         }
          GameplayEffectDefinition costItem = ScriptableObject.CreateInstance<GameplayEffectDefinition>();
          Cost = costItem;
          costItem.name = "Cost";
          Cost = costItem;
-        
+         AssetDatabase.AddObjectToAsset(costItem, this);
+         AssetDatabase.SaveAssets();
+         AssetDatabase.Refresh();
+     }
+     
+     private void CreateCdAsset()
+     {
+         if(Cooldown != null) return;
          GameplayPersistentEffectDefinition cooldownItem = ScriptableObject.CreateInstance<GameplayPersistentEffectDefinition>();
          Cooldown = cooldownItem;
          cooldownItem.name = "Cooldown";
          Cooldown = cooldownItem;
-        
-         AssetDatabase.AddObjectToAsset(costItem, this);
          AssetDatabase.AddObjectToAsset(cooldownItem, this);
+         AssetDatabase.SaveAssets();
+         AssetDatabase.Refresh();
+     }
+     
+     public static void RemoveSubAsset(ScriptableObject parentAsset, ScriptableObject subAsset)
+     {
+         if (parentAsset == null || subAsset == null)
+         {
+             Debug.LogWarning("Either the parent or the sub-asset is null.");
+             return;
+         }
+         AssetDatabase.RemoveObjectFromAsset(subAsset);
+         Object.DestroyImmediate(subAsset, true);
          AssetDatabase.SaveAssets();
          AssetDatabase.Refresh();
      }

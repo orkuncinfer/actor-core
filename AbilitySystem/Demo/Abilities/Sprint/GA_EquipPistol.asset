@@ -78,6 +78,7 @@ MonoBehaviour:
   _isBasicAttack: 0
   _abilityLayer: 0
   _overrideAnimSpeed: 0
+  _useCustomAnim: 0
   _animationSpeed: 0
   _clipTransition:
     _FadeDuration: 0.25
@@ -85,10 +86,10 @@ MonoBehaviour:
       _NormalizedTimes: []
       _Callbacks: []
       _Names: []
-    _Clip: {fileID: 7400000, guid: 0f3f8af981c30274ebae3892adf95127, type: 2}
+    _Clip: {fileID: 8993902097722301239, guid: 869ef81a144619a499c521ea8bc789b9, type: 3}
     _Speed: 1
     _NormalizedStartTime: 0
-  _endTime: 1
+  _endTime: 0.6
   _avatarMask: {fileID: 31900000, guid: 7978911be5f9a524a8b11c7076a2b658, type: 2}
   _animationLayer: 1
   _isLoopingAbility: 0
@@ -116,7 +117,7 @@ MonoBehaviour:
       data:
         ActivationPolicy: 0
         EventName: 
-        AnimWindow: {x: 0.37236288, y: 0.8892405}
-        _equipSocketName: body_side
+        AnimWindow: {x: 0.30839285, y: 0.5446714}
+        _equipSocketName: weapon_pistol
         _lerpSpeed: 3
         _hand: 1

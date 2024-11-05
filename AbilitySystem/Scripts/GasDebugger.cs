@@ -35,6 +35,7 @@ public class GasDebugger : MonoBehaviour
     private TagController _tagController;
     private StatController _statController;
     private ActorStateMachine[] _stateMachines;
+    private GenericStateMachine[] _genericStateMachines;
     private Collider[] _actorColliders;
 
     private bool _isMouseLocked;
@@ -262,7 +263,13 @@ public class GasDebugger : MonoBehaviour
         GUILayout.Space(scaledSpacing+5);
         GUILayout.Label("States :", stateHeaderStyle);
         GUILayout.Space(scaledSpacing);
-
+        for (int i = 0; i < _genericStateMachines.Length; i++)
+        {
+            string stateMachineName = _genericStateMachines[i].Description;
+            string stateName = _genericStateMachines[i].CurrentState.gameObject.name;
+            GUILayout.Label($"{stateMachineName} : {stateName}", stateStyle);
+            GUILayout.Space(scaledSpacing * 0.8f);
+        }
         for (int i = 0; i < _stateMachines.Length; i++)
         {
             string stateMachineName = _stateMachines[i].GetType().Name;
@@ -311,6 +318,7 @@ public class GasDebugger : MonoBehaviour
         _tagController = actor.GetComponentInChildren<TagController>();
         _statController = actor.GetComponentInChildren<StatController>();
         _stateMachines = actor.GetComponentsInChildren<ActorStateMachine>();
+        _genericStateMachines = actor.GetComponentsInChildren<GenericStateMachine>();
         _actorColliders = actor.GetComponentsInChildren<Collider>();
     }
 }

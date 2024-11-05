@@ -57,7 +57,7 @@ public class State_AbilityTriggerSlot : MonoState
         private void OnPerformed(InputAction.CallbackContext obj)
         {
             AbilityTriggerInfo abilityTriggerInfo = AbilityTriggerInfos.Find(info => info.ActionName == obj.action.name);
-            _gasData.AbilityController.TryActiveAbilityWithDefinition(abilityTriggerInfo.AbilityDefinition, out ActiveAbility activatedAbility);
+            ActiveAbility activatedAbility = _gasData.AbilityController.TryActiveAbilityWithDefinition(abilityTriggerInfo.AbilityDefinition);
             
             if (activatedAbility != null)
             {

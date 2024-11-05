@@ -78,6 +78,7 @@ MonoBehaviour:
   _isBasicAttack: 0
   _abilityLayer: 0
   _overrideAnimSpeed: 0
+  _useCustomAnim: 0
   _animationSpeed: 0
   _clipTransition:
     _FadeDuration: 0.25
@@ -116,7 +117,7 @@ MonoBehaviour:
       data:
         ActivationPolicy: 0
         EventName: 
-        AnimWindow: {x: 0.37236288, y: 0.8892405}
+        AnimWindow: {x: 0.37238497, y: 0.8892405}
         _equipSocketName: RiflePivot
         _lerpSpeed: 3
         _hand: 1

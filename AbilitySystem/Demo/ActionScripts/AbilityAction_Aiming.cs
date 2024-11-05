@@ -28,7 +28,7 @@ public class AbilityAction_Aiming : AbilityAction
         _weightHandler = owner.GetComponentInChildren<AimIKWeightHandler>();
         _ik = owner.GetComponentInChildren<FullBodyBipedIK>();
 
-        _ik.solver.leftHandEffector.positionWeight = 1;
+        //_ik.solver.leftHandEffector.positionWeight = 1;
     
         StaticUpdater.onUpdate += OnUpdate;
     }
