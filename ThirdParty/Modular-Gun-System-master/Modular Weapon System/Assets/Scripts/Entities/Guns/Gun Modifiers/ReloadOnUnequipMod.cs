@@ -10,15 +10,15 @@ public class ReloadOnUnequipMod : GunModifier
         elapsedTime += Time.deltaTime;
 
         if (elapsedTime >= maxTimeBetweenBulletReloadInSeconds){
-            AmmoCategory category = target.GunData.AmmoCategory;
-            int availableAmmo = target.PlayerAmmoStorage.GetAmmoAmount(category);
+            ItemDefinition ammoItem = target.GunData.AmmoItemDefinition;
+            int availableAmmo = target.PlayerAmmoStorage.GetAmmoAmount(ammoItem);
 
             if (availableAmmo > 0){
                 int magazineSizeAdjusted = (int)Mathf.Ceil(target.GunData.MagazineSize * target.GunData.MagazineSizeMultiplier.Value);
 
                 if (target.BulletsInMagazine < magazineSizeAdjusted){
                     target.IncreaseMagazine(1);
-                    target.PlayerAmmoStorage.ReduceAmmoAmount(category, 1);
+                    target.PlayerAmmoStorage.ReduceAmmoAmount(ammoItem, 1);
                 }
 
                 elapsedTime = 0f;

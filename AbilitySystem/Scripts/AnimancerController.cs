@@ -71,7 +71,7 @@ public class AnimancerController : MonoBehaviour
             {
                 ability.AnimationReachedFullWeight = true;
             }
-            if (ability.AnimancerState.EffectiveWeight <= 0 && ability.AnimationReachedFullWeight)
+            if (ability.AnimancerState.EffectiveWeight <= 0 && ability.AnimancerState.EffectiveWeight < ability.PreviousAnimWeight)
             {
                 EndOrInterrupted(_currentAbilityAnimState, ability);
             }
@@ -153,6 +153,7 @@ public class AnimancerController : MonoBehaviour
 
     private void OnCustomAnimSet(ActiveAbility ability)
     {
+        ability.onCustomClipTransitionSet -= OnCustomAnimSet;
         PlayClipTransition(ability,ability.CustomClipTransition);
     }
 
@@ -182,8 +183,7 @@ public class AnimancerController : MonoBehaviour
             {
                 if (ability.Definition.OverrideAnimSpeed)
                 {
-                    _animancerComponent.States.Current.Speed = ability.Definition.AnimationSpeed /
-                                                               (1 / ability.Definition.AnimationClip.length);
+                    _animancerComponent.Layers[layer].CurrentState.Speed = ability.Definition.AnimationSpeed;
                 }
             }
         }

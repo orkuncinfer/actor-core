@@ -1,63 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-657316294236542774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
-  m_Name: Cost
-  m_EditorClassIdentifier: 
-  ModifierDefinitions: []
-  m_SpecialEffectDefinition: {fileID: 0}
-  _conditionalEffects: []
-  _description: 
-  _grantedTags:
-    m_SerializedExplicitTags: []
-  _applicationBlockerTags:
-    m_SerializedExplicitTags: []
-  _removeEffectsWithTags:
-    m_SerializedExplicitTags: []
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &-210694448143317016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
-  m_Name: Cooldown
-  m_EditorClassIdentifier: 
-  ModifierDefinitions: []
-  m_SpecialEffectDefinition: {fileID: 0}
-  _conditionalEffects: []
-  _description: 
-  _grantedTags:
-    m_SerializedExplicitTags: []
-  _applicationBlockerTags:
-    m_SerializedExplicitTags: []
-  _removeEffectsWithTags:
-    m_SerializedExplicitTags: []
-  _isInfinite: 0
-  _durationFormula:
-    Graph: {fileID: 0}
-    StaticValue: 0
-  _isPeriodic: 0
-  _period: 0
-  _executePeriodicEffectOnApplication: 0
-  _specialPersistentEffectDefinition: {fileID: 0}
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,8 +19,9 @@ MonoBehaviour:
   _gameplayEffectDefinitions: []
   _isBasicAttack: 0
   _abilityLayer: 0
-  _overrideAnimSpeed: 0
-  _animationSpeed: 0
+  _overrideAnimSpeed: 1
+  _useCustomAnim: 0
+  _animationSpeed: 1.5
   _clipTransition:
     _FadeDuration: 0.25
     _Events:
@@ -93,12 +36,13 @@ MonoBehaviour:
   _animationLayer: 1
   _isLoopingAbility: 0
   _duration: 0
-  Cost: {fileID: -657316294236542774}
-  Cooldown: {fileID: -210694448143317016}
+  Cost: {fileID: 0}
+  Cooldown: {fileID: 0}
   _abilityTags:
     m_SerializedExplicitTags: []
   _grantedTagsDuringAbility:
-    m_SerializedExplicitTags: []
+    m_SerializedExplicitTags:
+    - State.UpperBody.UsingAbility
   _activationRequiredTags:
     m_SerializedExplicitTags:
     - Equipment.Primary.Ranged.Rifle

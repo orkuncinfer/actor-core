@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95830e1a269b49308eda88a503d26679, type: 3}
-  m_Name: GA_UnequipPistol
+  m_Name: GA_AimingPistol
   m_EditorClassIdentifier: 
   _title: 
   _description: 
@@ -19,19 +19,19 @@ MonoBehaviour:
   _gameplayEffectDefinitions: []
   _isBasicAttack: 0
   _abilityLayer: 0
-  _overrideAnimSpeed: 1
+  _overrideAnimSpeed: 0
   _useCustomAnim: 0
-  _animationSpeed: 1.5
+  _animationSpeed: 0
   _clipTransition:
     _FadeDuration: 0.25
     _Events:
       _NormalizedTimes: []
       _Callbacks: []
       _Names: []
-    _Clip: {fileID: 7400000, guid: 8d91addad9b9984419735284e71b8eac, type: 2}
+    _Clip: {fileID: 0}
     _Speed: 1
     _NormalizedStartTime: 0
-  _endTime: 0.802
+  _endTime: 1
   _avatarMask: {fileID: 31900000, guid: 7978911be5f9a524a8b11c7076a2b658, type: 2}
   _animationLayer: 1
   _isLoopingAbility: 0
@@ -39,41 +39,50 @@ MonoBehaviour:
   Cost: {fileID: 0}
   Cooldown: {fileID: 0}
   _abilityTags:
-    m_SerializedExplicitTags: []
-  _grantedTagsDuringAbility:
-    m_SerializedExplicitTags:
-    - State.UpperBody.UsingAbility
-  _activationRequiredTags:
-    m_SerializedExplicitTags:
-    - Equipment.Secondary.Ranged.Pistol
-  _activationBlockedTags:
-    m_SerializedExplicitTags: []
-  _cancelAbilitiesWithTag:
     m_SerializedExplicitTags:
     - Ability.Aim
+  _grantedTagsDuringAbility:
+    m_SerializedExplicitTags:
+    - State.Aim
+  _activationRequiredTags:
+    m_SerializedExplicitTags: []
+  _activationBlockedTags:
+    m_SerializedExplicitTags:
+    - Ability.Reloading
+  _cancelAbilitiesWithTag:
+    m_SerializedExplicitTags: []
   GrantedEffectsDuringAbility: []
   AbilityActions:
-  - rid: 3670662858425761806
-  - rid: 3670663040529596422
+  - rid: 3670663040529596420
+  - rid: 428195079351959552
   references:
     version: 2
     RefIds:
-    - rid: 3670662858425761806
-      type: {class: AbilityAction_Unequip, ns: , asm: Assembly-CSharp-firstpass}
-      data:
-        ActivationPolicy: 0
-        EventName: 
-        AnimWindow: {x: 0.4510085, y: 0.72421885}
-        _attachToSocket: 1
-        _socketName: body_side
-        _lerpSpeed: 10
-    - rid: 3670663040529596422
-      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
+    - rid: 428195079351959552
+      type: {class: AbilityAction_SetLocomotionAsset, ns: , asm: Assembly-CSharp-firstpass}
       data:
         ActivationPolicy: 2
         EventName: 
         AnimWindow: {x: 0, y: 0}
-        ToggleAiming: 0
-        BackToDefaultOnExit: 0
-        IsInstant: 1
-        ReleaseLeftHand: 1
+        _locomotionAsset:
+          Key: LocomotionUpper
+          From: 1
+          _retrievedData:
+            rid: 428195079351959554
+        _locomotionAssetData: {fileID: 11400000, guid: a3df9e9a4a520a9409ae0791b98e3015, type: 2}
+    - rid: 428195079351959554
+      type: {class: Data_RefVar, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        IsGlobal: 0
+        UseKey: 1
+        IsPersistent: 0
+        DataKey: LocomotionUpper
+        OwnerActor: {fileID: 0}
+        IsInstalled: 1
+        _value: {fileID: 11400000, guid: 3ebd0787661619a4387d9dcb7312c9d8, type: 2}
+    - rid: 3670663040529596420
+      type: {class: AbilityAction_Aiming, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 2
+        EventName: 
+        AnimWindow: {x: 0, y: 0}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireMode: 2
   projectilePrefab: {fileID: 633841073768002512, guid: eb445cc1d185e7d4f9361c11c956927c, type: 3}
-  ammoCategory: 1
+  _ammoItemDefinition: {fileID: 11400000, guid: ead1504811c80f0428e0cb8ed0bb613a, type: 2}
   damage: 100
   magazineSize: 30
   roundsPerMinute: 650

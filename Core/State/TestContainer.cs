@@ -5,5 +5,5 @@ using UnityEngine;
 public class TestContainer : MonoBehaviour
 {
     public int Health;
-    
+    public GenericKey gk;
 }

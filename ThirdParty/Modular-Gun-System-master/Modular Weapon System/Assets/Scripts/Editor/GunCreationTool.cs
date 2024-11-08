@@ -23,7 +23,7 @@ public class GunCreationTool : EditorWindow
 
     [Header("Gun Data Settings")] 
     FireMode fireMode;
-    AmmoCategory ammoCategory;
+    ItemDefinition ammoItemDefinition;
     int damage;
     int magazineSize;
     int roundsPerMinute;
@@ -220,7 +220,7 @@ public class GunCreationTool : EditorWindow
 
     void SetNewGunData(){
         fireMode = (FireMode)EditorGUILayout.EnumPopup("Fire Mode: ", fireMode);
-        ammoCategory = (AmmoCategory)EditorGUILayout.EnumPopup("Ammo Type: ", ammoCategory);;
+        //ammoItemDefinition = (ItemDefinition)EditorGUILayout.EnumPopup("Ammo Type: ", ammoItemDefinition);;
         damage = EditorGUILayout.IntSlider("Damage: ", damage, 1, 1000);
         magazineSize = EditorGUILayout.IntSlider("Magazine Size: ", magazineSize, 1, 100);
         roundsPerMinute = EditorGUILayout.IntSlider("Rounds Per Minute: ", roundsPerMinute, 1, 500);
@@ -371,7 +371,7 @@ public class GunCreationTool : EditorWindow
     void CreateNewGunData(GameObject projectilePrefab){
         GunData newGunData = CreateInstance(typeof(GunData)) as GunData;
         
-        newGunData.InitialiseGunData(fireMode, ammoCategory, projectilePrefab, damage, magazineSize, roundsPerMinute, baseSpreadRadius, baseCritChance, baseCritMultiplier, baseStunChance);
+        newGunData.InitialiseGunData(fireMode, ammoItemDefinition, projectilePrefab, damage, magazineSize, roundsPerMinute, baseSpreadRadius, baseCritChance, baseCritMultiplier, baseStunChance);
         
         AssetDatabase.CreateAsset(newGunData, gunPrefabPath + gunName + "Data.asset");
         AssetDatabase.SaveAssets();

@@ -7,7 +7,7 @@ public class GunData : ScriptableObject {
     [Header("Base Gun Settings")]
     [SerializeField] FireMode fireMode; public FireMode FireMode => fireMode;
     [SerializeField] GameObject projectilePrefab; public GameObject ProjectilePrefab => projectilePrefab;
-    [SerializeField] AmmoCategory ammoCategory; public AmmoCategory AmmoCategory => ammoCategory;
+    [SerializeField] ItemDefinition _ammoItemDefinition; public ItemDefinition AmmoItemDefinition => _ammoItemDefinition;
 
     [Header("Base Gun Values")]
     [Tooltip("Guns base damage as a value before modifiers.")]
@@ -59,9 +59,9 @@ public class GunData : ScriptableObject {
     /**
      * used to initialise new GunData assets created within the gun creator tool
      */
-    public void InitialiseGunData(FireMode fireMode, AmmoCategory ammoCategory, GameObject projectilePrefab, int damage, int magazineSize, int roundsPerMinute, float baseSpreadRadius, int baseCritChance, float baseCritMultiplier, int baseStunChance){
+    public void InitialiseGunData(FireMode fireMode, ItemDefinition ammoItemDefinition, GameObject projectilePrefab, int damage, int magazineSize, int roundsPerMinute, float baseSpreadRadius, int baseCritChance, float baseCritMultiplier, int baseStunChance){
         this.fireMode = fireMode;
-        this.ammoCategory = ammoCategory;
+        this._ammoItemDefinition = ammoItemDefinition;
         this.projectilePrefab = projectilePrefab;
         this.damage = damage;
         this.magazineSize = magazineSize;

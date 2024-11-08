@@ -15,6 +15,8 @@ public  class DefaultPlayerInventory : PersistentMonoSingleton<DefaultPlayerInve
     
     [SerializeField] private GameObject _itemAddedDisplayerPrefab;
     
+    public Dictionary<string,InventoryDefinition> InventoryDefinitions = new Dictionary<string, InventoryDefinition>();
+    
     public event Action<string,int,int> onItemAdded;
     public event Action<string,int,int> onItemRemoved;
     public event Action<string, int,int> onItemChanged; 
@@ -126,6 +128,20 @@ public  class DefaultPlayerInventory : PersistentMonoSingleton<DefaultPlayerInve
         return _allItems;
     }
 
+    public void RegisterInventoryDefinition(InventoryDefinition definition)
+    {
+        InventoryDefinitions.Add(definition.InventoryId.ID,definition);
+    }
+    
+    public InventoryDefinition GetInventoryDefinition(string inventoryId)
+    {
+        if (InventoryDefinitions.ContainsKey(inventoryId))
+        {
+            return InventoryDefinitions[inventoryId];
+        }
+        return null;
+    }
+    
 #if UNITY_EDITOR
 
 

@@ -1,32 +1,25 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class AmmoStorage : MonoBehaviour
 {
-    [SerializeField] AmmoCategory[] startingAmmoCategories;
     [SerializeField] int[] startingAmmoAmounts;
+    [SerializeField] private GenericKey _ammoInventoryKey;
 
-    Dictionary<AmmoCategory, int> ammoTypeAndAmount;
+    private InventoryDefinition _ammoInventory;
 
-    void Start(){
-        ammoTypeAndAmount = new Dictionary<AmmoCategory, int>();
-
-        for (int i = 0; i < startingAmmoCategories.Length; i++){
-            ammoTypeAndAmount.Add(startingAmmoCategories[i], startingAmmoAmounts[i]);
-        }
+    void Start()
+    {
+        _ammoInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(_ammoInventoryKey.ID);
     }
 
-    public int GetAmmoAmount(AmmoCategory category){
-        return ammoTypeAndAmount[category];
+    public int GetAmmoAmount(ItemDefinition itemDefinition)
+    {
+        return _ammoInventory.GetItemCount(itemDefinition);
     }
 
-    public void AddAmmoAmount(AmmoCategory category, int amount){
-        ammoTypeAndAmount[category] += amount;
-    }
-
-    public void ReduceAmmoAmount(AmmoCategory category, int amount){
-        ammoTypeAndAmount[category] -= amount;
+    public void ReduceAmmoAmount(ItemDefinition itemDefinition, int amount){
+        _ammoInventory.RemoveItem(itemDefinition,amount);
     }
 
     void OnValidate(){
@@ -45,13 +38,5 @@ public class AmmoStorage : MonoBehaviour
     void InitialiseArraysInInspector(){
         string[] ammoCategories = System.Enum.GetNames(typeof(AmmoCategory));
         int categoryCount = ammoCategories.Length;
-
-        startingAmmoCategories = new AmmoCategory[categoryCount];
-        startingAmmoAmounts = new int[startingAmmoCategories.Length];
-
-        for (int i = 0; i < categoryCount; i++){
-            AmmoCategory type = (AmmoCategory)System.Enum.Parse(typeof(AmmoCategory), ammoCategories[i]);
-            startingAmmoCategories[i] = type;
-        }
     }
 }

@@ -10,4 +10,5 @@ public enum TagEnum
     Ability_Sprint,
     Ability_Shoot,
     Ability_Reload,
+    LocomotionUpper,
 }

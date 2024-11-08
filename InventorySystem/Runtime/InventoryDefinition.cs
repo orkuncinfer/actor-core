@@ -26,7 +26,7 @@ public class InventoryDefinition : MonoBehaviour
 
     public int InitialSlotCount;
     public int Width;
-    public string InventoryId;
+    public GenericKey InventoryId;
 
     public bool CreateOnInitialize = false;
     
@@ -36,13 +36,15 @@ public class InventoryDefinition : MonoBehaviour
 
    public event Action onInventoryChanged;
 
-    private string savePath => "/" + InventoryId;
+    private string savePath => "/" + InventoryId.ID;
     private FirebaseDatabase _database;
     private FirebaseFirestore _firestore;
 
     private void Awake()
     {
         Initialize();
+        
+        DefaultPlayerInventory.Instance.RegisterInventoryDefinition(this);
     }
 
     [Button]
@@ -63,6 +65,7 @@ public class InventoryDefinition : MonoBehaviour
         }
         foreach (var itemPack in InitialItems)
         {
+            Debug.Log("tried to add " + itemPack.ItemDefinition.ItemName + " to inventory");
             if (itemPack.ItemDefinition != null)
             {
                 Debug.Log("added item " + itemPack.ItemDefinition.ItemName + " to inventory");
@@ -146,7 +149,18 @@ public class InventoryDefinition : MonoBehaviour
 
         return true;
     }
-    
+    public int GetItemCount(ItemDefinition itemDefinition)
+    {
+        int availableCount = 0;
+        foreach (var slot in InventoryData.InventorySlots)
+        {
+            if (slot.ItemID == itemDefinition.ItemId)
+            {
+                availableCount += slot.ItemCount;
+            }
+        }
+        return availableCount;
+    }
     public void RemoveItem(ItemDefinition itemDefinition, int count)
     {
         if (count <= 0) return; 
@@ -267,10 +281,10 @@ public class InventoryDefinition : MonoBehaviour
         //string json = JsonConvert.SerializeObject(InventoryData);
         //Debug.Log("data is " + json);
         var playerData = new Dictionary<string, object>{    
-            {InventoryId, InventoryData},
+            {InventoryId.ID, InventoryData},
         };
         
-        await _firestore.Collection("player-data").Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Collection("Inventories").Document(InventoryId).SetAsync(InventoryData).ContinueWithOnMainThread(task =>
+        await _firestore.Collection("player-data").Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Collection("Inventories").Document(InventoryId.ID).SetAsync(InventoryData).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
             {

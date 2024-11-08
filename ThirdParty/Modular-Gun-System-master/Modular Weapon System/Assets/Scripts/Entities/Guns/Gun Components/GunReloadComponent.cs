@@ -32,7 +32,7 @@ public class GunReloadComponent : GunComponent
     public override void Perform(Gun gun, GunData gunData,Ability ability = null){
         if (cooldown.IsCooldown) return;
 
-        AmmoCategory category = gunData.AmmoCategory;
+        ItemDefinition category = gunData.AmmoItemDefinition;
         int availableAmmo = gun.PlayerAmmoStorage.GetAmmoAmount(category);
 
         if (availableAmmo > 0){
@@ -46,7 +46,7 @@ public class GunReloadComponent : GunComponent
         }
     }
 
-    IEnumerator ReloadGun(Gun gun, GunData gunData, AmmoCategory category, int availableAmmo, float reloadTime){
+    IEnumerator ReloadGun(Gun gun, GunData gunData, ItemDefinition ammoItemDefinition, int availableAmmo, float reloadTime){
         PlayAudio(startReloadAudio);
         animator.SetTrigger("IsReload");
         
@@ -62,7 +62,7 @@ public class GunReloadComponent : GunComponent
         
         int maximumReloadAmount = Mathf.Min(availableAmmo, magazineSizeAdjusted - gun.BulletsInMagazine); // maximum amount should never exceed magazine size
         gun.IncreaseMagazine(maximumReloadAmount);
-        gun.PlayerAmmoStorage.ReduceAmmoAmount(category, maximumReloadAmount);
+        gun.PlayerAmmoStorage.ReduceAmmoAmount(ammoItemDefinition, maximumReloadAmount);
         reloadCoroutine = null;
 
         onReload?.Invoke(gun);

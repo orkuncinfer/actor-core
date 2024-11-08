@@ -14,6 +14,8 @@ public class ActiveAbility : Ability
         public AnimancerState AnimancerState { get; set; }
         public AnimancerState PreviousAnimancerState { get; set; }
         public bool AnimationReachedFullWeight { get; set; }
+        public float PreviousAnimWeight { get; set; }
+        public int AbilityLayer { get; set; }
         public event Action<ActiveAbility> onStarted;
         public event Action<ActiveAbility> onFinished;
         public List<AbilityAction> AbilityActions;
@@ -37,7 +39,6 @@ public class ActiveAbility : Ability
 
         public virtual void EndAbility()
         {
-            onFinished?.Invoke(this);
             RemoveOngoingEffects();
             Owner.GameplayTags.RemoveTags(Definition.GrantedTagsDuringAbility);
            
@@ -52,6 +53,7 @@ public class ActiveAbility : Ability
                 AbilityActions?.Clear();
             }
             
+            onFinished?.Invoke(this);
             if(Definition.AnimationClip == null)StaticUpdater.onUpdate -= TickAbilityActions;
         }
         

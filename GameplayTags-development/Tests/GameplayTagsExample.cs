@@ -11,6 +11,8 @@ using UnityEngine;
 [assembly: GameplayTag("CrowdControl.Slow")]
 [assembly: GameplayTag("CrowdControl.Stun")]
 [assembly: GameplayTag("State.Movement.Airborne")]
+[assembly: GameplayTag("State.UpperBody.UsingAbility")]
+[assembly: GameplayTag("State.BaseBody.UsingAbility")]
 
 [assembly: GameplayTag("Ability.Crouch", "Indicates that the player can crouch.")]
 [assembly: GameplayTag("Ability.Movement.Sprint")]
