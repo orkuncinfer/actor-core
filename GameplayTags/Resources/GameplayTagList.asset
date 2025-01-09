@@ -23,7 +23,7 @@ MonoBehaviour:
     HashCode: 331ea717-399f-4bc6-8ed3-d1f7f01d85ad
   - Tag: Damage
     HashCode: f5b6ece8-4e26-4bd9-818c-2622e1d2f1e6
-  - Tag: Damage.Fireball
+  - Tag: Damage.Fireball2
     HashCode: 390495d0-3c7d-4e32-9aab-7e72d08f50ee
   - Tag: Immunity.Damage
     HashCode: 4da3272b-654e-4f95-862c-62e1bc1c206a
@@ -47,3 +47,5 @@ MonoBehaviour:
     HashCode: a22a60b5-b83d-49ca-9734-dc1ceaca7883
   - Tag: State.Ability.UpperBody
     HashCode: 3dfe870d-c954-43a6-a9dd-bc6d99ade74d
+  - Tag: Immunity.Damage.Inter
+    HashCode: c27c5567-317c-4a81-9bd5-8c55ab82d526

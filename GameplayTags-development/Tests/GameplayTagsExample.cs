@@ -40,6 +40,7 @@ using UnityEngine;
 [assembly: GameplayTag("Status.CC.Stun")]
 [assembly: GameplayTag("Status.CC.Slow")]
 [assembly: GameplayTag("Status.CC.Root")]
+[assembly: GameplayTag("Status.InCombat")]
 
 [assembly: GameplayTag("Equipment.Primary")]
 [assembly: GameplayTag("Equipment.Primary.Ranged.Rifle")]

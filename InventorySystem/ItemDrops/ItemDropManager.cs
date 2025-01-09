@@ -61,7 +61,6 @@ public class ItemDropManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(FetchMonsterList());
-        Events.onExampleEvent.AddListener(OnMobKilled);
     }
 
     private void OnMobKilled(MobKilledEventArgs obj)

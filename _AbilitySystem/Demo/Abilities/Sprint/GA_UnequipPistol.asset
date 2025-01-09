@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95830e1a269b49308eda88a503d26679, type: 3}
+  m_Name: GA_UnequipPistol
+  m_EditorClassIdentifier: 
+  _title: 
+  _description: 
+  _maxLevel: 20
+  _icon: {fileID: 0}
+  _gameplayEffectDefinitions: []
+  _isBasicAttack: 0
+  _abilityLayer: 0
+  _overrideAnimSpeed: 1
+  _useCustomAnim: 0
+  _animationSpeed: 1.5
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 8eef87ae2ecf8194eb3ec2f5a706e007, type: 2}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 0.802
+  _avatarMask: {fileID: 31900000, guid: 7978911be5f9a524a8b11c7076a2b658, type: 2}
+  _animationLayer: 1
+  _isLoopingAbility: 0
+  _duration: 0
+  Cost: {fileID: 0}
+  Cooldown: {fileID: 0}
+  _abilityTags:
+    m_SerializedExplicitTags: []
+  _grantedTagsDuringAbility:
+    m_SerializedExplicitTags:
+    - State.UpperBody.UsingAbility
+  _activationRequiredTags:
+    m_SerializedExplicitTags:
+    - Equipment.Secondary.Ranged.Pistol
+  _activationBlockedTags:
+    m_SerializedExplicitTags: []
+  _cancelAbilitiesWithTag:
+    m_SerializedExplicitTags:
+    - Ability.Aim
+  GrantedEffectsDuringAbility: []
+  AbilityActions:
+  - rid: 3670662858425761806
+  - rid: 3670663040529596422
+  references:
+    version: 2
+    RefIds:
+    - rid: 3670662858425761806
+      type: {class: AbilityAction_Unequip, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 0
+        EventName: 
+        AnimWindow: {x: 0.4510085, y: 0.72421885}
+        _attachToSocket: 1
+        _socketName: body_side
+        _lerpSpeed: 10
+    - rid: 3670663040529596422
+      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 2
+        EventName: 
+        AnimWindow: {x: 0, y: 0}
+        ToggleAiming: 0
+        BackToDefaultOnExit: 0
+        IsInstant: 1
+        ReleaseLeftHand: 1
+        HoldLeftHandOnExit: 0
