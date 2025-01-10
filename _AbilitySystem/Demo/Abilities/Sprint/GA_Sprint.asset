@@ -52,6 +52,7 @@ MonoBehaviour:
   _cancelAbilitiesWithTag:
     m_SerializedExplicitTags:
     - Ability.Aim
+    - Ability.Ranged.Shooting
   GrantedEffectsDuringAbility:
   - {fileID: 11400000, guid: 65e28cdbc4cb06b48b8d231b4dbcc308, type: 2}
   AbilityActions: []

@@ -43,8 +43,7 @@ MonoBehaviour:
     m_SerializedExplicitTags:
     - Ability.Ranged.Shooting
   _grantedTagsDuringAbility:
-    m_SerializedExplicitTags:
-    - Ability.Ranged.Shooting
+    m_SerializedExplicitTags: []
   _activationRequiredTags:
     m_SerializedExplicitTags: []
   _activationBlockedTags:

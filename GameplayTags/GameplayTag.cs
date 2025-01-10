@@ -7,7 +7,7 @@ using UnityEditor.ShortcutManagement;
 
 using UnityEngine;
 [Serializable]
-public class GameplayTag
+public struct GameplayTag
 {
     [SerializeField]
     private string fullTag;
@@ -22,17 +22,27 @@ public class GameplayTag
     }
     [SerializeField]private List<string> tagHierarchy;
 
-    public string HashCode;
-    
-    private GameplayTag(string tag)
+    [SerializeField]
+    private string hashCode;
+    public string HashCode
     {
-        this.fullTag = tag;
+        get => hashCode;
+        set => hashCode = value;
+    }
+    
+    private GameplayTag(string tag, string hashCode)
+    {
+        this.hashCode = hashCode;
+        fullTag = tag;
+        tagHierarchy = new List<string>();
         ParseTagHierarchy();
-    }   
+    }
+
 
     public void SetTag(string newtag, string hashCode)
     {
         HashCode = hashCode;
+        Debug.Log("settag" + newtag + "hascode :" + this.hashCode);
        
         fullTag = newtag;
         
@@ -46,12 +56,13 @@ public class GameplayTag
 #if UNITY_EDITOR
     public void Fetch(GameplayTagsAsset tagsAsset)//not called in runtime
     {
+        Debug.Log("fetchingtag" + fullTag +"hascode :" + hashCode);
         foreach (GameplayTagFetcher tagFetcher in tagsAsset.TagsCache)
         {
-            if (tagFetcher.HashCode == HashCode)
+            if (tagFetcher.HashCode == hashCode)
             {
+                DDebug.Log("fetchedtag" + fullTag +"hascode :" + hashCode);
                 fullTag = tagFetcher.Tag;
-                DDebug.Log("fetchedtag" + fullTag);
                 ParseTagHierarchy();
                 return;
             }
@@ -120,9 +131,5 @@ public class GameplayTag
     public IEnumerable<string> GetHierarchy()
     {
         return tagHierarchy;
-    }
-    public static implicit operator GameplayTag(string tag)
-    {
-        return new GameplayTag(tag);
     }
 }

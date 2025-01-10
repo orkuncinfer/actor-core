@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameplayTagTest : MonoBehaviour
 {
-    [SerializeField] private GameplayTag tag;  
+    /*[SerializeField] private GameplayTag tag;  
     [SerializeField] private GameplayTag tag2;
     void Start()
     {
@@ -52,5 +52,5 @@ public class GameplayTagTest : MonoBehaviour
         {
             DDebug.Log(tags);
         }
-    }
+    }*/
 }

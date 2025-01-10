@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TagsCache:
   - Tag: Status.Poison
-    HashCode: 51266778-e8cb-40c5-86d8-927e37f3dd39
+    HashCode: 313131
   - Tag: Cooldown.Poison
     HashCode: b3c0707c-7b5d-464f-a4a4-d2475d37d69d
   - Tag: Cooldown.Cleanse
@@ -27,7 +27,7 @@ MonoBehaviour:
     HashCode: 390495d0-3c7d-4e32-9aab-7e72d08f50ee
   - Tag: Immunity.Damage
     HashCode: 4da3272b-654e-4f95-862c-62e1bc1c206a
-  - Tag: Status.Burn
+  - Tag: Status.Burn2
     HashCode: c060d027-6bb5-4995-ad00-73fec0919f65
   - Tag: State.Ability
     HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374

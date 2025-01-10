@@ -89,7 +89,7 @@ void ProcessType(object obj, Type type, string path, HashSet<object> visited)
         // Direct usage of GameplayTag
         if (fieldType == typeof(GameplayTag))
         {
-            ProcessGameplayTag(fieldValue as GameplayTag);
+            ProcessGameplayTag((GameplayTag)fieldValue);
         }
         // Handle list of GameplayTags
         else if (fieldType.IsGenericType && fieldType.GetGenericTypeDefinition() == typeof(List<>))
@@ -131,7 +131,7 @@ void ProcessObject(UnityEngine.Object obj)
 
 void ProcessGameplayTag(GameplayTag tag)
 {
-    if (tag != null)
+    if (tag.FullTag != null)
     {
         GameplayTagsAsset tagsAsset = GetGameplayTagsAsset();
         tag.Fetch(tagsAsset);
@@ -162,7 +162,7 @@ GameplayTagsAsset GetGameplayTagsAsset()
 public class GameplayTagFetcher
 {
     public string Tag;
-    [HideInInspector]public string HashCode;
+    public string HashCode;
 
     public void GenerateNewHashCode(GameplayTagsAsset asset)
     {
