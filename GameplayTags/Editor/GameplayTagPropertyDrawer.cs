@@ -14,6 +14,7 @@ public class GameplayTagPropertyDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         SerializedProperty fullTagProperty = property.FindPropertyRelative("fullTag");
+        SerializedProperty rootProperty = property;
         
         if (!isInitialized)
         {
@@ -53,19 +54,19 @@ public class GameplayTagPropertyDrawer : PropertyDrawer
         }
         if (GUI.Button(controlRect, fieldText, btnStyle))
         {
-            TagSelectorPopup(controlRect, fullTagProperty,gameplayTag);
+            TagSelectorPopup(controlRect, fullTagProperty,gameplayTag,rootProperty);
         }
 
         EditorGUI.EndProperty();
     }
 
-    private void TagSelectorPopup(Rect rect, SerializedProperty fullTagProperty,GameplayTag gameplayTag)
+    private void TagSelectorPopup(Rect rect, SerializedProperty fullTagProperty,GameplayTag gameplayTag,SerializedProperty rootProperty)
     {
         GameplayTagsAsset gameplayTagsAsset = Resources.Load<GameplayTagsAsset>("GameplayTagList");
         if (gameplayTagsAsset != null)
         {
            // List<string> dynamicTags = gameplayTagsAsset.tags;
-            TagSelectorWindow.ShowWindow(rect, fullTagProperty, gameplayTag,gameplayTagsAsset);
+            TagSelectorWindow.ShowWindow(rect, fullTagProperty, gameplayTag,gameplayTagsAsset,rootProperty);
         }
         else
         {

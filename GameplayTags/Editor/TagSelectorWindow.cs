@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 public class TagSelectorWindow : EditorWindow
 {
     private static SerializedProperty tagProperty;
+    private static SerializedProperty rootProperty;
 
     private Vector2 scrollPosition;
     private List<string> items = new List<string>();
@@ -43,9 +44,10 @@ public class TagSelectorWindow : EditorWindow
     private string _deleteTagFieldTagName;
     private TagItem _deleteTagItem;
 
-    public static void ShowWindow(Rect buttonRect, SerializedProperty property,GameplayTag gameplayTag,GameplayTagsAsset tagsAsset)
+    public static void ShowWindow(Rect buttonRect, SerializedProperty property,GameplayTag gameplayTag,GameplayTagsAsset tagsAsset, SerializedProperty rootProp)
     {
         tagProperty = property;
+        rootProperty = rootProp;
         GameplayTag = gameplayTag;
         ParentButtonRect = buttonRect;
         GameplayTagsAsset = tagsAsset;
@@ -358,11 +360,15 @@ public class TagSelectorWindow : EditorWindow
                 {
                     tagProperty.serializedObject.Update();
                     tagProperty.stringValue = item.FullPath;
-                    tagProperty.serializedObject.ApplyModifiedProperties();
+                    rootProperty.FindPropertyRelative("hashCode").stringValue = item.HashCode;
+                    //rootProperty.FindPropertyRelative("hashCode").objec
+                    //Debug.Log("31" + rootProperty.name);
                     if (GetParent(tagProperty) is GameplayTag tag)
                     {
                         tag.SetTag(item.FullPath,item.HashCode);
                     }
+                    tagProperty.serializedObject.ApplyModifiedProperties();
+                    
                     Close();
                 }
             }
