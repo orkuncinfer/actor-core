@@ -61,7 +61,7 @@ public class TagSelectorWindow : EditorWindow
         window.ShowAsDropDown(posRect, new Vector2(300, 500));
         _window = window;
     }
-    private void structureItems(List<GameplayTagFetcher> tags, bool foldoutAll = false)
+    private void structureItems(List<GameplayTagInfo> tags, bool foldoutAll = false)
     {
         structuredItems.Clear();
         var itemLookup = new Dictionary<string, TagItem>();
@@ -196,10 +196,10 @@ public class TagSelectorWindow : EditorWindow
                     _showCreateTagField = false;
                     string newTag = _createTagStringPrefix + _createTagString;
                     //GameplayTagsAsset.tags.Add(newTag);
-                    GameplayTagFetcher newTagFetcher = new GameplayTagFetcher();
-                    newTagFetcher.Tag = newTag;
-                    GameplayTagsAsset.TagsCache.Add(newTagFetcher);
-                    newTagFetcher.GenerateNewHashCode(GameplayTagsAsset);
+                    GameplayTagInfo newTagInfo = new GameplayTagInfo();
+                    newTagInfo.Tag = newTag;
+                    GameplayTagsAsset.TagsCache.Add(newTagInfo);
+                    newTagInfo.GenerateNewHashCode(GameplayTagsAsset);
                     structureItems(GameplayTagsAsset.TagsCache,true);
                     Repaint();
                 }
@@ -358,6 +358,10 @@ public class TagSelectorWindow : EditorWindow
                 }
                 else
                 {
+                    if (tagProperty == null)
+                    {
+                        
+                    }
                     tagProperty.serializedObject.Update();
                     tagProperty.stringValue = item.FullPath;
                     rootProperty.FindPropertyRelative("hashCode").stringValue = item.HashCode;

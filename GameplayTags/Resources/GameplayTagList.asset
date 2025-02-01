@@ -12,40 +12,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cdc1b9f446708340a107bfc3d92b9e2, type: 3}
   m_Name: GameplayTagList
   m_EditorClassIdentifier: 
+  ShowInfo: 0
   TagsCache:
-  - Tag: Status.Poison
-    HashCode: 313131
-  - Tag: Cooldown.Poison
-    HashCode: b3c0707c-7b5d-464f-a4a4-d2475d37d69d
-  - Tag: Cooldown.Cleanse
-    HashCode: 7ce78101-eacc-42e5-8111-530e2890c215
-  - Tag: Immunity.Poison
-    HashCode: 331ea717-399f-4bc6-8ed3-d1f7f01d85ad
-  - Tag: Damage
-    HashCode: f5b6ece8-4e26-4bd9-818c-2622e1d2f1e6
-  - Tag: Damage.Fireball2
-    HashCode: 390495d0-3c7d-4e32-9aab-7e72d08f50ee
-  - Tag: Immunity.Damage
-    HashCode: 4da3272b-654e-4f95-862c-62e1bc1c206a
-  - Tag: Status.Burn2
-    HashCode: c060d027-6bb5-4995-ad00-73fec0919f65
-  - Tag: State.Ability
-    HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
   - Tag: Status
-    HashCode: 26b35c3f-21f2-4409-b490-fedffcca6baa
-  - Tag: Blocker.GetHit
-    HashCode: 0672803e-7082-4040-931f-abe9766f2b0f
-  - Tag: State.IsDead
-    HashCode: 83a4c44d-27ab-481a-9e80-360307a0c519
-  - Tag: NewTag
-    HashCode: 3e4c2438-376f-4d76-8336-9ce9806942c9
-  - Tag: NewTag.Selena
-    HashCode: 903e9b05-bca1-4883-98c7-77242119f803
-  - Tag: Status.Sprint
-    HashCode: 3a339270-36fa-4303-a5a7-602b3f507774
-  - Tag: State.Interaction
-    HashCode: a22a60b5-b83d-49ca-9734-dc1ceaca7883
-  - Tag: State.Ability.UpperBody
-    HashCode: 3dfe870d-c954-43a6-a9dd-bc6d99ade74d
-  - Tag: Immunity.Damage.Inter
-    HashCode: c27c5567-317c-4a81-9bd5-8c55ab82d526
+    HashCode: 8c5032af-61a1-455b-9119-823a0413eac5
+    Description: Generated tag for Status
+    _asset: {fileID: 11400000}
+  - Tag: Status.Bleed
+    HashCode: 65359f3d-5b6c-4a10-ad1c-99a809737aa4
+    Description: Generated tag for Status.Bleed
+    _asset: {fileID: 11400000}
+  - Tag: Status.Burn
+    HashCode: cff0ec44-d978-4894-8c69-222d17699600
+    Description: Generated tag for Status.Burn
+    _asset: {fileID: 11400000}
+  - Tag: Cooldown.Damaged
+    HashCode: cf9ca94c-ec36-4d3e-b0ff-fb67be8f29be
+    Description: Generated tag for Status.Damaged
+    _asset: {fileID: 11400000}
+  - Tag: Cooldown
+    HashCode: a4421946-bec3-4a15-8be6-96a62df80e52
+    Description: Generated tag for Cooldown
+    _asset: {fileID: 11400000}
+  - Tag: Cooldown.Stun
+    HashCode: cece1fe8-4ba7-4918-aa66-ccccf59248ec
+    Description: Generated tag for Cooldown.Stun
+    _asset: {fileID: 11400000}
+  - Tag: Cooldown.RangeAttack
+    HashCode: 37dab777-83af-456e-9054-6ee024f9ec0e
+    Description: Generated tag for Cooldown.RangeAttack
+    _asset: {fileID: 11400000}
+  - Tag: Cooldown.Ability
+    HashCode: ec5a54e9-10d8-452c-aaa6-3eb11aa7f87f
+    Description: Generated tag for Cooldown.Ability
+    _asset: {fileID: 11400000}
+  - Tag: Ability
+    HashCode: 5446e647-1a6c-4469-b399-6472a737b857
+    Description: Generated tag for Ability
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Ranged
+    HashCode: 814f3ead-4ce3-4f96-9513-9b9db7644388
+    Description: Generated tag for Ability.Ranged
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Ranged.AOE
+    HashCode: 7d236774-e483-4324-93bf-030e3e27034f
+    Description: Generated tag for Ability.Ranged.AOE
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Ranged.Single
+    HashCode: 29deda1c-3ebe-4853-aacd-5c77a83bb70c
+    Description: Generated tag for Ability.Ranged.Single
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Shoot
+    HashCode: d3468802-82cb-4c5a-956e-85e426f925d4
+    Description: Generated tag for Ability.Shoot
+    _asset: {fileID: 11400000}

@@ -2,9 +2,9 @@ using UnityEditor;
 using UnityEngine;
 using System.Text;
 
-public static class CopyBonePathEditor
+public static class CopyTransformPathEditor
 {
-    [MenuItem("GameObject/Copy Bone Path", false, 0)]
+    [MenuItem("GameObject/Copy Path", false, 0)]
     private static void CopyBonePath()
     {
         GameObject selectedObject = Selection.activeGameObject;
@@ -32,7 +32,7 @@ public static class CopyBonePathEditor
     }
 
     // Context menu option
-    [MenuItem("GameObject/Copy Bone Path", true)]
+    [MenuItem("GameObject/Copy Path", true)]
     private static bool ValidateCopyBonePath()
     {
         return Selection.activeGameObject != null;
