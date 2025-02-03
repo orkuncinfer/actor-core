@@ -29,6 +29,8 @@ public class GameplayTagsAsset : ScriptableObject
     [Button]
     private void CreateTag(string fullTag)
     {
+        bool alreadyExists = TagsCache.Exists(tagInfo => tagInfo.Tag == fullTag);
+        if(alreadyExists) return;
         var tagsToCheck = fullTag.Split('.');
         var currentTag = "";
 

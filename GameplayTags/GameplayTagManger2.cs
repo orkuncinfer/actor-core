@@ -11,8 +11,8 @@ public class GameplayTagManger2
     
     private static Dictionary<string,GameplayTag> _tagHashDictionary = new Dictionary<string, GameplayTag>();
     private static Dictionary<string,GameplayTag> _tagDictionary = new Dictionary<string, GameplayTag>();
-
-    private GameplayTagsAsset _defaultTagAsset => TagAssets[0];
+    private static Dictionary<string,string> _tagHashToTagDictionary = new Dictionary<string, string>();
+    
     public static void InitializeIfNeeded()
     {
         if (s_IsInitialized)
@@ -56,11 +56,11 @@ public class GameplayTagManger2
             foreach (var tag in tagAsset.TagsCache)
             {
                 GameplayTag returnTag = new GameplayTag();
-                returnTag.FullTag = tag.Tag;
                 returnTag.Description = tag.Description;
                 returnTag.HashCode = tag.HashCode;
                 _tagHashDictionary[tag.HashCode] = returnTag;
                 _tagDictionary[tag.Tag] = returnTag;
+                _tagHashToTagDictionary[tag.HashCode] = tag.Tag;
                 //_tagDictionary.Add(tag.Tag, returnTag);
                 //_tagHashDictionary.Add(tag.HashCode, returnTag);
             }
@@ -75,12 +75,12 @@ public class GameplayTagManger2
     
     private static void LoadAllGameplayTagsAssets()
     {
-        GameplayTagsAsset[] assets = Resources.LoadAll<GameplayTagsAsset>("");
+        GameplayTagsAsset assets = Resources.Load<GameplayTagsAsset>("GameplayTagList");
 
-        if (assets != null && assets.Length > 0)
+        if (assets != null )
         {
-            TagAssets.AddRange(assets);
-            Debug.Log($"Loaded {assets.Length} GameplayTagsAsset(s) from Resources.");
+            TagAssets.Add(assets);
+            Debug.Log($"Loaded {assets} GameplayTagsAsset(s) from Resources.");
         }
         else
         {
@@ -88,6 +88,10 @@ public class GameplayTagManger2
         }
     }
 
+    public static string GetFullTag(string tagHash)
+    {
+        return _tagHashToTagDictionary[tagHash];
+    }
     private static void CreateTag(string fullTag)
     {
         InitializeIfNeeded();

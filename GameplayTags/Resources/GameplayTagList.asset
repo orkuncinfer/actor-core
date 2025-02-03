@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cdc1b9f446708340a107bfc3d92b9e2, type: 3}
   m_Name: GameplayTagList
   m_EditorClassIdentifier: 
-  ShowInfo: 0
+  ShowInfo: 1
   TagsCache:
   - Tag: Status
     HashCode: 8c5032af-61a1-455b-9119-823a0413eac5
@@ -65,4 +65,68 @@ MonoBehaviour:
   - Tag: Ability.Shoot
     HashCode: d3468802-82cb-4c5a-956e-85e426f925d4
     Description: Generated tag for Ability.Shoot
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Aim
+    HashCode: 2b429371-94f4-4f10-bbb3-14ea6974895d
+    Description: Generated tag for Ability.Aim
+    _asset: {fileID: 11400000}
+  - Tag: State
+    HashCode: 4ccf02fe-a5c6-4bde-b362-e227e13d4504
+    Description: Generated tag for State
+    _asset: {fileID: 11400000}
+  - Tag: State.Aim
+    HashCode: ba0ea4e9-45db-4355-8acd-a6cbd6185280
+    Description: Generated tag for State.Aim
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Reloading
+    HashCode: 1de55e68-1359-4a77-b104-2c5fa8787c5f
+    Description: Generated tag for Ability.Reloading
+    _asset: {fileID: 11400000}
+  - Tag: State.Movement
+    HashCode: 6fde5631-5866-426d-888a-b8d6b244d964
+    Description: Generated tag for State.Movement
+    _asset: {fileID: 11400000}
+  - Tag: State.Movement.Sprint
+    HashCode: 492fa449-0ac3-4bdd-8b39-77f37b6b0af5
+    Description: Generated tag for State.Movement.Sprint
+    _asset: {fileID: 11400000}
+  - Tag: State.UpperBody
+    HashCode: ef417d24-c391-4f84-bf04-f75bd8faa46e
+    Description: Generated tag for State.UpperBody
+    _asset: {fileID: 11400000}
+  - Tag: State.UpperBody.UsingAbility
+    HashCode: 08bd3d5b-00f1-4624-bf92-c3cff2d551bf
+    Description: Generated tag for State.UpperBody.UsingAbility
+    _asset: {fileID: 11400000}
+  - Tag: Equipment
+    HashCode: 1cadf9ca-ad59-4767-a78b-4174f29d75d4
+    Description: Generated tag for Equipment
+    _asset: {fileID: 11400000}
+  - Tag: Equipment.Secondary
+    HashCode: a16e414e-4a9d-4d4f-8563-ad06a68659ec
+    Description: Generated tag for Equipment.Secondary
+    _asset: {fileID: 11400000}
+  - Tag: Equipment.Secondary.Ranged
+    HashCode: ab9609d8-6a65-48c8-b700-a373e78c31fb
+    Description: Generated tag for Equipment.Secondary.Ranged
+    _asset: {fileID: 11400000}
+  - Tag: Equipment.Secondary.Ranged.Pistol
+    HashCode: 77599826-1ece-4015-88a3-682180c78107
+    Description: Generated tag for Equipment.Secondary.Ranged.Pistol
+    _asset: {fileID: 11400000}
+  - Tag: Equipment.Secondary.Ranged.Rifle
+    HashCode: 26e00d47-d053-45bd-8fbe-39d9fc82705a
+    Description: Generated tag for Equipment.Secondary.Ranged.Rifle
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Ranged.Shooting
+    HashCode: cf9036b0-dad9-4533-8d0c-0968af7c792c
+    Description: Generated tag for Ability.Ranged.Shooting
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Movement
+    HashCode: 41233922-91df-4b2a-ba8d-2e5907955af9
+    Description: Generated tag for Ability.Movement
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Movement.Sprint
+    HashCode: 3eed815a-43e2-4e7b-bf60-d1bd4f1b16d1
+    Description: Generated tag for Ability.Movement.Sprint
     _asset: {fileID: 11400000}

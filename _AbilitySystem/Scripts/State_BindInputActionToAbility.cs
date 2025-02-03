@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 public class State_BindInputActionToAbility : MonoState
 {
     [SerializeField] private bool _startWithTag;
-    [SerializeField][ShowIf("_startWithTag")] private BandoWare.GameplayTags.GameplayTag _tag;
+    [SerializeField][ShowIf("_startWithTag")] private GameplayTag _tag;
     [FormerlySerializedAs("_abilityData")] [SerializeField][HideIf("_startWithTag")] private DSGetter<Data_AbilityDefinition> _abilityDS;
     [SerializeField] private Data_GAS _gasData;
     public InputActionAsset ActionAsset;

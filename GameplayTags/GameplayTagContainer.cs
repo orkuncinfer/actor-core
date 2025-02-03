@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using Sirenix.Utilities;
 using UnityEngine;
 [Serializable]
-public class GameplayTagContainer2 
+public class GameplayTagContainer 
 {
     [SerializeField]
     private List<string> _tagHashes;
-    
 
+    public event Action OnTagChanged;
+    public int TagCount => _tagHashes.Count;
 
     public bool HasTag(GameplayTag tagToCheck)
     {
@@ -40,8 +41,21 @@ public class GameplayTagContainer2
 
         return false;
     }
+    public bool HasTagExact(string tagToCheck)
+    {
+        //reverse for loop
+        for (int i = _tagHashes.Count - 1; i >= 0; i--)
+        {
+            GameplayTag tag = GameplayTagManger2.RequestTagHash(_tagHashes[i]);
+            if (tag.FullTag == tagToCheck)
+            {
+                return true;
+            }
+        }
 
-    public bool HasAny(GameplayTagContainer2 container)
+        return false;
+    }
+    public bool HasAny(GameplayTagContainer container)
     {
         List<GameplayTag> tags = container.GetTags();
         for (int i = tags.Count - 1; i >= 0; i--)
@@ -55,7 +69,7 @@ public class GameplayTagContainer2
         return false;
     }
     
-    public bool HasAnyExact(GameplayTagContainer2 container)
+    public bool HasAnyExact(GameplayTagContainer container)
     {
         List<GameplayTag> tags = container.GetTags();
         for (int i = tags.Count - 1; i >= 0; i--)
@@ -88,7 +102,7 @@ public class GameplayTagContainer2
         _tagHashes.Remove(tag.HashCode);
     }
     
-    public void AddTags(GameplayTagContainer2 container)
+    public void AddTags(GameplayTagContainer container)
     {
         //add tags if not exist
         for (int i = container._tagHashes.Count - 1; i >= 0; i--)
@@ -99,7 +113,7 @@ public class GameplayTagContainer2
             }
         }
     }
-    public void RemoveTags(GameplayTagContainer2 container)
+    public void RemoveTags(GameplayTagContainer container)
     {
         for (int i = container._tagHashes.Count - 1; i >= 0; i--)
         {

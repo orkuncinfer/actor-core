@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BandoWare.GameplayTags;
 using SaveSystem.Scripts.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -62,7 +61,7 @@ public class AbilityController : MonoInitializable, ISavable
         }
     }
 
-    public ActiveAbility TryActivateAbilityWithGameplayTag(BandoWare.GameplayTags.GameplayTag tag)
+    public ActiveAbility TryActivateAbilityWithGameplayTag(GameplayTag tag)
     {
         foreach (var ability in m_Abilities)
         {
@@ -139,7 +138,7 @@ public class AbilityController : MonoInitializable, ISavable
         {
             if (activeAbility.Definition.CancelAbilitiesWithTag.HasAny(_activeAbilities[i].Definition.AbilityTags))
             {
-                Debug.Log($"Tried to cancel {_activeAbilities[i].Definition.name} because of tag {activeAbility.Definition.CancelAbilitiesWithTag.First()}");
+                Debug.Log($"Tried to cancel {_activeAbilities[i].Definition.name} because of tag {activeAbility.Definition.CancelAbilitiesWithTag.GetTags().First()}");
                 CancelAbilityIfActive(_activeAbilities[i]);
             }
         }
@@ -161,7 +160,7 @@ public class AbilityController : MonoInitializable, ISavable
         {
             if (ability.Definition.Cooldown.GrantedTags.TagCount > 0)
             {
-                if (_owner.GameplayTags.HasTag(ability.Definition.Cooldown.GrantedTags.First()))
+                if (_owner.GameplayTags.HasTag(ability.Definition.Cooldown.GrantedTags.GetTags().First()))
                 {
                     DDebug.Log($"{ability.Definition.name} is on cooldown!");
                     return false;
@@ -174,7 +173,7 @@ public class AbilityController : MonoInitializable, ISavable
             if (!haveCost) return false;
         }
 
-        foreach (var requiredTag in ability.Definition.ActivationRequiredTags)
+        foreach (var requiredTag in ability.Definition.ActivationRequiredTags.GetTags())
         {
             if(_owner.GameplayTags.HasTag(requiredTag) == false)
             {
@@ -254,7 +253,7 @@ public class AbilityController : MonoInitializable, ISavable
         }
     }
     
-    public void CancelAbilityWithGameplayTag(BandoWare.GameplayTags.GameplayTag tag)
+    public void CancelAbilityWithGameplayTag(GameplayTag tag)
     {
         for(int i = _activeAbilities.Count - 1; i >= 0; i--)
         {

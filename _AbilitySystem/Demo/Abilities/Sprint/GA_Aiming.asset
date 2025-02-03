@@ -39,19 +39,19 @@ MonoBehaviour:
   Cost: {fileID: 0}
   Cooldown: {fileID: 0}
   _abilityTags:
-    m_SerializedExplicitTags:
-    - Ability.Aim
+    _tagHashes:
+    - 2b429371-94f4-4f10-bbb3-14ea6974895d
   _grantedTagsDuringAbility:
-    m_SerializedExplicitTags:
-    - State.Aim
+    _tagHashes:
+    - ba0ea4e9-45db-4355-8acd-a6cbd6185280
   _activationRequiredTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _activationBlockedTags:
-    m_SerializedExplicitTags:
-    - Ability.Reloading
-    - State.Movement.Sprint
+    _tagHashes:
+    - 1de55e68-1359-4a77-b104-2c5fa8787c5f
+    - 492fa449-0ac3-4bdd-8b39-77f37b6b0af5
   _cancelAbilitiesWithTag:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   GrantedEffectsDuringAbility: []
   AbilityActions:
   - rid: 3670663040529596420

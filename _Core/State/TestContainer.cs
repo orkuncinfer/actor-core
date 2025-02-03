@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TestContainer : MonoBehaviour
 {
@@ -9,11 +10,10 @@ public class TestContainer : MonoBehaviour
     public GenericKey gk;
     public GameplayTag gt;
     
-    public GameplayTagContainer2 tagContainer;
+    public GameplayTagContainer tagContainer;
     
-    public GameplayTagContainer2 tagContainer2;
-
-    public BandoWare.GameplayTags.GameplayTag tag2;
+    [FormerlySerializedAs("tagContainer2")] public GameplayTagContainer _tagContainer;
+    
 
     [Button]
     public void Test1()
@@ -24,17 +24,17 @@ public class TestContainer : MonoBehaviour
     [Button]
     public void Test2()
     {
-        Debug.Log(tagContainer.HasAnyExact(tagContainer2));
+        Debug.Log(tagContainer.HasAnyExact(_tagContainer));
     }
     
     [Button]
     public void Remove2From1()
     {
-        tagContainer.RemoveTags(tagContainer2);
+        tagContainer.RemoveTags(_tagContainer);
     }
     [Button]
     public void Add2To1()
     {
-        tagContainer.AddTags(tagContainer2);
+        tagContainer.AddTags(_tagContainer);
     }
 }

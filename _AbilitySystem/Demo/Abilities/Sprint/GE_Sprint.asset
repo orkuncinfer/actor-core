@@ -18,12 +18,12 @@ MonoBehaviour:
   _conditionalEffects: []
   _description: 
   _grantedTags:
-    m_SerializedExplicitTags:
-    - State.Movement.Sprint
+    _tagHashes:
+    - 492fa449-0ac3-4bdd-8b39-77f37b6b0af5
   _applicationBlockerTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _removeEffectsWithTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _isInfinite: 1
   _durationFormula:
     Graph: {fileID: 0}

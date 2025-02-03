@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using BandoWare.GameplayTags;
 using Firebase.Firestore;
 using JetBrains.Annotations;
 using UnityEngine;

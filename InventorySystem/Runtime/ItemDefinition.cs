@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BandoWare.GameplayTags;
 using Firebase.Firestore;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;

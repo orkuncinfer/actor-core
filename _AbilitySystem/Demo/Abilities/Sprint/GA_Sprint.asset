@@ -39,20 +39,20 @@ MonoBehaviour:
   Cost: {fileID: 0}
   Cooldown: {fileID: 0}
   _abilityTags:
-    m_SerializedExplicitTags:
-    - Ability.Movement.Sprint
+    _tagHashes:
+    - 3eed815a-43e2-4e7b-bf60-d1bd4f1b16d1
   _grantedTagsDuringAbility:
-    m_SerializedExplicitTags:
-    - Ability.Movement.Sprint
+    _tagHashes:
+    - 3eed815a-43e2-4e7b-bf60-d1bd4f1b16d1
   _activationRequiredTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _activationBlockedTags:
-    m_SerializedExplicitTags:
-    - Ability.Ranged.Shooting
+    _tagHashes:
+    - cf9036b0-dad9-4533-8d0c-0968af7c792c
   _cancelAbilitiesWithTag:
-    m_SerializedExplicitTags:
-    - Ability.Aim
-    - Ability.Ranged.Shooting
+    _tagHashes:
+    - 2b429371-94f4-4f10-bbb3-14ea6974895d
+    - cf9036b0-dad9-4533-8d0c-0968af7c792c
   GrantedEffectsDuringAbility:
   - {fileID: 11400000, guid: 65e28cdbc4cb06b48b8d231b4dbcc308, type: 2}
   AbilityActions: []

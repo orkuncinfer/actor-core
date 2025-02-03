@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BandoWare.GameplayTags;
 using Sirenix.OdinInspector;
 using StatSystem;
 using UnityEngine;
@@ -125,9 +124,13 @@ public partial class GameplayEffectController : MonoInitializable
         
         foreach (GameplayPersistentEffect activeEffect in _activeEffects)
         {
-            foreach (var tag in activeEffect.Definition.GrantedTags)
+            foreach (var tag in activeEffect.Definition.GrantedTags.GetTags())
             {
-                if (effectToApply.Definition.ApplicationBlockerTags.Any(t => t == tag))
+                if (effectToApply.Definition.ApplicationBlockerTags.GetTags().Any(t => t.FullTag == tag.FullTag))  //todo: check if it works
+                {
+                    DDebug.Log($"Blocked by {tag.FullTag}");
+                    return false;
+                }
                 {
                     DDebug.Log($"Immune to {effectToApply.Definition.name}");
                     return false;
@@ -199,9 +202,9 @@ public partial class GameplayEffectController : MonoInitializable
         List<GameplayPersistentEffect> effectsToRemove = new List<GameplayPersistentEffect>();// check if it works!
         foreach (GameplayPersistentEffect activeEffect in _activeEffects)
         {
-            foreach (var tag in activeEffect.Definition.GrantedTags)
+            foreach (var tag in activeEffect.Definition.GrantedTags.GetTags())
             {
-                if (effectToApply.Definition.RemoveEffectsWithTags.Any(t => t == tag))
+                if (effectToApply.Definition.RemoveEffectsWithTags.GetTags().Any(t => t.FullTag == tag.FullTag)) //todo: check if it works
                 {
                     effectsToRemove.Add(activeEffect);
                 }

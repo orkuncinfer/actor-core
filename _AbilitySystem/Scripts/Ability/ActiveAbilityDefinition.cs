@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Animancer;
-using BandoWare.GameplayTags;
 using NUnit.Framework;
 using Sirenix.OdinInspector;
 using UnityEditor;

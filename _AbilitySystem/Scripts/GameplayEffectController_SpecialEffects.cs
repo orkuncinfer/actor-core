@@ -58,7 +58,7 @@ public partial class GameplayEffectController
                 {
                     m_SpecialEffectCountMap.Add(effect.Definition.SpecialPersistentEffectDefinition, 1);
                     m_SpecialEffectMap.Add(effect.Definition.SpecialPersistentEffectDefinition, visualEffect);
-                    if (effect.Definition.GrantedTags.Any(tag => tag.ToString().StartsWith("status"))) // bu nedir hocam
+                    if (effect.Definition.GrantedTags.GetTags().Any(tag => tag.FullTag.ToString().StartsWith("status"))) // bu nedir hocam
                     {
                         m_StatusEffects.Add(visualEffect);
                     }
@@ -96,7 +96,7 @@ public partial class GameplayEffectController
                     VisualEffect visualEffect = m_SpecialEffectMap[effect.Definition.SpecialPersistentEffectDefinition];
                     visualEffect.Stop();
                     m_SpecialEffectMap.Remove(effect.Definition.SpecialPersistentEffectDefinition);
-                    if (effect.Definition.GrantedTags.Any(tag => tag.ToString().StartsWith("status")))
+                    if (effect.Definition.GrantedTags.GetTags().Any(tag => tag.FullTag.ToString().StartsWith("status")))
                     {
                         m_StatusEffects.Remove(visualEffect);
                     }

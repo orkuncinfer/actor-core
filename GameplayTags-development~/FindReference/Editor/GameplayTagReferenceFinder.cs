@@ -1,10 +1,13 @@
+using System;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using BandoWare.GameplayTags;
+using Object = UnityEngine.Object;
 
 public class GameplayTagReferenceFinder : EditorWindow
 {
@@ -77,6 +80,7 @@ public class GameplayTagReferenceFinder : EditorWindow
             {
                 foreach (var attribute in attributes)
                 {
+                    Debug.Log("added gameplay tag " + attribute.TagName);
                     _allGameplayTags.Add(attribute.TagName);
                 }
             }
@@ -251,11 +255,20 @@ public class GameplayTagReferenceFinder : EditorWindow
     }
 
     private List<string> FindTagsInObject(Object obj, string context)
+{
+    List<string> tags = new List<string>();
+    if (obj == null) return tags;
+
+    // Enhanced reflection with inheritance support
+    Type currentType = obj.GetType();
+    const BindingFlags bindingFlags = BindingFlags.Public | 
+                                    BindingFlags.NonPublic | 
+                                    BindingFlags.Instance | 
+                                    BindingFlags.DeclaredOnly;
+
+    while (currentType != null && currentType != typeof(Object))
     {
-        List<string> tags = new List<string>();
-        
-        // Reflection to find fields with GameplayTagContainer
-        var fields = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        FieldInfo[] fields = currentType.GetFields(bindingFlags);
         foreach (var field in fields)
         {
             if (typeof(GameplayTagContainer).IsAssignableFrom(field.FieldType))
@@ -265,32 +278,52 @@ public class GameplayTagReferenceFinder : EditorWindow
                 {
                     foreach (var tag in container.GetTags())
                     {
+                        Debug.Log($"Found tag {tag} in {field.Name} of {obj.name} ({currentType.Name}) in {context}");
                         tags.Add(tag.ToString());
                     }
                 }
             }
         }
-        
-        // SerializedObject to handle serialized properties
-        SerializedObject serializedObject = new SerializedObject(obj);
+        currentType = currentType.BaseType;
+    }
+
+    // Optimized serialized property handling
+    using (SerializedObject serializedObject = new SerializedObject(obj))
+    {
         SerializedProperty property = serializedObject.GetIterator();
-
-        while (property.NextVisible(true))
+        bool enterChildren = true;
+        
+        while (property.NextVisible(enterChildren))
         {
-            if (property.propertyType == SerializedPropertyType.Generic && property.name.Contains("GameplayTagContainer"))
+            enterChildren = true; // Reset for next property
+            if (property.propertyType == SerializedPropertyType.ManagedReference &&
+                property.managedReferenceFieldTypename == "GameplayTagContainer")
             {
-                var propertyValue = property.managedReferenceValue as GameplayTagContainer;
-                if (propertyValue != null)
+                var container = property.managedReferenceValue as GameplayTagContainer;
+                if (container != null)
                 {
-                    foreach (var tag in propertyValue.GetTags())
-                    {
-                        tags.Add(tag.ToString());
-                    }
+                    tags.AddRange(container.GetTags().Select(t => t.ToString()));
                 }
+                enterChildren = false; // Skip container's internal structure
             }
         }
+    }
 
-        return tags;
+    return tags.Distinct().ToList(); // Remove duplicates from multiple inheritance levels
+}
+
+    // Helper method to get all fields (including private fields in base classes)
+    private List<FieldInfo> GetAllFields(System.Type type)
+    {
+        var fields = new List<FieldInfo>();
+        while (type != null)
+        {
+            // Get all fields (public, private, instance) from the current type
+            fields.AddRange(type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+            // Move to the base type
+            type = type.BaseType;
+        }
+        return fields;
     }
 
     private void DrawGameplayTags()

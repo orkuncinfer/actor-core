@@ -288,9 +288,9 @@ public class GasDebugger : MonoBehaviour
             GUILayout.Space(scaledSpacing * 0.8f);
         }*/
 
-        foreach (var gameplayTag in actor.GameplayTags.GetExplicitTags())
+        foreach (var gameplayTag in actor.GameplayTags.GetTags())
         {
-            string tag = gameplayTag.ToString();
+            string tag = gameplayTag.FullTag.ToString();
             GUILayout.Label($"{tag}", myStyle);
             GUILayout.Space(scaledSpacing * 0.8f);
         }

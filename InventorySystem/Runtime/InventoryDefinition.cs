@@ -8,7 +8,6 @@ using System.Linq;
 using UnityEditor;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using BandoWare.GameplayTags;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
@@ -99,7 +98,7 @@ public class InventoryDefinition : MonoBehaviour
             for (int i = 0; i < InventoryData.InventorySlots.Count && count > 0; i++)
             {
                 bool containsAny = false;
-                foreach (var gameplayTag in itemDefinition.ItemTags)
+                foreach (var gameplayTag in itemDefinition.ItemTags.GetTags())
                 {
                     if(InventoryData.InventorySlots[i].AllowedTags.HasTag(gameplayTag))
                     {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using BandoWare.GameplayTags;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;

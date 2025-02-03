@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-[CustomPropertyDrawer(typeof(GameplayTagContainer2))]
+[CustomPropertyDrawer(typeof(GameplayTagContainer))]
 public class GameplayTagContainerPropertyDrawer : PropertyDrawer
 {
     private const float k_Gap = 2.0f;
@@ -122,7 +122,7 @@ public class GameplayTagContainerPropertyDrawer : PropertyDrawer
          {
             // Remove the existing tag
             property.DeleteArrayElementAtIndex(tagIndex);
-            Debug.Log($"Tag '{tag}' removed from the list.");
+            //Debug.Log($"Tag '{tag}' removed from the list.");
          }
          else
          {
@@ -130,7 +130,7 @@ public class GameplayTagContainerPropertyDrawer : PropertyDrawer
             property.arraySize++;
             SerializedProperty newElement = property.GetArrayElementAtIndex(property.arraySize - 1);
             newElement.stringValue = tag;
-            Debug.Log($"Tag '{tag}' added to the list.");
+            //Debug.Log($"Tag '{tag}' added to the list.");
          }
 
          // Apply changes to the serialized object
