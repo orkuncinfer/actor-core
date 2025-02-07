@@ -42,13 +42,18 @@ public class CanvasManager : PersistentMonoSingleton<CanvasManager>
     {
         return GetDesiredLayer(layerTag).ShowAdditive(panelId);
     }
+    
+    public GameObject ShowAdditive(PanelActor panelActor, string layerTag = "Default")
+    {
+        return GetDesiredLayer(layerTag).ShowAdditive(panelActor);
+    }
 
     public void HideLastPanel(string layerTag = "Default")
     {
         GetDesiredLayer(layerTag).HideLastPanel();
     }
 
-    private CanvasLayer GetDesiredLayer(string layerTag)
+    public CanvasLayer GetDesiredLayer(string layerTag)
     {
         if (_layerRegistry.ContainsKey(layerTag))
         {

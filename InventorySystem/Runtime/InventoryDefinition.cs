@@ -39,7 +39,7 @@ public class InventoryDefinition : MonoBehaviour
     private FirebaseDatabase _database;
     private FirebaseFirestore _firestore;
 
-    private void Awake()
+    private void Start()
     {
         Initialize();
         

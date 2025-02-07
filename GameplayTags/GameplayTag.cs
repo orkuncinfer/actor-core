@@ -11,7 +11,7 @@ public struct GameplayTag
 {
     [SerializeField]
     private string fullTag;
-    public string FullTag => GameplayTagManger2.GetFullTag(hashCode);
+    public string FullTag => GameplayTagManager.GetFullTag(hashCode);
     [SerializeField]private List<string> tagHierarchy;
 
     [SerializeField]

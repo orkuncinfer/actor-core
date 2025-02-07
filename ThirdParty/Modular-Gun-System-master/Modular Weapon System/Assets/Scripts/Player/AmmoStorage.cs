@@ -15,6 +15,8 @@ public class AmmoStorage : MonoBehaviour
 
     public int GetAmmoAmount(ItemDefinition itemDefinition)
     {
+        Debug.Log("Inventory count : "+DefaultPlayerInventory.Instance.InventoryDefinitions.Count);
+        Debug.Log("Ammo inventory " + _ammoInventory.InventoryId);
         return _ammoInventory.GetItemCount(itemDefinition);
     }
 

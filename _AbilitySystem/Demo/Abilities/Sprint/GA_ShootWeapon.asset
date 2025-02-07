@@ -43,7 +43,8 @@ MonoBehaviour:
     _tagHashes:
     - cf9036b0-dad9-4533-8d0c-0968af7c792c
   _grantedTagsDuringAbility:
-    _tagHashes: []
+    _tagHashes:
+    - cf9036b0-dad9-4533-8d0c-0968af7c792c
   _activationRequiredTags:
     _tagHashes: []
   _activationBlockedTags:

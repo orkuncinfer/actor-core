@@ -1,11 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
+public enum AbilityInputActivationPolicy
+{
+    OnPerformed = 0,
+    TryActivateWhenHolding = 1,
+    ActivateOnceWhenHolding = 2,
+}
 public class State_BindInputActionToAbility : MonoState
 {
     [SerializeField] private bool _startWithTag;
@@ -17,6 +24,13 @@ public class State_BindInputActionToAbility : MonoState
     public bool CancelOnRelease;
     public bool TryActivateWhenHolding;
     public bool ActivateOnceWhenHolding;
+
+    public AbilityInputActivationPolicy ActivationPolicy;
+    
+    public GameplayTagContainer CancelAbilitiesWithTag;
+    
+    [SerializeReference][TypeFilter("GetConditionTypeList")] [ListDrawerSettings(ShowFoldout = true)]
+    public List<StateCondition> Conditions = new List<StateCondition>();
     
     private InputAction _abilityAction;
     private bool _start;
@@ -28,6 +42,9 @@ public class State_BindInputActionToAbility : MonoState
         _abilityDS.GetData(Owner);
         
         _abilityAction = ActionAsset.FindAction(ActionName);
+        
+        Conditions.ForEach(x => x.Initialize(Owner));
+        
         _abilityAction.performed += OnPerformed;
         _abilityAction.canceled += OnCanceled;
         
@@ -46,13 +63,30 @@ public class State_BindInputActionToAbility : MonoState
     protected override void OnUpdate()
     {
         base.OnUpdate();
+
+        switch (ActivationPolicy)
+        {
+            case AbilityInputActivationPolicy.TryActivateWhenHolding:
+                if (_start)
+                {
+                    StartAbility();
+                }
+                break;
+            case AbilityInputActivationPolicy.ActivateOnceWhenHolding:
+                if (_start && !_activatedOnce)
+                {
+                    StartAbility();
+                }
+                break;
+        }
+        /*
         if (_start && TryActivateWhenHolding)
         {
             StartAbility();
         }else if (ActivateOnceWhenHolding && _start && !_activatedOnce)
         {
             StartAbility();
-        }
+        }*/
     }
 
     private void OnCanceled(InputAction.CallbackContext obj)
@@ -74,12 +108,21 @@ public class State_BindInputActionToAbility : MonoState
 
     private void OnPerformed(InputAction.CallbackContext obj)
     {
+        if (Conditions.Any(condition => condition.CheckCondition() == false))
+        {
+            return;
+        }
         _start = true;
+        foreach (var tag in CancelAbilitiesWithTag.GetTags())
+        {
+            _gasData.AbilityController.CancelAbilityWithGameplayTag(tag);
+        }
         StartAbility();
     }
 
     private void StartAbility()
     {
+        
         ActiveAbility ability = null;
         if (_startWithTag)
         {
@@ -94,5 +137,16 @@ public class State_BindInputActionToAbility : MonoState
         {
             _activatedOnce = true;
         }
+    }
+    
+    public IEnumerable<Type> GetConditionTypeList()
+    {
+        var baseType = typeof(StateCondition);
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        var q = assemblies.SelectMany(assembly => assembly.GetTypes())
+            .Where(x => !x.IsAbstract)
+            .Where(x => !x.IsGenericTypeDefinition)
+            .Where(x => baseType.IsAssignableFrom(x) && x != baseType); // Exclude the base class itself
+        return q;
     }
 }

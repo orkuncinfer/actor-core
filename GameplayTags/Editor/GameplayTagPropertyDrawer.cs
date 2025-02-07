@@ -58,7 +58,7 @@ public class GameplayTagPropertyDrawer : PropertyDrawer
             GameplayTagTree treeWindow = new GameplayTagTree(tag =>
             {
                 Debug.Log($"Callback received: {tag}");
-                GameplayTag gTag = GameplayTagManger2.RequestTagHash(tag);
+                GameplayTag gTag = GameplayTagManager.RequestTagHash(tag);
                 //apply gameplaytag to the property
                 property.FindPropertyRelative("hashCode").stringValue = gTag.HashCode;
                 fullTagProperty.stringValue = gTag.FullTag;

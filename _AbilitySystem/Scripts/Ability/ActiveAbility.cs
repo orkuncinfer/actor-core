@@ -16,6 +16,9 @@ public class ActiveAbility : Ability
         public bool AnimationReachedFullWeight { get; set; }
         public float PreviousAnimWeight { get; set; }
         public int AbilityLayer { get; set; }
+        
+        private bool _isActive;
+        public bool IsActive => _isActive;
         public event Action<ActiveAbility> onStarted;
         public event Action<ActiveAbility> onFinished;
         public List<AbilityAction> AbilityActions;
@@ -29,6 +32,7 @@ public class ActiveAbility : Ability
         public virtual void StartAbility()
         {
             onStarted?.Invoke(this);
+            _isActive = true;
             AnimationReachedFullWeight = false;
             ApplyEffectsToSelf();
             TagController tagController = Owner.GetComponentInChildren<TagController>();
@@ -39,6 +43,7 @@ public class ActiveAbility : Ability
 
         public virtual void EndAbility()
         {
+            _isActive = false;
             RemoveOngoingEffects();
             Owner.GameplayTags.RemoveTags(Definition.GrantedTagsDuringAbility);
            

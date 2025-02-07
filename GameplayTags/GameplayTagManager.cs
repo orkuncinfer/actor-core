@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class GameplayTagManger2
+public class GameplayTagManager
 {
     public static List<GameplayTagsAsset> TagAssets = new List<GameplayTagsAsset>();
     private static GameplayTag[] s_Tags;
@@ -92,6 +92,7 @@ public class GameplayTagManger2
     {
         return _tagHashToTagDictionary[tagHash];
     }
+#if UNITY_EDITOR
     private static void CreateTag(string fullTag)
     {
         InitializeIfNeeded();
@@ -125,4 +126,6 @@ public class GameplayTagManger2
         UnityEditor.EditorUtility.SetDirty(defaultTagAsset);
         UnityEditor.AssetDatabase.SaveAssets();
     }
+#endif
+    
 }

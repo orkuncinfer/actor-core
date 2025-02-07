@@ -1,7 +1,7 @@
 ﻿using System;
 
 [Serializable]
-public class SC_IsDead : StateCondition
+public class Condition_IsDead : StateCondition
 {
     private Data_Living _livingData;
 

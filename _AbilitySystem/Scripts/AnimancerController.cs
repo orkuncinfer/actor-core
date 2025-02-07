@@ -154,7 +154,8 @@ public class AnimancerController : MonoBehaviour
     private void OnCustomAnimSet(ActiveAbility ability)
     {
         ability.onCustomClipTransitionSet -= OnCustomAnimSet;
-        PlayClipTransition(ability,ability.CustomClipTransition);
+        if(ability.IsActive)
+            PlayClipTransition(ability,ability.CustomClipTransition);
     }
 
     public void PlayClipTransition(ActiveAbility ability, ClipTransition customAnim = null)

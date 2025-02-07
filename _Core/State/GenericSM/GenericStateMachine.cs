@@ -42,8 +42,8 @@ public class GenericStateMachine : MonoState
     {
         StateField stateField = new StateField();
         StateTransition stateTransition = new StateTransition();
-        SC_IsAlive scIsAlive = System.Activator.CreateInstance(typeof(SC_IsAlive)) as SC_IsAlive;
-        stateTransition.Conditions.Add(scIsAlive);
+        Condition_IsAlive conditionIsAlive = System.Activator.CreateInstance(typeof(Condition_IsAlive)) as Condition_IsAlive;
+        stateTransition.Conditions.Add(conditionIsAlive);
         stateField.Transitions.Add(stateTransition);
         _states.Add(stateField);
     }

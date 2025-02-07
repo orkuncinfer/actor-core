@@ -30,8 +30,8 @@ public class GameplayTagTree : PopupWindowContent
     public override void OnOpen()
     {
         base.OnOpen();
-        GameplayTagManger2.InitializeIfNeeded();
-        gameplayTagsAsset = GameplayTagManger2.TagAssets[0];
+        GameplayTagManager.InitializeIfNeeded();
+        gameplayTagsAsset = GameplayTagManager.TagAssets[0];
 
         var visualTreeAsset =
             AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
@@ -43,10 +43,10 @@ public class GameplayTagTree : PopupWindowContent
         _treeView.fixedItemHeight = 25;
 
         // Build initial tag hierarchy
-        _tagHierarchy = TagHierarchyBuilder.BuildTagHierarchy(GameplayTagManger2.TagAssets[0].TagsCache);
+        _tagHierarchy = TagHierarchyBuilder.BuildTagHierarchy(GameplayTagManager.TagAssets[0].TagsCache);
 
         var objectField = rootVisualElement.Q<ObjectField>();
-        objectField.value = GameplayTagManger2.TagAssets[0];
+        objectField.value = GameplayTagManager.TagAssets[0];
 
         // Set up the search bar
         var searchBar = rootVisualElement.Q<TextField>();
@@ -73,7 +73,15 @@ public class GameplayTagTree : PopupWindowContent
             var label = new Label { name = "NameLabel" };
             label.AddToClassList("unity-tag-label");
             rowContainer.Add(label);
-
+            
+           /* VisualElement line = new VisualElement();
+            line.name = "vertical-line";
+            line.AddToClassList("line-style");
+            line.style.display = new StyleEnum<DisplayStyle>(DisplayStyle.Flex);
+            line.style.left =-10;
+            line.style.top = 0;
+            rowContainer.Add(line);*/
+            
             return rowContainer;
         };
 
@@ -165,7 +173,7 @@ public class GameplayTagTree : PopupWindowContent
         if (matches || filteredChildren.Count > 0)
         {
             int currentId = idCounter++;
-            GameplayTag gameplayTag = GameplayTagManger2.RequestTag(node.FullTag);
+            GameplayTag gameplayTag = GameplayTagManager.RequestTag(node.FullTag);
             var gameplayTagItem = new GameplayTagTreeItem(node.Tag, gameplayTag.HashCode);
 
             return new TreeViewItemData<GameplayTagTreeItem>(currentId, gameplayTagItem, filteredChildren);
@@ -224,24 +232,24 @@ public class GameplayTagTree : PopupWindowContent
 
         foreach (var child in root.Children)
         {
-            items.Add(BuildTreeViewItem(child, ref idCounter));
+            items.Add(BuildTreeViewItem(child, 0, ref idCounter)); // Start with depth = 0
         }
 
         return items;
     }
 
-    private TreeViewItemData<GameplayTagTreeItem> BuildTreeViewItem(TagTreeNode node, ref int idCounter)
+    private TreeViewItemData<GameplayTagTreeItem> BuildTreeViewItem(TagTreeNode node, int depth, ref int idCounter)
     {
         int currentId = idCounter++;
 
         var children = new List<TreeViewItemData<GameplayTagTreeItem>>();
         foreach (var child in node.Children)
         {
-            children.Add(BuildTreeViewItem(child, ref idCounter));
+            children.Add(BuildTreeViewItem(child, depth + 1, ref idCounter)); // Increment depth for child
         }
 
-        GameplayTag gameplayTag = GameplayTagManger2.RequestTag(node.FullTag);
-        var gameplayTagItem = new GameplayTagTreeItem(node.Tag, gameplayTag.HashCode);
+        GameplayTag gameplayTag = GameplayTagManager.RequestTag(node.FullTag);
+        var gameplayTagItem = new GameplayTagTreeItem(node.Tag, gameplayTag.HashCode) { Depth = depth }; // Store depth in GameplayTagTreeItem
 
         return new TreeViewItemData<GameplayTagTreeItem>(currentId, gameplayTagItem, children);
     }
@@ -249,8 +257,9 @@ public class GameplayTagTree : PopupWindowContent
 
 public class GameplayTagTreeItem
 {
-    public string Tag { get; set; } // Full tag string
-    public string HashCode { get; set; } // Hash tag
+    public string Tag { get; set; }        // Full tag string
+    public string HashCode { get; set; }  // Hash tag
+    public int Depth { get; set; }        // Depth in the tree
 
     public int RuntimeIndex;
 

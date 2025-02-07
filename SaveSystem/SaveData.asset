@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LoadDataChannel: {fileID: 11400000, guid: 235f3fd5941114644b9b2dccfa53186b, type: 2}
   m_SaveDataChannel: {fileID: 11400000, guid: cfaa18f109c2f6445ab3fb25465cad1a, type: 2}
-  m_FileName: mydata
-  m_Path: C:/Users/orkun/AppData/LocalLow/DefaultCompany/BalloonPop\mydata
+  m_FileName: GASData
+  m_Path: C:/Users/orkun/AppData/LocalLow/DefaultCompany/BalloonPop\GASData

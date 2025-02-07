@@ -52,7 +52,6 @@ MonoBehaviour:
   _cancelAbilitiesWithTag:
     _tagHashes:
     - 2b429371-94f4-4f10-bbb3-14ea6974895d
-    - cf9036b0-dad9-4533-8d0c-0968af7c792c
   GrantedEffectsDuringAbility:
   - {fileID: 11400000, guid: 65e28cdbc4cb06b48b8d231b4dbcc308, type: 2}
   AbilityActions: []

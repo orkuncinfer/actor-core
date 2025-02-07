@@ -114,6 +114,11 @@ public class CanvasLayer : MonoBehaviour
     {
         return _instanceList.Count;
     }
+    
+    public PanelActor GetPanelInstance(string panelId)
+    {
+        return _instanceList.FirstOrDefault(panel => panel.PanelId == panelId);
+    }
 
 
     #region Additive Panels
@@ -144,6 +149,43 @@ public class CanvasLayer : MonoBehaviour
             panelActor.StartIfNot();
         }
         instanceView.OpenPanel();
+        return newPanelInstance;
+    }
+    
+    public GameObject ShowAdditive(PanelActor inPanelActor)
+    {
+        _lastTriedShowPanelId = inPanelActor.PanelId;
+        
+        
+        foreach (PanelActor panelInstance in CanvasManager.Instance.PanelStack)
+        {
+            if (panelInstance.PanelId == inPanelActor.PanelId) return null;
+        }
+        GameObject newPanelInstance =
+            PoolManager.SpawnObject(inPanelActor.gameObject, Vector3.zero, Quaternion.identity, transform);
+        newPanelInstance.SetActive(true);
+        newPanelInstance.transform.localPosition = Vector3.zero;
+        PanelActor instanceView = newPanelInstance.GetComponent<PanelActor>();
+        instanceView.PanelId = instanceView.name + ":" + newPanelInstance.gameObject.GetInstanceID();
+        instanceView.PanelInstance = newPanelInstance;
+        instanceView.OwnerCanvas = _canvas;
+        
+        CanvasManager.Instance.PanelStack.Push(instanceView);
+        if (instanceView.transform.TryGetComponent(out PanelActor panelActorInstance))
+        {
+            panelActorInstance.StartIfNot();
+        }
+        instanceView.OpenPanel();
+        
+        if(Panels.FirstOrDefault(panel => panel.PanelId == instanceView.PanelId) == null)
+        {
+            PanelModel newPanelModel = new PanelModel();
+            newPanelModel.PanelId = instanceView.PanelId;
+            newPanelModel.PanelPrefab = inPanelActor.gameObject;
+        
+            Panels.Add(newPanelModel);
+        }
+        
         return newPanelInstance;
     }
 

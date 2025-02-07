@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-public class SC_IsAlive : StateCondition
+public class Condition_IsAlive : StateCondition
 {
     public float _healthThreshold;
     

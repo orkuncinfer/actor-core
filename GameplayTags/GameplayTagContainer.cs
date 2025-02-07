@@ -17,7 +17,7 @@ public class GameplayTagContainer
         //reverse for loop
         for (int i = _tagHashes.Count - 1; i >= 0; i--)
         {
-            GameplayTag tag = GameplayTagManger2.RequestTagHash(_tagHashes[i]);
+            GameplayTag tag = GameplayTagManager.RequestTagHash(_tagHashes[i]);
             if (tag.FullTag.Contains(tagToCheck.FullTag))
             {
                 return true;
@@ -32,7 +32,7 @@ public class GameplayTagContainer
         //reverse for loop
         for (int i = _tagHashes.Count - 1; i >= 0; i--)
         {
-            GameplayTag tag = GameplayTagManger2.RequestTagHash(_tagHashes[i]);
+            GameplayTag tag = GameplayTagManager.RequestTagHash(_tagHashes[i]);
             if (tag.FullTag == tagToCheck.FullTag)
             {
                 return true;
@@ -46,7 +46,7 @@ public class GameplayTagContainer
         //reverse for loop
         for (int i = _tagHashes.Count - 1; i >= 0; i--)
         {
-            GameplayTag tag = GameplayTagManger2.RequestTagHash(_tagHashes[i]);
+            GameplayTag tag = GameplayTagManager.RequestTagHash(_tagHashes[i]);
             if (tag.FullTag == tagToCheck)
             {
                 return true;
@@ -126,7 +126,7 @@ public class GameplayTagContainer
         List<GameplayTag> tags = new List<GameplayTag>();
         for (int i = _tagHashes.Count - 1; i >= 0; i--)
         {
-            tags.Add(GameplayTagManger2.RequestTagHash(_tagHashes[i]));
+            tags.Add(GameplayTagManager.RequestTagHash(_tagHashes[i]));
         }
 
         return tags;

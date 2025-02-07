@@ -131,6 +131,7 @@ public  class DefaultPlayerInventory : PersistentMonoSingleton<DefaultPlayerInve
     public void RegisterInventoryDefinition(InventoryDefinition definition)
     {
         InventoryDefinitions.Add(definition.InventoryId.ID,definition);
+        Debug.Log($"Registered inventory definition {definition.InventoryId.ID} and count is {InventoryDefinitions.Count}");
     }
     
     public InventoryDefinition GetInventoryDefinition(string inventoryId)

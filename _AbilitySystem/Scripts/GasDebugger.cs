@@ -272,6 +272,7 @@ public class GasDebugger : MonoBehaviour
         }
         for (int i = 0; i < _stateMachines.Length; i++)
         {
+            if(_stateMachines[i].CurrentState == null) continue;
             string stateMachineName = _stateMachines[i].GetType().Name;
             string stateName = _stateMachines[i].CurrentState.gameObject.name;
             GUILayout.Label($"{stateMachineName} : {stateName}", stateStyle);

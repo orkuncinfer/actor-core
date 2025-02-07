@@ -212,7 +212,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRunning: 0
   IsFinished: 0
-  _states: []
   _authing: {fileID: 5052060467144053004}
   _initialize: {fileID: 8167127278538150484}
   _mainMenu: {fileID: 5522812133271241748}
@@ -653,6 +652,7 @@ GameObject:
   - component: {fileID: 1237746900886828101}
   - component: {fileID: 2869706453443849988}
   - component: {fileID: 4513401195864836998}
+  - component: {fileID: 1525787654536007764}
   m_Layer: 0
   m_Name: GAMEMODE
   m_TagString: Untagged
@@ -692,7 +692,7 @@ MonoBehaviour:
   StartMethod: 2
   _initialTags: []
   GameplayTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _initialState: {fileID: 7052049253013988637}
   _returnToPoolOnStop: 0
 --- !u!114 &7911191645074324780
@@ -817,6 +817,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 890c61de71da0f34ba6abab101fa3c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1525787654536007764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052049254446410850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7cae54cd397a734b8d6ca9ed8e2a91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7224218158467727453

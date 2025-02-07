@@ -15,8 +15,7 @@ public class UI_InventoryControl : MonoBehaviour
     [FormerlySerializedAs("_uıItemElementPrefab")] [FormerlySerializedAs("ItemElementPrefab")] [SerializeField] private UI_InventoryItemElement _uıInventoryItemElementPrefab;
     [FormerlySerializedAs("_ghostUIItemElementPrefab")] [FormerlySerializedAs("_ghostItemElementPrefab")] [SerializeField] private UI_InventoryItemElement _ghostUIInventoryItemElementPrefab;
     [SerializeField] private GameObject _garbageDragArea;
-
-    [SerializeField] private EventSignal _onAuthCompleted;
+    
 
     [ReadOnly] [SerializeField] private GameObject _hoveredItemInfo;
 
@@ -36,11 +35,11 @@ public class UI_InventoryControl : MonoBehaviour
     private void Awake()
     {
         eventSystem = EventSystem.current;
-        _onAuthCompleted.Register(OnAuthCompleted);
     }
-
-    private void OnAuthCompleted()
+    
+    public void SetInventoryDefinition(InventoryDefinition inventoryDefinition)
     {
+        _inventoryDefinition = inventoryDefinition;
     }
 
     private void OnInventoryChanged()

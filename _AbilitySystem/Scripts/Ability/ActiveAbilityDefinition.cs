@@ -104,13 +104,14 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
      private GameplayTagContainer _cancelAbilitiesWithTag;
      
      [Space(5)]
+     
      public List<GameplayEffectDefinition> GrantedEffectsDuringAbility;
      
-     [SerializeReference][TypeFilter("GetFilteredTypeList")] [ListDrawerSettings(ShowFoldout = true)]
+     [SerializeReference][TypeFilter("GetAbilityActionTypeList")] [ListDrawerSettings(ShowFoldout = true)]
      public List<AbilityAction> AbilityActions = new List<AbilityAction>();
      
      
-     public IEnumerable<Type> GetFilteredTypeList()
+     public IEnumerable<Type> GetAbilityActionTypeList()
      {
          var baseType = typeof(AbilityAction);
          var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -120,6 +121,7 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
              .Where(x => baseType.IsAssignableFrom(x) && x != baseType); // Exclude the base class itself
          return q;
      }
+
 #if UNITY_EDITOR
      private void CreateCostAsset()
      {

@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using System;
 using System.Collections;
 using UnityEngine;
@@ -6,7 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Sirenix.OdinInspector;
+
+#if UNITY_EDITOR
+
 using UnityEditor;
+#endif
 
 [CreateAssetMenu(fileName = "GameplayTags", menuName = "Gameplay/Tags", order = 1)]
 public class GameplayTagsAsset : ScriptableObject
@@ -26,6 +29,9 @@ public class GameplayTagsAsset : ScriptableObject
             tag._asset = this;
         }
     }
+    
+
+#if UNITY_EDITOR
     [Button]
     private void CreateTag(string fullTag)
     {
@@ -59,6 +65,8 @@ public class GameplayTagsAsset : ScriptableObject
         UnityEditor.EditorUtility.SetDirty(this);
         UnityEditor.AssetDatabase.SaveAssets();
     }
+#endif
+    
 }
 
 [Serializable]
@@ -74,6 +82,8 @@ public class GameplayTagInfo
         if (_asset == null) return true;
         return _asset.ShowInfo;
     }
+    
+#if UNITY_EDITOR
     public void GenerateNewHashCode(GameplayTagsAsset asset)
     {
         if (string.IsNullOrEmpty(HashCode))
@@ -85,5 +95,6 @@ public class GameplayTagInfo
             AssetDatabase.SaveAssets();
         }
     }
-}
 #endif
+   
+}

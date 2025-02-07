@@ -102,6 +102,10 @@ public class Gun : MonoBehaviour, IEquippable, IModdable<GunModifier>
         bulletsInMagazine--;
     }
     
+    public int GetMaxMagazineSize(){
+        return (int)Mathf.Ceil(gunData.MagazineSize * gunData.MagazineSizeMultiplier.Value);
+    }
+    
     public void EnableCrosshair(GameObject crosshair){
         crosshair.SetActive(true);
         crosshairChildren = crosshair.GetComponentsInChildren<RectTransform>();

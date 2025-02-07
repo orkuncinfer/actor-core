@@ -166,7 +166,7 @@ public class GameplayTagContainerPropertyDrawer : PropertyDrawer
          for (int i = 0; i < explicitTagsProperty.arraySize; i++)
          {
             SerializedProperty element = explicitTagsProperty.GetArrayElementAtIndex(i);
-            GameplayTag tag = GameplayTagManger2.RequestTagHash(element.stringValue);
+            GameplayTag tag = GameplayTagManager.RequestTagHash(element.stringValue);
 
             s_TempContent.text = tag.FullTag;
             s_TempContent.tooltip = tag.Description ?? "No description";
