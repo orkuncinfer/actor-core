@@ -15,7 +15,7 @@ public class InventorySlot
         get => _itemData;
         set => _itemData = value;
     }*/
-    
+    [ES3NonSerializable]
     [SerializeField] private GameplayTagContainer _allowedTags;
     public GameplayTagContainer AllowedTags
     {

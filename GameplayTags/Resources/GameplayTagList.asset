@@ -130,3 +130,11 @@ MonoBehaviour:
     HashCode: 3eed815a-43e2-4e7b-bf60-d1bd4f1b16d1
     Description: Generated tag for Ability.Movement.Sprint
     _asset: {fileID: 11400000}
+  - Tag: State.BaseBody
+    HashCode: 2d795d91-a3e5-4360-bc8e-b069758c613d
+    Description: Generated tag for State.BaseBody
+    _asset: {fileID: 11400000}
+  - Tag: State.BaseBody.UsingAbility
+    HashCode: 930cea38-b6c6-43b3-ba01-ea33191e84f5
+    Description: Generated tag for State.BaseBody.UsingAbility
+    _asset: {fileID: 11400000}

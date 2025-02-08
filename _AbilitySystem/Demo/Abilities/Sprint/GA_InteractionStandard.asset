@@ -39,16 +39,16 @@ MonoBehaviour:
   Cost: {fileID: 0}
   Cooldown: {fileID: 0}
   _abilityTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _grantedTagsDuringAbility:
-    m_SerializedExplicitTags:
-    - AbilitySlot.BaseBody
+    _tagHashes:
+    - 930cea38-b6c6-43b3-ba01-ea33191e84f5
   _activationRequiredTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _activationBlockedTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _cancelAbilitiesWithTag:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   GrantedEffectsDuringAbility: []
   AbilityActions:
   - rid: 3670662740903198780

@@ -86,20 +86,24 @@ public class GameplayTagContainer
     public void AddTag(string tagGuid)
     {
         _tagHashes.Add(tagGuid);
+        OnTagChanged?.Invoke();
     }
 
     public void RemoveTag(string tagGuid)
     {
         _tagHashes.Remove(tagGuid);
+        OnTagChanged?.Invoke();
     }
 
     public void AddTag(GameplayTag tag)
     {
         _tagHashes.Add(tag.HashCode);
+        OnTagChanged?.Invoke();
     }
     public void RemoveTag(GameplayTag tag)
     {
         _tagHashes.Remove(tag.HashCode);
+        OnTagChanged?.Invoke();
     }
     
     public void AddTags(GameplayTagContainer container)
@@ -112,6 +116,7 @@ public class GameplayTagContainer
                 _tagHashes.Add(container._tagHashes[i]);
             }
         }
+        OnTagChanged?.Invoke();
     }
     public void RemoveTags(GameplayTagContainer container)
     {
@@ -119,6 +124,7 @@ public class GameplayTagContainer
         {
             _tagHashes.Remove(container._tagHashes[i]);
         }
+        OnTagChanged?.Invoke();
     }
     
     public List<GameplayTag> GetTags()
