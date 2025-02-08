@@ -20,7 +20,7 @@ using Formatting = System.Xml.Formatting;
 
 
 [CreateAssetMenu(fileName = "New Inventory Definition", menuName = "Inventory System/Inventory Definition")]
-public class InventoryDefinition : MonoBehaviour
+public class InventoryDefinition : MonoBehaviour        
 {
 
     public int InitialSlotCount;
@@ -42,6 +42,8 @@ public class InventoryDefinition : MonoBehaviour
     private void Start()
     {
         Initialize();
+        
+        LoadES3();
         
         DefaultPlayerInventory.Instance.RegisterInventoryDefinition(this);
     }
@@ -301,8 +303,36 @@ public class InventoryDefinition : MonoBehaviour
             }
         });
     }
-    
 
+    private void OnDestroy()
+    {
+        SaveES3();
+    }
+
+    public void SaveES3()
+    {
+        string saveFileName ="Inventory_" + InventoryId.ID + ".save";
+        ES3.Save(InventoryId.ID, InventoryData,saveFileName);
+    }
+    public void LoadES3()
+    {
+        string saveFileName ="Inventory_" + InventoryId.ID + ".save";
+        if (ES3.KeyExists(InventoryId.ID,saveFileName))
+        {
+            InventoryData = ES3.Load(InventoryId.ID, saveFileName, InventoryData);
+            onInventoryChanged?.Invoke();
+        }
+    }
+    public virtual void MergePersistentData(Data loadedData)
+    {
+        // Implement type-specific merging in child classes
+        if (loadedData.GetType() != GetType())
+        {
+            Debug.LogError("Data type mismatch during merge");
+            return;
+        }
+        JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(loadedData), this);
+    }
     #endregion
     
 }

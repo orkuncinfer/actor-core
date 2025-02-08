@@ -9,6 +9,6 @@ public class MNF_GameMode : DataManifest
     
     protected override Data[] InstallData()
     {
-        return new Data[] { _gameModePersistent , _gameModeRuntime};
+        return new Data[] { _gameModeRuntime, _gameModePersistent};
     }
 }

@@ -9,7 +9,8 @@ using UnityEngine.Serialization;
 public abstract class DataManifest : MonoBehaviour
 {
     [ReadOnly] public Actor Actor;
-
+    private Data[] _installData;
+    
     protected virtual Data[] InstallData()
     {
         return Array.Empty<Data>();
@@ -32,12 +33,25 @@ public abstract class DataManifest : MonoBehaviour
     private void Awake()
     {
         Actor = FindFirstActorInParents(transform);
+
+        _installData = InstallData();
+
+        for (int i = 0; i < _installData.Length; i++)
+        {
+            if (_installData[i].IsPersistent)
+            {
+                // Critical change: Merge data instead of replacing reference
+                var installedData = _installData[i].LoadData() as Data;
+                if(installedData == null) continue;
+                _installData[i].MergePersistentData(installedData);
+            }
+        }
         foreach (var data in InstallData())
         {
             string key = "";
             if (data.IsPersistent)
             {
-                data.LoadData();
+                //data.LoadData();
             }
 
             key = "";

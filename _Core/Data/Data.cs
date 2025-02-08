@@ -115,25 +115,40 @@ public class Data :  IData
         string saveFileName = "Default";
         return containerID + "-" + typeName + DataKey;
     }
-    public void LoadData(string category = "DefaultData")
+    public object LoadData(string category = "DefaultData")
     {
         string containerID = "Global"; 
         string typeName = GetType().Name;
-        string saveFileName = category;
-        DDebug.Log("Loading Data, ID: "+containerID+"-"+typeName + DataKey + " | File name: " + saveFileName+".save");
-        if (ES3.KeyExists(GetLoadKey()))
+        string saveFileName = category + ".save";
+        
+        if (ES3.KeyExists(GetLoadKey(),saveFileName))
         {
-            ES3.LoadInto(GetLoadKey(),this);
+            DDebug.Log("Loading Data, ID: "+containerID+"-"+typeName + DataKey + " | File name: " + saveFileName+".save-" + ES3.GetKeys(saveFileName)[0]);
+            var data = ES3.Load(GetLoadKey(), saveFileName, this);
+            return data;
         }
+        DDebug.Log("Loading Data Failed can not find data with key : "+ GetLoadKey());
+        
+        return null;
     }
 
     public void SaveData(string category = "DefaultData")
     {
         string containerID = "Global"; 
         string typeName = GetType().Name;
-        string saveFileName = category;
-        ES3.Save(GetLoadKey(),this);
-        DDebug.Log("Saving Data, ID: "+containerID+"-"+typeName + DataKey+ " | File name: " + saveFileName+".save");
+        string saveFileName =  category + ".save";
+        ES3.Save(GetLoadKey(),this ,saveFileName);
+        DDebug.Log("Saving Data, ID: "+containerID+"-"+typeName + DataKey+ " | File name: " + saveFileName);
+    }
+    public virtual void MergePersistentData(Data loadedData)
+    {
+        // Implement type-specific merging in child classes
+        if (loadedData.GetType() != GetType())
+        {
+            Debug.LogError("Data type mismatch during merge");
+            return;
+        }
+        JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(loadedData), this);
     }
 }
 
@@ -142,6 +157,6 @@ public interface IData
     public ActorBase Actor { get; }
     public string DefaultCategory { get; set; }
     public Transform Transform { get; set; }
-    void LoadData(string category = null);
+    object LoadData(string category = null);
     void SaveData(string category = null);
 }
