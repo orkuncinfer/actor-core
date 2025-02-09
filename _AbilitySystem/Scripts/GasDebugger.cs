@@ -42,6 +42,13 @@ public class GasDebugger : MonoBehaviour
 
     private void Awake()
     {
+#if UNITY_EDITOR
+        if (SceneView.GetWindow(typeof(SceneView)).hasFocus)
+        {
+            UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
+        }
+#endif
+        
         _playerControlMap = _actionAsset.FindActionMap("Player Controls");
         
         _debugToggleAction = _actionAsset.FindAction("ToggleDebug");

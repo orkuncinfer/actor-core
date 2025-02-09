@@ -38,7 +38,7 @@ public class State_EquipHandling : MonoState
             Debug.Log("Tried to equip " + itemDefinition.name);
             if (equipmentUser.EquipmentInstance != null)
             {
-                if(equipmentUser.EquipmentInstance.GetComponent<Equippable>().ItemDefinition == itemDefinition)// we already equipped same item
+                if(equipmentUser.EquipmentInstance.GetComponent<Equippable>().ItemDefinition == itemDefinition)// we already equipped same item so unarm completely
                 {
                     if(equipmentUser.EquipmentInstance.TryGetComponent(out Equippable equipable))
                     {

@@ -25,6 +25,8 @@ public class AbilityAction_StartInteraction : AbilityAction
         _abilityController = owner.GetComponentInChildren<AbilityController>();
         _weightHandler = owner.GetComponentInChildren<AimIKWeightHandler>();
         _interactionSystem = owner.GetComponentInChildren<InteractionSystem>();
+
+        _weightHandler.enabled = false;
         
         // If not paused, find the closest InteractionTrigger that the character is in contact with
         int closestTriggerIndex = _interactionSystem.GetClosestTriggerIndex();
@@ -50,5 +52,6 @@ public class AbilityAction_StartInteraction : AbilityAction
     public override void OnExit()
     {
         base.OnExit();
+        _weightHandler.enabled = true;
     }
 }

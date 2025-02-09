@@ -62,5 +62,5 @@ MonoBehaviour:
         EventName: 
         AnimWindow: {x: 0.37238497, y: 0.8892405}
         _equipSocketName: RiflePivot
-        _lerpSpeed: 3
+        _lerpSpeed: 8
         _hand: 1
