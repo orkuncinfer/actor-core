@@ -27,7 +27,11 @@ public class PlayerAbilityController : AbilityController
         }
         if (Input.GetKey(KeyCode.F))
         {
-            if(TestAbility)TryActiveAbilityWithDefinition(TestAbility);
+            if (TestAbility)
+            {
+                AddAbilityIfNotHave(TestAbility);
+                TryActiveAbilityWithDefinition(TestAbility);
+            }
         }
     }
 

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public  class DefaultPlayerInventory : PersistentMonoSingleton<DefaultPlayerInventory>
 {
-    [ShowInInspector] protected Dictionary<string, int> _inventory;
+    [ShowInInspector] protected Dictionary<string, int> _inventory = new Dictionary<string, int>();
     [SerializeField] private ItemListDefinition _allItems;
 
     [ValueDropdown("GetAllItems")]
@@ -15,7 +15,7 @@ public  class DefaultPlayerInventory : PersistentMonoSingleton<DefaultPlayerInve
     
     [SerializeField] private GameObject _itemAddedDisplayerPrefab;
     
-    public Dictionary<string,InventoryDefinition> InventoryDefinitions = new Dictionary<string, InventoryDefinition>();
+    [ShowInInspector]public Dictionary<string,InventoryDefinition> InventoryDefinitions = new Dictionary<string, InventoryDefinition>();
     
     public event Action<string,int,int> onItemAdded;
     public event Action<string,int,int> onItemRemoved;

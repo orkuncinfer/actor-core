@@ -6,17 +6,16 @@ public class AmmoStorage : MonoBehaviour
     [SerializeField] int[] startingAmmoAmounts;
     [SerializeField] private GenericKey _ammoInventoryKey;
 
-    private InventoryDefinition _ammoInventory;
+    private InventoryDefinition _ammoInventory => DefaultPlayerInventory.Instance.GetInventoryDefinition(_ammoInventoryKey.ID);
 
     void Start()
     {
-        _ammoInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(_ammoInventoryKey.ID);
+        
     }
 
     public int GetAmmoAmount(ItemDefinition itemDefinition)
     {
         Debug.Log("Inventory count : "+DefaultPlayerInventory.Instance.InventoryDefinitions.Count);
-        Debug.Log("Ammo inventory " + _ammoInventory.InventoryId);
         return _ammoInventory.GetItemCount(itemDefinition);
     }
 

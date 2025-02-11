@@ -45,6 +45,11 @@ public class InventoryDefinition : MonoBehaviour
         
         LoadES3();
         
+        
+    }
+
+    private void Awake()
+    {
         DefaultPlayerInventory.Instance.RegisterInventoryDefinition(this);
     }
 
