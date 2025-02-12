@@ -101,8 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02687cb01658424ea1f60b3cfc7cc81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemDefinition: {fileID: 11400000, guid: c08c5c3a94f8c4f4ab2cc0e3f7931c66, type: 2}
+  ItemDefinition: {fileID: 11400000, guid: 0b4ffddf72fb1ec4e926d0c43a886b84, type: 2}
   InventoryDefinition: {fileID: 11400000, guid: dce5789b1fe64954089da1a049193d74, type: 2}
+  InventoryKey: {fileID: 11400000, guid: 8bdc75f4d0e25864c9522f576da078ae, type: 2}
   DropCount: 5
   LabelInstance: {fileID: 0}
 --- !u!114 &8456961413772765947

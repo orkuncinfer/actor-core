@@ -138,3 +138,11 @@ MonoBehaviour:
     HashCode: 930cea38-b6c6-43b3-ba01-ea33191e84f5
     Description: Generated tag for State.BaseBody.UsingAbility
     _asset: {fileID: 11400000}
+  - Tag: State.Interaction
+    HashCode: 5f220b66-893c-4d47-aecb-c163be1a2e02
+    Description: Generated tag for Interaction
+    _asset: {fileID: 11400000}
+  - Tag: State.Disabled
+    HashCode: 1e31e1df-f837-44db-b8a5-74122fcfb5dc
+    Description: Generated tag for State.Disabled
+    _asset: {fileID: 11400000}

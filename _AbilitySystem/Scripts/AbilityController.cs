@@ -117,12 +117,12 @@ public class AbilityController : MonoInitializable, ISavable
             {
                 if (!CanActivateAbility(activeAbility)) return false;
                 this.Target = target;
+                _activeAbilities.Add(activeAbility);
                 LastUsedAbility = activeAbility;
                 ApplyAbilityEffects(activeAbility);
                 CancelWithTagCheck(activeAbility);
-                onActivatedAbility?.Invoke(activeAbility);
-                _activeAbilities.Add(activeAbility);
                 activeAbility.StartAbility();
+                onActivatedAbility?.Invoke(activeAbility);
                 return true;
             }
         }
@@ -132,7 +132,7 @@ public class AbilityController : MonoInitializable, ISavable
 
     private void CancelWithTagCheck(ActiveAbility activeAbility)
     {
-        Debug.Log($" CancelWithTagCheck {activeAbility.Definition.name} : tag count {activeAbility.Definition.CancelAbilitiesWithTag.TagCount}");
+        //Debug.Log($" CancelWithTagCheck {activeAbility.Definition.name} : tag count {activeAbility.Definition.CancelAbilitiesWithTag.TagCount}");
         if(activeAbility.Definition.CancelAbilitiesWithTag.TagCount == 0) return;
         for(int i = _activeAbilities.Count - 1; i >= 0; i--)
         {
@@ -210,7 +210,7 @@ public class AbilityController : MonoInitializable, ISavable
         }
         if (abilityLayerIsBusy)
         {
-            DDebug.Log("Ability layer is busy");
+            //DDebug.Log("Ability layer is busy");
             return false;
         }
         return true;
@@ -234,6 +234,12 @@ public class AbilityController : MonoInitializable, ISavable
 
     public void CancelAbilityIfActive(ActiveAbility ability)
     {
+        string activeAbilityNames = "";
+        foreach (var activeAbility in _activeAbilities)
+        {
+            activeAbilityNames += activeAbility.Definition.name + " ";
+        }
+        Debug.Log($"Requested cancelation of {ability.Definition.name} active abilities are {activeAbilityNames}");
         if (_activeAbilities.Contains(ability))
         {
             _activeAbilities.Remove(ability);

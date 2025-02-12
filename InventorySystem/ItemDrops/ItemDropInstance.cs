@@ -9,6 +9,7 @@ public class ItemDropInstance : MonoBehaviour
 {
     public ItemDefinition ItemDefinition;
     public InventoryDefinition InventoryDefinition;
+    public GenericKey InventoryKey;
     public int DropCount;
     public WorldItemLabel LabelInstance;
     
@@ -35,7 +36,11 @@ public class ItemDropInstance : MonoBehaviour
     [Button]
     public void Collect()
     {
-        int added = InventoryDefinition.AddItem(ItemDefinition, DropCount);
+        InventoryDefinition collectInventory = null;
+        if(ItemDefinition) collectInventory = InventoryDefinition;
+        if (InventoryKey) collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(InventoryKey.ID);
+      
+        int added = collectInventory.AddItem(ItemDefinition, DropCount);
         if (added > 0)
         {
             DropCount -= added;

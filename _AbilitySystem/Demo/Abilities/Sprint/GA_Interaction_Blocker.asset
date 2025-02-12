@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95830e1a269b49308eda88a503d26679, type: 3}
-  m_Name: GA_InteractionStandard
+  m_Name: GA_Interaction_Blocker
   m_EditorClassIdentifier: 
   _title: 
   _description: 
@@ -43,6 +43,7 @@ MonoBehaviour:
   _grantedTagsDuringAbility:
     _tagHashes:
     - 930cea38-b6c6-43b3-ba01-ea33191e84f5
+    - 5f220b66-893c-4d47-aecb-c163be1a2e02
   _activationRequiredTags:
     _tagHashes: []
   _activationBlockedTags:

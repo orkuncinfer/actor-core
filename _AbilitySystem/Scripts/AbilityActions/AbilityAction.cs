@@ -50,6 +50,7 @@ public class AbilityAction
 
     protected void RequestEndAbility()
     {
+        Debug.Log("Requested ability cancelation");
         Owner.GetData<Data_GAS>().AbilityController.CancelAbilityIfActive(ActiveAbility);
     }
     public virtual void Reset()

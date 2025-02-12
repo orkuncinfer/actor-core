@@ -29,6 +29,10 @@ public class GameplayTagsAsset : ScriptableObject
             tag._asset = this;
         }
     }
+    [Button]public void RefreshTagManager()
+    {
+        GameplayTagManager.Refresh();
+    }
     
 
 #if UNITY_EDITOR

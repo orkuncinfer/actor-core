@@ -3,26 +3,24 @@ using UnityEngine;
 
 public class AbilityAction_StartInteraction : AbilityAction
 {
-    public bool ToggleAiming;
+    public bool CancelAfterInteract;
     private AimIKWeightHandler _weightHandler;
     private InteractionSystem _interactionSystem;
-    private AbilityController _abilityController;
     
     private bool _initialAimingState;
     public override AbilityAction Clone()
     {
         AbilityAction_StartInteraction clone = AbilityActionPool<AbilityAction_StartInteraction>.Shared.Get();
         clone._weightHandler = _weightHandler;
-        clone.ToggleAiming = ToggleAiming;
         clone._initialAimingState = _initialAimingState;
         clone._interactionSystem = _interactionSystem;
+        clone.CancelAfterInteract = CancelAfterInteract;
         return clone;
     }
 
     public override void OnStart(Actor owner, ActiveAbility ability)
     {
         base.OnStart(owner, ability);
-        _abilityController = owner.GetComponentInChildren<AbilityController>();
         _weightHandler = owner.GetComponentInChildren<AimIKWeightHandler>();
         _interactionSystem = owner.GetComponentInChildren<InteractionSystem>();
 
@@ -32,21 +30,39 @@ public class AbilityAction_StartInteraction : AbilityAction
         int closestTriggerIndex = _interactionSystem.GetClosestTriggerIndex();
 
         // ...if none found, do nothing
-        if (closestTriggerIndex == -1) return;
+        if (closestTriggerIndex == -1)
+        {
+            RequestEndAbility();
+            return;
+        }
 
         // ...if the effectors associated with the trigger are in interaction, do nothing
-        if (!_interactionSystem.TriggerEffectorsReady(closestTriggerIndex)) return;
+        if (!_interactionSystem.TriggerEffectorsReady(closestTriggerIndex))
+        {
+            RequestEndAbility();
+            return;
+        }
 
         // Its OK now to start the trigger
 
-        _interactionSystem.TriggerInteraction(closestTriggerIndex, false);
+        if (!_interactionSystem.TriggerInteraction(closestTriggerIndex, false))
+        {
+            RequestEndAbility();
+            return;
+        }
+
+        if (CancelAfterInteract)
+        {
+            RequestEndAbility();
+            return;
+        }
         _interactionSystem.OnInteractionStop += OnInteractionStop;
     }
 
     private void OnInteractionStop(FullBodyBipedEffector effectortype, InteractionObject interactionobject)
     {
         Debug.Log("Interaction stopped " + interactionobject.name);
-        _abilityController.CancelAbilityIfActive(Definition.name);
+        RequestEndAbility();
         _interactionSystem.OnInteractionStop -= OnInteractionStop;
     }
     public override void OnExit()

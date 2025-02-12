@@ -6,6 +6,7 @@ using NetworkShared.Packets.ClientServer;
 using NetworkShared.Packets.ServerClient;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -28,6 +29,8 @@ public class ItemDropManager : MonoBehaviour
     private Vector3 _itemGroundPos;
     
     [SerializeField] private EventField<float> onMobKillesd2;
+    
+    public WorldRectHoverDetector RectHoverDetector;
 
     private void Awake()
     {
@@ -82,6 +85,8 @@ public class ItemDropManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Y))
         {
+            DropItem(new Net_GeneratedItemResult(), Vector3.zero);
+            return;
             Vector3 randomPosInCircle = Random.insideUnitCircle * 2;
             KilledMonster("mns_golem", randomPosInCircle);
         }
@@ -89,7 +94,22 @@ public class ItemDropManager : MonoBehaviour
         {
             Iterate();
         }
+
+        foreach (var label in itemLabels)
+        {
+            if (RectHoverDetector.CheckHover(label.rectTransform))
+            {
+                label.SetHover(true);
+            }
+            else
+            {
+                label.SetHover(false);
+            }
+        }
     }
+
+  
+    
     [Button]
     public void Iterate()
     {
@@ -118,7 +138,7 @@ public class ItemDropManager : MonoBehaviour
     [Button]
     public async void KilledMonster(string monsterID, Vector3 monsterCenterPos)
     {
-        Vector3 groundPos = monsterCenterPos;
+      
         Net_GeneratedItemResult itemResultPacket = new Net_GeneratedItemResult();
         string ownerId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
 
@@ -145,8 +165,22 @@ public class ItemDropManager : MonoBehaviour
             Debug.LogError("Failed to receive response: " + e.Message);
             return;
         }
+        DropItem(itemResultPacket, monsterCenterPos);
         
-        if(Physics.Raycast(monsterCenterPos + Vector3.up*10, Vector3.down, out RaycastHit hit, 500, GroundLayer)) 
+        
+    }
+    [Button]
+    public void DropItemDefinition(ItemDefinition itemDefinition)
+    {
+        Net_GeneratedItemResult itemResultPacket = new Net_GeneratedItemResult();
+        itemResultPacket.ItemId = itemDefinition.ItemId;
+        itemResultPacket.Rarity = (int)itemDefinition.DefaultRarity;
+        DropItem(itemResultPacket,Vector3.zero);
+    }
+    private void DropItem(Net_GeneratedItemResult result, Vector3 position)
+    {
+        Vector3 groundPos = position;
+        if(Physics.Raycast(position + Vector3.up*10, Vector3.down, out RaycastHit hit, 500, GroundLayer)) 
         {
             if (hit.collider != null)
             {
@@ -159,12 +193,12 @@ public class ItemDropManager : MonoBehaviour
         ItemDropInstance itemDropInstance = itemMeshInstance.GetComponent<ItemDropInstance>();
 
         itemDropInstance.GeneratedItemResult = new FbGeneratedItemResult();
-        itemDropInstance.GeneratedItemResult.OwnerId = itemResultPacket.OwnerId;
-        itemDropInstance.GeneratedItemResult.ItemId = itemResultPacket.ItemId;
-        itemDropInstance.GeneratedItemResult.UniqueItemId = itemResultPacket.UniqueItemId;
-        itemDropInstance.GeneratedItemResult.Modifiers = itemResultPacket.Modifiers;
-        itemDropInstance.GeneratedItemResult.Rarity = itemResultPacket.Rarity;
-        itemDropInstance.GeneratedItemResult.UpgradeLevel = itemResultPacket.UpgradeLevel;
+        itemDropInstance.GeneratedItemResult.OwnerId = result.OwnerId;
+        itemDropInstance.GeneratedItemResult.ItemId = result.ItemId;
+        itemDropInstance.GeneratedItemResult.UniqueItemId = result.UniqueItemId;
+        itemDropInstance.GeneratedItemResult.Modifiers = result.Modifiers;
+        itemDropInstance.GeneratedItemResult.Rarity = result.Rarity;
+        itemDropInstance.GeneratedItemResult.UpgradeLevel = result.UpgradeLevel;
         
         
         GameObject labelInstance = PoolManager.SpawnObject(LabelPrefab, groundPos, Quaternion.identity);
@@ -173,7 +207,7 @@ public class ItemDropManager : MonoBehaviour
         itemDropInstance.LabelInstance = itemLabel;
         itemLabel.ItemDropInstance = itemDropInstance;
         Vector3 endPos = groundPos + Vector3.forward * -2;
-        DrawArc(monsterCenterPos, endPos);
+        DrawArc(position, endPos);
         Vector3[] pathArray = new Vector3[lineRenderer.positionCount];
         lineRenderer.GetPositions(pathArray);
         pathFollower.Initialize(pathArray,.4f,endPos);

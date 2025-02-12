@@ -49,7 +49,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
 
         if (ReleaseLeftHand)
         {
-            _weightHandler.LeftHandPoserToggle(false);
+            //_weightHandler.LeftHandPoserToggle(false); why?
             _ik.solver.leftHandEffector.positionWeight = 0;
         }
            
@@ -65,7 +65,7 @@ public class AbilityAction_ToggleAiming : AbilityAction
 
         if (HoldLeftHandOnExit)
         {
-            _weightHandler.LeftHandPoserToggle(true);
+            //_weightHandler.LeftHandPoserToggle(true); why? try to discard this
         }
     }
 }

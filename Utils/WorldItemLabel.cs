@@ -116,19 +116,20 @@ public class WorldItemLabel : MonoBehaviour,IPointerEnterHandler,IPointerExitHan
         rectTransform.sizeDelta = new Vector2(textBounds.size.x + WidthSpacing, rectTransform.sizeDelta.y);
     }
       
-    void SetBg(bool isHover)
+    public void SetHover(bool isHover)
     {
         _normalBg.gameObject.SetActive(!isHover);
         _hoverBg.gameObject.SetActive(isHover);
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        SetBg(true);
+        Debug.Log("Pointer Enter");
+        SetHover(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        SetBg(false);
+        SetHover(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)

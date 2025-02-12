@@ -67,7 +67,7 @@ public class GameplayTagManager
         }
     }
 
-    [Button]
+    [Button("Refresh Tags (Click If You Change Tag Name)")]
     public static void Refresh()
     {
         FillDictionary(true);
