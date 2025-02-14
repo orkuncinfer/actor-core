@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using AudioSystem;
 using Sirenix.OdinInspector;
-using UnityCommunity.UnitySingleton;
 using UnityEngine;
 
-public  class DefaultPlayerInventory : PersistentMonoSingleton<DefaultPlayerInventory>
+public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventory>
 {
     [ShowInInspector] protected Dictionary<string, int> _inventory = new Dictionary<string, int>();
     [SerializeField] private ItemListDefinition _allItems;
@@ -144,8 +143,6 @@ public  class DefaultPlayerInventory : PersistentMonoSingleton<DefaultPlayerInve
     }
     
 #if UNITY_EDITOR
-
-
     private List<ValueDropdownItem<ItemDefinition>> GetAllItems()
     {
         var allKeys = Resources.FindObjectsOfTypeAll<ItemDefinition>();

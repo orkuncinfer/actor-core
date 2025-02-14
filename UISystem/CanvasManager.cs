@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using UnityCommunity.UnitySingleton;
 using UnityEngine;
 
-public class CanvasManager : PersistentMonoSingleton<CanvasManager>
+public class CanvasManager : PersistentSingleton<CanvasManager>
 {
     [ShowInInspector][HideInEditorMode]private readonly Dictionary<string,CanvasLayer> _layerRegistry = new Dictionary<string, CanvasLayer>();
     [ShowInInspector][HideInEditorMode]private CanvasLayer _defaultLayer;

@@ -45,12 +45,14 @@ public class InventoryDefinition : MonoBehaviour
         
         LoadES3();
         
-        
+        Debug.Log("Inventory count is " + DefaultPlayerInventory.Instance.InventoryDefinitions.Count);
     }
 
     private void Awake()
     {
+        Debug.Log($"Registering inventory and count is {DefaultPlayerInventory.Instance.InventoryDefinitions.Count}");
         DefaultPlayerInventory.Instance.RegisterInventoryDefinition(this);
+        Debug.Log($"Registered Inventory and count is {DefaultPlayerInventory.Instance.InventoryDefinitions.Count}");
     }
 
     [Button]

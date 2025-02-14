@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityCommunity.UnitySingleton;
 using UnityEngine;
 
-public class AudioCenter : PersistentMonoSingleton<AudioCenter>
+public class AudioCenter : PersistentSingleton<AudioCenter>
 {
     public AudioSource Source;
 

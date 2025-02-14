@@ -144,6 +144,20 @@ public class AbilityController : MonoInitializable, ISavable
         }
     }
 
+    public bool CanActivateAbility(AbilityDefinition definition)
+    {
+        if (m_Abilities.TryGetValue(definition.name, out Ability ability))
+        {
+            if (ability is ActiveAbility activeAbility)
+            {
+                if (!CanActivateAbility(activeAbility)) return false;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public bool CanActivateAbility(ActiveAbility ability)
     {
         /* if (_owner.GameplayTags.HasTagExact("State.IsDead"))

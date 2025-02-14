@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using MonsterLove.Collections;
 using Sirenix.OdinInspector;
-using UnityCommunity.UnitySingleton;
 using UnityEngine;
 
-public class PoolManager : PersistentMonoSingleton<PoolManager>
+public class PoolManager : PersistentSingleton<PoolManager>
 {
 	public bool logStatus;
 	public Transform root;

@@ -61,7 +61,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
 
     [ShowInInspector] [ReadOnly] [HideInEditorMode]
     protected Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
-    
+    [ShowInInspector] [ReadOnly] [HideInEditorMode]
     protected Dictionary<Type,object> _services = new Dictionary<Type, object>();
     
     public GameplayTagContainer GameplayTags = new GameplayTagContainer();
@@ -252,12 +252,17 @@ public class ActorBase : MonoBehaviour, ITagContainer
         return null;
     }
     
-    public object GetService<T> ()
+    public T GetService<T>() where T : ActorMonoService<T>
     {
-        return _services[typeof(T)];
+        if (_services.ContainsKey(typeof(T)))
+        {
+            return (T) _services[typeof(T)];
+        }
+
+        return null;
     }
     
-    public bool TryGetService<T>(out T service)
+    public bool TryGetService<T>(out T service) where T : ActorMonoService<T>
     {
         if (_services.ContainsKey(typeof(T)))
         {

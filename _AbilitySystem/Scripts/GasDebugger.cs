@@ -27,6 +27,8 @@ public class GasDebugger : MonoBehaviour
     [SerializeField] private ELocation _location;
     [SerializeField] private bool _startActive;
 
+    [SerializeField] private bool _startSceneMode;
+
     private InputActionMap _playerControlMap;
     private InputAction _debugToggleAction;
     private InputAction _debugCommandAction;
@@ -43,7 +45,7 @@ public class GasDebugger : MonoBehaviour
     private void Awake()
     {
 #if UNITY_EDITOR
-        if (SceneView.GetWindow(typeof(SceneView)).hasFocus)
+        if (SceneView.GetWindow(typeof(SceneView)).hasFocus && _startSceneMode)
         {
             UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
         }
