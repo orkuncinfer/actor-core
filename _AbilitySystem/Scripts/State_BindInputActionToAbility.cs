@@ -18,7 +18,7 @@ public class State_BindInputActionToAbility : MonoState
     [SerializeField] private bool _startWithTag;
     [SerializeField][ShowIf("_startWithTag")] private GameplayTag _tag;
     [FormerlySerializedAs("_abilityData")] [SerializeField][HideIf("_startWithTag")] private DSGetter<Data_AbilityDefinition> _abilityDS;
-    [SerializeField] private Data_GAS _gasData;
+    
     public InputActionAsset ActionAsset;
     public string ActionName;
     public bool CancelOnRelease;
@@ -32,13 +32,14 @@ public class State_BindInputActionToAbility : MonoState
     [SerializeReference][TypeFilter("GetConditionTypeList")] [ListDrawerSettings(ShowFoldout = true)]
     public List<StateCondition> Conditions = new List<StateCondition>();
     
+    private Service_GAS _gasService;
     private InputAction _abilityAction;
     private bool _start;
     private bool _activatedOnce;
     protected override void OnEnter()
     {
         base.OnEnter();
-        _gasData = Owner.GetData<Data_GAS>();
+        _gasService = Owner.GetService<Service_GAS>();
         _abilityDS.GetData(Owner);
         
         _abilityAction = ActionAsset.FindAction(ActionName);
@@ -97,11 +98,11 @@ public class State_BindInputActionToAbility : MonoState
         {
             if (_startWithTag)
             {
-                _gasData.AbilityController.CancelAbilityWithGameplayTag(_tag);
+                _gasService.AbilityController.CancelAbilityWithGameplayTag(_tag);
             }
             else
             {
-                _gasData.AbilityController.CancelAbilityIfActive(_abilityDS.Data.AbilityDefinition.name);
+                _gasService.AbilityController.CancelAbilityIfActive(_abilityDS.Data.AbilityDefinition.name);
             }
         }
     }
@@ -115,7 +116,7 @@ public class State_BindInputActionToAbility : MonoState
         _start = true;
         foreach (var tag in CancelAbilitiesWithTag.GetTags())
         {
-            _gasData.AbilityController.CancelAbilityWithGameplayTag(tag);
+            _gasService.AbilityController.CancelAbilityWithGameplayTag(tag);
         }
         StartAbility();
     }
@@ -126,11 +127,11 @@ public class State_BindInputActionToAbility : MonoState
         ActiveAbility ability = null;
         if (_startWithTag)
         {
-            ability = _gasData.AbilityController.TryActivateAbilityWithGameplayTag(_tag);
+            ability = _gasService.AbilityController.TryActivateAbilityWithGameplayTag(_tag);
         }
         else
         {
-          ability = _gasData.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);
+          ability = _gasService.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);
         }
 
         if (ability != null)

@@ -3,15 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class ActorMonoService<T> : MonoBehaviour where T : class
 {
-    [SerializeField][ReadOnly] private ActorBase _actor;
+    [SerializeField][ReadOnly][LabelText("Service Owner")] private ActorBase _owner;
 
-    public ActorBase Actor
+    public event Action<ActorBase> onServiceBegin;
+
+    protected ActorBase Owner
     {
-        get => _actor;
-        private set => _actor = value;
+        get => _owner;
+        private set => _owner = value;
     }
     protected virtual bool BeginOnActorInitialize => false;
     
@@ -20,25 +23,25 @@ public abstract class ActorMonoService<T> : MonoBehaviour where T : class
 
     private void Awake()
     {
-        Actor = ActorUtilities.FindFirstActorInParents(transform);
+        Owner = ActorUtilities.FindFirstActorInParents(transform);
         
-        Initialize(Actor);
+        Initialize(Owner);
     }
     private void Initialize(ActorBase actor)
     {
         if (actor != null)
         {
             RegisterService();
-            Actor = actor;
-            Actor.onActorStarted += OnActorBegin;
-            Actor.onActorStopped += OnActorStop;
+            Owner = actor;
+            Owner.onActorStarted += OnOwnerBegin;
+            Owner.onActorStopped += OnOwnerStop;
             
-            if (Actor.IsRunning)
+            if (Owner.IsRunning)
             {
-                OnActorBegin();
+                OnOwnerBegin();
             }
         }
-        OnAfterInitialize();
+        OnInitialize();
     }
     public virtual void RegisterService()
     {
@@ -46,25 +49,25 @@ public abstract class ActorMonoService<T> : MonoBehaviour where T : class
         {
             return;
         }
-        Actor.AddService(this as T);
+        Owner.AddService(this as T);
         IsRegistered = true;
     }
     
-    protected virtual void OnAfterInitialize()
+    protected virtual void OnInitialize()
     {
     }
     
-    protected virtual void OnActorBegin()
+    protected virtual void OnOwnerBegin()
     {
         OnServiceBegin();
     }
     
-    protected virtual void OnActorStop()
+    protected virtual void OnOwnerStop()
     {
         OnServiceStop();
     }
     
-    public virtual void OnServiceBegin(){}
+    public virtual void OnServiceBegin(){ onServiceBegin?.Invoke(Owner); }
 
     public virtual void OnServiceStop(){}
 }

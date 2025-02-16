@@ -39,8 +39,7 @@ public class AbilityAction_MeleeAttack : AbilityAction
     private void OnHit(Collider obj)
     {
         Actor hitActor = obj.GetComponent<Actor>();
-        AbilityController abilityController = hitActor.GetData<Data_GAS>().AbilityController;
-        Data_GAS gasData = hitActor.GetData<Data_GAS>();
+        AbilityController abilityController = hitActor.GetService<Service_GAS>().AbilityController;
         if (hitActor.GameplayTags.HasTagExact("State.IsDead"))
         {
             return;

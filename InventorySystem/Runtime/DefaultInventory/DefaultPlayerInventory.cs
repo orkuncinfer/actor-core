@@ -139,6 +139,7 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
         {
             return InventoryDefinitions[inventoryId];
         }
+        Debug.LogError($"Couldn't find inventory with id : {inventoryId}");
         return null;
     }
     

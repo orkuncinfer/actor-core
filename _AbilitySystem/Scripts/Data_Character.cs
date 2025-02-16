@@ -6,5 +6,6 @@ using StatSystem;
 public class Data_Character : Data
 {
     public CharacterMovement Movement;
+    public Character Character;
     public CharacterInput MovementInput;
 }

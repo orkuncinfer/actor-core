@@ -146,3 +146,7 @@ MonoBehaviour:
     HashCode: 1e31e1df-f837-44db-b8a5-74122fcfb5dc
     Description: Generated tag for State.Disabled
     _asset: {fileID: 11400000}
+  - Tag: State.IsDead
+    HashCode: 6afec4bb-96ff-46a1-ba08-203c1b6eb52f
+    Description: Generated tag for State.IsDead
+    _asset: {fileID: 11400000}

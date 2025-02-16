@@ -15,17 +15,18 @@ public class AbilityTriggerInfo
 
 public class State_AbilityTriggerSlot : MonoState
 {
-        [SerializeField] private Data_GAS _gasData;
         public InputActionAsset ActionAsset;
       
         public List<AbilityTriggerInfo> AbilityTriggerInfos;
 
         public bool IsBusy;
         
+        private Service_GAS _gas;
+        
         protected override void OnEnter()
         {
             base.OnEnter();
-            _gasData = Owner.GetData<Data_GAS>();
+            _gas = Owner.GetService<Service_GAS>();
             
             foreach (var abilityInfo in AbilityTriggerInfos)
             {
@@ -51,13 +52,13 @@ public class State_AbilityTriggerSlot : MonoState
         {
             AbilityTriggerInfo abilityTriggerInfo = AbilityTriggerInfos.Find(info => info.ActionName == obj.action.name);
             if(abilityTriggerInfo.CancelOnRelease)
-                _gasData.AbilityController.CancelAbilityIfActive(abilityTriggerInfo.AbilityDefinition.name);
+                _gas.AbilityController.CancelAbilityIfActive(abilityTriggerInfo.AbilityDefinition.name);
         }
     
         private void OnPerformed(InputAction.CallbackContext obj)
         {
             AbilityTriggerInfo abilityTriggerInfo = AbilityTriggerInfos.Find(info => info.ActionName == obj.action.name);
-            ActiveAbility activatedAbility = _gasData.AbilityController.TryActiveAbilityWithDefinition(abilityTriggerInfo.AbilityDefinition);
+            ActiveAbility activatedAbility = _gas.AbilityController.TryActiveAbilityWithDefinition(abilityTriggerInfo.AbilityDefinition);
             
             if (activatedAbility != null)
             {

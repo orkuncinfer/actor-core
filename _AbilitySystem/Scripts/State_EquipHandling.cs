@@ -7,16 +7,19 @@ using UnityEngine.Serialization;
 public class State_EquipHandling : MonoState
 {
     public InputActionAsset ActionAsset;
-    public InventoryDefinition EquipmentInventory;
+    public GenericKey EquipmentInventoryKey;
 
     [SerializeField] private string[] EquipActionNames;
     
+    private InventoryDefinition _equipmentInventory;
     private int _lastTriedSlotIndex;
         
     protected override void OnEnter()
     {
         base.OnEnter();
-            
+
+        _equipmentInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(EquipmentInventoryKey.ID);
+        
         foreach (var abilityInfo in EquipActionNames)
         {
             var abilityAction = ActionAsset.FindAction(abilityInfo);
@@ -29,10 +32,10 @@ public class State_EquipHandling : MonoState
 
     public void EquipInventorySlot(int slotIndex)
     {
-        if (!EquipmentInventory.InventoryData.InventorySlots[slotIndex].ItemID.IsNullOrWhitespace())
+        if (!_equipmentInventory.InventoryData.InventorySlots[slotIndex].ItemID.IsNullOrWhitespace())
         {
             DS_EquipmentUser equipmentUser = Owner.GetData<DS_EquipmentUser>();
-            ItemDefinition itemDefinition = InventoryUtils.FindItemWithId(EquipmentInventory.InventoryData.InventorySlots[slotIndex].ItemID);
+            ItemDefinition itemDefinition = InventoryUtils.FindItemWithId(_equipmentInventory.InventoryData.InventorySlots[slotIndex].ItemID);
             Transform equipmentInSlot = Owner.SocketRegistry.SlotDictionary[itemDefinition.GetData<Data_Equippable>().UnequipSlotName];
             
             if (equipmentUser.EquipmentInstance != null)

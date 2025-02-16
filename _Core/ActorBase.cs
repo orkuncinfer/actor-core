@@ -169,6 +169,11 @@ public class ActorBase : MonoBehaviour, ITagContainer
         {
             foreach (var data in dataComponent.Datas)
             {
+                if (data == null)
+                {
+                    Debug.LogWarning("Trying to install null data");
+                    continue;
+                }
                 if (data.IsGlobal) continue;
                 InstallData(data);
             }

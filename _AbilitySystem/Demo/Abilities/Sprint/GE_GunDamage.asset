@@ -18,11 +18,11 @@ MonoBehaviour:
   _conditionalEffects: []
   _description: 
   _grantedTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _applicationBlockerTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _removeEffectsWithTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   references:
     version: 2
     RefIds:
@@ -33,5 +33,5 @@ MonoBehaviour:
         Type: 0
         Formula:
           Graph: {fileID: 0}
-          StaticValue: -20
+          StaticValue: -30
         CanCriticalHit: 0

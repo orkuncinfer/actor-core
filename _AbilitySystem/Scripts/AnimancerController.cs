@@ -32,7 +32,7 @@ public class AnimancerController : MonoBehaviour
     private void Start()
     {
         _owner = transform.root.GetComponent<Actor>();
-        _abilityController = _owner.GetData<Data_GAS>().AbilityController;
+        _abilityController = _owner.GetService<Service_GAS>().AbilityController;
         _animancerComponent = GetComponent<AnimancerComponent>();
 
         _abilityController.onActivatedAbility += OnActivatedAbility;

@@ -64,7 +64,7 @@ public class ActiveAbility : Ability
         
         public void TryCancelAbility()
         {
-            Owner.GetData<Data_GAS>().AbilityController.CancelAbilityIfActive(this);
+            Owner.GetService<Service_GAS>().AbilityController.CancelAbilityIfActive(this);
         }
      
         private void TickAbilityActions() // tick ability that has no animation
