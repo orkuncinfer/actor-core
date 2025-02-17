@@ -49,7 +49,14 @@ MonoBehaviour:
   _cancelAbilitiesWithTag:
     _tagHashes: []
   GrantedEffectsDuringAbility: []
-  AbilityActions: []
+  AbilityActions:
+  - rid: 95553393713479764
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 95553393713479764
+      type: {class: AbilityAction_Dying, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 2
+        EventName: 
+        AnimWindow: {x: 0, y: 0}

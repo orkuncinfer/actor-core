@@ -326,6 +326,12 @@ public class AbilityController : MonoInitializable, ISavable
         }
     }
 
+    [Button]
+    public void Test()
+    {
+        AddAndTryActivateAbility(TestAbility);
+    }
+
     public virtual object data
     {
         get

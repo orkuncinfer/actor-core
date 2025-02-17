@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6910205334221774153}
   - component: {fileID: 5617502295809448611}
   - component: {fileID: 1083021339420342274}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Projectile_Hitscan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,8 +101,7 @@ MonoBehaviour:
   hasEffect: 0
   effect: {fileID: 0}
   maxProjectileTravel: 100
-  _tracerPrefab: {fileID: 8685515938975666334, guid: 5566356851b832b479ad50838af1f733,
-    type: 3}
+  _tracerPrefab: {fileID: 8685515938975666334, guid: 5566356851b832b479ad50838af1f733, type: 3}
 --- !u!114 &5617502295809448611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,8 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22dd3505c53a139499c954137bb20f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasEffect: 0
-  effect: {fileID: 0}
+  hasEffect: 1
+  effect: {fileID: 3857768353347351338, guid: 9f53e944af25d0c47bfeba1455716d96, type: 3}
   maxCollisions: 1
   canBounce: 0
 --- !u!114 &1083021339420342274
@@ -150,7 +149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &553233993345007331
 Transform:
   m_ObjectHideFlags: 0

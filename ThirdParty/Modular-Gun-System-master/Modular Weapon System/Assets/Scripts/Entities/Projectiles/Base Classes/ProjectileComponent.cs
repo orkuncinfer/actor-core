@@ -6,9 +6,14 @@ public abstract class ProjectileComponent : MonoBehaviour
     [SerializeField] protected bool hasEffect = false;
     [SerializeField] GameObject effect = null;
 
-    protected void InitialiseEffect(Vector3 position){
-        if (hasEffect){
-            Instantiate(effect, position, Quaternion.identity);
+    protected void InitialiseEffect(Vector3 position, Collision collision = null){
+        if (hasEffect)
+        {
+            GameObject instance = Instantiate(effect, position, Quaternion.identity);
+            if (collision != null)
+            {
+                instance.transform.forward = collision.contacts[0].normal;
+            }
         }
     }
 }

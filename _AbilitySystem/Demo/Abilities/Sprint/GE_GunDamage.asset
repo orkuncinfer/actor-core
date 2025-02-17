@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
   m_Name: GE_GunDamage
   m_EditorClassIdentifier: 
-  ModifierDefinitions:
-  - rid: 88048083462258688
+  ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
@@ -25,13 +24,4 @@ MonoBehaviour:
     _tagHashes: []
   references:
     version: 2
-    RefIds:
-    - rid: 88048083462258688
-      type: {class: GameplayEffectDamageDefinition, ns: , asm: Assembly-CSharp-firstpass}
-      data:
-        StatName: Health
-        Type: 0
-        Formula:
-          Graph: {fileID: 0}
-          StaticValue: -30
-        CanCriticalHit: 0
+    RefIds: []

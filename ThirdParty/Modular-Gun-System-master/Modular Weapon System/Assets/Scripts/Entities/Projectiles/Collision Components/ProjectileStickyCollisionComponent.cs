@@ -56,7 +56,7 @@ public class ProjectileStickyCollisionComponent : ProjectileCollisionComponent
         Collider[] hits = EnemiesInRange();
             
         foreach (var hit in hits){
-            damageComponent.ApplyDamage(hit.gameObject);
+            damageComponent.ApplyDamage(hit.gameObject,null);
         }
     }
 

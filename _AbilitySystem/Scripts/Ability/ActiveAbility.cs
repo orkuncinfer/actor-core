@@ -21,7 +21,7 @@ public class ActiveAbility : Ability
         public bool IsActive => _isActive;
         public event Action<ActiveAbility> onStarted;
         public event Action<ActiveAbility> onFinished;
-        public List<AbilityAction> AbilityActions;
+        public List<AbilityAction> AbilityActions = new List<AbilityAction>();
         
         public event Action<ActiveAbility> onCustomClipTransitionSet;
         public ClipTransition CustomClipTransition;

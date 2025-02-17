@@ -333,6 +333,18 @@ public partial class GameplayEffectController : MonoInitializable
         }
     }
 
+    public void ApplyStatModifierExternal(StatModifier modifier, string statName)// not tested yet
+    {
+        if (_statController.Stats.TryGetValue(statName,
+                out Stat stat))
+        {
+            if (stat is Attribute attribute)
+            {
+                attribute.ApplyModifier(modifier);
+            }
+        }
+    }
+
     public bool CanApplyAttributeModifiers(GameplayEffectDefinition effectDefinition)
     {
         foreach (var modifier in effectDefinition.ModifierDefinitions)

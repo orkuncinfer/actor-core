@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Gun Data", menuName = "Game Data/Gun Data", order = 0)]
 public class GunData : ScriptableObject {
@@ -8,6 +9,8 @@ public class GunData : ScriptableObject {
     [SerializeField] FireMode fireMode; public FireMode FireMode => fireMode;
     [SerializeField] GameObject projectilePrefab; public GameObject ProjectilePrefab => projectilePrefab;
     [SerializeField] ItemDefinition _ammoItemDefinition; public ItemDefinition AmmoItemDefinition => _ammoItemDefinition;
+
+    [SerializeField] private List<BodyBoneDamageMapping> BoneDamageMappings;
 
     [Header("Base Gun Values")]
     [Tooltip("Guns base damage as a value before modifiers.")]
@@ -70,5 +73,23 @@ public class GunData : ScriptableObject {
         this.baseCritChance = baseCritChance;
         this.baseCritMultiplier = baseCritMultiplier;
         this.baseStunChance = baseStunChance;
+    }
+
+    public int GetBoneMappedDamage(HumanBodyBones hitbone)
+    {
+        int dmg = 0;
+
+        for (int i = 0; i < BoneDamageMappings.Count; i++)
+        {
+            for (int j = 0; j < BoneDamageMappings[i].Bones.Count; j++)
+            {
+                if (BoneDamageMappings[i].Bones[j] == hitbone)
+                {
+                    dmg = BoneDamageMappings[i].Damage;
+                }
+            }
+        }
+        
+        return dmg;
     }
 }

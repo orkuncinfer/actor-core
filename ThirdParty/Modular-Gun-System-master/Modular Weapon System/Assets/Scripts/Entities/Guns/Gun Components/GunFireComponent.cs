@@ -8,6 +8,8 @@ public class GunFireComponent : GunComponent
 {
     Camera cam;
     int masksToIgnore;
+
+    public LayerMask LayerMask;
     
     float projectileSpreadPercentage = 1f;
     public float ProjectileSpreadPercentage{
@@ -62,10 +64,12 @@ public class GunFireComponent : GunComponent
     void SetProjectileDamage(GunData gunData, GameObject projectile, Ability ability = null){
         ProjectileDamageComponent projectileDamageComponent = projectile.GetComponent<ProjectileDamageComponent>();
         
+        
         float damage = gunData.Damage * gunData.DamageMultiplier.Value;
         bool isCrit = IsCrit(gunData);
         projectileDamageComponent.ProjectileDamage = (isCrit ? gunData.CritMultiplier.Value : 1) * damage;
         projectileDamageComponent.Ability = ability;
+        projectileDamageComponent.GunData = gunData;
     }
 
     void MoveProjectile(GameObject projectile, float spreadRadius, Vector3 muzzlePosition){
@@ -73,7 +77,7 @@ public class GunFireComponent : GunComponent
         float maxProjectileDistance = typeComponent.MaxProjectileTravel;
 
         Vector3 projectileDir = GetProjectileDir(spreadRadius, maxProjectileDistance);
-
+        DbgDraw.Line(projectileDir,muzzlePosition,Color.magenta,3);
         // raycast for point of impact is cast from center of camera whereas ballistics travel from the muzzle position
         // and must be offset, this is not required for raycast type as their position is set to point of impact
         if (typeComponent is ProjectileMoveComponent){
@@ -82,13 +86,27 @@ public class GunFireComponent : GunComponent
         typeComponent.InitialiseMovement(projectileDir,muzzlePosition);
     }
 
-    Vector3 GetProjectileDir(float spreadRadius, float maxDistance){
-        RaycastHit hit;
-        
+    Vector3 GetProjectileDir(float spreadRadius, float maxDistance)
+    {
+        RaycastHit[] _hits = new RaycastHit[5]; // Allocate a small buffer to reduce allocations
         Vector3 spreadDeviation = Random.insideUnitCircle * spreadRadius;
-        // spreadDeviation / maxDistance provides the inverse of the circle radius based on the cameras current position
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, cam.nearClipPlane) + (spreadDeviation / maxDistance));
-        
-        return Physics.Raycast(ray, out hit, maxDistance, masksToIgnore,QueryTriggerInteraction.Ignore) ? hit.point : ray.GetPoint(maxDistance);
+
+        int hitCount = Physics.RaycastNonAlloc(ray, _hits, maxDistance, LayerMask, QueryTriggerInteraction.Collide);
+    
+        if (hitCount > 0)
+        {
+            for (int i = 0; i < hitCount; i++)
+            {
+                if (((1 << _hits[i].collider.gameObject.layer) & LayerMask) != 0) // Check if hit is in the LayerMask
+                {
+                    Debug.Log($"Collided layer: {LayerMask.LayerToName(_hits[i].collider.gameObject.layer)}");
+                    return _hits[i].point;
+                }
+            }
+        }
+
+        return ray.GetPoint(maxDistance);
     }
+
 }

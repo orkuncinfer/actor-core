@@ -93,7 +93,12 @@ public abstract class MonoState : MonoBehaviour
     {
         if (IsRunning) OnLateUpdate();
     }
-    
+
+    private void OnDestroy()
+    {
+        OnExit();
+    }
+
     private Color GetColorForProperty()
     {
         return IsRunning ? new Color(0.35f,.83f,.29f,255) : new Color(1f,.29f,.29f,255);

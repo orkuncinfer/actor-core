@@ -16,8 +16,7 @@ MonoBehaviour:
   _description: 
   _maxLevel: 20
   _icon: {fileID: 0}
-  _gameplayEffectDefinitions:
-  - {fileID: 11400000, guid: 9334a32c82374604bb1d4499b73d854d, type: 2}
+  _gameplayEffectDefinitions: []
   _isBasicAttack: 0
   _abilityLayer: 0
   _overrideAnimSpeed: 0
