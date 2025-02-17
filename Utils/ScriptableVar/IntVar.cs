@@ -46,14 +46,14 @@ public class IntVar : ScriptableVar
     public override void SaveVariable()
     {
         base.SaveVariable();
-        ES3.Save(name, Value);
+        //ES3.Save(name, Value);
     }
     [Button]
     public override void LoadVariable()
     {
         base.LoadVariable();
         if(IsLoaded) return;
-        Value = ES3.Load(name, Value);
+        //Value = ES3.Load(name, Value);
         IsLoaded = true;
     }
 }

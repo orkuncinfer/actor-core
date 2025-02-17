@@ -22,7 +22,7 @@ public class ScriptableObjectCollectionEditor<T> : VisualElement where T : Scrip
         public ScriptableObjectCollectionEditor()
         {
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/Plugins/actor-core/_StatSystem/StatSystem/Editor/ScriptableObjectCollectionEditor.uxml");
+                "Assets/Plugins/actor-core/GAS/_StatSystem/StatSystem/Editor/ScriptableObjectCollectionEditor.uxml");
             visualTree.CloneTree(this);
 
             m_Inspector = this.Q<StatDataBaseInspector>();

@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class TestContainer : MonoBehaviour
 {
-    [ExposedField("Health")]public int Health;
+   public int Health;
     public GenericKey gk;
     public GameplayTag gt;
     

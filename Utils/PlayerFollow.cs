@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerFollow : MonoBehaviour

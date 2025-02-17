@@ -89,11 +89,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
         return socketTransform;
     }
 
-    public GameObject GetEquippedInstance()
-    {
-        DS_EquipmentUser equipmentUser = GetData<DS_EquipmentUser>();
-        return equipmentUser.EquipmentInstance;
-    }
+
 
     protected virtual void OnActorStart()
     {

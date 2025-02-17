@@ -62,9 +62,9 @@ public class StatDataBaseEditorWindow : EditorWindow
         
         VisualElement root = rootVisualElement;
         
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Plugins/actor-core/_StatSystem/StatSystem/Editor/StatDataBaseEditorWindow.uxml");
+        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Plugins/actor-core/GAS/_StatSystem/StatSystem/Editor/StatDataBaseEditorWindow.uxml");
         visualTree.CloneTree(root);
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/actor-core/_StatSystem/StatSystem/Editor/StatDataBaseEditorWindow.uss");
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/actor-core/GAS/_StatSystem/StatSystem/Editor/StatDataBaseEditorWindow.uss");
         root.styleSheets.Add(styleSheet);
         
         StatCollectionEditor stats = root.Q<StatCollectionEditor>("stats");

@@ -1,4 +1,3 @@
-using AudioSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
@@ -34,7 +33,7 @@ public class FancyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         currentSequence = DOTween.Sequence();
         currentSequence.Append(transform.DOScale(scaleDownValue, animationDuration).SetEase(Ease.OutBounce));
         currentSequence.Play();
-        SoundManager.Instance.CreateSoundBuilder().Play(SoundManager.Instance.Container.ButtonDown);
+        //SoundManager.Instance.CreateSoundBuilder().Play(SoundManager.Instance.Container.ButtonDown);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -49,7 +48,7 @@ public class FancyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         currentSequence = DOTween.Sequence();
         currentSequence.Append(transform.DOScale(originalScale, animationDuration).SetEase(Ease.OutBounce));
         currentSequence.Play();
-        SoundManager.Instance.CreateSoundBuilder().Play(SoundManager.Instance.Container.ButtonUp);
+       // SoundManager.Instance.CreateSoundBuilder().Play(SoundManager.Instance.Container.ButtonUp);
     }
 
     public void OnPointerClick(PointerEventData eventData)
