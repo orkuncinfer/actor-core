@@ -22,7 +22,7 @@ MonoBehaviour:
     Bones: 01000000030000000400000002000000
   - Damage: 50
     Bones: 080000000000000007000000
-  - Damage: 35
+  - Damage: 30
     Bones: 0d0000000f0000000e00000010000000
   damage: 100
   magazineSize: 30

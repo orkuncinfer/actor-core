@@ -48,7 +48,7 @@ public class GunData : ScriptableObject {
     ModifiableAttribute<int> stunChance; public ModifiableAttribute<int> StunChance => stunChance;
     
     void OnEnable(){
-        damageMultiplier = new ModifiableAttribute<float>(1f);
+        damageMultiplier = new ModifiableAttribute<float>(1f);// making instance of it so it can be modified later on
         magazineSizeMultiplier = new ModifiableAttribute<float>(1f);
         reloadTimeMultiplier = new ModifiableAttribute<float>(1f);
         roundsPerMinuteMultiplier = new ModifiableAttribute<float>(1f);
@@ -57,22 +57,6 @@ public class GunData : ScriptableObject {
         critChance = new ModifiableAttribute<int>(baseCritChance);
         critMultiplier = new ModifiableAttribute<float>(baseCritMultiplier);
         stunChance = new ModifiableAttribute<int>(baseStunChance);
-    }
-
-    /**
-     * used to initialise new GunData assets created within the gun creator tool
-     */
-    public void InitialiseGunData(FireMode fireMode, ItemDefinition ammoItemDefinition, GameObject projectilePrefab, int damage, int magazineSize, int roundsPerMinute, float baseSpreadRadius, int baseCritChance, float baseCritMultiplier, int baseStunChance){
-        this.fireMode = fireMode;
-        this._ammoItemDefinition = ammoItemDefinition;
-        this.projectilePrefab = projectilePrefab;
-        this.damage = damage;
-        this.magazineSize = magazineSize;
-        this.roundsPerMinute = roundsPerMinute;
-        this.baseSpreadRadius = baseSpreadRadius;
-        this.baseCritChance = baseCritChance;
-        this.baseCritMultiplier = baseCritMultiplier;
-        this.baseStunChance = baseStunChance;
     }
 
     public int GetBoneMappedDamage(HumanBodyBones hitbone)

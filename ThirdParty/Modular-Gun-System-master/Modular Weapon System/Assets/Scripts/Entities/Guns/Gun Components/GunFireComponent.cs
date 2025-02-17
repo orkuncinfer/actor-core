@@ -88,25 +88,40 @@ public class GunFireComponent : GunComponent
 
     Vector3 GetProjectileDir(float spreadRadius, float maxDistance)
     {
-        RaycastHit[] _hits = new RaycastHit[5]; // Allocate a small buffer to reduce allocations
+        RaycastHit[] _hits = new RaycastHit[5]; // Small buffer to avoid GC
         Vector3 spreadDeviation = Random.insideUnitCircle * spreadRadius;
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, cam.nearClipPlane) + (spreadDeviation / maxDistance));
 
         int hitCount = Physics.RaycastNonAlloc(ray, _hits, maxDistance, LayerMask, QueryTriggerInteraction.Collide);
-    
+
         if (hitCount > 0)
         {
+            RaycastHit closestHit = default;
+            bool foundValidHit = false;
+            float minDistance = float.MaxValue;
+
             for (int i = 0; i < hitCount; i++)
             {
                 if (((1 << _hits[i].collider.gameObject.layer) & LayerMask) != 0) // Check if hit is in the LayerMask
                 {
-                    Debug.Log($"Collided layer: {LayerMask.LayerToName(_hits[i].collider.gameObject.layer)}");
-                    return _hits[i].point;
+                    if (_hits[i].distance < minDistance)
+                    {
+                        minDistance = _hits[i].distance;
+                        closestHit = _hits[i];
+                        foundValidHit = true;
+                    }
                 }
+            }
+
+            if (foundValidHit)
+            {
+                Debug.Log($"Collided layer: {LayerMask.LayerToName(closestHit.collider.gameObject.layer)}");
+                return closestHit.point;
             }
         }
 
         return ray.GetPoint(maxDistance);
     }
+
 
 }

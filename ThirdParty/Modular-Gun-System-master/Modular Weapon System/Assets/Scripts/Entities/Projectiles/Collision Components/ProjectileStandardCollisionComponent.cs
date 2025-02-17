@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ public class ProjectileStandardCollisionComponent : ProjectileCollisionComponent
     int collisionCount = 0;
     
     void OnCollisionEnter(Collision collision){
+        
+        if(collisionCount == maxCollisions) return;
+        Debug.Log("collision enter projectile");
         if (canBounce && CheckIfGroundCollision(collision)) return; // if can bounce and hit the ground, no action needed
 
         if (hasEffect){
