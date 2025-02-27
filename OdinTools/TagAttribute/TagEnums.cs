@@ -11,4 +11,5 @@ public enum TagEnum
     Ability_Shoot,
     Ability_Reload,
     LocomotionUpper,
+    Ability_DropEquipment,
 }

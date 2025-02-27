@@ -132,6 +132,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasEffect: 0
   effect: {fileID: 0}
+  _hitEvent:
+    _addressType: 0
+    _eventKey: {fileID: 11400000, guid: 7096e34f9b6a781448bdfe19959b2788, type: 2}
 --- !u!1 &3657273626274544519
 GameObject:
   m_ObjectHideFlags: 0

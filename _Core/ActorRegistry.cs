@@ -7,6 +7,7 @@ public static class ActorRegistry
 
     public static void RegisterActor(Actor actor)
     {
+        if(Actors.Contains(actor)) return;
         Actors.Add(actor);
 
         if (actor.ContainsTag("Player"))

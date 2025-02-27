@@ -38,11 +38,20 @@ public class CanvasLayer : MonoBehaviour
       
     }
 
-    public GameObject ShowPanel(string panelId)
+    public GameObject ShowPanel(string panelId,bool startUnshown = false)
     {
+        Debug.Log("ShowPanel request : " + panelId + " instance count " + _instanceList.Count);
         if (_currentPanel != null)
         {
             if(panelId == _currentPanel.PanelId) return _currentPanel.gameObject;
+        }
+        
+        PanelActor samePanel = _instanceList.FirstOrDefault(panel => panel.PanelId == panelId);
+        if (samePanel != null)
+        {
+            samePanel.OpenPanel();
+            _currentPanel = samePanel;
+            return samePanel.gameObject;
         }
         
         _lastTriedShowPanelId = panelId;
@@ -54,11 +63,6 @@ public class CanvasLayer : MonoBehaviour
             _instanceList[_instanceList.Count - 1].onHideCompleted += OnLastHideCompleted;
             HideLastPanel();
             return null;
-        }
-
-        if (_instanceList.Count > 0)
-        {
-            if (_instanceList[_instanceList.Count - 1].PanelId == panelId) return _instanceList[_instanceList.Count - 1].gameObject;
         }
 
         if (panelModel != null)
@@ -77,8 +81,12 @@ public class CanvasLayer : MonoBehaviour
             {
                 panelActor.StartIfNot();
             }
-            instanceView.OpenPanel();
-            _currentPanel = instanceView;
+
+            if (!startUnshown)
+            {
+                instanceView.OpenPanel();
+                _currentPanel = instanceView;
+            }
             return newPanelInstance;
         }
         else
@@ -117,7 +125,12 @@ public class CanvasLayer : MonoBehaviour
     
     public PanelActor GetPanelInstance(string panelId)
     {
-        return _instanceList.FirstOrDefault(panel => panel.PanelId == panelId);
+        PanelActor panelActor = _instanceList.FirstOrDefault(panel => panel.PanelId == panelId);
+        if (panelActor == null)
+        {
+            panelActor = ShowPanel(panelId, true).GetComponent<PanelActor>();
+        }
+        return panelActor;
     }
 
 

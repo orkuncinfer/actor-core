@@ -75,7 +75,6 @@ public class GameplayTagContainerPropertyDrawer : PropertyDrawer
             //open gameplaytagtree window here
             GameplayTagTree treeWindow = new GameplayTagTree(tag =>
             {
-               Debug.Log($"Callback received: {tag}");
                AddTagToProperty(explicitTagsProperty, tag);
             });
             treeWindow.ContainerProperty = explicitTagsProperty;

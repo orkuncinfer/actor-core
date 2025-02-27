@@ -10,11 +10,8 @@ public abstract class DataManifest : MonoBehaviour
 {
     [ReadOnly] public Actor Actor;
     private Data[] _installData;
-    
-    protected virtual Data[] InstallData()
-    {
-        return Array.Empty<Data>();
-    }
+
+    protected abstract Data[] InstallData();
 
     private void OnDestroy()
     {

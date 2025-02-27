@@ -7,7 +7,7 @@ using UnityEngine;
 public class GameplayTagContainer 
 {
     [SerializeField]
-    private List<string> _tagHashes;
+    private List<string> _tagHashes = new List<string>();
 
     public event Action OnTagChanged;
     public int TagCount => _tagHashes.Count;

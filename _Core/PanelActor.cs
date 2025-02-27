@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,21 +19,33 @@ public class PanelActor : ActorBase
     
     public UnityEvent onShowComplete;
     public UnityEvent onHideComplete;
+
+    [Tooltip("Set this if you want this panel to be parented on show")]
+    public string ParentPanelKey;
     
-    [BoxGroup("PanelSettings")]public bool FadeOutOnHide = true;
-    [BoxGroup("PanelSettings")]public bool FadeInOnShow = true;
+    [SerializeField][HideInEditorMode]
+    private List<PanelActor> _childPanels = new List<PanelActor>();
 
     public Canvas OwnerCanvas
     {
         get;
         set;
     }
-    
 
     protected override void OnActorStart()
     {
         base.OnActorStart();
         if(_viewTransform)_viewTransform.gameObject.SetActive(false);
+
+        foreach (var childPanel in _childPanels)
+        {
+            childPanel.StartIfNot();
+        }
+        
+        if (string.IsNullOrEmpty(ParentPanelKey) == false)
+        {
+            CanvasManager.Instance.SetParent(this,ParentPanelKey);
+        }
     }
 
     public void OpenPanel()
@@ -43,6 +56,12 @@ public class PanelActor : ActorBase
         {
             _openedState.CheckoutEnter(this);
         }
+
+        foreach (var childPanel in _childPanels)
+        {
+            childPanel.OpenPanel();
+        }
+        
         onShowCompleted?.Invoke(this);
         onShowComplete?.Invoke();
     }
@@ -55,6 +74,11 @@ public class PanelActor : ActorBase
         if (_openedState)
         {
             _openedState.CheckoutExit();
+        }
+        
+        foreach (var childPanel in _childPanels)
+        {
+            childPanel.ClosePanel();
         }
         
         PoolManager.ReleaseObject(this.gameObject,false);
@@ -70,7 +94,20 @@ public class PanelActor : ActorBase
                 _openedState.CheckoutExit();
             }
         }
-
+        
+        foreach (var childPanel in _childPanels)
+        {
+            childPanel.StopIfNot();
+        }
         PoolManager.ReleaseObject(gameObject);
+    }
+
+    public void SetParentOf(PanelActor panelActor)
+    {
+        if (_childPanels.Contains(panelActor) == false)
+        {
+            _childPanels.Add(panelActor);
+            panelActor.transform.SetParent(transform,false);
+        }
     }
 }

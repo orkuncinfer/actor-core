@@ -75,11 +75,11 @@ public class Data :  IData
         if(OwnerActor)OwnerActor.onActorStarted += OnActorStarted;
     }
 
-    public virtual void OnActorStarted()
+    protected virtual void OnActorStarted()
     {
     }
 
-    public virtual void OnActorStopped()
+    protected virtual void OnActorStopped()
     {
     }
     public virtual void SetValue<T>(string name, T value)

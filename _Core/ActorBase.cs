@@ -76,6 +76,8 @@ public class ActorBase : MonoBehaviour, ITagContainer
     public event Action<ITagContainer, string> onTagAdded;
     public event Action<ITagContainer, string> onTagRemoved;
     public event Action<ITagContainer, string> onTagsChanged;
+    
+    public event Action<ActorBase> requestRemoveEvents;
 
     protected ActorBase ParentActor;
 

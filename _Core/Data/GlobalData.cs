@@ -1,42 +1,36 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 public static class GlobalData
 {
-    private static Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
-    private static HashSet<string> _installedDataKeys = new HashSet<string>();
+    private static readonly Dictionary<string, Data> _datasets = new Dictionary<string, Data>();
 
-    public static event Action<Data> OnDataInstalled; 
+    public static event Action<Data> OnDataInstalled;
 
     public static void LoadData<T>(string key, T data) where T : Data
     {
         string dataKey = GetDataKey(data.GetType(), key);
 
-        if (_datasets.ContainsKey(dataKey))
-        {
-            _datasets[dataKey] = data;
-        }
-        else
-        {
-            _datasets.Add(dataKey, data);
-        }
-        
+        _datasets[dataKey] = data; // Direct assignment avoids redundant ContainsKey check
+
         data.OnInstalled();
-        _installedDataKeys.Add(dataKey);
         OnDataInstalled?.Invoke(data);
+        
         GlobalDataDisplayer.Instance.FetchData(_datasets);
-        Debug.Log($"GlobalData: Loaded data with key : {dataKey}");
+
+        Debug.Log($"GlobalData: Loaded data with key: {dataKey}");
     }
 
     public static T GetData<T>(string key = "") where T : Data
     {
         string dataKey = GetDataKey(typeof(T), key);
-
-        if (_datasets.ContainsKey(dataKey))
+        
+        if (_datasets.TryGetValue(dataKey, out Data foundData))
         {
-            _datasets[dataKey].OnFirstTimeGet();
-            return (T)_datasets[dataKey];
+            foundData.OnFirstTimeGet();
+            return (T)foundData;
         }
 
         Debug.LogError($"Data of type '{typeof(T)}' not found! searched with key '{key}'");
@@ -45,9 +39,11 @@ public static class GlobalData
     
     public static bool TryGetData<T>(string key, out T data) where T : Data
     {
-        if (_datasets.ContainsKey(key + typeof(T).ToString()))
+        string dataKey = GetDataKey(typeof(T), key);
+
+        if (_datasets.TryGetValue(dataKey, out Data foundData))
         {
-            data = (T) _datasets[key + typeof(T).ToString()];
+            data = (T)foundData;
             return true;
         }
 
@@ -57,22 +53,30 @@ public static class GlobalData
 
     public static void SubscribeToDataInstalled(Action<Data> callback, string key, Type dataType)
     {
+        if (callback == null) return;
+        
         OnDataInstalled += callback;
-        string dataKey = GetDataKey(dataType, key);
 
-        if (_installedDataKeys.Contains(dataKey))
+        string dataKey = GetDataKey(dataType, key);
+        
+        if (_datasets.TryGetValue(dataKey, out Data existingData))
         {
-            callback?.Invoke(_datasets[dataKey]);
+            callback?.Invoke(existingData);
         }
     }
 
+    private static readonly StringBuilder _sb = new StringBuilder();
+
     private static string GetDataKey(Type dataType, string key)
     {
-        string dataKey = dataType.ToString();
+        _sb.Clear();
+        _sb.Append(dataType.ToString());
+
         if (!string.IsNullOrEmpty(key))
         {
-            dataKey += ":" + key;
+            _sb.Append(':').Append(key);
         }
-        return dataKey;
+
+        return _sb.ToString();
     }
 }

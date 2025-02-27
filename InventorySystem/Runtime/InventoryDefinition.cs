@@ -77,24 +77,29 @@ public class InventoryDefinition : MonoBehaviour
             if (itemPack.ItemDefinition != null)
             {
                 Debug.Log("added item " + itemPack.ItemDefinition.ItemName + " to inventory");
-                AddItem(itemPack.ItemDefinition, itemPack.Count);
+                ItemData itemData = new ItemData
+                {
+                   ItemID = itemPack.ItemDefinition.ItemID,
+                };
+                AddItem(itemPack.ItemDefinition, itemPack.Count,itemData);
             }
         }
         _database = FirebaseDatabase.GetInstance("https://templateproject-174cf-default-rtdb.europe-west1.firebasedatabase.app/");
         _firestore = FirebaseFirestore.DefaultInstance;
     }
     [Button]
-    public int AddItem(ItemDefinition itemDefinition, int count)
+    public int AddItem(ItemDefinition itemDefinition, int count, ItemData itemData = null)
     {
         int totalAdded = 0;
 
         for (int i = 0; i < InventoryData.InventorySlots.Count; i++)
         {
-            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ItemId && InventoryData.InventorySlots[i].ItemCount < itemDefinition.MaxStack)// If the item already exissts and there is space in the slot
+            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ItemId && InventoryData.InventorySlots[i].ItemCount < itemDefinition.MaxStack
+                && itemDefinition.IsStackable)// If the item already exissts and there is space in the slot
             {
                 int spaceAvailable = itemDefinition.MaxStack - InventoryData.InventorySlots[i].ItemCount;
                 int toAdd = Math.Min(spaceAvailable, count);
-                DefineItemToSlot(itemDefinition, toAdd, InventoryData.InventorySlots[i]);
+                AddItemToSlot(itemDefinition, toAdd, InventoryData.InventorySlots[i],itemData);
                 totalAdded += toAdd;
                 count -= toAdd;
 
@@ -115,14 +120,19 @@ public class InventoryDefinition : MonoBehaviour
                         break;
                     }
                 }
-                if(!containsAny && InventoryData.InventorySlots[i].AllowedTags.TagCount > 0) continue;
+                
+                if (!containsAny && InventoryData.InventorySlots[i].AllowedTags.TagCount > 0)
+                {
+                    Debug.Log("Couldn't add item because no suitable tag slot " + itemDefinition.name);
+                    continue;
+                }
                 
                 if (InventoryData.InventorySlots[i].ItemID.IsNullOrWhitespace())
                 {
                     int spaceAvailable = itemDefinition.MaxStack;
-                    if (itemDefinition.MaxStack == 0) spaceAvailable = 1;
+                    if (itemDefinition.MaxStack == 0 || !itemDefinition.IsStackable) spaceAvailable = 1;
                     int toAdd = Math.Min(spaceAvailable, count);
-                    DefineItemToSlot(itemDefinition, toAdd, InventoryData.InventorySlots[i]);
+                    AddItemToSlot(itemDefinition, toAdd, InventoryData.InventorySlots[i],itemData);
                     totalAdded += toAdd;
                     count -= toAdd;
                 }
@@ -135,6 +145,31 @@ public class InventoryDefinition : MonoBehaviour
         }
 
         return totalAdded;
+    }
+
+    public bool ReplaceItem(ItemDefinition itemDefinition,int count,ItemData itemData)
+    {
+        for (int i = 0; i < InventoryData.InventorySlots.Count && count > 0; i++)
+        {
+            bool containsAny = false;
+            foreach (var gameplayTag in itemDefinition.ItemTags.GetTags())
+            {
+                if(InventoryData.InventorySlots[i].AllowedTags.HasTag(gameplayTag))
+                {
+                    containsAny = true;
+                    break;
+                }
+            }
+                
+            if (!containsAny && InventoryData.InventorySlots[i].AllowedTags.TagCount > 0)
+            {
+                Debug.Log("Couldn't add item because no suitable tag slot " + itemDefinition.name);
+                continue;
+            }
+            DefineItemToSlot(itemDefinition,count, InventoryData.InventorySlots[i],itemData);
+            return true;
+        }
+        return false;
     }
 
 
@@ -156,6 +191,59 @@ public class InventoryDefinition : MonoBehaviour
         }
 
         return true;
+    }
+
+    public bool ContainsItemAny(ItemDefinition itemDefinition, out int slotIndex)
+    {
+        for (int i = 0; i < InventoryData.InventorySlots.Count; i++)
+        {
+            if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ItemId)// If the item already exissts and there is space in the slot
+            {
+                slotIndex = i;
+                return true;
+            }
+        }
+
+        slotIndex = -1;
+        return false;
+    }
+
+    public bool HaveSpace(ItemDefinition itemDefinition, int count, out int slotIndex)
+    {
+        if (itemDefinition.IsStackable)
+        {
+            for (int i = 0; i < InventoryData.InventorySlots.Count; i++)
+            {
+                if (InventoryData.InventorySlots[i].ItemID == itemDefinition.ItemId && InventoryData.InventorySlots[i].ItemCount < itemDefinition.MaxStack)// If the item already exissts and there is space in the slot
+                {
+                    slotIndex = i;
+                    return true;
+                }
+            }
+        }
+        
+        for (int i = 0; i < InventoryData.InventorySlots.Count && count > 0; i++)// search for empty and allowed tagged slot.
+        {
+            bool containsAny = false;
+            foreach (var gameplayTag in itemDefinition.ItemTags.GetTags())
+            {
+                if(InventoryData.InventorySlots[i].AllowedTags.HasTag(gameplayTag))
+                {
+                    containsAny = true;
+                    break;
+                }
+            }
+            if(!containsAny && InventoryData.InventorySlots[i].AllowedTags.TagCount > 0) continue;
+                
+            if (InventoryData.InventorySlots[i].ItemID.IsNullOrWhitespace()) // have empty slot
+            {
+                slotIndex = i;
+                return true;
+            }
+        }
+
+        slotIndex = -1;
+        return false;
     }
     public int GetItemCount(ItemDefinition itemDefinition)
     {
@@ -214,7 +302,7 @@ public class InventoryDefinition : MonoBehaviour
     }
     public void SwapOrMergeItems(int index1, int index2)
     {
-        if (InventoryData.InventorySlots[index1].ItemID == InventoryData.InventorySlots[index2].ItemID)
+        if (InventoryData.InventorySlots[index1].ItemID == InventoryData.InventorySlots[index2].ItemID) // merge
         {
             ItemDefinition itemDefinition = InventoryUtils.FindItemWithId(InventoryData.InventorySlots[index1].ItemID);
             if (itemDefinition.IsStackable)
@@ -245,17 +333,25 @@ public class InventoryDefinition : MonoBehaviour
     
     void ResetItemData(ItemData itemData)
     {
-        itemData.ItemID = "";
-        itemData.Name = "";
-        itemData.UpgradeLevel = 0;
-        itemData.Attributes = new ItemAttribute[0];
         onInventoryChanged?.Invoke();
     }
-    private void DefineItemToSlot(ItemDefinition itemDefinition, int count, InventorySlot slot)
+    private void AddItemToSlot(ItemDefinition itemDefinition, int count, InventorySlot slot, ItemData itemData = null)
     {
         Debug.Log("Adding " + count + " " + itemDefinition.ItemName + " to slot " + slot);
         slot.ItemCount += count;
         slot.ItemID = itemDefinition.ItemId;
+        if (itemData != null) slot.ItemData = itemData;
+        //slot.ItemData.Name = itemDefinition.ItemName;
+        //TODO: security validation here
+        SaveDataFirestore();
+        onInventoryChanged?.Invoke();
+    }
+    private void DefineItemToSlot(ItemDefinition itemDefinition, int count, InventorySlot slot, ItemData itemData = null)
+    {
+        Debug.Log("Adding " + count + " " + itemDefinition.ItemName + " to slot " + slot);
+        slot.ItemCount = count;
+        slot.ItemID = itemDefinition.ItemId;
+        if (itemData != null) slot.ItemData = itemData;
         //slot.ItemData.Name = itemDefinition.ItemName;
         //TODO: security validation here
         SaveDataFirestore();

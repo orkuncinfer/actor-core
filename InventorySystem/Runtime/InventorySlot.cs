@@ -1,38 +1,31 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Firebase.Firestore;
 using JetBrains.Annotations;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-[FirestoreData][Serializable]
+[FirestoreData]
+[Serializable]
 public class InventorySlot
 {
-    /*[SerializeField]
-    private ItemData _itemData;
-    [FirestoreProperty]
-    public ItemData ItemData
-    {
-        get => _itemData;
-        set => _itemData = value;
-    }*/
-    [ES3NonSerializable]
-    [SerializeField] private GameplayTagContainer _allowedTags;
+    [ES3NonSerializable] [SerializeField] private GameplayTagContainer _allowedTags = new GameplayTagContainer();
+
     public GameplayTagContainer AllowedTags
     {
         get => _allowedTags;
         set => _allowedTags = value;
     }
     
-    [SerializeField]
-    private string _itemID;
-    [FirestoreProperty]
     public string ItemID
     {
-        get => _itemID;
-        set => _itemID = value;
+        get => _itemData.ItemID;
+        set => _itemData.ItemID = value;
     }
-    [SerializeField]
-    private int _itemCount;
+
+    [SerializeField] private int _itemCount;
+
     [FirestoreProperty]
     public int ItemCount
     {
@@ -40,7 +33,26 @@ public class InventorySlot
         set => _itemCount = value;
     }
 
-    
+
+    [SerializeField] private ItemData _itemData;
+
+    [FirestoreProperty]
+    public ItemData ItemData
+    {
+        get => _itemData;
+        set
+        {
+            if (_itemData != value)
+            {
+                ItemData oldValue = _itemData;
+                _itemData = value;
+                onItemDataChanged?.Invoke(oldValue,value);
+            }
+        }
+    }
+
+    public event Action<ItemData, ItemData> onItemDataChanged; 
+
     public InventorySlot()
     {
         //ItemData = new ItemData();

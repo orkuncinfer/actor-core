@@ -22,6 +22,9 @@ public class GunFireComponent : GunComponent
     [Header("Fire Delegates")]
     public OnGunAction onFire;
 
+    private Ability _ability;
+    private Gun _gun;
+
     protected override void Start(){
         base.Start();
         
@@ -33,7 +36,8 @@ public class GunFireComponent : GunComponent
         if (cooldown.IsCooldown) return;
 
         cooldown.StartCooldownTimer(60 / (gunData.RoundsPerMinute * gunData.RoundsPerMinuteMultiplier.Value));
-
+        _ability = ability;
+        _gun = gun;
         Vector3 muzzlePosition = gun.GunMuzzlePosition.transform.position;
         DbgDraw.WireSphere(muzzlePosition, Quaternion.identity,Vector3.one * 0.1f, Color.red, 0.1f);
         GameObject projectile = Instantiate(gunData.ProjectilePrefab, muzzlePosition, Quaternion.identity);
@@ -88,9 +92,21 @@ public class GunFireComponent : GunComponent
 
     Vector3 GetProjectileDir(float spreadRadius, float maxDistance)
     {
+        Data_Combatable combatable = _ability.Owner.GetData<Data_Combatable>();
         RaycastHit[] _hits = new RaycastHit[5]; // Small buffer to avoid GC
         Vector3 spreadDeviation = Random.insideUnitCircle * spreadRadius;
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, cam.nearClipPlane) + (spreadDeviation / maxDistance));
+        Vector3 origin = cam.transform.position;
+        // Adjusting spread deviation based on distance
+        Vector3 finalDirection = (cam.transform.forward + (spreadDeviation / maxDistance)).normalized;
+
+        if (combatable.ShootRayFromCamera == false)
+        {
+            origin = _gun.GunMuzzlePosition.transform.position;
+            finalDirection = _gun.GunMuzzlePosition.transform.forward;
+        }
+
+        // Create the ray manually
+        Ray ray = new Ray(origin, finalDirection);
 
         int hitCount = Physics.RaycastNonAlloc(ray, _hits, maxDistance, LayerMask, QueryTriggerInteraction.Collide);
 
@@ -115,7 +131,7 @@ public class GunFireComponent : GunComponent
 
             if (foundValidHit)
             {
-                Debug.Log($"Collided layer: {LayerMask.LayerToName(closestHit.collider.gameObject.layer)}");
+                Debug.Log($"Collided layer: {LayerMask.LayerToName(closestHit.collider.gameObject.layer)} collider name {closestHit.collider.name}");
                 return closestHit.point;
             }
         }

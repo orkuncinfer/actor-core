@@ -5,6 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public struct EventArgs
 {
-    public Actor Sender;
+    public ActorBase Sender;
     public string EventName;
 }

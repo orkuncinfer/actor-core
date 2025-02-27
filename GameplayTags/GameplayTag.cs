@@ -51,12 +51,10 @@ public struct GameplayTag
 #if UNITY_EDITOR
     public void Fetch(GameplayTagsAsset tagsAsset)//not called in runtime
     {
-        Debug.Log("fetchingtag" + fullTag +"hascode :" + hashCode);
         foreach (GameplayTagInfo tagFetcher in tagsAsset.TagsCache)
         {
             if (tagFetcher.HashCode == hashCode)
             {
-                DDebug.Log("fetchedtag" + fullTag +"hascode :" + hashCode);
                 fullTag = tagFetcher.Tag;
                 ParseTagHierarchy();
                 return;

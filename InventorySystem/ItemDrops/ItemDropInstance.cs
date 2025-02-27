@@ -5,15 +5,20 @@ using NetworkShared.Packets.ServerClient;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class ItemDropInstance : MonoBehaviour
+public class ItemDropInstance : Collectible
 {
     public ItemDefinition ItemDefinition;
     public InventoryDefinition InventoryDefinition;
     public GenericKey InventoryKey;
     public int DropCount;
     public WorldItemLabel LabelInstance;
+
+    [SerializeField] private bool _isEquippable; 
+    [ShowIf("_isEquippable")]public GenericKey EquipmentInventoryKey;
     
     [ShowInInspector]public FbGeneratedItemResult GeneratedItemResult;
+
+    private ItemData _itemData;
 
     public void OnMovementEnd()
     {
@@ -22,25 +27,23 @@ public class ItemDropInstance : MonoBehaviour
 
     private void OnEnable()
     {
-        if(ItemDefinition.WorldPrefab)
-            Instantiate(ItemDefinition.WorldPrefab, transform.position, Quaternion.identity);
+        /*if(ItemDefinition.WorldPrefab)
+            Instantiate(ItemDefinition.WorldPrefab, transform.position, Quaternion.identity);*/
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.transform.TryGetComponent(out Actor actor))
-        {
-            if(!actor.ContainsTag("Player")) return;
-        }
-    }
+    
     [Button]
-    public void Collect()
+    public override void Collect()
     {
         InventoryDefinition collectInventory = null;
-        if(ItemDefinition) collectInventory = InventoryDefinition;
+        
+        if(InventoryDefinition) collectInventory = InventoryDefinition;
         if (InventoryKey) collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(InventoryKey.ID);
-      
-        int added = collectInventory.AddItem(ItemDefinition, DropCount);
+        ItemData newItemData = new ItemData
+        {
+            ItemID = ItemDefinition.ItemID,
+            UniqueID = "dropped"
+        };
+        int added = collectInventory.AddItem(ItemDefinition, DropCount,newItemData);
         if (added > 0)
         {
             DropCount -= added;
@@ -49,6 +52,32 @@ public class ItemDropInstance : MonoBehaviour
                 if(LabelInstance)ItemDropManager.Instance.PickedUp(LabelInstance);
                 PoolManager.ReleaseObject(this.gameObject);
             }
+        }
+    }
+
+    public override bool IsEquippable()
+    {
+        return _isEquippable;
+    }
+
+    public override void Equip()
+    {
+        InventoryDefinition collectInventory = null;
+        if (_isEquippable)
+        {
+            collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(EquipmentInventoryKey.ID);
+            ItemData newItemData = new ItemData
+            {
+                ItemID = ItemDefinition.ItemID,
+                UniqueID = "dropped"
+            };
+            if (collectInventory.ReplaceItem(ItemDefinition, DropCount, newItemData))
+            {
+                if(LabelInstance)ItemDropManager.Instance.PickedUp(LabelInstance);
+                PoolManager.ReleaseObject(this.gameObject);
+                return;
+            }
+            Debug.LogError("Couldn't equip");
         }
     }
 }

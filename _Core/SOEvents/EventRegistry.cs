@@ -5,6 +5,9 @@ using UnityEngine;
 
 public static class EventRegistry
 {
+    private static readonly Dictionary<ActorBase, Dictionary<string,Action<EventArgs>>> _eventDictionary 
+        = new Dictionary<ActorBase, Dictionary<string,Action<EventArgs>>>();
+    
     private static readonly Dictionary<string, Action<EventArgs>> _globalEventDictionary =
         new Dictionary<string, Action<EventArgs>>();
 
@@ -41,18 +44,70 @@ public static class EventRegistry
         if (!ContainsEvent(key)) return;
         _globalEventDictionary[key]?.Invoke(new EventArgs(){Sender = null,EventName = key});
     }
-
-  
     
     public static bool ContainsEvent(string key)
     {
         if (!_globalEventDictionary.ContainsKey(key)) return false;
         return true;
     }
+
+    #region ContextEvent
+    public static Action<EventArgs> Register(ActorBase main, string key,Action<EventArgs> action)
+    {
+        if(!ContainsEvent(main,key)) Install(main,key);
+        _eventDictionary[main][key] += action;
+        return _eventDictionary[main][key];
+    }
+
+    public static Action<EventArgs> Unregister(ActorBase main, string key,Action<EventArgs> action)
+    {
+        if(!ContainsEvent(main,key)) return null;
+        _eventDictionary[main][key] -= action;
+        return _eventDictionary[main][key];
+    }
+
+    public static void Raise(ActorBase main, string key)
+    {
+        if (!ContainsEvent(main,key)) return;
+        _eventDictionary[main][key]?.Invoke(new EventArgs(){Sender = main,EventName = key});
+    }
+    
+    public static bool ContainsEvent(ActorBase main, string key)
+    {
+        if (!_eventDictionary.ContainsKey(main)) return false;
+        if (!_eventDictionary[main].ContainsKey(key)) return false;
+        return true;
+    }
+    
+    public static void Install(ActorBase main, string key)
+    {
+        if (_eventDictionary.ContainsKey(main))
+        {
+            if (_eventDictionary[main].ContainsKey(key)) return;
+        
+            _eventDictionary[main].Add(key,null);
+        }
+        else
+        {
+            _eventDictionary.Add(main,new Dictionary<string, Action<EventArgs>>(){{key,null}});
+            main.requestRemoveEvents += OnRequestRemoveData;
+        }
+    }
+    private static void OnRequestRemoveData(ActorBase obj)
+    {
+        _eventDictionary[obj] = null;
+        _eventDictionary.Remove(obj);
+        obj.requestRemoveEvents -= OnRequestRemoveData;
+    }
+    
+    #endregion
 }
 
 public static class EventRegistry<TArg1>
 {
+    private static readonly Dictionary<ActorBase, Dictionary<string,Action<EventArgs,TArg1>>> _eventDictionary 
+        = new Dictionary<ActorBase, Dictionary<string,Action<EventArgs, TArg1>>>();
+    
     private static readonly Dictionary<string, Action<EventArgs, TArg1>> _globalEventDictionary =
         new Dictionary<string, Action<EventArgs,TArg1>>();
 
@@ -89,13 +144,62 @@ public static class EventRegistry<TArg1>
         if (!ContainsEvent(key)) return;
         _globalEventDictionary[key]?.Invoke(new EventArgs(){Sender = null,EventName = key},arg1);
     }
-
-  
     
     public static bool ContainsEvent(string key)
     {
         if (!_globalEventDictionary.ContainsKey(key)) return false;
         return true;
     }
+    
+    #region ContextEvent
+    public static Action<EventArgs,TArg1> Register(ActorBase main, string key,Action<EventArgs,TArg1> action)
+    {
+        if(!ContainsEvent(main,key)) Install(main,key);
+        _eventDictionary[main][key] += action;
+        return _eventDictionary[main][key];
+    }
+
+    public static Action<EventArgs,TArg1> Unregister(ActorBase main, string key,Action<EventArgs,TArg1> action)
+    {
+        if(!ContainsEvent(main,key)) return null;
+        _eventDictionary[main][key] -= action;
+        return _eventDictionary[main][key];
+    }
+
+    public static void Raise(ActorBase main, string key, TArg1 arg1)
+    {
+        if (!ContainsEvent(main,key)) return;
+        _eventDictionary[main][key]?.Invoke(new EventArgs(){Sender = main,EventName = key},arg1);
+    }
+    
+    public static bool ContainsEvent(ActorBase main, string key)
+    {
+        if (!_eventDictionary.ContainsKey(main)) return false;
+        if (!_eventDictionary[main].ContainsKey(key)) return false;
+        return true;
+    }
+    
+    public static void Install(ActorBase main, string key)
+    {
+        if (_eventDictionary.ContainsKey(main))
+        {
+            if (_eventDictionary[main].ContainsKey(key)) return;
+        
+            _eventDictionary[main].Add(key,null);
+        }
+        else
+        {
+            _eventDictionary.Add(main,new Dictionary<string, Action<EventArgs,TArg1>>(){{key,null}});
+            main.requestRemoveEvents += OnRequestRemoveData;
+        }
+    }
+    private static void OnRequestRemoveData(ActorBase obj)
+    {
+        _eventDictionary[obj] = null;
+        _eventDictionary.Remove(obj);
+        obj.requestRemoveEvents -= OnRequestRemoveData;
+    }
+    
+    #endregion
 }
 

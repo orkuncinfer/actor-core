@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95830e1a269b49308eda88a503d26679, type: 3}
-  m_Name: GA_UnequipPistol
+  m_Name: GA_DropEquipment
   m_EditorClassIdentifier: 
   _title: 
   _description: 
@@ -19,7 +19,7 @@ MonoBehaviour:
   _gameplayEffectDefinitions: []
   _isBasicAttack: 0
   _abilityLayer: 0
-  _overrideAnimSpeed: 1
+  _overrideAnimSpeed: 0
   _useCustomAnim: 0
   _animationSpeed: 1.5
   _clipTransition:
@@ -28,10 +28,10 @@ MonoBehaviour:
       _NormalizedTimes: []
       _Callbacks: []
       _Names: []
-    _Clip: {fileID: 7400000, guid: 8eef87ae2ecf8194eb3ec2f5a706e007, type: 2}
+    _Clip: {fileID: 0}
     _Speed: 1
     _NormalizedStartTime: 0
-  _endTime: 0.802
+  _endTime: 1
   _avatarMask: {fileID: 31900000, guid: 7978911be5f9a524a8b11c7076a2b658, type: 2}
   _animationLayer: 1
   _isLoopingAbility: 0
@@ -41,40 +41,23 @@ MonoBehaviour:
   _abilityTags:
     _tagHashes: []
   _grantedTagsDuringAbility:
-    _tagHashes:
-    - 08bd3d5b-00f1-4624-bf92-c3cff2d551bf
+    _tagHashes: []
   _activationRequiredTags:
     _tagHashes:
-    - a16e414e-4a9d-4d4f-8563-ad06a68659ec
+    - 1cadf9ca-ad59-4767-a78b-4174f29d75d4
   _activationBlockedTags:
     _tagHashes: []
   _cancelAbilitiesWithTag:
-    _tagHashes:
-    - 2b429371-94f4-4f10-bbb3-14ea6974895d
+    _tagHashes: []
   GrantedEffectsDuringAbility: []
   AbilityActions:
-  - rid: 3670662858425761806
-  - rid: 3670663040529596422
+  - rid: 95553526982246417
   references:
     version: 2
     RefIds:
-    - rid: 3670662858425761806
-      type: {class: AbilityAction_Unequip, ns: , asm: Assembly-CSharp-firstpass}
-      data:
-        ActivationPolicy: 0
-        EventName: 
-        AnimWindow: {x: 0.57368195, y: 0.82663065}
-        _attachToSocket: 1
-        _socketName: body_side
-        _lerpSpeed: 8
-    - rid: 3670663040529596422
-      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
+    - rid: 95553526982246417
+      type: {class: AbilityAction_DropEquipment, ns: , asm: Assembly-CSharp-firstpass}
       data:
         ActivationPolicy: 2
         EventName: 
         AnimWindow: {x: 0, y: 0}
-        ToggleAiming: 0
-        BackToDefaultOnExit: 0
-        IsInstant: 1
-        ReleaseLeftHand: 1
-        HoldLeftHandOnExit: 0

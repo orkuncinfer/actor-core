@@ -19,7 +19,7 @@ public class GasDebugger : MonoBehaviour
         BottomRight
     }
     [SerializeField] private InputActionAsset _actionAsset;
-    private bool _showDebugger;
+    [SerializeField] private bool _showDebugger;
     private bool _showConsole;
     [SerializeField] private float _debuggerScale = 1f;
     [SerializeField] private float _spacing = 10f;
@@ -44,13 +44,6 @@ public class GasDebugger : MonoBehaviour
 
     private void Awake()
     {
-#if UNITY_EDITOR
-        if (SceneView.GetWindow(typeof(SceneView)).hasFocus && _startSceneMode)
-        {
-            UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
-        }
-#endif
-        
         _playerControlMap = _actionAsset.FindActionMap("Player Controls");
         
         _debugToggleAction = _actionAsset.FindAction("ToggleDebug");
@@ -70,15 +63,42 @@ public class GasDebugger : MonoBehaviour
         
         DOVirtual.DelayedCall(2f, () =>
         {
+            Debug.Log("delayed call");
             if (_startActive)
             {
+                Debug.Log("delayed call active");
                 OnActorChanged(ActorRegistry.PlayerActor);
                 _showDebugger = true;
             }
         });
+        
+        LastStaticUpdater.onLateUpdate += OnLateUpdate;
     }
 
-    private void Update()
+    private void OnLateUpdate()
+    {
+        if (_actorColliders != null && _showDebugger)
+        {
+            for (int i = _actorColliders.Length - 1; i >= 0; i--)
+            {
+                if (_actorColliders[i] is BoxCollider boxCollider)
+                {
+                    if(boxCollider.isTrigger) continue;
+                    Vector3 worldCenter = boxCollider.transform.TransformPoint(boxCollider.center);
+                    DbgDraw.WireCube(worldCenter, boxCollider.transform.rotation, boxCollider.bounds.size, Color.green);
+                }
+                if(_actorColliders[i] is CapsuleCollider capsuleCollider)
+                {
+                    if(capsuleCollider.isTrigger) continue;
+                    Vector3 worldCenter = capsuleCollider.transform.TransformPoint(capsuleCollider.center);
+
+                    DbgDraw.WireCapsule(worldCenter, capsuleCollider.transform.rotation, capsuleCollider.radius, capsuleCollider.height, Color.green);
+                }
+            }
+        }
+    }
+
+    private void LateUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Y))
         {
@@ -93,20 +113,7 @@ public class GasDebugger : MonoBehaviour
             }
         }
 
-        if (_actorColliders != null && _showDebugger)
-        {
-            for (int i = _actorColliders.Length - 1; i >= 0; i--)
-            {
-                if (_actorColliders[i] is BoxCollider)
-                {
-                    DbgDraw.WireCube(_actorColliders[i].transform.position, _actorColliders[i].transform.rotation, _actorColliders[i].bounds.size, Color.green);
-                }
-                if(_actorColliders[i] is CapsuleCollider capsuleCollider)
-                {
-                    DbgDraw.WireCapsule(capsuleCollider.transform.position + capsuleCollider.center, capsuleCollider.transform.rotation, capsuleCollider.radius, capsuleCollider.height,Color.green);
-                }
-            }
-        }
+        
         
     }
 

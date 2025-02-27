@@ -150,3 +150,7 @@ MonoBehaviour:
     HashCode: 6afec4bb-96ff-46a1-ba08-203c1b6eb52f
     Description: Generated tag for State.IsDead
     _asset: {fileID: 11400000}
+  - Tag: Equipment.Primary
+    HashCode: 93e06ffd-c134-405f-8ee1-38b355e760e7
+    Description: Generated tag for Equipment.Primary
+    _asset: {fileID: 11400000}

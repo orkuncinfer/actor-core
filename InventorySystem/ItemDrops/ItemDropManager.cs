@@ -85,7 +85,9 @@ public class ItemDropManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            DropItem(new Net_GeneratedItemResult(), Vector3.zero);
+            float randomX = Random.Range(-0.5f, 0.5f);
+            Vector3 pos = new Vector3(randomX, 0, 0);
+            DropItem(new Net_GeneratedItemResult(), pos);
             return;
             Vector3 randomPosInCircle = Random.insideUnitCircle * 2;
             KilledMonster("mns_golem", randomPosInCircle);

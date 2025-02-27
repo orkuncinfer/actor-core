@@ -10,6 +10,8 @@ public class Actor : ActorBase
         base.OnActorStart();
         if(_initialState)
             _initialState.CheckoutEnter(this);
+        
+        ActorRegistry.RegisterActor(this);
     }
 
     protected override void OnActorStop()

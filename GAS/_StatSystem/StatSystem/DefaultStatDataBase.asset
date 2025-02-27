@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
   m_Name: Health
   m_EditorClassIdentifier: 
-  _baseValue: 600
+  _baseValue: 60000
   _cap: -1
   _formula: {fileID: 0}
 --- !u!114 &3982502061099001070

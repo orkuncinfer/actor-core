@@ -51,6 +51,10 @@ public class CanvasManager : PersistentSingleton<CanvasManager>
     {
         GetDesiredLayer(layerTag).HideLastPanel();
     }
+    public void SetParent(PanelActor child, string parentPanelTag,string layerTag = "Default")
+    {
+        GetDesiredLayer(layerTag).GetPanelInstance(parentPanelTag).SetParentOf(child);
+    }
 
     public CanvasLayer GetDesiredLayer(string layerTag)
     {

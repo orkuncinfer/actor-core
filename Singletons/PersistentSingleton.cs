@@ -38,7 +38,11 @@ public class PersistentSingleton<T> : MonoBehaviour where T : Component
     public virtual void InitializeSingleton()
     {
         if (!Application.isPlaying) return;
-        if(HasInstance) return;
+        if (HasInstance)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         transform.name = typeof(T).Name + " [Singleton]";
         

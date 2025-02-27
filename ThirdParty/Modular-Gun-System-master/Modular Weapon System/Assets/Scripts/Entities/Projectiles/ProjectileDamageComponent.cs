@@ -8,6 +8,7 @@ public class ProjectileDamageComponent : ProjectileComponent
     [Header("Projectile Damage Settings")]
     float projectileDamage; public float ProjectileDamage { set => projectileDamage = value; }
 
+    [SerializeField] private EventField<HitNotifyArgs> _hitEvent;
     
     public GunData GunData { get; set; }
 
@@ -43,6 +44,15 @@ public class ProjectileDamageComponent : ProjectileComponent
                 statModifier.Magnitude = dmg;
                 statModifier.Type = ModifierOperationType.Additive;
                 otherActor.GetService<Service_GAS>().EffectController.ApplyStatModifierExternal(statModifier,"Health");
+
+                Vector3 direction = collision.contacts[0].point - transform.position;
+                HitNotifyArgs hitNotifyArgs = new HitNotifyArgs();
+                hitNotifyArgs.Damage = dmg;
+                hitNotifyArgs.Position = collision.contacts[0].point;
+                hitNotifyArgs.SurfaceNormal = collision.contacts[0].normal;
+                hitNotifyArgs.Direction = direction;
+                hitNotifyArgs.Collider = collision.collider;
+                _hitEvent.Raise(hitNotifyArgs,otherActor);
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using StatSystem;
-using System;
+﻿using System;
 
 namespace Core.Editor
 {

@@ -122,24 +122,24 @@ public struct EventField<TArg1> : ISerializationCallbackReceiver
 
     #endregion
 
-    public void Register(Actor selfMain, Action<EventArgs,TArg1> action)
+    public void Register(ActorBase selfMain, Action<EventArgs,TArg1> action)
     {
         if (_eventKey == null) return;
         RegisterForEach(selfMain, action);
     }
 
-    public void Unregister(Actor selfMain, Action<EventArgs, TArg1> action)
+    public void Unregister(ActorBase selfMain, Action<EventArgs, TArg1> action)
     {
         if (_eventKey == null) return;
         UnregisterForEach(selfMain, action);
     }
 
-    public void Raise(TArg1 arg1,Actor selfMain = null)
+    public void Raise(TArg1 arg1,ActorBase selfMain = null)
     {
         RaiseForEach(selfMain,arg1);
     }
 
-    private void RegisterForEach(Actor selfMain, Action<EventArgs,TArg1> action)
+    private void RegisterForEach(ActorBase selfMain, Action<EventArgs,TArg1> action)
     {
         if (_eventKey == null) return;
         
@@ -151,7 +151,7 @@ public struct EventField<TArg1> : ISerializationCallbackReceiver
         
         if (_addressType == EventAddressType.Owner)
         {
-            EventRegistry<TArg1>.Register(_eventKey.ID, action);
+            EventRegistry<TArg1>.Register(selfMain,_eventKey.ID, action);
         }
 
         if (_addressType == EventAddressType.Global)
@@ -160,7 +160,7 @@ public struct EventField<TArg1> : ISerializationCallbackReceiver
         }
     }
 
-    private void UnregisterForEach(Actor selfMain, Action<EventArgs,TArg1> action)
+    private void UnregisterForEach(ActorBase selfMain, Action<EventArgs,TArg1> action)
     {
         if (_eventKey == null) return;
         
@@ -171,7 +171,7 @@ public struct EventField<TArg1> : ISerializationCallbackReceiver
         
         if (_addressType == EventAddressType.Owner)
         {
-            EventRegistry<TArg1>.Unregister(_eventKey.ID, action);
+            EventRegistry<TArg1>.Unregister(selfMain,_eventKey.ID, action);
         }
 
         if (_addressType == EventAddressType.Global)
@@ -180,12 +180,16 @@ public struct EventField<TArg1> : ISerializationCallbackReceiver
         }
     }
 
-    private void RaiseForEach(Actor selfMain, TArg1 arg1)
+    private void RaiseForEach(ActorBase selfMain, TArg1 arg1)
     {
-        if (_eventKey == null) return;
+        if (_eventKey == null)
+        {
+            Debug.LogError("Trying to raise event with null key");
+            return;
+        }
         if (_addressType == EventAddressType.Owner)
         {
-            EventRegistry<TArg1>.Raise(_eventKey.ID,arg1);
+            EventRegistry<TArg1>.Raise(selfMain,_eventKey.ID,arg1);
         }
 
         if (_addressType == EventAddressType.Global)
@@ -222,14 +226,9 @@ public struct EventField<TArg1> : ISerializationCallbackReceiver
     private bool ValidateCurrentKey()
     {
         if (_eventKey == null) return true;
+        OnEventKeyChanged();
         if (_eventKey.GetType() != typeof(EventKey)) return false;
         return _eventKey.Arg1Type == typeof(TArg1).GetNiceName() && string.IsNullOrEmpty(_eventKey.Arg2Type) &&
-               string.IsNullOrEmpty(_eventKey.ReturnType);
-        return true;
-        return true;
-        if (_eventKey == null) return true;
-
-        return string.IsNullOrEmpty(_eventKey.Arg1Type) && string.IsNullOrEmpty(_eventKey.Arg2Type) &&
                string.IsNullOrEmpty(_eventKey.ReturnType);
     }
 
@@ -247,7 +246,7 @@ public struct EventField<TArg1> : ISerializationCallbackReceiver
                 dropdownItems.Add(new ValueDropdownItem<EventKey>(key.name, key));
             }
 
-            if (_addressType != EventAddressType.Global && !key.MustBeGlobal)
+            if (_addressType != EventAddressType.Global && !key.MustBeGlobal && key.Arg1Type == typeof(TArg1).GetNiceName())
             {
                 dropdownItems.Add(new ValueDropdownItem<EventKey>(key.name, key));
             }
