@@ -57,4 +57,10 @@ public class InventorySlot
     {
         //ItemData = new ItemData();
     }
+
+    public void ResetSlot()
+    {
+        _itemData = null;
+        _itemCount = 0;
+    }
 }

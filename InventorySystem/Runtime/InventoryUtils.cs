@@ -54,6 +54,11 @@ public static class InventoryUtils
 
     public static ItemDefinition FindItemWithId(string id)
     {
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning("Item id is null or empty");
+            return null;
+        }
         EnsureInitialized();
         if (itemDictionary.TryGetValue(id, out ItemDefinition item))
         {

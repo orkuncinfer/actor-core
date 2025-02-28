@@ -12,10 +12,10 @@ public class ProjectileBounceComponent : MonoBehaviour
 
     void Start()
     {
-        PhysicMaterial projectileMaterial = new PhysicMaterial{
+        PhysicsMaterial projectileMaterial = new PhysicsMaterial{
             bounciness = this.bounciness,
-            frictionCombine = PhysicMaterialCombine.Minimum,
-            bounceCombine = PhysicMaterialCombine.Maximum
+            frictionCombine = PhysicsMaterialCombine.Minimum,
+            bounceCombine = PhysicsMaterialCombine.Maximum
         };
 
         Collider collider = this.GetComponent<Collider>();

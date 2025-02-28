@@ -30,6 +30,11 @@ public class ItemDropInstance : Collectible
         /*if(ItemDefinition.WorldPrefab)
             Instantiate(ItemDefinition.WorldPrefab, transform.position, Quaternion.identity);*/
     }
+
+    public void SetItemData(ItemData itemData)
+    {
+        _itemData = itemData;
+    }
     
     [Button]
     public override void Collect()

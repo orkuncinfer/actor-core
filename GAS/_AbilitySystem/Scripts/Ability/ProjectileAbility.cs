@@ -16,7 +16,7 @@ public class ProjectileAbility : ActiveAbility
     {
         if (data.source is Projectile projectile)
         {
-            projectile.Rigidbody.velocity = Vector3.zero;
+            projectile.Rigidbody.linearVelocity = Vector3.zero;
             ApplyEffects(data.target);
             projectile.hit -= OnHit;
             PoolManager.ReleaseObject(projectile.gameObject);

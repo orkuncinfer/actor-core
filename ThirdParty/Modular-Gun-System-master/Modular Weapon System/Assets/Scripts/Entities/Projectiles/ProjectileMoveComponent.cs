@@ -13,7 +13,7 @@ public class ProjectileMoveComponent : ProjectileTypeComponent
         transform.LookAt(pointOfImpact);
         
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.velocity = pointOfImpact.normalized * projectileSpeed;
+        rb.linearVelocity = pointOfImpact.normalized * projectileSpeed;
         
         Debug.DrawLine(startPosition, pointOfImpact * maxProjectileTravel, Color.blue, 5f);
     }

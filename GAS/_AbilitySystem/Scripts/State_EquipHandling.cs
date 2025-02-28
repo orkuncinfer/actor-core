@@ -27,9 +27,9 @@ public class State_EquipHandling : MonoState
     {
         base.OnEnter();
         _equipmentUser = Owner.GetData<DS_EquipmentUser>();
-        _equipFromGround.Register(Owner,OnEquipFromGround);
         _equipmentInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(EquipmentInventoryKey.ID);
 
+        _equipmentUser.onEquipmentDropped += OnEquipmentDropped;
         foreach (var slot in _equipmentInventory.InventoryData.InventorySlots)
         {
             slot.onItemDataChanged += OnSlotItemDataChanged;
@@ -43,36 +43,10 @@ public class State_EquipHandling : MonoState
         }
         EquipInventorySlot(0);
     }
-
-    private void OnSlotItemDataChanged(ItemData oldItem, ItemData newItem)
-    {
-        //reverse for loop
-        bool foundInBag = false;
-        for (int i = _equipmentUser._equippedInstances.Count - 1; i >= 0; i--)
-        {
-            if (_equipmentUser._equippedInstances[i].ItemData == oldItem)
-            {
-                _equipmentUser.DropEquippable(_equipmentUser._equippedInstances[i]);
-                foundInBag = true;
-            }
-        }
-        if (!foundInBag)
-        {
-            ItemDefinition oldItemDefinition = InventoryUtils.FindItemWithId(newItem.ItemID);
-            GameObject oldInstance = PoolManager.SpawnObject(oldItemDefinition.WorldPrefab);
-            oldInstance.GetComponent<Equippable>().ItemData = oldItem;
-            oldInstance.GetComponent<Equippable>().DropInstance(Owner);
-        }
-        
-        ItemDefinition itemDefinition = InventoryUtils.FindItemWithId(newItem.ItemID);
-        GameObject newInstance = PoolManager.SpawnObject(itemDefinition.WorldPrefab);
-        newInstance.GetComponent<Equippable>().ItemData = newItem;
-        _equipmentUser.EquipWorldInstance(newInstance);
-    }
-
     protected override void OnExit()
     {
         base.OnExit();
+        _equipmentUser.onEquipmentDropped -= OnEquipmentDropped;
         foreach (var abilityInfo in EquipActionNames)
         {
             var abilityAction = ActionAsset.FindAction(abilityInfo);
@@ -82,27 +56,77 @@ public class State_EquipHandling : MonoState
         {
             slot.onItemDataChanged -= OnSlotItemDataChanged;
         }
-        _equipFromGround.Unregister(Owner,OnEquipFromGround);
     }
-    
-    private void OnEquipFromGround(EventArgs arg1, Equippable arg2)
+    private void OnEquipmentDropped(Equippable obj)
     {
-        if (_equipmentInventory.ContainsItemAny(arg2.ItemDefinition, out int slotIndex))
+        foreach (var inventorySlot in _equipmentInventory.InventoryData.InventorySlots)
         {
-            if (slotIndex == _currentEquipIndex) // drop current then equip arg2
+            if (inventorySlot.ItemData == obj.ItemData)
             {
-                Vector3 spawnPosition = Owner.GetComponent<CapsuleCollider>().center + Owner.transform.position;
-                GameObject instance = PoolManager.SpawnObject(arg2.ItemDefinition.WorldPrefab,spawnPosition,Quaternion.identity);
-                instance.GetComponent<Equippable>().DropInstance(Owner);
+               DropPickableInstance(obj.ItemData);
+                
+                inventorySlot.ResetSlot();
             }
         }
     }
 
+    private void DropPickableInstance(ItemData itemData)
+    {
+        if(itemData == null )return;
+        Vector3 spawnPos = Owner.transform.position + new Vector3(0, 1, 0);
+      
+        ItemDefinition itemDefinition = InventoryUtils.FindItemWithId(itemData.ItemID);
+        GameObject spawned = PoolManager.SpawnObject(itemDefinition.DropPrefab,spawnPos,Quaternion.identity);
+        spawned.GetComponent<ItemDropInstance>().SetItemData(itemData);
+        
+        Collider charCollider = Owner.GetComponent<Collider>();
+        Collider pickableCollider = spawned.GetComponent<Collider>();
+        Physics.IgnoreCollision(charCollider,pickableCollider);
+
+        Rigidbody rigid = spawned.GetComponent<Rigidbody>();
+        rigid.isKinematic = false;
+        rigid.AddForce(Owner.transform.forward * 5,ForceMode.Impulse);
+    }
+
+    private void OnSlotItemDataChanged(ItemData oldItem, ItemData newItem)
+    {
+        if (oldItem != null)
+        {
+            if (!string.IsNullOrEmpty(oldItem.ItemID))
+            {
+                bool foundInBag = false;
+                for (int i = _equipmentUser._equippedInstances.Count - 1; i >= 0; i--)
+                {
+                    if (_equipmentUser._equippedInstances[i].ItemData == oldItem)
+                    {
+                        DropPickableInstance(oldItem);
+                        
+                        GameObject equipInstance = _equipmentUser._equippedInstances[i].gameObject;
+                        _equipmentUser.DropEquippable(_equipmentUser._equippedInstances[i]);
+                        PoolManager.ReleaseObject(equipInstance);
+                        foundInBag = true;
+                    }
+                }
+                if (!foundInBag)
+                {
+                    DropPickableInstance(oldItem);
+                }
+            }
+        }
+        
+        ItemDefinition itemDefinition = InventoryUtils.FindItemWithId(newItem.ItemID);
+        GameObject newInstance = PoolManager.SpawnObject(itemDefinition.WorldPrefab);
+        newInstance.GetComponent<Equippable>().ItemData = newItem;
+        _equipmentUser.EquipWorldInstance(newInstance);
+    }
+
     public void EquipInventorySlot(int slotIndex)
     {
-        if (!_equipmentInventory.InventoryData.InventorySlots[slotIndex].ItemID.IsNullOrWhitespace())
+        if (_equipmentInventory.InventoryData.InventorySlots[slotIndex].ItemData != null)
         {
             DS_EquipmentUser equipmentUser = _equipmentUser;
+            string itemID = _equipmentInventory.InventoryData.InventorySlots[slotIndex].ItemID;
+            if(string.IsNullOrEmpty(itemID))return;
             ItemDefinition itemDefinition = InventoryUtils.FindItemWithId(_equipmentInventory.InventoryData.InventorySlots[slotIndex].ItemID);
             
             Transform equipmentInSlot = Owner.SocketRegistry.SlotDictionary[itemDefinition.GetData<Data_Equippable>().UnequipSlotName];

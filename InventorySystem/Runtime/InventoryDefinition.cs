@@ -350,8 +350,16 @@ public class InventoryDefinition : MonoBehaviour
     {
         Debug.Log("Adding " + count + " " + itemDefinition.ItemName + " to slot " + slot);
         slot.ItemCount = count;
-        slot.ItemID = itemDefinition.ItemId;
-        if (itemData != null) slot.ItemData = itemData;
+        
+        if (itemData != null)
+        {
+            slot.ItemData = itemData;
+            slot.ItemID = itemDefinition.ItemId;
+        }
+        else
+        {
+            slot.ItemData = null;
+        }
         //slot.ItemData.Name = itemDefinition.ItemName;
         //TODO: security validation here
         SaveDataFirestore();
