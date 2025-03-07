@@ -15,6 +15,15 @@ MonoBehaviour:
   fireMode: 2
   projectilePrefab: {fileID: 633841073768002512, guid: eb445cc1d185e7d4f9361c11c956927c, type: 3}
   _ammoItemDefinition: {fileID: 11400000, guid: 89e7ce017796d8c49a673df423f12770, type: 2}
+  BoneDamageMappings:
+  - Damage: 70
+    Bones: 0a000000
+  - Damage: 20
+    Bones: 01000000030000000400000002000000
+  - Damage: 50
+    Bones: 080000000000000007000000
+  - Damage: 30
+    Bones: 0d0000000f0000000e00000010000000
   damage: 40
   magazineSize: 15
   roundsPerMinute: 360

@@ -12,8 +12,6 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
     [ValueDropdown("GetAllItems")]
     [SerializeField] private ItemBaseDefinition _testItem;
     
-    [SerializeField] private GameObject _itemAddedDisplayerPrefab;
-    
     [ShowInInspector]public Dictionary<string,InventoryDefinition> InventoryDefinitions = new Dictionary<string, InventoryDefinition>();
     
     public event Action<string,int,int> onItemAdded;
@@ -34,6 +32,16 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
         }
     }
 
+    private void OnDestroy()
+    {
+        ES3.Save("DefaultInventory",_inventory);
+    }
+
+    private void Start()
+    {
+        _inventory = ES3.Load("DefaultInventory",_inventory);
+    }
+
     public void AddItem(string itemId, int amount)
     {
         GetInventory();
@@ -46,13 +54,6 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
                 {
                     action.OnAction(ActorRegistry.PlayerActor);
                 }
-            }
-            if(_itemAddedDisplayerPrefab)
-            {
-                var itemAddedDisplayer = Instantiate(_itemAddedDisplayerPrefab).GetComponentInChildren<BasicItemDisplayer>();
-                itemAddedDisplayer.ItemDefinition = item;
-                itemAddedDisplayer.SetItemCount(amount);
-                itemAddedDisplayer.DisplayItem(item);
             }
         }
         int oldAmount = GetItemCount(itemId);
@@ -113,7 +114,7 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
     
     public Dictionary<string, int> GetInventory()
     {
-        _inventory = GlobalData.GetData<DS_PlayerPersistent>().Inventory;
+        _inventory = _inventory;
         return _inventory;
     }
     

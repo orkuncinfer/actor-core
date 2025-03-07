@@ -22,7 +22,6 @@ public class DS_PlayerPersistent : Data
 {
     [ShowInInspector]public Dictionary<int,float> LevelCompletionProgress = new Dictionary<int, float>(); // level index - level complete health percentage 0-1
     public Dictionary<string,int> ActiveMissions = new Dictionary<string, int>();
-    public Dictionary<string, int> Inventory = new Dictionary<string, int>();
     
     [ShowInInspector]public Dictionary<string,int> RuntimeBuffs = new Dictionary<string, int>();
     

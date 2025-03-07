@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 public abstract class DataManifest : MonoBehaviour
 {
-    [ReadOnly] public Actor Actor;
+    [ReadOnly] public ActorBase Actor;
     private Data[] _installData;
 
     protected abstract Data[] InstallData();
@@ -63,6 +63,10 @@ public abstract class DataManifest : MonoBehaviour
             }
             else
             {
+                if (Actor == null)
+                {
+                    Debug.Log("Actor is null on " + transform + "not global " + data.GetType());
+                }
                 Actor.InstallData(InstallData());
             }
         }
@@ -104,14 +108,14 @@ public abstract class DataManifest : MonoBehaviour
         }
     }
 
-    public static Actor FindFirstActorInParents(Transform currentParent)
+    public static ActorBase FindFirstActorInParents(Transform currentParent)
     {
         if (currentParent == null)
         {
             return null;
         }
 
-        Actor actor = currentParent.GetComponent<Actor>();
+        ActorBase actor = currentParent.GetComponent<ActorBase>();
 
         if (actor != null)
         {

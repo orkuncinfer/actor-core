@@ -13,7 +13,7 @@ public class ProjectileStandardCollisionComponent : ProjectileCollisionComponent
     void OnCollisionEnter(Collision collision){
         
         if(collisionCount == maxCollisions) return;
-        Debug.Log("collision enter projectile");
+        
         if (canBounce && CheckIfGroundCollision(collision)) return; // if can bounce and hit the ground, no action needed
 
         if (hasEffect){

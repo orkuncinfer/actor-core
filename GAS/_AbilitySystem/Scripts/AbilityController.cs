@@ -253,7 +253,7 @@ public class AbilityController : MonoInitializable, ISavable
         {
             activeAbilityNames += activeAbility.Definition.name + " ";
         }
-        Debug.Log($"Requested cancelation of {ability.Definition.name} active abilities are {activeAbilityNames}");
+        Debug.Log($"Requested cancelation of {ability} active abilities are {activeAbilityNames}");
         if (_activeAbilities.Contains(ability))
         {
             _activeAbilities.Remove(ability);

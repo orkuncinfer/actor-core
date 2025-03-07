@@ -13,43 +13,44 @@ public enum AbilityInputActivationPolicy
     TryActivateWhenHolding = 1,
     ActivateOnceWhenHolding = 2,
 }
+
 public class State_BindInputActionToAbility : MonoState
 {
     [SerializeField] private bool _startWithTag;
-    [SerializeField][ShowIf("_startWithTag")] private GameplayTag _tag;
-    [FormerlySerializedAs("_abilityData")] [SerializeField][HideIf("_startWithTag")] private DSGetter<Data_AbilityDefinition> _abilityDS;
-    
-    public InputActionAsset ActionAsset;
-    public string ActionName;
+
+    [SerializeField] [ShowIf("_startWithTag")]
+    private GameplayTag _tag;
+
+    [FormerlySerializedAs("_abilityData")] [SerializeField] [HideIf("_startWithTag")]
+    private DSGetter<Data_AbilityDefinition> _abilityDS;
+
+    public InputActionReference ActionReference;
     public bool CancelOnRelease;
-    public bool TryActivateWhenHolding;
-    public bool ActivateOnceWhenHolding;
 
     public AbilityInputActivationPolicy ActivationPolicy;
-    
+
     public GameplayTagContainer CancelAbilitiesWithTag;
-    
-    [SerializeReference][TypeFilter("GetConditionTypeList")] [ListDrawerSettings(ShowFoldout = true)]
+
+    [SerializeReference] [TypeFilter("GetConditionTypeList")] [ListDrawerSettings(ShowFoldout = true)]
     public List<StateCondition> Conditions = new List<StateCondition>();
-    
+
     private Service_GAS _gasService;
     private InputAction _abilityAction;
     private bool _start;
     private bool _activatedOnce;
+
     protected override void OnEnter()
     {
         base.OnEnter();
         _gasService = Owner.GetService<Service_GAS>();
         _abilityDS.GetData(Owner);
-        
-        _abilityAction = ActionAsset.FindAction(ActionName);
-        
+
         Conditions.ForEach(x => x.Initialize(Owner));
-        
-        _abilityAction.performed += OnPerformed;
-        _abilityAction.canceled += OnCanceled;
-        
-        _abilityAction?.Enable();
+
+
+        ActionReference.action.performed += OnPerformed;
+        ActionReference.action.canceled += OnCanceled;
+        ActionReference.action.Enable();
 
         _activatedOnce = false;
     }
@@ -57,8 +58,8 @@ public class State_BindInputActionToAbility : MonoState
     protected override void OnExit()
     {
         base.OnExit();
-        _abilityAction.performed -= OnPerformed;
-        _abilityAction.canceled -= OnCanceled;
+        ActionReference.action.performed -= OnPerformed;
+        ActionReference.action.canceled -= OnCanceled;
     }
 
     protected override void OnUpdate()
@@ -72,22 +73,16 @@ public class State_BindInputActionToAbility : MonoState
                 {
                     StartAbility();
                 }
+
                 break;
             case AbilityInputActivationPolicy.ActivateOnceWhenHolding:
                 if (_start && !_activatedOnce)
                 {
                     StartAbility();
                 }
+
                 break;
         }
-        /*
-        if (_start && TryActivateWhenHolding)
-        {
-            StartAbility();
-        }else if (ActivateOnceWhenHolding && _start && !_activatedOnce)
-        {
-            StartAbility();
-        }*/
     }
 
     private void OnCanceled(InputAction.CallbackContext obj)
@@ -113,17 +108,18 @@ public class State_BindInputActionToAbility : MonoState
         {
             return;
         }
+
         _start = true;
         foreach (var tag in CancelAbilitiesWithTag.GetTags())
         {
             _gasService.AbilityController.CancelAbilityWithGameplayTag(tag);
         }
+
         StartAbility();
     }
 
     private void StartAbility()
     {
-        
         ActiveAbility ability = null;
         if (_startWithTag)
         {
@@ -131,7 +127,7 @@ public class State_BindInputActionToAbility : MonoState
         }
         else
         {
-          ability = _gasService.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);
+            ability = _gasService.AbilityController.TryActiveAbilityWithDefinition(_abilityDS.Data.AbilityDefinition);
         }
 
         if (ability != null)
@@ -139,7 +135,7 @@ public class State_BindInputActionToAbility : MonoState
             _activatedOnce = true;
         }
     }
-    
+
     public IEnumerable<Type> GetConditionTypeList()
     {
         var baseType = typeof(StateCondition);

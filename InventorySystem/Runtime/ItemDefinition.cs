@@ -11,6 +11,7 @@ using UnityEngine.Serialization;
 public class ItemDefinition : ItemBaseDefinition
 {
     public GameObject WorldPrefab;
+    public GameObject Model;
     public GameObject DropPrefab;
     public GameObject UIPrefab;
     [FormerlySerializedAs("ItemType")] public RpgItemTypes _rpgItemTypes;

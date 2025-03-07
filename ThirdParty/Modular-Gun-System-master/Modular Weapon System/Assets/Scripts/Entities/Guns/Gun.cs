@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 public delegate void OnGunAction(Gun target);
 
@@ -20,7 +21,7 @@ public class Gun : MonoBehaviour, IEquippable, IModdable<GunModifier>
 
     [Header("Gun Data")]
     [Tooltip("Assign a GunData ScriptableObject containing the default gun values and behaviours")]
-    [SerializeField] GunData gunData; public GunData GunData => gunData;
+    [SerializeField][ShowInInspector] GunData gunData; public GunData GunData => gunData;
 
     [Header("Gun Components")]
     [SerializeField] GunFireComponent fireComponent; public GunFireComponent FireComponent => fireComponent;
@@ -35,6 +36,7 @@ public class Gun : MonoBehaviour, IEquippable, IModdable<GunModifier>
 
     [Tooltip("Number of bullets contained inside the gun magazine at creation.")]
     [SerializeField] int bulletsInMagazine; public int BulletsInMagazine => bulletsInMagazine;
+    public event Action<Gun,int> onBulletsInMagainzeChanged;
 #pragma warning restore 0649
 
     [Header("Crosshair Settings")]
@@ -96,32 +98,24 @@ public class Gun : MonoBehaviour, IEquippable, IModdable<GunModifier>
 
     public void IncreaseMagazine(int amount){
         bulletsInMagazine += amount;
+        onBulletsInMagainzeChanged?.Invoke(this, GetMaxMagazineSize());
     }
 
     public void DecrementMagazine(){
         bulletsInMagazine--;
+        onBulletsInMagainzeChanged?.Invoke(this, bulletsInMagazine);
+    }
+
+    public int GetBulletsInMagazine()
+    {
+        
+        
+        return 0;
     }
     
     public int GetMaxMagazineSize(){
         return (int)Mathf.Ceil(gunData.MagazineSize * gunData.MagazineSizeMultiplier.Value);
     }
-    
-    public void EnableCrosshair(GameObject crosshair){
-        crosshair.SetActive(true);
-        crosshairChildren = crosshair.GetComponentsInChildren<RectTransform>();
-        SetCrosshairSize();
-    }
-
-    public void SetCrosshairSize(){
-        float spreadValue = (gunData.SpreadRadius.Value * fireComponent.ProjectileSpreadPercentage) * gunData.SpreadRadiusMultiplier.Value;
-        
-        // 0 is parent and 1 is center that should not be offset
-        for (int i = 2; i < crosshairChildren.Length; i++){
-            // radius * 20 gives a fair visual representation of spread
-            crosshairChildren[i].localPosition = crosshairChildren[i].up * (spreadValue * 20);
-        }
-    }
-
     /**
      * used to initialise new gun prefabs created within the gun creator tool
      */

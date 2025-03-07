@@ -20,7 +20,6 @@ public class GunAutoReloadMod : GunModifier
 
     private void OnFire(Gun target)
     {
-        Debug.Log($"Fire {target.BulletsInMagazine}");
         if (target.BulletsInMagazine <= 0)
         {
             target.GetComponent<Equippable>().Owner.GetService<Service_GAS>().AbilityController.TryActiveAbilityWithDefinition(_reloadAbility);

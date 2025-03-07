@@ -35,6 +35,8 @@ public class InventoryDefinition : MonoBehaviour
 
    public event Action onInventoryChanged;
 
+   public event Action onInventoryInitialized;
+
     private string savePath => "/" + InventoryId.ID;
     private FirebaseDatabase _database;
     private FirebaseFirestore _firestore;
@@ -45,6 +47,7 @@ public class InventoryDefinition : MonoBehaviour
         
         LoadES3();
         
+        onInventoryInitialized?.Invoke();
         Debug.Log("Inventory count is " + DefaultPlayerInventory.Instance.InventoryDefinitions.Count);
     }
 
@@ -70,6 +73,11 @@ public class InventoryDefinition : MonoBehaviour
                     InventoryData.InventorySlots.Add(inventorySlot);
                 }
             }
+        }
+
+        for (int i = 0; i < InventoryData.InventorySlots.Count; i++)
+        {
+            InventoryData.InventorySlots[i].SlotIndex = i;
         }
         foreach (var itemPack in InitialItems)
         {
@@ -299,6 +307,7 @@ public class InventoryDefinition : MonoBehaviour
     {
         slot.ItemID = null;
         slot.ItemCount = 0;
+        onInventoryChanged?.Invoke();
     }
     public void SwapOrMergeItems(int index1, int index2)
     {
@@ -354,6 +363,7 @@ public class InventoryDefinition : MonoBehaviour
         if (itemData != null)
         {
             slot.ItemData = itemData;
+            Debug.Log("setitemdata");
             slot.ItemID = itemDefinition.ItemId;
         }
         else

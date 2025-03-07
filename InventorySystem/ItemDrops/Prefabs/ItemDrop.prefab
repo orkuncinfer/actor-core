@@ -106,8 +106,12 @@ MonoBehaviour:
   InventoryKey: {fileID: 11400000, guid: 8bdc75f4d0e25864c9522f576da078ae, type: 2}
   DropCount: 1
   LabelInstance: {fileID: 0}
+  ModelHolder: {fileID: 8579986441670604580}
   _isEquippable: 0
   EquipmentInventoryKey: {fileID: 0}
+  _itemData:
+    _itemID: 
+    _uniqueID: 
 --- !u!114 &8456961413772765947
 MonoBehaviour:
   m_ObjectHideFlags: 0

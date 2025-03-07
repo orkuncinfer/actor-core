@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 274845176397254087}
   - component: {fileID: 598560534581000869}
-  - component: {fileID: 3222036598053411512}
   m_Layer: 0
   m_Name: DefaultPlayerInventory
   m_TagString: Untagged
@@ -30,7 +29,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3510164543070370642}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &598560534581000869
@@ -48,18 +48,65 @@ MonoBehaviour:
   AutoUnparentOnAwake: 1
   _allItems: {fileID: 11400000, guid: bb2368afad43bb146a5d9a604f24fc69, type: 2}
   _testItem: {fileID: 11400000, guid: f7898775afb6f46498bbffa6a384887a, type: 2}
-  _itemAddedDisplayerPrefab: {fileID: 4640685778063512026, guid: 27dc046d65c30ef4f9a4858ad014bf8b, type: 3}
---- !u!114 &3222036598053411512
-MonoBehaviour:
+--- !u!1001 &8735898649059895531
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 274845176397254087}
+    m_Modifications:
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.939648
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12.86313
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.43262258
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937379908064124120, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+      propertyPath: m_Name
+      value: InventoryDebuggerTrigger
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+--- !u!4 &3510164543070370642 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5299251891361207225, guid: ec918b438f542584cbebccbd78048d93, type: 3}
+  m_PrefabInstance: {fileID: 8735898649059895531}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6090393498010997702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0b45a8b227eb740a9dbc55c6758304, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebuggerPrefab: {fileID: 6953732099078582213, guid: 56da3d78482c9f849a906522e4c87819, type: 3}
-  clickThreshold: 1

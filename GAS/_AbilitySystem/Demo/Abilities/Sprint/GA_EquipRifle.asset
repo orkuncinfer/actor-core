@@ -31,7 +31,7 @@ MonoBehaviour:
     _Clip: {fileID: 7400000, guid: 0f3f8af981c30274ebae3892adf95127, type: 2}
     _Speed: 1
     _NormalizedStartTime: 0
-  _endTime: 1
+  _endTime: 0.773
   _avatarMask: {fileID: 31900000, guid: 7978911be5f9a524a8b11c7076a2b658, type: 2}
   _animationLayer: 1
   _isLoopingAbility: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
       data:
         ActivationPolicy: 0
         EventName: 
-        AnimWindow: {x: 0.37238497, y: 0.8892405}
+        AnimWindow: {x: 0.37238497, y: 0.6677116}
         _equipSocketName: RiflePivot
         _lerpSpeed: 8
         _hand: 1

@@ -12,13 +12,15 @@ public class ItemDropInstance : Collectible
     public GenericKey InventoryKey;
     public int DropCount;
     public WorldItemLabel LabelInstance;
+    public Transform ModelHolder;
 
     [SerializeField] private bool _isEquippable; 
     [ShowIf("_isEquippable")]public GenericKey EquipmentInventoryKey;
     
     [ShowInInspector]public FbGeneratedItemResult GeneratedItemResult;
 
-    private ItemData _itemData;
+    public ItemData _itemData;
+    private GameObject _model;
 
     public void OnMovementEnd()
     {
@@ -27,13 +29,25 @@ public class ItemDropInstance : Collectible
 
     private void OnEnable()
     {
-        /*if(ItemDefinition.WorldPrefab)
-            Instantiate(ItemDefinition.WorldPrefab, transform.position, Quaternion.identity);*/
+        SpawnModel();
     }
 
+    private void SpawnModel()
+    {
+        ItemDefinition = InventoryUtils.FindItemWithId(_itemData.ItemID);
+        if(ItemDefinition==null) return;
+        if(_model != null) PoolManager.ReleaseObject(_model);
+        _model = PoolManager.SpawnObject(ItemDefinition.Model);
+        _model.transform.position = ModelHolder.transform.position;
+        _model.transform.rotation = ModelHolder.transform.rotation;
+        _model.transform.SetParent(ModelHolder,true);
+    }
+    
     public void SetItemData(ItemData itemData)
     {
         _itemData = itemData;
+        
+        SpawnModel();
     }
     
     [Button]
@@ -43,6 +57,7 @@ public class ItemDropInstance : Collectible
         
         if(InventoryDefinition) collectInventory = InventoryDefinition;
         if (InventoryKey) collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(InventoryKey.ID);
+        ItemDefinition = InventoryUtils.FindItemWithId(_itemData.ItemID);
         ItemData newItemData = new ItemData
         {
             ItemID = ItemDefinition.ItemID,
@@ -71,12 +86,7 @@ public class ItemDropInstance : Collectible
         if (_isEquippable)
         {
             collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(EquipmentInventoryKey.ID);
-            ItemData newItemData = new ItemData
-            {
-                ItemID = ItemDefinition.ItemID,
-                UniqueID = "dropped"
-            };
-            if (collectInventory.ReplaceItem(ItemDefinition, DropCount, newItemData))
+            if (collectInventory.ReplaceItem(ItemDefinition, DropCount, _itemData))
             {
                 if(LabelInstance)ItemDropManager.Instance.PickedUp(LabelInstance);
                 PoolManager.ReleaseObject(this.gameObject);

@@ -22,14 +22,26 @@ public class GunFireComponent : GunComponent
     [Header("Fire Delegates")]
     public OnGunAction onFire;
 
+    public OnGunAction onStopFire;
+
+    public OnGunAction onStartFire;
+
     private Ability _ability;
     private Gun _gun;
 
+    private float _spreadValue;
+
     protected override void Start(){
         base.Start();
-        
+        _gun = GetComponent<Gun>();
         cam = Camera.main;
         masksToIgnore = ~(1 << 9 |1 << 10); // ignore player, weapons and projectile layers
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        _spreadValue = (_gun.GunData.SpreadRadius.Value * _gun.GunData.SpreadRadiusMultiplier.Value) * projectileSpreadPercentage;
     }
 
     public override void Perform(Gun gun, GunData gunData,Ability ability = null){
@@ -44,8 +56,8 @@ public class GunFireComponent : GunComponent
     
         SetProjectileDamage(gunData, projectile,ability);
         
-        float spreadValue = (gunData.SpreadRadius.Value * gunData.SpreadRadiusMultiplier.Value) * projectileSpreadPercentage;
-        MoveProjectile(projectile, spreadValue, muzzlePosition);
+        //float spreadValue = (gunData.SpreadRadius.Value * gunData.SpreadRadiusMultiplier.Value) * projectileSpreadPercentage;
+        MoveProjectile(projectile, _spreadValue, muzzlePosition);
 
         animator.SetTrigger("IsFire");
         PlayAudio();
@@ -53,11 +65,25 @@ public class GunFireComponent : GunComponent
 
         onFire?.Invoke(gun);
     }
-    
+
+    public void StopFire()
+    {
+        onStopFire?.Invoke(_gun);
+    }
+
+    public void StartFire()
+    {
+        onStartFire?.Invoke(_gun);
+    }
     void PlayAudio(){
         if (gunfireAudio == null) return;
         
         audioSource.PlayOneShot(gunfireAudio);
+    }
+
+    public float GetSpreadValue()
+    {
+        return _spreadValue;
     }
 
     static bool IsCrit(GunData gunData){
@@ -131,7 +157,7 @@ public class GunFireComponent : GunComponent
 
             if (foundValidHit)
             {
-                Debug.Log($"Collided layer: {LayerMask.LayerToName(closestHit.collider.gameObject.layer)} collider name {closestHit.collider.name}");
+                //Debug.Log($"Collided layer: {LayerMask.LayerToName(closestHit.collider.gameObject.layer)} collider name {closestHit.collider.name}");
                 return closestHit.point;
             }
         }

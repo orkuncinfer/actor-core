@@ -39,6 +39,8 @@ public class ItemData
         set => _attributes = value;
     }
 
+    public event Action<string,string> onAttributeChanged;
+
     public bool TryGetAttribute(string key, out string value)
     {
         value = "";
@@ -51,5 +53,11 @@ public class ItemData
         }
 
         return false;
+    }
+    public void SetAttribute(string key, string value)
+    {
+        if (_attributes == null) _attributes = new Dictionary<string, string>();
+        _attributes[key] = value;
+        onAttributeChanged?.Invoke(key,value);
     }
 }

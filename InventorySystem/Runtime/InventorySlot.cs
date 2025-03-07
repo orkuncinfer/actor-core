@@ -46,12 +46,15 @@ public class InventorySlot
             {
                 ItemData oldValue = _itemData;
                 _itemData = value;
-                onItemDataChanged?.Invoke(oldValue,value);
+                Debug.Log("itemdatachanged");
+                onItemDataChanged?.Invoke(oldValue,value,SlotIndex);
             }
         }
     }
 
-    public event Action<ItemData, ItemData> onItemDataChanged; 
+    public int SlotIndex;
+
+    public event Action<ItemData, ItemData, int> onItemDataChanged; 
 
     public InventorySlot()
     {

@@ -315,15 +315,19 @@ public class GasDebugger : MonoBehaviour
         GUILayout.Space(scaledSpacing+5);
         GUILayout.Label("Attributes :", tagsHeaderStyle);
         GUILayout.Space(scaledSpacing);
-        
-        foreach (KeyValuePair<string, Stat> stat in _statController.Stats)
+
+        if (_statController)
         {
-            if (stat.Value is Attribute attr)
+            foreach (KeyValuePair<string, Stat> stat in _statController.Stats)
             {
-                GUILayout.Label($"{stat.Key} : {attr.CurrentValue}", myStyle);
-                GUILayout.Space(scaledSpacing * 0.8f);
+                if (stat.Value is Attribute attr)
+                {
+                    GUILayout.Label($"{stat.Key} : {attr.CurrentValue}", myStyle);
+                    GUILayout.Space(scaledSpacing * 0.8f);
+                }
             }
         }
+        
 
         // End the vertical layout block
         GUILayout.EndVertical();
