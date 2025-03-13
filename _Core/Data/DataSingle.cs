@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -17,9 +18,11 @@ public class DataSingle : MonoBehaviour
     
     private bool _changeNameToggle;
     
-    [SerializeReference]
+    [SerializeReference][TypeFilter("GetFilteredTypeList")]
     [ListDrawerSettings(ShowFoldout = true, DraggableItems = false)]
     public Data Data = new Data();
+
+    public bool showData;
     
     public IEnumerable<Type> GetFilteredTypeList()
     {

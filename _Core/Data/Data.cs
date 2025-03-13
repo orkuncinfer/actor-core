@@ -142,14 +142,53 @@ public class Data :  IData
     }
     public virtual void MergePersistentData(Data loadedData)
     {
-        // Implement type-specific merging in child classes
-        if (loadedData.GetType() != GetType())
+        if (loadedData == null)
         {
-            Debug.LogError("Data type mismatch during merge");
+            Debug.LogError("Loaded data is null, cannot merge.");
             return;
         }
-        JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(loadedData), this);
+
+        if (loadedData.GetType() != GetType())
+        {
+            Debug.LogError("Data type mismatch during merge.");
+            return;
+        }
+
+        // Use reflection to only overwrite fields that exist in loadedData
+        var fields = GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+
+        foreach (var field in fields)
+        {
+            if (field.IsDefined(typeof(ES3NonSerializable), false))
+            {
+                // Skip non-serializable fields
+                continue;
+            }
+
+            var loadedValue = field.GetValue(loadedData);
+            if (loadedValue != null && !IsDefaultValue(loadedValue))
+            {
+                field.SetValue(this, loadedValue);
+            }
+        }
     }
+
+    /// <summary>
+    /// Checks if an object has its default value.
+    /// This prevents overriding values with empty or default values.
+    /// </summary>
+    private bool IsDefaultValue(object value)
+    {
+        if (value == null) return true;
+
+        Type type = value.GetType();
+        if (type.IsValueType)
+        {
+            return value.Equals(Activator.CreateInstance(type));
+        }
+        return false;
+    }
+
 }
 
 public interface IData

@@ -26,9 +26,7 @@ public class GasDebugger : MonoBehaviour
     [SerializeField] private float _padding = 10f;
     [SerializeField] private ELocation _location;
     [SerializeField] private bool _startActive;
-
-    [SerializeField] private bool _startSceneMode;
-
+    
     private InputActionMap _playerControlMap;
     private InputAction _debugToggleAction;
     private InputAction _debugCommandAction;

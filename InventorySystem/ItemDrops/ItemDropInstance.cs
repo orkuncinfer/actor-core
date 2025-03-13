@@ -36,6 +36,7 @@ public class ItemDropInstance : Collectible
     {
         ItemDefinition = InventoryUtils.FindItemWithId(_itemData.ItemID);
         if(ItemDefinition==null) return;
+        if(ItemDefinition.Model == null) return;
         if(_model != null) PoolManager.ReleaseObject(_model);
         _model = PoolManager.SpawnObject(ItemDefinition.Model);
         _model.transform.position = ModelHolder.transform.position;

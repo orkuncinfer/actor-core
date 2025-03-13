@@ -195,7 +195,10 @@ public struct EventField : ISerializationCallbackReceiver
         }
     }
 
-
+    public EventKey GetEventKey()
+    {
+        return _eventKey;
+    }
     public void OnBeforeSerialize()
     {
         if (_eventKey == null) return;
