@@ -16,9 +16,10 @@ public enum ActorStateFlags
 
 public enum ActorStartMethods
 {
-    Auto,
-    Manual,
-    OnStart,
+    OnInitialize = 342,
+    OnStart = 211,
+    PlayMode = 452,
+    Manual = 662,
 }
 
 public class ActorBase : MonoBehaviour, ITagContainer

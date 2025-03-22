@@ -50,7 +50,7 @@ public class DataList : MonoBehaviour
                 {
                     key = Datas[i].DataKey;
                 }
-                GlobalData.LoadData(key,Datas[i]);
+                GlobalData.InstallData(key,Datas[i]);
             }
         }
     }

@@ -23,13 +23,13 @@ public class ItemDefinition : ItemBaseDefinition
     public GameplayTagContainer ItemTags;
 
     
-    [SerializeReference][TypeFilter("GetFilteredActionList")] [ListDrawerSettings(ShowFoldout = true)]
+    [SerializeReference][ValueDropdown("GetFilteredActionList")] [ListDrawerSettings(ShowFoldout = true)]
     public List<SimpleAction> ItemActions = new List<SimpleAction>();
-    
-  
-    
-    
-    public IEnumerable<Type> GetFilteredActionList()
+
+
+
+#if UNITY_EDITOR
+    public List<ValueDropdownItem<Type>> GetFilteredActionList()
     {
         var baseType = typeof(SimpleAction);
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -37,8 +37,17 @@ public class ItemDefinition : ItemBaseDefinition
             .Where(x => !x.IsAbstract)
             .Where(x => !x.IsGenericTypeDefinition)
             .Where(x => baseType.IsAssignableFrom(x) && x != baseType); // Exclude the base class itself
-        return q;
+
+        List<ValueDropdownItem<Type>> returnList = new List<ValueDropdownItem<Type>>();
+        
+        foreach (var type in q)
+        {
+            returnList.Add(new ValueDropdownItem<Type>(type.Name, type));
+        }
+        
+        return returnList;
     }
+#endif
 }
 
 [FirestoreData(ConverterType = typeof(FirestoreEnumNameConverter<RpgItemTypes>))]

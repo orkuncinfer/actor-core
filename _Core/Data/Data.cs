@@ -110,21 +110,20 @@ public class Data :  IData
     
     public string GetLoadKey()
     {
-        string containerID = "Global"; 
+        string containerID = OwnerActor == null ? "Global" : OwnerActor.GetInstanceID().ToString();
         string typeName = GetType().Name;
-        string saveFileName = "Default";
-        return containerID + "-" + typeName + DataKey;
+        string dataKey = string.IsNullOrEmpty(DataKey) ? "" : "-" + DataKey;
+        return containerID + "-" + typeName + dataKey;
     }
     public object LoadData(string category = "DefaultData")
     {
-        string containerID = "Global"; 
-        string typeName = GetType().Name;
         string saveFileName = category + ".save";
         
         if (ES3.KeyExists(GetLoadKey(),saveFileName))
         {
-            DDebug.Log("Loading Data, ID: "+containerID+"-"+typeName + DataKey + " | File name: " + saveFileName+".save-" + ES3.GetKeys(saveFileName)[0]);
-            var data = ES3.Load(GetLoadKey(), saveFileName, this);
+            DDebug.Log("Loading Data, Key: "+ GetLoadKey() + " | File name: " + saveFileName+".save-" + ES3.GetKeys(saveFileName)[0]);
+            var data = ES3.Load(GetLoadKey(), saveFileName, this as object);
+            ES3.LoadInto(GetLoadKey(),saveFileName,this);
             return data;
         }
         DDebug.Log("Loading Data Failed can not find data with key : "+ GetLoadKey());
@@ -134,59 +133,19 @@ public class Data :  IData
 
     public void SaveData(string category = "DefaultData")
     {
-        string containerID = "Global"; 
-        string typeName = GetType().Name;
         string saveFileName =  category + ".save";
         ES3.Save(GetLoadKey(),this ,saveFileName);
-        DDebug.Log("Saving Data, ID: "+containerID+"-"+typeName + DataKey+ " | File name: " + saveFileName);
+        DDebug.Log("Saving Data, ID: " + GetLoadKey() + " | File name: " + saveFileName);
     }
     public virtual void MergePersistentData(Data loadedData)
     {
-        if (loadedData == null)
-        {
-            Debug.LogError("Loaded data is null, cannot merge.");
-            return;
-        }
-
+        // Implement type-specific merging in child classes
         if (loadedData.GetType() != GetType())
         {
-            Debug.LogError("Data type mismatch during merge.");
+            Debug.LogError("Data type mismatch during merge");
             return;
         }
-
-        // Use reflection to only overwrite fields that exist in loadedData
-        var fields = GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
-
-        foreach (var field in fields)
-        {
-            if (field.IsDefined(typeof(ES3NonSerializable), false))
-            {
-                // Skip non-serializable fields
-                continue;
-            }
-
-            var loadedValue = field.GetValue(loadedData);
-            if (loadedValue != null && !IsDefaultValue(loadedValue))
-            {
-                field.SetValue(this, loadedValue);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Checks if an object has its default value.
-    /// This prevents overriding values with empty or default values.
-    /// </summary>
-    private bool IsDefaultValue(object value)
-    {
-        if (value == null) return true;
-
-        Type type = value.GetType();
-        if (type.IsValueType)
-        {
-            return value.Equals(Activator.CreateInstance(type));
-        }
-        return false;
+        JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(loadedData), this);
     }
 
 }

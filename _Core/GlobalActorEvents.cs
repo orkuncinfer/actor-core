@@ -6,6 +6,7 @@ public static class GlobalActorEvents
 {
     public static event Action onActorsInitialized;
     public static event Action onGameModeStopped;
+    public static event Action onGameModeStarted;
     public static bool ActorsInitialized { get; set; }
 
     public static void SetActorsInitialized()
@@ -18,5 +19,10 @@ public static class GlobalActorEvents
     public static void SetGameModeStopped()
     {
         onGameModeStopped?.Invoke();
+    }
+
+    public static void SetGameModeStarted()
+    {
+        onGameModeStarted?.Invoke();
     }
 }

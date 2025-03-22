@@ -35,22 +35,16 @@ public abstract class DataManifest : MonoBehaviour
 
         for (int i = 0; i < _installData.Length; i++)
         {
-            if (_installData[i].IsPersistent)
-            {
-                // Critical change: Merge data instead of replacing reference
-                var installedData = _installData[i].LoadData() as Data;
-                if(installedData == null) continue;
-                _installData[i].MergePersistentData(installedData);
-            }
-        }
-        foreach (var data in InstallData())
-        {
+            
+            #region LOAD
+            Data data = _installData[i];
             string key = "";
             if (data.IsPersistent)
             {
-                //data.LoadData();
+                data.LoadData();
             }
-
+            #endregion
+            
             key = "";
             if (data.IsGlobal)
             {
@@ -59,13 +53,14 @@ public abstract class DataManifest : MonoBehaviour
                     key = data.DataKey;
                 }
 
-                GlobalData.LoadData(key, data);
+                GlobalData.InstallData(key, data);
             }
             else
             {
                 if (Actor == null)
                 {
                     Debug.Log("Actor is null on " + transform + "not global " + data.GetType());
+                    return;
                 }
                 Actor.InstallData(InstallData());
             }
@@ -99,7 +94,7 @@ public abstract class DataManifest : MonoBehaviour
                     key = data.DataKey;
                 }
 
-                GlobalData.LoadData(key, data);
+                GlobalData.InstallData(key, data);
             }
             else
             {

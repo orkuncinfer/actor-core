@@ -9,7 +9,7 @@ public static class GlobalData
 
     public static event Action<Data> OnDataInstalled;
 
-    public static void LoadData<T>(string key, T data) where T : Data
+    public static void InstallData<T>(string key, T data) where T : Data
     {
         string dataKey = GetDataKey(data.GetType(), key);
 
@@ -33,7 +33,7 @@ public static class GlobalData
             return (T)foundData;
         }
 
-        Debug.LogError($"Data of type '{typeof(T)}' not found! searched with key '{key}'");
+        Debug.LogError($"Data of type '{typeof(T)}' not found! searched with key '{dataKey}'");
         return null;
     }
     

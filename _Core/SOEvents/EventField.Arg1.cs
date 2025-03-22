@@ -10,7 +10,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-[TopTitle(ShowGenericName = false,
+[TopTitle(ShowGenericName = true,
     NameSuffix = "<color=#ff77ff55><b>↖EVENT</b></color>",
     NamePrefix = "<color=#ff77ff55><b>↖</b></color>",
     PerGenericArgString = ",", SetParentObject = true,

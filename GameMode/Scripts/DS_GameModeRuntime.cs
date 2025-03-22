@@ -105,6 +105,11 @@ public class DS_GameModeRuntime : Data
         _requestGameModeLoadNext.Unregister(OnRequestLoadNext);
     }*/
 
+    public void ResetResult()
+    {
+        _failed = false;
+        _completed = false;
+    }
     public void ResetAllVariables()
     {
         _loadNextTrigger = false;

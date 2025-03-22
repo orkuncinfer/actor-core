@@ -82,6 +82,11 @@ public class DS_PlayerPersistent : Data
             RuntimeBuffs.Clear();
         }
     }
+[Button]
+    public void Test()
+    {
+        Debug.Log(_attackSpeedPersistent);
+    }
 }
 
 [System.Serializable]

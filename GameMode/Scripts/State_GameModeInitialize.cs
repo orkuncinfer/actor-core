@@ -17,10 +17,12 @@ public class State_GameModeInitialize : MonoState
         foreach (Actor actor in actors)
         {
             if(actor == Owner) continue;
-            if(actor.StartMethod != ActorStartMethods.Auto) continue;
+            ActorRegistry.RegisterActor(actor);
+            
+            if(actor.StartMethod != ActorStartMethods.OnInitialize) continue;
             actor.StartIfNot();
             _gameModeRuntimeData.StartedActors.Add(actor);
-            ActorRegistry.RegisterActor(actor);
+       
         }
         
         _gameModeRuntimeData.ResetAllVariables();

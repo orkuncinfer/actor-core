@@ -36,6 +36,9 @@ public class GenericStateMachine : MonoState
 
     public List<StateField> States => _states;
     [SerializeField] private List<StateField> _states;
+
+    [Tooltip("If you want this state matchine to enter a state only one time.Current state must be null for this, If current state is chosen, it will stop working")]
+    [SerializeField] private bool _oneTimeEnter;
     
     [Button]
     public void TestAdd()
@@ -67,39 +70,52 @@ public class GenericStateMachine : MonoState
     protected override void OnEnter()
     {
         base.OnEnter();
-        _currentState = InitialState;
-        _currentState.CheckoutEnter(Owner);
+        if (InitialState)
+        {
+            _currentState = InitialState;
+            _currentState.CheckoutEnter(Owner);
+        }
     }
 
     protected override void OnExit()
     {
         base.OnExit();
         _currentState.CheckoutExit();
+        if (_oneTimeEnter)
+        {
+            _currentState = null;
+        }
     }
 
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        if (_currentState != null)
+        if(_oneTimeEnter && _currentState != null) return;
+        
+        foreach (var transition in _anyTransitions)
         {
-            foreach (var transition in _anyTransitions)
+            if (_currentState != null)
             {
-                bool conditionMet = true;
-                foreach (var condition in transition.Conditions)
+                if(_currentState == transition.ToState) continue;
+            }
+            bool conditionMet = true;
+            foreach (var condition in transition.Conditions)
+            {
+                if (!condition.CheckCondition())
                 {
-                    if (!condition.CheckCondition())
-                    {
-                        conditionMet = false;
-                        break;
-                    }
-                }
-                if (conditionMet)
-                {
-                    SetState(transition.ToState);
-                    return;
+                    conditionMet = false;
+                    break;
                 }
             }
+            if (conditionMet)
+            {
+                SetState(transition.ToState);
+                return;
+            }
+        }
 
+        if (_currentState != null)
+        {
             if (_transitions.TryGetValue(_currentState, out var currentTransitions))
             {
                 foreach (var transition in currentTransitions)

@@ -53,7 +53,7 @@ public class DataSingle : MonoBehaviour
             {
                 key = Data.GetType().ToString();
             }
-            GlobalData.LoadData(key,Data);
+            GlobalData.InstallData(key,Data);
         }
     }
 }

@@ -26,6 +26,16 @@ public class StateTransition
             .Where(x => !x.IsAbstract)
             .Where(x => !x.IsGenericTypeDefinition)
             .Where(x => baseType.IsAssignableFrom(x) && x != baseType); // Exclude the base class itself
+        
+        /*var dom = AppDomain.CurrentDomain.GetAssemblies();
+        foreach (var domain in dom)
+        {
+            q = q.Concat(domain.GetTypes()
+                .Where(x => !x.IsAbstract)
+                .Where(x => !x.IsGenericTypeDefinition)
+                .Where(x => baseType.IsAssignableFrom(x) && x != baseType));
+        }*/
+       
         return q;
     }
 }
