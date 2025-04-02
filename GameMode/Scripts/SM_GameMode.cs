@@ -9,6 +9,7 @@ public class SM_GameMode : ActorStateMachine
     [SerializeField] private MonoState _authing;
     [SerializeField] private MonoState _initialize;
     [SerializeField] private MonoState _mainMenu;
+    [SerializeField] private MonoState _playInitialize;
     [SerializeField] private MonoState _playing;
     [SerializeField] private MonoState _paused;
     [SerializeField] private MonoState _resulted;
@@ -43,12 +44,13 @@ public class SM_GameMode : ActorStateMachine
     {
         AddTransition(_authing,_initialize,AuthingToInitialize);
         AddTransition(_initialize,_mainMenu,InitializeToMainMenu);
-        AddTransition(_mainMenu,_playing,MainMenuToPlaying);
-        AddTransition(_initialize,_playing,InitializeToPlaying);
+        AddTransition(_mainMenu,_playInitialize,MainMenuToPlaying);
+        //AddTransition(_initialize,_playInitialize,InitializeToPlaying);
         AddTransition(_paused,_playing,PausedToPlaying);
+        AddTransition(_playInitialize,_playing, PlayInitToPlaying);
         AddTransition(_playing,_resulted,PlayingToResulted);
         AddTransition(_playing,_paused,PlayingToPaused);
-        AddTransition(_resulted,_playing,FailToPlaying);
+        AddTransition(_resulted,_playInitialize,FailToPlaying);
         AddTransition(_loadNext,_initialize,LoadNextToInitialize);
         AddAnyTransition(_loadNext,AnyToLoadNext);
     }
@@ -119,7 +121,7 @@ public class SM_GameMode : ActorStateMachine
         return false;
     }
 
-    private bool InitializeToPlaying()
+   /* private bool InitializeToPlaying()
     {
         if (_initialize.IsFinished)
         {
@@ -127,7 +129,7 @@ public class SM_GameMode : ActorStateMachine
             return true;
         }
         return false;
-    }
+    }*/
     
     private bool PlayingToPaused()
     {
@@ -147,5 +149,10 @@ public class SM_GameMode : ActorStateMachine
             return true;
         }
         return false;
+    }
+
+    private bool PlayInitToPlaying()
+    {
+        return _playInitialize.IsFinished;
     }
 }

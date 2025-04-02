@@ -74,8 +74,9 @@ GameObject:
   - component: {fileID: 8567950151311486710}
   - component: {fileID: 8200285604630941141}
   - component: {fileID: 3865978338172253644}
+  - component: {fileID: 5462311921978719296}
   m_Layer: 0
-  m_Name: Result
+  m_Name: PlayEnded-Result
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,6 +150,66 @@ MonoBehaviour:
       type: {class: Condition_GameResult, ns: , asm: Assembly-CSharp-firstpass}
       data:
         ShouldCompleted: 0
+--- !u!114 &5462311921978719296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977592069130003894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 107c84b08cb746249f4ee4023738491c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+--- !u!1 &6384389482146492284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7818126022473251542}
+  - component: {fileID: 7893709873822792332}
+  m_Layer: 0
+  m_Name: PlayInitialize
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7818126022473251542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6384389482146492284}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7052049253013988634}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7893709873822792332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6384389482146492284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23cd919b9a574fe697585712655bf24c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
 --- !u!1 &6987930798687795965
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,6 +324,7 @@ Transform:
   - {fileID: 548714525610012503}
   - {fileID: 7052049254233589756}
   - {fileID: 3101941669276826376}
+  - {fileID: 7818126022473251542}
   - {fileID: 7052049254433454336}
   - {fileID: 9182452957225896832}
   - {fileID: 8567950151311486710}
@@ -300,6 +362,7 @@ MonoBehaviour:
   _authing: {fileID: 5052060467144053004}
   _initialize: {fileID: 8167127278538150484}
   _mainMenu: {fileID: 5522812133271241748}
+  _playInitialize: {fileID: 7893709873822792332}
   _playing: {fileID: 7052049254433454337}
   _paused: {fileID: 7644047392995924215}
   _resulted: {fileID: 8200285604630941141}
@@ -363,7 +426,6 @@ GameObject:
   - component: {fileID: 3859053246006024843}
   - component: {fileID: 4711004737922463834}
   - component: {fileID: 4818661866757561535}
-  - component: {fileID: 115152351921083184}
   m_Layer: 0
   m_Name: LevelFail
   m_TagString: Untagged
@@ -450,20 +512,6 @@ MonoBehaviour:
   _eventField:
     _addressType: 16
     _eventKey: {fileID: 11400000, guid: 7b5a1790eb4c63f47860649b398ec9f4, type: 2}
---- !u!114 &115152351921083184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7052049253595885955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 107c84b08cb746249f4ee4023738491c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsRunning: 0
-  IsFinished: 0
 --- !u!1 &7052049253639438171
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,7 +526,6 @@ GameObject:
   - component: {fileID: 692258207654886553}
   - component: {fileID: 2615924178556994591}
   - component: {fileID: 5597759323304764548}
-  - component: {fileID: 1373666065268178820}
   m_Layer: 0
   m_Name: LevelComplete
   m_TagString: Untagged
@@ -579,20 +626,6 @@ MonoBehaviour:
   _eventField:
     _addressType: 16
     _eventKey: {fileID: 11400000, guid: 7b5a1790eb4c63f47860649b398ec9f4, type: 2}
---- !u!114 &1373666065268178820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7052049253639438171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 107c84b08cb746249f4ee4023738491c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsRunning: 0
-  IsFinished: 0
 --- !u!1 &7052049254233589759
 GameObject:
   m_ObjectHideFlags: 0

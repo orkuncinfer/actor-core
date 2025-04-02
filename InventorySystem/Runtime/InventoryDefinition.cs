@@ -255,6 +255,11 @@ public class InventoryDefinition : MonoBehaviour
     }
     public int GetItemCount(ItemDefinition itemDefinition)
     {
+        if (itemDefinition == null)
+        {
+            Debug.LogError("itemdefinition is null");
+            return default;
+        }
         int availableCount = 0;
         foreach (var slot in InventoryData.InventorySlots)
         {

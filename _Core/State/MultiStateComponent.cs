@@ -16,6 +16,7 @@ public class MultiStateComponent : MonoState
             state.onStateFinished += OnChildStateFinished;
             state.CheckoutEnter(Owner);
         }
+        if(childStates.Length == 1) CheckoutExit();
     }
 
     private void OnChildStateFinished(MonoState obj)
