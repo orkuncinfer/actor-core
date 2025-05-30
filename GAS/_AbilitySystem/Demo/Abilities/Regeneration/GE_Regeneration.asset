@@ -12,11 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
   m_Name: GE_Regeneration
   m_EditorClassIdentifier: 
+  ItemID: GE_Regeneration
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions:
   - rid: 88048083462258690
   m_SpecialEffectDefinition: {fileID: 0}
+  _conditionalEffects: []
   _description: 
-  Deneme: dene
+  _grantedTags:
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
@@ -24,7 +37,6 @@ MonoBehaviour:
   _isPeriodic: 1
   _period: 0.5
   _executePeriodicEffectOnApplication: 1
-  _grantedTags: []
   _specialPersistentEffectDefinition: {fileID: 11400000, guid: 77112a2788222c04195e1c51533a3e5e, type: 2}
   references:
     version: 2

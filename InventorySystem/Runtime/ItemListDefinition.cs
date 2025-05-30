@@ -9,6 +9,8 @@ public class ItemListDefinition : ScriptableObject
     public List<ItemBaseDefinition> AllItems = new List<ItemBaseDefinition>();
     
     private Dictionary<string,ItemBaseDefinition> _itemDictionary = new Dictionary<string, ItemBaseDefinition>();
+
+    public string TypeName;
     
     public ItemBaseDefinition GetItem(string itemId)
     {
@@ -16,6 +18,10 @@ public class ItemListDefinition : ScriptableObject
         {
             foreach (var itemDefinition in AllItems)
             {
+                if (_itemDictionary.ContainsKey(itemDefinition.ItemId))
+                {
+                    Debug.LogError($"Item with id {itemDefinition.ItemId} already exists in the dictionary. Duplicate item found: {itemDefinition.name}");
+                }
                 _itemDictionary.Add(itemDefinition.ItemId, itemDefinition);
             }
         }
@@ -23,6 +29,7 @@ public class ItemListDefinition : ScriptableObject
         {
             return item;
         }
+        Debug.Log($"Couldn't found the item with id : " + itemId);
         return null;
     }
     
@@ -34,16 +41,48 @@ public class ItemListDefinition : ScriptableObject
         AllItems.Clear();
 
         // Get all ItemDefinition assets stored in the project
-        string[] guids = AssetDatabase.FindAssets("t:ItemBaseDefinition"); // Find all assets that are of type ItemDefinition
+        string[] guids = AssetDatabase.FindAssets($"t:{TypeName}"); // Find all assets of the specified type
+
         foreach (string guid in guids)
         {
             string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-            ItemBaseDefinition item = AssetDatabase.LoadAssetAtPath<ItemBaseDefinition>(assetPath);
-            if (item != null)
+
+            // Load the main asset
+            ItemBaseDefinition mainItem = AssetDatabase.LoadAssetAtPath<ItemBaseDefinition>(assetPath);
+            if (mainItem != null)
             {
-                AllItems.Add(item);
+                if(!AllItems.Contains(mainItem))
+                    AllItems.Add(mainItem);
+            }
+
+            // Load all assets at the same path (including sub-assets)
+            Object[] allAssets = AssetDatabase.LoadAllAssetsAtPath(assetPath);
+
+            foreach (Object asset in allAssets)
+            {
+                if (asset == null || asset == mainItem)
+                    continue;
+
+                if (asset is ItemBaseDefinition childItem)
+                {
+                    if(!AllItems.Contains(childItem))
+                        AllItems.Add(childItem);
+                }
             }
         }
+    }
+
+    [Button]
+    public void GenerateIdForAll()
+    {
+        foreach (var itemDefinition in AllItems)
+        {
+            if (string.IsNullOrEmpty(itemDefinition.ItemId))
+            {
+                itemDefinition.SetId();
+            }
+        }
+        AssetDatabase.SaveAssets();
     }
     #endif
 }

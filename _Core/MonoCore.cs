@@ -11,6 +11,9 @@ public class MonoCore : MonoBehaviour
         GlobalActorEvents.onActorsInitialized += OnActorsInitialized;
         GlobalActorEvents.onGameModeStopped += OnGameModeStopped;
         GlobalActorEvents.onGameModeStarted += OnGameModeStarted;
+        
+        if (GlobalActorEvents.ActorsInitialized) OnActorsInitialized();
+        if(GlobalActorEvents.GameModeStarted) OnGameModeStarted();
     }
 
     private void OnDestroy()

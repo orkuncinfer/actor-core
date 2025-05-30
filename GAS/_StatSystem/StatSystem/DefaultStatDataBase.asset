@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8778580052579789055
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
+  m_Name: Health
+  m_EditorClassIdentifier: 
+  _baseValue: 100
+  _cap: -1
+  _formula: {fileID: 0}
 --- !u!114 &-8150500705377927048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12,7 +27,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
   m_Name: AttackSpeed
   m_EditorClassIdentifier: 
-  _baseValue: 150
+  _baseValue: 200
   _cap: -1
   _formula: {fileID: 0}
 --- !u!114 &-7091563289061948660
@@ -45,21 +60,6 @@ MonoBehaviour:
   _baseValue: 100
   _cap: -1
   _formula: {fileID: 0}
---- !u!114 &-6425478553280837571
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
-  m_Name: Vitality
-  m_EditorClassIdentifier: 
-  _baseValue: 1
-  _cap: 99
-  _formula: {fileID: 0}
 --- !u!114 &-4013536378866253182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -75,7 +75,7 @@ MonoBehaviour:
   _baseValue: 100
   _cap: 100
   _formula: {fileID: 0}
---- !u!114 &-2301453863403044092
+--- !u!114 &-2575634945262280490
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
-  m_Name: Strength
+  m_Name: Vitality
   m_EditorClassIdentifier: 
   _baseValue: 1
   _cap: 99
@@ -103,6 +103,21 @@ MonoBehaviour:
   m_Name: FireAttackPower
   m_EditorClassIdentifier: 
   _baseValue: 0
+  _cap: -1
+  _formula: {fileID: 0}
+--- !u!114 &-342804979566646439
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
+  m_Name: Mana
+  m_EditorClassIdentifier: 
+  _baseValue: 100
   _cap: -1
   _formula: {fileID: 0}
 --- !u!114 &11400000
@@ -127,12 +142,12 @@ MonoBehaviour:
   - {fileID: -8150500705377927048}
   - {fileID: 173067419096793987}
   Attributes:
-  - {fileID: 7067557841228162183}
-  - {fileID: 3554555366320680055}
+  - {fileID: -8778580052579789055}
+  - {fileID: -342804979566646439}
   PrimaryStats:
-  - {fileID: -2301453863403044092}
-  - {fileID: 4598010073548728297}
-  - {fileID: -6425478553280837571}
+  - {fileID: 527603549127701159}
+  - {fileID: 8428347678798893570}
+  - {fileID: -2575634945262280490}
 --- !u!114 &173067419096793987
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,6 +162,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseValue: 3
   _cap: -1
+  _formula: {fileID: 0}
+--- !u!114 &527603549127701159
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
+  m_Name: Strength
+  m_EditorClassIdentifier: 
+  _baseValue: 1
+  _cap: 99
   _formula: {fileID: 0}
 --- !u!114 &2397121103519913068
 MonoBehaviour:
@@ -163,21 +193,6 @@ MonoBehaviour:
   _baseValue: 1
   _cap: -1
   _formula: {fileID: 11400000, guid: 88a397292e38ef54f9a1cc4d6bbdc51b, type: 2}
---- !u!114 &3554555366320680055
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
-  m_Name: Health
-  m_EditorClassIdentifier: 
-  _baseValue: 60000
-  _cap: -1
-  _formula: {fileID: 0}
 --- !u!114 &3982502061099001070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,7 +208,7 @@ MonoBehaviour:
   _baseValue: 0
   _cap: -1
   _formula: {fileID: 0}
---- !u!114 &4598010073548728297
+--- !u!114 &8428347678798893570
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -207,21 +222,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseValue: 1
   _cap: 99
-  _formula: {fileID: 0}
---- !u!114 &7067557841228162183
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44da8ff7301c40de91af87577776e13d, type: 3}
-  m_Name: Mana
-  m_EditorClassIdentifier: 
-  _baseValue: 100
-  _cap: -1
   _formula: {fileID: 0}
 --- !u!114 &8623849127593474204
 MonoBehaviour:

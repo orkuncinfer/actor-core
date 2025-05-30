@@ -6,7 +6,7 @@ public class AmmoStorage : MonoBehaviour
     [SerializeField] int[] startingAmmoAmounts;
     [SerializeField] private GenericKey _ammoInventoryKey;
 
-    private InventoryDefinition _ammoInventory => DefaultPlayerInventory.Instance.GetInventoryDefinition(_ammoInventoryKey.ID);
+    private InventoryDefinition _ammoInventory => GetComponent<Equippable>().Owner.GetInventoryDefinition(_ammoInventoryKey.ID);
 
     void Start()
     {

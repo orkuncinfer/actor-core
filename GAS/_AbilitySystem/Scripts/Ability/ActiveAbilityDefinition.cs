@@ -146,6 +146,41 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
          AssetDatabase.SaveAssets();
          AssetDatabase.Refresh();
      }
+     [Button]
+     public void FixCD()
+     {
+         if (Cooldown != null)
+         {
+             string input = name;
+             string prefix = "GA_";
+             string itemID = "";
+             if (input.StartsWith(prefix))
+             {
+                 itemID = input.Substring(prefix.Length);
+             }
+           
+             Cooldown.name = itemID + "_Cooldown";
+             Cooldown.ItemId = itemID + "_Cooldown";
+             AssetDatabase.SaveAssets();
+             AssetDatabase.Refresh();
+         }
+
+         if (Cost != null)
+         {
+             string input = name;
+             string prefix = "GA_";
+             string itemID = "";
+             if (input.StartsWith(prefix))
+             {
+                 itemID = input.Substring(prefix.Length);
+             }
+             
+             Cost.name = itemID + "_Cost";
+             Cost.ItemId = itemID + "_Cost";
+             AssetDatabase.SaveAssets();
+             AssetDatabase.Refresh();
+         }
+     }
      
      public static void RemoveSubAsset(ScriptableObject parentAsset, ScriptableObject subAsset)
      {

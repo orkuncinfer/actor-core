@@ -10,6 +10,9 @@ public static class EventRegistry
     
     private static readonly Dictionary<string, Action<EventArgs>> _globalEventDictionary =
         new Dictionary<string, Action<EventArgs>>();
+    
+    private static readonly Dictionary<string, List<Action<EventArgs>>> _autoRemoveDictionary =
+        new Dictionary<string,  List<Action<EventArgs>>>();
 
     public static void Install(string key)
     {
@@ -27,10 +30,15 @@ public static class EventRegistry
         }
     }
 
-    public static void Register(string key,Action<EventArgs> action)
+    public static void Register(string key,Action<EventArgs> action, bool autoUnregister = false)
     {
         if (!ContainsEvent(key)) Install(key);
         _globalEventDictionary[key] += action;
+
+        if (autoUnregister)
+        {
+            _autoRemoveDictionary[key].Add(action);
+        }
     }
 
     public static void  Unregister(string key,Action<EventArgs> action)
@@ -43,6 +51,16 @@ public static class EventRegistry
     {
         if (!ContainsEvent(key)) return;
         _globalEventDictionary[key]?.Invoke(new EventArgs(){Sender = null,EventName = key});
+        
+        if (_autoRemoveDictionary.ContainsKey(key))
+        {
+            foreach (var action in _autoRemoveDictionary[key])
+            {
+                _globalEventDictionary[key] -= action;
+                Debug.Log("Unregistering action: " + action.Method.Name);
+            }
+            _autoRemoveDictionary.Remove(key);
+        }
     }
     
     public static bool ContainsEvent(string key)

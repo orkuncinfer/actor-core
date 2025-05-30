@@ -18,24 +18,42 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: 67077c7075ac8454fb37285e288a6f20, type: 2}
-  _animationClip: {fileID: 0}
-  _animationName: 
   _isBasicAttack: 0
+  _abilityLayer: 0
   _overrideAnimSpeed: 0
+  _useCustomAnim: 0
   _animationSpeed: 0
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 1
+  _avatarMask: {fileID: 0}
+  _animationLayer: 0
+  _isLoopingAbility: 0
+  _duration: 0
   Cost: {fileID: 5416864911796429811}
   Cooldown: {fileID: 5384915199905672138}
-  GrantedTagsDuringAbility: []
-  AbilityWindowActions:
-  - Action:
-      rid: 88048483661774858
-    EventName: Attack
+  _abilityTags:
+    _tagHashes: []
+  _grantedTagsDuringAbility:
+    _tagHashes: []
+  _activationRequiredTags:
+    _tagHashes: []
+  _activationBlockedTags:
+    _tagHashes: []
+  _cancelAbilitiesWithTag:
+    _tagHashes: []
+  GrantedEffectsDuringAbility: []
+  AbilityActions: []
   references:
     version: 2
-    RefIds:
-    - rid: 88048483661774858
-      type: {class: MeleeAttackAction, ns: , asm: Assembly-CSharp-firstpass}
-      data: 
+    RefIds: []
 --- !u!114 &5384915199905672138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,20 +64,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
-  m_Name: Cooldown
+  m_Name: Cleanse_Cooldown
   m_EditorClassIdentifier: 
+  ItemID: Cleanse_Cooldown
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
   _grantedTags:
-  - fullTag: Cooldown.Cleanse
-    tagHierarchy:
-    - Cooldown
-    - Cooldown.Cleanse
-    HashCode: 7ce78101-eacc-42e5-8111-530e2890c215
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
@@ -81,15 +104,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
-  m_Name: Cost
+  m_Name: Cleanse_Cost
   m_EditorClassIdentifier: 
+  ItemID: Cleanse_Cost
+  _itemIDLocked: 0
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   references:
     version: 2
     RefIds: []

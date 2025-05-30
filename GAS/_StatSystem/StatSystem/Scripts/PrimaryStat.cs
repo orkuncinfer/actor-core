@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace StatSystem
 {
-    public class PrimaryStat : Stat, ISavable
+    [System.Serializable]
+    public class PrimaryStat : Stat, ISavable // Dex, Str, Int
     {
         private int _baseValue;
         public override int BaseValue => _baseValue;

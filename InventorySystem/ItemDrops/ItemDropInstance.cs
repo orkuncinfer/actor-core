@@ -34,7 +34,7 @@ public class ItemDropInstance : Collectible
 
     private void SpawnModel()
     {
-        ItemDefinition = InventoryUtils.FindItemWithId(_itemData.ItemID);
+        ItemDefinition = InventoryUtils.FindItemDefinitionWithId(_itemData.ItemID);
         if(ItemDefinition==null) return;
         if(ItemDefinition.Model == null) return;
         if(_model != null) PoolManager.ReleaseObject(_model);
@@ -57,8 +57,8 @@ public class ItemDropInstance : Collectible
         InventoryDefinition collectInventory = null;
         
         if(InventoryDefinition) collectInventory = InventoryDefinition;
-        if (InventoryKey) collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(InventoryKey.ID);
-        ItemDefinition = InventoryUtils.FindItemWithId(_itemData.ItemID);
+       // if (InventoryKey) collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(InventoryKey.ID);
+        ItemDefinition = InventoryUtils.FindItemDefinitionWithId(_itemData.ItemID);
         ItemData newItemData = new ItemData
         {
             ItemID = ItemDefinition.ItemID,
@@ -86,8 +86,8 @@ public class ItemDropInstance : Collectible
         InventoryDefinition collectInventory = null;
         if (_isEquippable)
         {
-            collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(EquipmentInventoryKey.ID);
-            if (collectInventory.ReplaceItem(ItemDefinition, DropCount, _itemData))
+            //collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(EquipmentInventoryKey.ID);
+            if (collectInventory.ReplaceItem(ItemDefinition, _itemData))
             {
                 if(LabelInstance)ItemDropManager.Instance.PickedUp(LabelInstance);
                 PoolManager.ReleaseObject(this.gameObject);

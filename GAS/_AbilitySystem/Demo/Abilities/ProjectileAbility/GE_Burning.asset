@@ -12,24 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d3caee2f39b3e489782a62353054f5, type: 3}
   m_Name: GE_Burning
   m_EditorClassIdentifier: 
+  ItemID: GE_Burning
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions:
   - rid: 88048483661774850
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
   _grantedTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _applicationBlockerTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _removeEffectsWithTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
     StaticValue: 5
   _isPeriodic: 1
   _period: 1
-  _executePeriodicEffectOnApplication: 0
+  _executePeriodicEffectOnApplication: 1
   _specialPersistentEffectDefinition: {fileID: 11400000, guid: 39159a33f9268ab44953121918da95a1, type: 2}
   _overflowEffects: []
   _denyOverflowApplication: 0
@@ -48,5 +55,5 @@ MonoBehaviour:
         Type: 0
         Formula:
           Graph: {fileID: 0}
-          StaticValue: -6
+          StaticValue: -3
         CanCriticalHit: 0

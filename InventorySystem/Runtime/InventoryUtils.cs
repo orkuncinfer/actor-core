@@ -52,7 +52,7 @@ public static class InventoryUtils
         return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 
-    public static ItemDefinition FindItemWithId(string id)
+    public static ItemDefinition FindItemDefinitionWithId(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
@@ -69,6 +69,11 @@ public static class InventoryUtils
             Debug.LogWarning($"Item with ID {id} not found.");
             return null;
         }
+    }
+
+    public static List<ItemDefinition> GetItemsList()
+    {
+        return _itemDataBase.AllItems;
     }
 
     private static void EnsureInitialized()

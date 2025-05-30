@@ -32,41 +32,6 @@ public partial class GameplayEffectController
                 }
             }
         }
-        
-        private void PlaySpecialEffect(GameplayPersistentEffect effect)
-        {
-            VisualEffect visualEffect =
-                Instantiate(effect.Definition.SpecialPersistentEffectDefinition.prefab, transform);
-            visualEffect.finished += visualEffect => Destroy(visualEffect.gameObject);
-
-            if (effect.Definition.SpecialPersistentEffectDefinition.location == PlayLocation.Center)
-            {
-                visualEffect.transform.localPosition = Utils.GetCenterOfCollider(transform);
-            }
-            else if (effect.Definition.SpecialPersistentEffectDefinition.location == PlayLocation.Above)
-            {
-                visualEffect.transform.localPosition = Utils.GetComponentHeight(gameObject) * Vector3.up;
-            }
-
-            if (visualEffect.isLooping)
-            {
-                if (m_SpecialEffectCountMap.ContainsKey(effect.Definition.SpecialPersistentEffectDefinition))
-                {
-                    m_SpecialEffectCountMap[effect.Definition.SpecialPersistentEffectDefinition]++;
-                }
-                else
-                {
-                    m_SpecialEffectCountMap.Add(effect.Definition.SpecialPersistentEffectDefinition, 1);
-                    m_SpecialEffectMap.Add(effect.Definition.SpecialPersistentEffectDefinition, visualEffect);
-                    if (effect.Definition.GrantedTags.GetTags().Any(tag => tag.FullTag.ToString().StartsWith("status"))) // bu nedir hocam
-                    {
-                        m_StatusEffects.Add(visualEffect);
-                    }
-                }
-            }
-            
-            visualEffect.Play();
-        }
 
         private void PlaySpecialEffect(GameplayEffect effect)
         {
@@ -84,19 +49,58 @@ public partial class GameplayEffectController
             }
             visualEffect.Play();
         }
-
-        private void StopSpecialEffect(GameplayPersistentEffect effect)
+        
+        private void PlaySpecialEffectPersistent(string effectDefinitionId)
         {
-            if (m_SpecialEffectCountMap.ContainsKey(effect.Definition.SpecialPersistentEffectDefinition))
+            GameplayPersistentEffectDefinition effectDefinition = _allEffectsList.GetItem(effectDefinitionId) as GameplayPersistentEffectDefinition;
+            if (effectDefinition == null) return;
+            VisualEffect visualEffect = Instantiate(effectDefinition.SpecialPersistentEffectDefinition.prefab, transform);
+            visualEffect.finished += visualEffect => Destroy(visualEffect.gameObject);
+
+            if (effectDefinition.SpecialPersistentEffectDefinition.location == PlayLocation.Center)
             {
-                m_SpecialEffectCountMap[effect.Definition.SpecialPersistentEffectDefinition]--;
-                if (m_SpecialEffectCountMap[effect.Definition.SpecialPersistentEffectDefinition] == 0)
+                visualEffect.transform.localPosition = Utils.GetCenterOfCollider(transform);
+            }
+            else if (effectDefinition.SpecialPersistentEffectDefinition.location == PlayLocation.Above)
+            {
+                visualEffect.transform.localPosition = Utils.GetComponentHeight(gameObject) * Vector3.up;
+            }
+
+            if (visualEffect.isLooping)
+            {
+                if (m_SpecialEffectCountMap.ContainsKey(effectDefinition.SpecialPersistentEffectDefinition))
                 {
-                    m_SpecialEffectCountMap.Remove(effect.Definition.SpecialPersistentEffectDefinition);
-                    VisualEffect visualEffect = m_SpecialEffectMap[effect.Definition.SpecialPersistentEffectDefinition];
+                    m_SpecialEffectCountMap[effectDefinition.SpecialPersistentEffectDefinition]++;
+                }
+                else
+                {
+                    m_SpecialEffectCountMap.Add(effectDefinition.SpecialPersistentEffectDefinition, 1);
+                    m_SpecialEffectMap.Add(effectDefinition.SpecialPersistentEffectDefinition, visualEffect);
+                    if (effectDefinition.GrantedTags.GetTags().Any(tag => tag.FullTag.ToString().StartsWith("status"))) // bu nedir hocam
+                    {
+                        m_StatusEffects.Add(visualEffect);
+                    }
+                }
+            }
+            
+            visualEffect.Play();
+        }
+
+        private void StopSpecialEffectPersistent(string effectDefinitionId)
+        {
+            GameplayPersistentEffectDefinition effectDefinition = _allEffectsList.GetItem(effectDefinitionId) as GameplayPersistentEffectDefinition;
+            if (effectDefinition == null) return;
+            
+            if (m_SpecialEffectCountMap.ContainsKey(effectDefinition.SpecialPersistentEffectDefinition))
+            {
+                m_SpecialEffectCountMap[effectDefinition.SpecialPersistentEffectDefinition]--;
+                if (m_SpecialEffectCountMap[effectDefinition.SpecialPersistentEffectDefinition] == 0)
+                {
+                    m_SpecialEffectCountMap.Remove(effectDefinition.SpecialPersistentEffectDefinition);
+                    VisualEffect visualEffect = m_SpecialEffectMap[effectDefinition.SpecialPersistentEffectDefinition];
                     visualEffect.Stop();
-                    m_SpecialEffectMap.Remove(effect.Definition.SpecialPersistentEffectDefinition);
-                    if (effect.Definition.GrantedTags.GetTags().Any(tag => tag.FullTag.ToString().StartsWith("status")))
+                    m_SpecialEffectMap.Remove(effectDefinition.SpecialPersistentEffectDefinition);
+                    if (effectDefinition.GrantedTags.GetTags().Any(tag => tag.FullTag.ToString().StartsWith("status")))
                     {
                         m_StatusEffects.Remove(visualEffect);
                     }

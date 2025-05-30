@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Monster_", menuName = "Inventory System/Monster/Monster Definition")]
-public class MonsterDefinition : ScriptableObject
+public class MonsterDefinition : ItemBaseDefinition
 {
     public string MonsterID;
     public ItemDrop[] PossibleDrops;

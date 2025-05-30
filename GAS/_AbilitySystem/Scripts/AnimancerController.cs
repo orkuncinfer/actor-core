@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Animancer;
 using DG.Tweening;
+using FishNet.Managing.Timing;
+using FishNet.Object;
 using Sirenix.OdinInspector;
 using StatSystem;
 using UnityEngine;
@@ -27,11 +29,13 @@ public class AnimancerController : MonoBehaviour
 
     private Dictionary<AnimancerState, Action> _onEndActions = new Dictionary<AnimancerState, System.Action>();
 
+    private List<AbilityAction> _actionsToRemove = new List<AbilityAction>();
+
     private Action _onAnimationEnd;
 
     private void Start()
     {
-        _owner = transform.root.GetComponent<Actor>();
+        _owner = ActorUtilities.FindFirstActorInParents(transform);
         _abilityController = _owner.GetService<Service_GAS>().AbilityController;
         _animancerComponent = GetComponent<AnimancerComponent>();
 
@@ -57,6 +61,7 @@ public class AnimancerController : MonoBehaviour
         } 
         for (int i = _abilityController.GetActiveAbilities().Count ; i > 0; i--) // ANIMATION END CHECK
         {
+            
             ActiveAbility ability = _abilityController.GetActiveAbilities()[i - 1];
             if(ability.AnimancerState == null) continue;
             if (ability.AnimancerState.NormalizedTime >= ability.Definition.EndTime)
@@ -75,9 +80,10 @@ public class AnimancerController : MonoBehaviour
             {
                 EndOrInterrupted(_currentAbilityAnimState, ability);
             }
-            
+            _actionsToRemove.Clear();
             foreach (var action in ability.AbilityActions)
             {
+                
                 if (action.ActivationPolicy != AbilityAction.EAbilityActionActivationPolicy.AnimWindow) continue;
                 if (action.AnimWindow.x <= action.ActiveAbility.AnimancerState.NormalizedTime)
                 {
@@ -90,9 +96,15 @@ public class AnimancerController : MonoBehaviour
                 if (action.AnimWindow.y <= action.ActiveAbility.AnimancerState.NormalizedTime && action.IsRunning)
                 {
                     action.OnExit();
+                    _actionsToRemove.Add(action);
                 }
                 if (action.HasTick && action.IsRunning)
                     action.OnTick(_owner);
+            }
+
+            foreach (var finishedAction in _actionsToRemove)
+            {
+                ability.AbilityActions.Remove(finishedAction);
             }
         }
 
@@ -168,30 +180,76 @@ public class AnimancerController : MonoBehaviour
             ClipTransition clip = ability.Definition.ClipTransition;
             if(customAnim != null) clip = customAnim;
             ability.PreviousAnimancerState = _animancerComponent.Layers[layer].CurrentState;
-            _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(clip);
-            ability.AnimancerState = _currentAbilityAnimState;
             
-            _currentAbilityAnimationReachedFullWeight = false;
-            _abilityAnimPlaying = true;
-            
+            float animSpeed = clip.Speed;
             if (ability.Definition.IsBasicAttack)
             {
                 float attackSpeedStat = _abilityController.GetComponent<StatController>().Stats["AttackSpeed"].Value;
-                _animancerComponent.States.Current.Speed =
+                animSpeed =
                     (attackSpeedStat / 100f) / (1 / ability.Definition.AnimationClip.length);
             }
             else
             {
                 if (ability.Definition.OverrideAnimSpeed)
                 {
-                    _animancerComponent.Layers[layer].CurrentState.Speed = ability.Definition.AnimationSpeed;
+                    animSpeed = ability.Definition.AnimationSpeed;
                 }
             }
+
+            float baseFadeDuration = clip.FadeDuration;
+            float adjustedFadeDuration = CalculateAdjustedFadeDuration(baseFadeDuration, animSpeed);
+            
+            
+            if (_currentAbilityAnimState != null && _animancerComponent.States.TryGet(clip,out AnimancerState statee))
+            {
+                statee.Time = 0;
+                _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(statee,adjustedFadeDuration);
+            }
+            else
+            {
+                _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(clip);
+            }
+            ability.AnimancerState = _currentAbilityAnimState;
+            
+            _currentAbilityAnimationReachedFullWeight = false;
+            _abilityAnimPlaying = true;
+
+            
+
+            _animancerComponent.Layers[layer].CurrentState.Speed = animSpeed;
         }
         else if(ability.Definition.AnimationClip == null && ability.Definition.UseCustomAnim == false)
         {
             ReCast(ability);
         }
+    }
+    
+    private float CalculateAdjustedFadeDuration(float baseFadeDuration, float animationSpeed)
+    {
+        // Prevent division by zero and handle edge cases
+        if (animationSpeed <= 0f)
+            return baseFadeDuration;
+
+        // Use inverse relationship with smoothing curve
+        // Formula: adjustedDuration = baseDuration / sqrt(speed)
+        // This provides gentler scaling than pure inverse (baseDuration / speed)
+        float speedFactor = Mathf.Sqrt(Mathf.Abs(animationSpeed));
+        float adjustedDuration = baseFadeDuration / speedFactor;
+
+        // Apply additional smoothing for extreme speeds
+        if (animationSpeed > 3f) // Very fast animations
+        {
+            // Use logarithmic scaling for very high speeds to prevent overly short fades
+            float logScaling = Mathf.Log10(animationSpeed) / Mathf.Log10(3f);
+            adjustedDuration = baseFadeDuration / (1f + logScaling);
+        }
+        else if (animationSpeed < 0.5f) // Very slow animations
+        {
+            // Limit fade duration increase for very slow animations
+            adjustedDuration = Mathf.Min(adjustedDuration, baseFadeDuration * 2f);
+        }
+
+        return adjustedDuration;
     }
 
     public void EndOrInterrupted(AnimancerState animState, ActiveAbility activeAbility)

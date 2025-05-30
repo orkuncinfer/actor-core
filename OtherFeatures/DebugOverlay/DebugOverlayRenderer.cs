@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DebugOverlayRenderer : MonoBehaviour
 {
+    [SerializeField] private float _showDuration = 1;
     private void Update()
     {
         DebugOverlay.Instance.Update(Time.deltaTime);
@@ -16,6 +17,6 @@ public class DebugOverlayRenderer : MonoBehaviour
     [Button]
     public void DebugTest(string message)
     {
-        DebugOverlay.Instance.Log(message,1);
+        DebugOverlay.Instance.Log(message,_showDuration);
     }
 }

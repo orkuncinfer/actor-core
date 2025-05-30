@@ -156,7 +156,7 @@ public class CanvasLayer : MonoBehaviour
         instanceView.PanelInstance = newPanelInstance;
         instanceView.OwnerCanvas = _canvas;
         
-        CanvasManager.Instance.PanelStack.Push(instanceView);
+        CanvasManager.Instance.PushPanel(instanceView);
         if (instanceView.transform.TryGetComponent(out PanelActor panelActor))
         {
             panelActor.StartIfNot();
@@ -170,12 +170,21 @@ public class CanvasLayer : MonoBehaviour
         _lastTriedShowPanelId = inPanelActor.PanelId;
         
         
-        foreach (PanelActor panelInstance in CanvasManager.Instance.PanelStack)
+        GameObject newPanelInstance = null;
+        if (inPanelActor.gameObject.activeInHierarchy)
         {
-            if (panelInstance.PanelId == inPanelActor.PanelId) return null;
+            newPanelInstance = inPanelActor.gameObject;
         }
-        GameObject newPanelInstance =
-            PoolManager.SpawnObject(inPanelActor.gameObject, Vector3.zero, Quaternion.identity, transform);
+        else
+        {
+            foreach (PanelActor panelInstance in CanvasManager.Instance.PanelStack)
+            {
+                if (panelInstance.PanelId == inPanelActor.PanelId) return null;
+            }
+            newPanelInstance =
+                PoolManager.SpawnObject(inPanelActor.gameObject, Vector3.zero, Quaternion.identity, transform);
+        }
+      
         newPanelInstance.SetActive(true);
         newPanelInstance.transform.localPosition = Vector3.zero;
         PanelActor instanceView = newPanelInstance.GetComponent<PanelActor>();
@@ -183,7 +192,7 @@ public class CanvasLayer : MonoBehaviour
         instanceView.PanelInstance = newPanelInstance;
         instanceView.OwnerCanvas = _canvas;
         
-        CanvasManager.Instance.PanelStack.Push(instanceView);
+        CanvasManager.Instance.PushPanel(instanceView);
         if (instanceView.transform.TryGetComponent(out PanelActor panelActorInstance))
         {
             panelActorInstance.StartIfNot();
@@ -201,36 +210,45 @@ public class CanvasLayer : MonoBehaviour
         
         return newPanelInstance;
     }
-
+    
     [Button]
     public void HidePanel(string panelId)
     {
-        foreach (PanelActor panelInstance in CanvasManager.Instance.PanelStack)
+        Debug.Log("Trying to hide panel " + panelId);
+    
+        // Search through the panel list
+        for (int i = 0; i < CanvasManager.Instance.PanelStack.Count; i++)
         {
-            if (panelInstance.PanelId == panelId)
+            if (CanvasManager.Instance.PanelStack[i].PanelId == panelId)
             {
-                CanvasManager.Instance.PanelStack.Pop();
-                panelInstance.ClosePanel();
+                PanelActor panel = CanvasManager.Instance.PanelStack[i];
+                CanvasManager.Instance.PanelStack.RemoveAt(i);
+                panel.ClosePanel();
+                Debug.Log("Successfully removed and closed panel: " + panelId);
                 return;
             }
         }
 
+        // Check instance list as before
         foreach (PanelActor panelInstance in _instanceList)
         {
             if(panelInstance.PanelId == panelId)
             {
                 panelInstance.ClosePanel();
                 _instanceList.Remove(panelInstance);
+                Debug.Log("Removed panel from instance list: " + panelId);
                 return;
             }
         }
+    
+        Debug.Log("Panel not found in either list: " + panelId);
     }
     [Button]
     public void HideLastAdditive()
     {
-        if (CanvasManager.Instance.PanelStack.Count > 0)
+        if (CanvasManager.Instance.GetPanelCount() > 0)
         {
-            PanelActor lastPanel = CanvasManager.Instance.PanelStack.Pop();
+            PanelActor lastPanel = CanvasManager.Instance.PopPanel();
             lastPanel.ClosePanel();
         }
     }

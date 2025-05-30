@@ -42,6 +42,7 @@ public class ItemBaseDefinition : ScriptableObject, IItemIdOwner
             ItemName = input;
         }
     }
+#if UNITY_EDITOR
     public void SetId()
     {
         _itemIDLocked = true;
@@ -55,7 +56,11 @@ public class ItemBaseDefinition : ScriptableObject, IItemIdOwner
         {
             ItemID = input;
         }
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
+#endif
     
     public T GetData<T>(string key = "") where T : Data
     {

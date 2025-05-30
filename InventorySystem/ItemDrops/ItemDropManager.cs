@@ -31,9 +31,11 @@ public class ItemDropManager : MonoBehaviour
     [SerializeField] private EventField<float> onMobKillesd2;
     
     public WorldRectHoverDetector RectHoverDetector;
+    private Camera _camera;
 
     private void Awake()
     {
+        _camera = Camera.main;
         if (Instance == null)
         {
             Instance = this;
@@ -83,14 +85,14 @@ public class ItemDropManager : MonoBehaviour
         
         Iterate();
 
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             float randomX = Random.Range(-0.5f, 0.5f);
             Vector3 pos = new Vector3(randomX, 0, 0);
             DropItem(new Net_GeneratedItemResult(), pos);
             return;
             Vector3 randomPosInCircle = Random.insideUnitCircle * 2;
-            KilledMonster("mns_golem", randomPosInCircle);
+            //KilledMonster("mns_golem", randomPosInCircle);
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
@@ -115,33 +117,48 @@ public class ItemDropManager : MonoBehaviour
     [Button]
     public void Iterate()
     {
-        for (int i = 0; i < itemLabels.Count; i++)
+        const int MaxIterations = 5;
+        const float VerticalSpacing = 20f;
+
+        for (int iteration = 0; iteration < MaxIterations; iteration++)
         {
-            for (int j = i + 1; j < itemLabels.Count; j++)
+            for (int i = 0; i < itemLabels.Count; i++)
             {
-                if (RectTransformExtensions.WorldRectOverlaps(itemLabels[i].rectTransform, itemLabels[j].rectTransform))
+                var labelA = itemLabels[i];
+                if (!labelA.Initialized || labelA.IsMoving) continue;
+
+                for (int j = i + 1; j < itemLabels.Count; j++)
                 {
-                    if(!itemLabels[i].Initialized || !itemLabels[j].Initialized) continue;
-                    if(itemLabels[i].IsMoving || itemLabels[j].IsMoving) continue;
-                    itemLabels[i].UpdatePosition(itemLabels[j].rectTransform);
+                    var labelB = itemLabels[j];
+                    if (!labelB.Initialized || labelB.IsMoving) continue;
+
+                    if (labelA.rectTransform.OverlapsInScreenSpace(labelB.rectTransform, _camera))
+                    {
+                        // Push labelB upward slightly
+                        labelB.NudgeUp(VerticalSpacing);
+                    }
                 }
             }
         }
     }
+
     
     private IEnumerator FetchMonsterList()
     {
+#if USING_FIREBASE
         while (true)
         {
             MonsterListDefinition.FetchData();
             yield return new WaitForSeconds(MonsterListFetchFrequency);
         }
+#endif
+        yield return null;
     }
     [Button]
     public async void KilledMonster(string monsterID, Vector3 monsterCenterPos)
     {
-      
-        Net_GeneratedItemResult itemResultPacket = new Net_GeneratedItemResult();
+#if USING_FIREBASE
+            Net_GeneratedItemResult itemResultPacket = new Net_GeneratedItemResult();
         string ownerId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
 
 #if UNITY_EDITOR
@@ -167,9 +184,8 @@ public class ItemDropManager : MonoBehaviour
             Debug.LogError("Failed to receive response: " + e.Message);
             return;
         }
-        DropItem(itemResultPacket, monsterCenterPos);
-        
-        
+#endif
+        //DropItem(itemResultPacket, monsterCenterPos);
     }
     [Button]
     public void DropItemDefinition(ItemDefinition itemDefinition)

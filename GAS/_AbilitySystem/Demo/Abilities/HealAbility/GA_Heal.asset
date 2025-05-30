@@ -19,20 +19,37 @@ MonoBehaviour:
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: f2741c27732b33642a93fc0f8b219f80, type: 2}
   _isBasicAttack: 0
+  _abilityLayer: 0
   _overrideAnimSpeed: 0
+  _useCustomAnim: 0
   _animationSpeed: 0
-  _animationClip: {fileID: 7400000, guid: 9da5f4e062db75b479d4ffc5c2ac14b0, type: 2}
-  _playTime: 1
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 1
+  _avatarMask: {fileID: 0}
+  _animationLayer: 0
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: 7539806499375167495}
   Cooldown: {fileID: 3444629564210413127}
-  GrantedTagsDuringAbility:
-  - fullTag: State.Ability
-    tagHierarchy:
-    - State
-    - State.Ability
-    HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
+  _abilityTags:
+    _tagHashes: []
+  _grantedTagsDuringAbility:
+    _tagHashes: []
+  _activationRequiredTags:
+    _tagHashes: []
+  _activationBlockedTags:
+    _tagHashes: []
+  _cancelAbilitiesWithTag:
+    _tagHashes: []
+  GrantedEffectsDuringAbility: []
   AbilityActions: []
   references:
     version: 2
@@ -47,18 +64,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
-  m_Name: Cooldown
+  m_Name: Heal_Cooldown
   m_EditorClassIdentifier: 
+  ItemID: Heal_Cooldown
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
   _grantedTags:
-  - fullTag: 
-    tagHierarchy: []
-    HashCode: 
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
@@ -80,16 +104,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
-  m_Name: Cost
+  m_Name: Heal_Cost
   m_EditorClassIdentifier: 
+  ItemID: Heal_Cost
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions:
   - rid: 88048006081806343
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   references:
     version: 2
     RefIds:

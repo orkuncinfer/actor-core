@@ -192,7 +192,7 @@ public class GasDebugger : MonoBehaviour
         if(!_showDebugger) return;
 
         float width = 350f * _debuggerScale;
-        float height = 200f * _debuggerScale;
+        float height = 300f * _debuggerScale;
         float scaledSpacing = _spacing * _debuggerScale;
 
         GUIStyle myStyle = new GUIStyle
@@ -309,6 +309,22 @@ public class GasDebugger : MonoBehaviour
             string tag = gameplayTag.FullTag.ToString();
             GUILayout.Label($"{tag}", myStyle);
             GUILayout.Space(scaledSpacing * 0.8f);
+        }
+        
+        GUILayout.Space(scaledSpacing+5);
+        GUILayout.Label("Primary Stats :", tagsHeaderStyle);
+        GUILayout.Space(scaledSpacing);
+        
+        if (_statController)
+        {
+            foreach (KeyValuePair<string, Stat> stat in _statController.Stats)
+            {
+                if (stat.Value is PrimaryStat attr)
+                {
+                    GUILayout.Label($"{stat.Key} : {attr.Value}", myStyle);
+                    GUILayout.Space(scaledSpacing * 0.8f);
+                }
+            }
         }
         
         GUILayout.Space(scaledSpacing+5);

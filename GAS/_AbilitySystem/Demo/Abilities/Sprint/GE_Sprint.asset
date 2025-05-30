@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
   m_Name: GE_Sprint
   m_EditorClassIdentifier: 
+  ItemID: GE_Sprint
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions:
   - rid: 6278447946026450974
   m_SpecialEffectDefinition: {fileID: 0}

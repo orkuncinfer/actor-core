@@ -7,7 +7,6 @@ using UnityEngine;
 public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventory>
 {
     [ShowInInspector] protected Dictionary<string, int> _inventory = new Dictionary<string, int>();
-    [SerializeField] private ItemListDefinition _allItems;
 
     [ValueDropdown("GetAllItems")]
     [SerializeField] private ItemBaseDefinition _testItem;
@@ -24,14 +23,6 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
         AddItem(_testItem.ItemId, amount);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            AddItemTest();
-        }
-    }
-
     private void OnDestroy()
     {
         ES3.Save("DefaultInventory",_inventory);
@@ -45,7 +36,7 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
     public void AddItem(string itemId, int amount)
     {
         GetInventory();
-        ItemBaseDefinition item = _allItems.AllItems.Find(x => x.ItemId == itemId);
+        ItemBaseDefinition item = InventoryUtils.FindItemDefinitionWithId(itemId);
         if (item != null)
         {
             if (item is ItemDefinition itemDef)
@@ -120,28 +111,7 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
     
     public ItemBaseDefinition GetItemDefinition(string itemKey)
     {
-        return _allItems.AllItems.Find(x => x.ItemId == itemKey);
-    }
-    
-    public ItemListDefinition GetAllItemsList()
-    {
-        return _allItems;
-    }
-
-    public void RegisterInventoryDefinition(InventoryDefinition definition)
-    {
-        InventoryDefinitions.Add(definition.InventoryId.ID,definition);
-        Debug.Log($"Registered inventory definition {definition.InventoryId.ID} and count is {InventoryDefinitions.Count}");
-    }
-    
-    public InventoryDefinition GetInventoryDefinition(string inventoryId)
-    {
-        if (InventoryDefinitions.ContainsKey(inventoryId))
-        {
-            return InventoryDefinitions[inventoryId];
-        }
-        Debug.LogError($"Couldn't find inventory with id : {inventoryId}");
-        return null;
+        return InventoryUtils.FindItemDefinitionWithId(itemKey);
     }
     
 #if UNITY_EDITOR

@@ -9,7 +9,7 @@ namespace StatSystem
 {
     [System.Serializable]
     public class 
-        Attribute : Stat, ISavable
+        Attribute : Stat, ISavable // Health, Mana, Stamina
     {
         [ShowInInspector]protected int _currentValue;
         public int CurrentValue
@@ -22,6 +22,17 @@ namespace StatSystem
                 }
                 return _currentValue;
             }
+            set
+            {
+                int oldValue = _currentValue;
+                _currentValue = value;
+                if (_currentValue != oldValue)
+                {
+                    onCurrentValueChanged?.Invoke();
+                    onAttributeChanged?.Invoke(oldValue, _currentValue);
+                }
+                
+            }
         }
 
         public event Action onCurrentValueChanged;
@@ -29,6 +40,8 @@ namespace StatSystem
         public event Action<StatModifier> onAppliedModifier;
         
         List<StatModifier> _tempModifiers = new List<StatModifier>();
+        
+        // todo : Modifier history tarzı bir şey yapılabilir...
     
         public Attribute(StatDefinition definition, StatController controller) : base(definition, controller)
         {
@@ -62,9 +75,9 @@ namespace StatSystem
                 }
             }
    
-            if (_definition.Cap >= 0)
+            if (Definition.Cap >= 0)
             {
-                newValue = Mathf.Min(newValue, _definition.Cap);
+                newValue = Mathf.Min(newValue, Definition.Cap);
             }
             return Mathf.RoundToInt(newValue);;
         }
@@ -94,11 +107,11 @@ namespace StatSystem
             }
         }
         
-        public virtual int ApplyModifier(StatModifier modifier)
+        public virtual int ApplyModifier(StatModifier modifier,bool asServer = true)
         {
             float newValue = CurrentValue;
             int diff = 0;
-            //Debug.Log("modifier is : " + modifier.Magnitude + modifier.Type + newValue);
+            Debug.Log("modifier is : " + modifier.Magnitude + modifier.Type + newValue + ":" + Value);
             switch (modifier.Type)
             {
                 case ModifierOperationType.Override:
@@ -113,11 +126,11 @@ namespace StatSystem
             }
            
             if (newValue < 0) newValue = 0;
-            if (_definition.Cap >= 0)
+            if (Definition.Cap >= 0)
             {
-                newValue = Mathf.Min(newValue, _definition.Cap);
+                newValue = Mathf.Min(newValue, Definition.Cap);
             }
-            if (_currentValue != newValue)
+            if (_currentValue != newValue && asServer)
             {
                 int oldValue = _currentValue;
                 _currentValue = Mathf.RoundToInt(newValue);
@@ -126,7 +139,7 @@ namespace StatSystem
                 
                 onAttributeChanged?.Invoke(oldValue,_currentValue);
             }
-
+            Debug.Log("applied value is : " + _currentValue + ":" + Value);
             onAppliedModifier?.Invoke(modifier);
             return diff;
         }
@@ -141,9 +154,10 @@ namespace StatSystem
         
         public void Load(object data)
         {
+            if(Definition.Formula != null) return;
             AttributeData attribute = (AttributeData) data;
             _currentValue = attribute.CurrentValue;
-            Debug.Log($"{_definition.name} is set to value {_currentValue}");
+            Debug.Log($"{Definition.name} is set to value {_currentValue}");
             onCurrentValueChanged?.Invoke();
         }
         

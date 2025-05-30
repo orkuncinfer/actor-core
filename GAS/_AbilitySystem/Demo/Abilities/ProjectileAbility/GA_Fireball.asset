@@ -19,17 +19,36 @@ MonoBehaviour:
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: dbb302379b427ab4ba5a9df63e5e94b7, type: 2}
   _isBasicAttack: 1
+  _abilityLayer: 0
   _overrideAnimSpeed: 0
+  _useCustomAnim: 0
   _animationSpeed: 0
-  _animationClip: {fileID: 7400000, guid: 9da5f4e062db75b479d4ffc5c2ac14b0, type: 2}
-  _playTime: 1
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 1
   _avatarMask: {fileID: 0}
+  _animationLayer: 0
   _isLoopingAbility: 0
   _duration: 0
   Cost: {fileID: 6695704546369249453}
   Cooldown: {fileID: 3499710552046339334}
+  _abilityTags:
+    _tagHashes: []
   _grantedTagsDuringAbility:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
+  _activationRequiredTags:
+    _tagHashes: []
+  _activationBlockedTags:
+    _tagHashes: []
+  _cancelAbilitiesWithTag:
+    _tagHashes: []
   GrantedEffectsDuringAbility: []
   AbilityActions: []
   m_ProjectileSpeed: 15
@@ -50,21 +69,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
-  m_Name: Cooldown
+  m_Name: Fireball_Cooldown
   m_EditorClassIdentifier: 
+  ItemID: Fireball_Cooldown
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
   _grantedTags:
-    m_SerializedExplicitTags:
-    - Ability
-    - CrowdControl
-    - CrowdControl.Slow
+    _tagHashes: []
   _applicationBlockerTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _removeEffectsWithTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
@@ -86,19 +109,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
-  m_Name: Cost
+  m_Name: Fireball_Cost
   m_EditorClassIdentifier: 
+  ItemID: Fireball_Cost
+  _itemIDLocked: 0
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions:
   - rid: 88048076129828865
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: Mana
   _grantedTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _applicationBlockerTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _removeEffectsWithTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   references:
     version: 2
     RefIds:

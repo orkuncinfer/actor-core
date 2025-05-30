@@ -27,8 +27,10 @@ public class AbilityActionPool<T> where T : AbilityAction, new()
         if (_availableObjects.Count == 0)
         {
             CountAll++;
+            //Debug.Log("created new object " + typeof(T) + " count " + _availableObjects.Count);
             return new T();
         }
+        //Debug.Log("not created new object " + typeof(T) + " count " + _availableObjects.Count);
         return _availableObjects.Dequeue();
     }
 

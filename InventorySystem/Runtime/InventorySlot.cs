@@ -26,15 +26,10 @@ public class InventorySlot
 
     [SerializeField] private int _itemCount;
 
-    [FirestoreProperty]
-    public int ItemCount
-    {
-        get => _itemCount;
-        set => _itemCount = value;
-    }
+    public int ItemCount => ItemData.Quantity;
 
 
-    [SerializeField] private ItemData _itemData;
+    [ShowInInspector]private ItemData _itemData;
 
     [FirestoreProperty]
     public ItemData ItemData
@@ -46,7 +41,6 @@ public class InventorySlot
             {
                 ItemData oldValue = _itemData;
                 _itemData = value;
-                Debug.Log("itemdatachanged");
                 onItemDataChanged?.Invoke(oldValue,value,SlotIndex);
             }
         }
@@ -55,11 +49,6 @@ public class InventorySlot
     public int SlotIndex;
 
     public event Action<ItemData, ItemData, int> onItemDataChanged; 
-
-    public InventorySlot()
-    {
-        //ItemData = new ItemData();
-    }
 
     public void ResetSlot()
     {

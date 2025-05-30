@@ -9,8 +9,11 @@ public class UI_InventoryItemElement : UI_ItemElement
     [SerializeField] private Image _itemIcon;
     [SerializeField] private Image _rarityBadge;
     [SerializeField] private TextMeshProUGUI _itemCount;
+    [SerializeField] private GameObject _activeEffect;
+    [SerializeField] private GameObject _deactiveEffect;
     
     public ItemDefinition ItemDefinition;
+    public InventoryDefinition OwnerInventory;
     
     public string ItemID;
     
@@ -18,7 +21,8 @@ public class UI_InventoryItemElement : UI_ItemElement
     public override void SetItemData(string itemID, InventorySlot slotData)
     {
         base.SetItemData(itemID, slotData);
-        ItemDefinition = InventoryUtils.FindItemWithId(itemID);
+        ItemDefinition = InventoryUtils.FindItemDefinitionWithId(itemID);
+        if(ItemDefinition == null) return;
         if(_itemIcon)_itemIcon.sprite = ItemDefinition.Icon;
         if(_itemIcon)_itemIcon.color = Color.white;
         if(_itemCount)_itemCount.text = slotData.ItemCount.ToString();
@@ -37,6 +41,22 @@ public class UI_InventoryItemElement : UI_ItemElement
             {
                 _itemCount.gameObject.SetActive(false);
             }
+        }
+    }
+
+    public void SetHovered(bool hovered)
+    {
+        if (_activeEffect)
+        {
+            _activeEffect.SetActive(hovered);
+        }
+    }
+
+    public void SetActionBlocked(bool blocked)
+    {
+        if (_deactiveEffect)
+        {
+            _deactiveEffect.SetActive(blocked);
         }
     }
 

@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c4755121415bb4bba742fe13be4da0, type: 3}
   m_Name: Monster_Golem
   m_EditorClassIdentifier: 
+  ItemID: 
+  _itemIDLocked: 0
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   MonsterID: mns_golem
   PossibleDrops:
   - Item: {fileID: 11400000, guid: 3f78e0831166c7d47a358d6beb488690, type: 2}
@@ -22,3 +29,6 @@ MonoBehaviour:
     DropChance: 0.08
   MinGoldDrop: 0
   MaxGoldDrop: 0
+  references:
+    version: 2
+    RefIds: []

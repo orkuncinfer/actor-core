@@ -12,6 +12,7 @@ public class SingletonSetup : ScriptableObject
     {
         foreach (GameObject prefab in _singletons)
         {
+            Debug.Log($"{prefab.name } instantiated ");
             Instantiate(prefab);
         }
     }

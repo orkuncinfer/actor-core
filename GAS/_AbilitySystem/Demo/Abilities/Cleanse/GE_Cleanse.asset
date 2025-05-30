@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
   m_Name: GE_Cleanse
   m_EditorClassIdentifier: 
+  ItemID: GE_Cleanse
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 11400000, guid: 1e84a302419565a43bad2283f92a03c7, type: 2}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
+  _grantedTags:
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
   _removeEffectsWithTags:
-  - fullTag: Status.Poison
-    tagHierarchy:
-    - Status
-    - Status.Poison
-    HashCode: 51266778-e8cb-40c5-86d8-927e37f3dd39
-  - fullTag: Status.Burn
-    tagHierarchy:
-    - Status
-    - Status.Burn
-    HashCode: c060d027-6bb5-4995-ad00-73fec0919f65
+    _tagHashes: []
   references:
     version: 2
     RefIds: []

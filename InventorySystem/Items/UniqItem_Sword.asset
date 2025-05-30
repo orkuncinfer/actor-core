@@ -12,18 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb52109eb060433428d3c22d69521853, type: 3}
   m_Name: UniqItem_Sword
   m_EditorClassIdentifier: 
-  IdemID: UniqItem_Sword
+  ItemID: UniqItem_Sword
+  _itemIDLocked: 1
   ItemName: UniqItem_Sword
+  _itemNameLocked: 0
   Description: 
-  Icon: {fileID: 21300000, guid: a5fd1d31c7504cd4083d950f36ed7511, type: 3}
-  WorldPrefab: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 74fdf9961af35e242bb44d9e61703536, type: 3}
+  DataList: []
+  WorldPrefab: {fileID: 1423140520730457204, guid: 4e4663caabaa2ac41a30cd089043a9b4, type: 3}
+  Model: {fileID: 0}
+  DropPrefab: {fileID: 0}
   UIPrefab: {fileID: 0}
   _rpgItemTypes: 0
   IsStackable: 0
   MaxStack: 1
   DefaultRarity: 0
   IsUniqueItem: 1
-  DataList: []
+  ItemTags:
+    _tagHashes:
+    - 93e06ffd-c134-405f-8ee1-38b355e760e7
   ItemActions: []
   PossibleModifiers:
   - {fileID: 11400000, guid: c0f0b54824d6ab14aaef321d46565ca0, type: 2}

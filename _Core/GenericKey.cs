@@ -9,6 +9,8 @@ public class GenericKey : ScriptableObject
     [SerializeField] private bool _useAssetNameAsID = false;
 
     protected virtual bool HideIDString => _useAssetNameAsID;
+
+    public string IgnorePrefix;
     public static event Action<GenericKey> onCreate;
     public static event Action<GenericKey> onDestroy;
 
@@ -24,6 +26,18 @@ public class GenericKey : ScriptableObject
             }
             _id = value;
         }
+    }
+
+    [Button]
+    private void SetId()
+    {
+        // generate id with ignore prefix of asset name
+        string assetName = name;
+        if (IgnorePrefix != "")
+        {
+            assetName = assetName.Replace(IgnorePrefix, "");
+        }
+        _id = assetName;
     }
 
     protected virtual void OnIDChanged(string value)

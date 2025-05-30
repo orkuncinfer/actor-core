@@ -17,7 +17,7 @@ public class UI_EquipmentItemElement : UI_ItemElement
     public override void SetItemData(string itemID, InventorySlot slotData)
     {
         base.SetItemData(itemID, slotData);
-        ItemDefinition = InventoryUtils.FindItemWithId(itemID);
+        ItemDefinition = InventoryUtils.FindItemDefinitionWithId(itemID);
         if(_itemIcon)_itemIcon.sprite = ItemDefinition.Icon;
         if(_itemIcon)_itemIcon.color = Color.white;
         if(_itemCount)_itemCount.text = slotData.ItemCount.ToString();

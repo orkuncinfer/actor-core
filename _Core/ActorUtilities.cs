@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ActorUtilities
+public class ActorUtilities
 {
-    public static ActorBase FindFirstActorInParents(Transform currentParent)
+    public static Actor FindFirstActorInParents(Transform currentParent)
     {
         while (currentParent != null)
         {
-            ActorBase actor = currentParent.GetComponent<ActorBase>();
+            Actor actor = currentParent.GetComponent<Actor>();
             if (actor != null)
             {
                 return actor;

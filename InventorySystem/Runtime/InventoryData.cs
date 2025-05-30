@@ -9,13 +9,6 @@ public class InventoryData
 {
     [SerializeField]
     private int _slotCount;
-    [FirestoreProperty]
-    public int SlotCount
-    {
-        get => _slotCount;
-        set => _slotCount = value;
-    }
-    
     [SerializeField]
     private List<InventorySlot> _inventorySlots;
     [FirestoreProperty]

@@ -19,20 +19,37 @@ MonoBehaviour:
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: dbb302379b427ab4ba5a9df63e5e94b7, type: 2}
   _isBasicAttack: 0
+  _abilityLayer: 0
   _overrideAnimSpeed: 0
+  _useCustomAnim: 0
   _animationSpeed: 0
-  _animationClip: {fileID: 7400000, guid: 18859ad7e7e4bc1479b8bd8dd0da6241, type: 2}
-  _playTime: 1
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 1
+  _avatarMask: {fileID: 0}
+  _animationLayer: 0
   _isLoopingAbility: 1
   _duration: 5
   Cost: {fileID: 4067716126298073610}
   Cooldown: {fileID: 8640851072352510199}
-  GrantedTagsDuringAbility:
-  - fullTag: State.Ability
-    tagHierarchy:
-    - State
-    - State.Ability
-    HashCode: d31150fc-1624-424f-ba4a-1fcc0d71f374
+  _abilityTags:
+    _tagHashes: []
+  _grantedTagsDuringAbility:
+    _tagHashes: []
+  _activationRequiredTags:
+    _tagHashes: []
+  _activationBlockedTags:
+    _tagHashes: []
+  _cancelAbilitiesWithTag:
+    _tagHashes: []
+  GrantedEffectsDuringAbility: []
   AbilityActions: []
   references:
     version: 2
@@ -47,15 +64,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
-  m_Name: Cost
+  m_Name: Whirlwind_Cost
   m_EditorClassIdentifier: 
+  ItemID: Whirlwind_Cost
+  _itemIDLocked: 0
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   references:
     version: 2
     RefIds: []
@@ -69,15 +96,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
-  m_Name: Cooldown
+  m_Name: Whirlwind_Cooldown
   m_EditorClassIdentifier: 
+  ItemID: Whirlwind_Cooldown
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
-  _grantedTags: []
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+  _grantedTags:
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}

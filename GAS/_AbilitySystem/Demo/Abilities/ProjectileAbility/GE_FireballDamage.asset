@@ -12,19 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
   m_Name: GE_FireballDamage
   m_EditorClassIdentifier: 
+  ItemID: GE_FireballDamage
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions:
   - rid: 88048083462258688
   m_SpecialEffectDefinition: {fileID: 0}
   _conditionalEffects: []
   _description: 
   _grantedTags:
-  - fullTag: Damage.Fireball
-    tagHierarchy:
-    - Damage
-    - Damage.Fireball
-    HashCode: 390495d0-3c7d-4e32-9aab-7e72d08f50ee
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   references:
     version: 2
     RefIds:

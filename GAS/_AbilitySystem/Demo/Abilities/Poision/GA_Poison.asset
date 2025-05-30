@@ -18,14 +18,42 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _gameplayEffectDefinitions:
   - {fileID: 11400000, guid: 51d59071f635d8a4a8e3c8bdfbbf8128, type: 2}
-  _animationClip: {fileID: 0}
-  _animationName: 
   _isBasicAttack: 0
+  _abilityLayer: 0
   _overrideAnimSpeed: 0
+  _useCustomAnim: 0
   _animationSpeed: 0
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 1
+  _avatarMask: {fileID: 0}
+  _animationLayer: 0
+  _isLoopingAbility: 0
+  _duration: 0
   Cost: {fileID: 5416864911796429811}
   Cooldown: {fileID: 5384915199905672138}
-  GrantedTagsDuringAbility: []
+  _abilityTags:
+    _tagHashes: []
+  _grantedTagsDuringAbility:
+    _tagHashes: []
+  _activationRequiredTags:
+    _tagHashes: []
+  _activationBlockedTags:
+    _tagHashes: []
+  _cancelAbilitiesWithTag:
+    _tagHashes: []
+  GrantedEffectsDuringAbility: []
+  AbilityActions: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5384915199905672138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,12 +64,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
-  m_Name: Cooldown
+  m_Name: Poison_Cooldown
   m_EditorClassIdentifier: 
+  ItemID: Poison_Cooldown
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
+  _conditionalEffects: []
   _description: 
-  _removeEffectsWithTags: []
+  _grantedTags:
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   _isInfinite: 0
   _durationFormula:
     Graph: {fileID: 0}
@@ -49,12 +90,6 @@ MonoBehaviour:
   _isPeriodic: 0
   _period: 0
   _executePeriodicEffectOnApplication: 0
-  _grantedTags:
-  - fullTag: Cooldown.Poison
-    tagHierarchy:
-    - Cooldown
-    - Cooldown.Poison
-    HashCode: b3c0707c-7b5d-464f-a4a4-d2475d37d69d
   _specialPersistentEffectDefinition: {fileID: 0}
   references:
     version: 2
@@ -69,12 +104,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
-  m_Name: Cost
+  m_Name: Poison_Cost
   m_EditorClassIdentifier: 
+  ItemID: Poison_Cost
+  _itemIDLocked: 0
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
+  _conditionalEffects: []
   _description: 
-  _removeEffectsWithTags: []
+  _grantedTags:
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   references:
     version: 2
     RefIds: []

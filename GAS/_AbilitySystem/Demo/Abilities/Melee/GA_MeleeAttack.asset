@@ -21,6 +21,7 @@ MonoBehaviour:
   _isBasicAttack: 1
   _abilityLayer: 0
   _overrideAnimSpeed: 0
+  _useCustomAnim: 0
   _animationSpeed: 0
   _clipTransition:
     _FadeDuration: 0.25
@@ -31,27 +32,31 @@ MonoBehaviour:
     _Clip: {fileID: 7400000, guid: 041e69a79ba9cdb42a71cfa2fd5544b7, type: 2}
     _Speed: 1
     _NormalizedStartTime: 0
-  _endTime: 1
+  _endTime: 0.9
   _avatarMask: {fileID: 0}
   _animationLayer: 0
   _isLoopingAbility: 0
   _duration: 0
-  Cost: {fileID: 4067716126298073610}
-  Cooldown: {fileID: 8640851072352510199}
-  _abilitySlotTags:
-    m_SerializedExplicitTags: []
+  Cost: {fileID: 0}
+  Cooldown: {fileID: 0}
+  _abilityTags:
+    _tagHashes:
+    - b7d6412e-8b50-44a3-a52b-612fd15b70dd
   _grantedTagsDuringAbility:
-    m_SerializedExplicitTags:
-    - AbilitySlot.BaseBody
+    _tagHashes:
+    - 930cea38-b6c6-43b3-ba01-ea33191e84f5
   _activationRequiredTags:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   _activationBlockedTags:
-    m_SerializedExplicitTags: []
+    _tagHashes:
+    - 930cea38-b6c6-43b3-ba01-ea33191e84f5
   _cancelAbilitiesWithTag:
-    m_SerializedExplicitTags: []
+    _tagHashes: []
   GrantedEffectsDuringAbility: []
   AbilityActions:
   - rid: 3860127071150014479
+  - rid: 7252987375024603247
+  - rid: 7252987393570504828
   references:
     version: 2
     RefIds:
@@ -60,64 +65,23 @@ MonoBehaviour:
       data:
         ActivationPolicy: 0
         EventName: Attack
-        AnimWindow: {x: 0.17336401, y: 0.36280143}
+        AnimWindow: {x: 0.2603878, y: 0.36842105}
         HitEffect: {fileID: 1438542530079480, guid: 21710859533a00746ad2bdd323061a2d, type: 3}
         OnHitApplyAbility: {fileID: 11400000, guid: c4bebbc8c67c42c4db8d77af3cbb521e, type: 2}
---- !u!114 &4067716126298073610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a069aefba652cb46abbe52fd30582e2, type: 3}
-  m_Name: Cost
-  m_EditorClassIdentifier: 
-  ModifierDefinitions: []
-  m_SpecialEffectDefinition: {fileID: 0}
-  _conditionalEffects: []
-  _description: 
-  _grantedTags:
-    m_SerializedExplicitTags: []
-  _applicationBlockerTags:
-    m_SerializedExplicitTags: []
-  _removeEffectsWithTags:
-    m_SerializedExplicitTags: []
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &8640851072352510199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
-  m_Name: Cooldown
-  m_EditorClassIdentifier: 
-  ModifierDefinitions: []
-  m_SpecialEffectDefinition: {fileID: 0}
-  _conditionalEffects: []
-  _description: 
-  _grantedTags:
-    m_SerializedExplicitTags: []
-  _applicationBlockerTags:
-    m_SerializedExplicitTags: []
-  _removeEffectsWithTags:
-    m_SerializedExplicitTags: []
-  _isInfinite: 0
-  _durationFormula:
-    Graph: {fileID: 0}
-    StaticValue: 0
-  _isPeriodic: 0
-  _period: 0
-  _executePeriodicEffectOnApplication: 0
-  _specialPersistentEffectDefinition: {fileID: 0}
-  references:
-    version: 2
-    RefIds: []
+    - rid: 7252987375024603247
+      type: {class: AbilityAction_AddGameplayTags, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 0
+        EventName: 
+        AnimWindow: {x: 0.66988415, y: 1}
+        _tagsToAdd:
+          _tagHashes:
+          - de0fd9b2-7cb7-4775-90b5-f51391f48583
+    - rid: 7252987393570504828
+      type: {class: AbilityAction_IsCancelable, ns: , asm: Assembly-CSharp-firstpass}
+      data:
+        ActivationPolicy: 0
+        EventName: 
+        AnimWindow: {x: 0.6660232, y: 1}
+        _tagsToAdd:
+          _tagHashes: []

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e345321dcc89464c9d9dbeba5c41ca3f, type: 3}
   m_Name: Multiply
   m_EditorClassIdentifier: 
-  Position: {x: -140, y: -222}
+  Position: {x: -170, y: -222}
   Guid: a2cef1fb2c5b56749b50d5f2495bb4b9
   inputA: {fileID: 4119867726409794010}
   inputB: {fileID: 4844713255867040249}
@@ -50,7 +50,7 @@ MonoBehaviour:
   Position: {x: -393, y: -265}
   Guid: 753c0bb14c1faac4e8190c864a56f020
   _value: 0
-  StatName: Strength
+  StatName: MoveSpeed
 --- !u!114 &4844713255867040249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,6 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f48e6267cf24f22bf1f77ede2349818, type: 3}
   m_Name: ResultNode
   m_EditorClassIdentifier: 
-  Position: {x: 288.35004, y: -102.99999}
+  Position: {x: 46.6371, y: -194.99998}
   Guid: ac12fe1fae228384dadc87b2f98c7b25
   Child: {fileID: -7997588029451832054}

@@ -41,6 +41,7 @@ public class PersistentSingleton<T> : MonoBehaviour where T : Component
         if (HasInstance)
         {
             Destroy(gameObject);
+            Debug.Log("destroyed " + gameObject.name);
             return;
         }
 

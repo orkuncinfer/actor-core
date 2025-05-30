@@ -60,7 +60,7 @@ using UnityEngine.AI;
             if (component != null)
             {
                 // Component found
-                DDebug.Log($"Component of type {typeof(T)} found in children of {gameObject.name}.");
+                //DDebug.Log($"Component of type {typeof(T)} found in children of {gameObject.name}.");
                 return true;
             }
             else

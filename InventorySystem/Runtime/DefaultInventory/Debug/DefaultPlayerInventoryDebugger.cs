@@ -120,8 +120,8 @@ public class DefaultPlayerInventoryDebugger : MonoBehaviour
 
         _listItemReference.SetActive(false);
         int index = 0;
-        var itemList = DefaultPlayerInventory.Instance.GetAllItemsList();
-        foreach (var item in itemList.AllItems)
+        var itemList = InventoryUtils.GetItemsList();
+        foreach (var item in itemList)
         {
             ItemBaseDefinition itemDefinition = DefaultPlayerInventory.Instance.GetItemDefinition(item.ItemId);
             GameObject instance = Instantiate(_listItemReference, _itemListSpawnContent.transform);

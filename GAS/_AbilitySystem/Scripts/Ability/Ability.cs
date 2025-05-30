@@ -73,12 +73,7 @@ public abstract class Ability : ISavable
         
         foreach (GameplayEffectDefinition effectDefinition in effectDefinitions)
         {
-            EffectTypeAttribute attribute = effectDefinition.GetType().GetCustomAttributes(true)
-                .OfType<EffectTypeAttribute>().FirstOrDefault();
-            GameplayEffect effect =
-                Activator.CreateInstance(attribute.type, effectDefinition, this, _controller.gameObject) as
-                    GameplayEffect;
-            effectController.ApplyGameplayEffectToSelf(effect);
+            effectController.ApplyGameplayEffectDefinition(effectDefinition.ItemId);
         }
         
     }

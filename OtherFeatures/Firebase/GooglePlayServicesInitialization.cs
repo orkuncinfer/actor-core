@@ -1,9 +1,9 @@
-#if UNITY_ANDROID
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+#if UNITY_ANDROID
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using Firebase.Auth;
@@ -16,9 +16,10 @@ using Firebase.Extensions;
 using GooglePlayGames.OurUtils;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-
+#endif
 public class GooglePlayServicesInitialization : MonoBehaviour
 {
+#if UNITY_ANDROID
     public static GooglePlayServicesInitialization Instance;
     
     private FirebaseDatabase _database;
@@ -153,9 +154,5 @@ public class GooglePlayServicesInitialization : MonoBehaviour
             FirebaseAnalytics.LogEvent("died",new Parameter("type","spikey_doom"));
         });
     }
-
-   
-    
-    
-}
 #endif
+}

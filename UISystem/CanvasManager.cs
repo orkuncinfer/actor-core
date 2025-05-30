@@ -2,13 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CanvasManager : PersistentSingleton<CanvasManager>
 {
     [ShowInInspector][HideInEditorMode]private readonly Dictionary<string,CanvasLayer> _layerRegistry = new Dictionary<string, CanvasLayer>();
     [ShowInInspector][HideInEditorMode]private CanvasLayer _defaultLayer;
     
-    [ShowInInspector] public Stack<PanelActor> PanelStack = new Stack<PanelActor>();
+    [ShowInInspector] public List<PanelActor> PanelStack = new List<PanelActor>();
+    
+    // Add these methods to maintain stack-like behavior when needed
+    public void PushPanel(PanelActor panel)
+    {
+        PanelStack.Add(panel); // Add to end (top of stack)
+    }
+    
+    public PanelActor PopPanel()
+    {
+        if (PanelStack.Count == 0)
+            return null;
+            
+        int lastIndex = PanelStack.Count - 1;
+        PanelActor panel = PanelStack[lastIndex];
+        PanelStack.RemoveAt(lastIndex);
+        return panel;
+    }
+    
+    public PanelActor PeekPanel()
+    {
+        if (PanelStack.Count == 0)
+            return null;
+            
+        return PanelStack[PanelStack.Count - 1];
+    }
+    
+    public int GetPanelCount()
+    {
+        return PanelStack.Count;
+    }
     
     public void RegisterLayer(string layerTag, CanvasLayer layer, bool isDefault = false)
     {

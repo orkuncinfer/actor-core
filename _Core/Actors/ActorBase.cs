@@ -236,7 +236,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
         data.OnInstalled();
     }
 
-    public bool TryGetData<T>(string key, out T data) where T : Data
+    public bool TryGetData<T>( out T data, string key = "") where T : Data
     {
         if (_datasets.ContainsKey(key + typeof(T).ToString()))
         {

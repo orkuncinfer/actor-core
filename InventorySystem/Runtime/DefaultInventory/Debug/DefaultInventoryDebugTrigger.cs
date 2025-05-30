@@ -43,7 +43,7 @@ public class DefaultInventoryDebugTrigger : MonoBehaviour
     {
         if(_itemAddedDisplayerPrefab)
         {
-            ItemBaseDefinition item = InventoryUtils.FindItemWithId(arg1);
+            ItemBaseDefinition item = InventoryUtils.FindItemDefinitionWithId(arg1);
             var itemAddedDisplayer = Instantiate(_itemAddedDisplayerPrefab).GetComponentInChildren<BasicItemDisplayer>();
             itemAddedDisplayer.ItemDefinition = item;
             itemAddedDisplayer.SetItemCount(arg3);

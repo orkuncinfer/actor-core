@@ -154,3 +154,35 @@ MonoBehaviour:
     HashCode: 93e06ffd-c134-405f-8ee1-38b355e760e7
     Description: Generated tag for Equipment.Primary
     _asset: {fileID: 11400000}
+  - Tag: Ability.BasicAttack
+    HashCode: b7d6412e-8b50-44a3-a52b-612fd15b70dd
+    Description: Generated tag for Ability.BasicAttack
+    _asset: {fileID: 11400000}
+  - Tag: Status.Alive
+    HashCode: 33f1e63a-2012-4214-b095-2c763058866c
+    Description: Generated tag for Status.Alive
+    _asset: {fileID: 11400000}
+  - Tag: Status.Dead
+    HashCode: bd6f8c4a-5a51-431c-83ab-7889489c125e
+    Description: Generated tag for Status.Dead
+    _asset: {fileID: 11400000}
+  - Tag: Network
+    HashCode: c292792a-2ede-48b6-9a8a-c59031e4ac2e
+    Description: Generated tag for Network
+    _asset: {fileID: 11400000}
+  - Tag: Network.IsOwner
+    HashCode: 670cb446-caa9-4a1f-b440-f8996b9d4c3c
+    Description: Generated tag for Network.IsOwner
+    _asset: {fileID: 11400000}
+  - Tag: Network.IsServer
+    HashCode: e7e54242-ebb3-4c67-8c5c-4037b7d39c6c
+    Description: Generated tag for Network.IsServer
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Combo
+    HashCode: 84d5f55a-525b-45c2-9265-f7544d5b5f57
+    Description: Generated tag for Ability.Combo
+    _asset: {fileID: 11400000}
+  - Tag: Ability.Combo.BasicCombo1
+    HashCode: de0fd9b2-7cb7-4775-90b5-f51391f48583
+    Description: Generated tag for Ability.Combo.BasicCombo1
+    _asset: {fileID: 11400000}

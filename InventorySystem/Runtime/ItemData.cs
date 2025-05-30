@@ -11,23 +11,14 @@ using UnityEngine.Serialization;
 [FirestoreData]
 public class ItemData 
 {
-    [SerializeField] private string _itemID;
-
-    [FirestoreProperty]
-    public string ItemID
-    {
-        get => _itemID;
-        set => _itemID = value;
-    }
+    [FirestoreProperty][ShowInInspector]
+    public string ItemID { get; set; }
     
-    [SerializeField]
-    private string _uniqueID;
-    [FirestoreProperty]
-    public string UniqueID
-    {
-        get => _uniqueID;
-        set => _uniqueID = value;
-    }
+    [FirestoreProperty][ShowInInspector]
+    public string UniqueID { get; set; }
+    
+    [ShowInInspector]
+    public int Quantity { get; set; }
     
     [ShowInInspector] [ES3Serializable]
     private Dictionary<string, string> _attributes = new Dictionary<string, string>();

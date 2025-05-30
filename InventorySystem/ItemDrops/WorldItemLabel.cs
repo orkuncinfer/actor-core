@@ -90,6 +90,14 @@ public class WorldItemLabel : MonoBehaviour,IPointerEnterHandler,IPointerExitHan
         UpdateBgPositionAndRotation();
     }
     
+    public void NudgeUp(float pixels)
+    {
+        Vector3 screenPos = _camera.WorldToScreenPoint(transform.position);
+        screenPos.y -= pixels;
+        transform.position = _camera.ScreenToWorldPoint(screenPos);
+    }
+
+    
     void UpdateBgPositionAndRotation()
     {
         _normalBg.transform.position = transform.position;

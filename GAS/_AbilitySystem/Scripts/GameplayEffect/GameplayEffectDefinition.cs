@@ -9,7 +9,7 @@ using UnityEngine;
 
 [EffectType(typeof(GameplayEffect))]
 [CreateAssetMenu(fileName = "GameplayEffect", menuName = "AbilitySystem/Effect/GameplayEffect")]
-public class GameplayEffectDefinition : ScriptableObject
+public class GameplayEffectDefinition : ItemBaseDefinition
 {
     [BoxGroup("General", ShowLabel = false)]
     [TitleGroup("General/General")]

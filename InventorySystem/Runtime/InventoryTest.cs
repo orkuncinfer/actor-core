@@ -25,7 +25,7 @@ public class InventoryTest : MonoBehaviour
     public void AddItem()
     {
        
-        InventoryDefinition.AddItem(ItemDefinition, AddCount);
+        InventoryDefinition.AddItemWithDefinition(ItemDefinition, AddCount);
     }
     
     [Button]

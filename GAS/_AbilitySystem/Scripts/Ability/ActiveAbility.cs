@@ -53,6 +53,7 @@ public class ActiveAbility : Ability
             {
                 foreach (var abilityAction in AbilityActions)
                 {
+                    if(abilityAction.IsRunning == false) continue;
                     abilityAction.OnExit();
                 }
                 AbilityActions?.Clear();

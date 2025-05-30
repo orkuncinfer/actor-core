@@ -12,22 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d737cf08cb51c6247b3c63cc82c3e743, type: 3}
   m_Name: GE_ShieldAura
   m_EditorClassIdentifier: 
+  ItemID: GE_ShieldAura
+  _itemIDLocked: 1
+  ItemName: 
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
   ModifierDefinitions: []
   m_SpecialEffectDefinition: {fileID: 0}
+  _conditionalEffects: []
   _description: 
   _grantedTags:
-  - fullTag: Immunity.Poison
-    tagHierarchy:
-    - Immunity
-    - Immunity.Poison
-    HashCode: 331ea717-399f-4bc6-8ed3-d1f7f01d85ad
-  - fullTag: Immunity.Damage
-    tagHierarchy:
-    - Immunity
-    - Immunity.Damage
-    HashCode: 4da3272b-654e-4f95-862c-62e1bc1c206a
-  _applicationBlockerTags: []
-  _removeEffectsWithTags: []
+    _tagHashes: []
+  _applicationBlockerTags:
+    _tagHashes: []
+  _removeEffectsWithTags:
+    _tagHashes: []
   _isInfinite: 1
   _durationFormula:
     Graph: {fileID: 0}

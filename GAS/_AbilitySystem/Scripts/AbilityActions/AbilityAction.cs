@@ -34,7 +34,6 @@ public class AbilityAction
     public bool HasTick => _hasTick;
 
     protected ActorBase Owner;
-    
     public ActiveAbility ActiveAbility {get; set;}
    
     public virtual AbilityAction Clone()
@@ -50,12 +49,13 @@ public class AbilityAction
 
     protected void RequestEndAbility()
     {
-        Debug.Log("Requested ability cancelation");
         Owner.GetService<Service_GAS>().AbilityController.CancelAbilityIfActive(ActiveAbility);
     }
     public virtual void Reset()
     {
         EventName = null;
+        _hasExecutedOnce = false;
+        _isRunning = false;
     }
     public virtual void OnStart(Actor owner, ActiveAbility ability)
     {
@@ -67,6 +67,7 @@ public class AbilityAction
     }
     public virtual void OnExit()
     {
+        if(!_isRunning) return;
         _isRunning = false;
     }
     public virtual void OnTick(Actor owner)

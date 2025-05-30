@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemAddedDisplayerPrefab: {fileID: 4640685778063512026, guid: 27dc046d65c30ef4f9a4858ad014bf8b, type: 3}
   DebuggerPrefab: {fileID: 6953732099078582213, guid: e6da6cbfc8463f94e8ea3b7616f7b9af, type: 3}
-  clickThreshold: 1
+  clickThreshold: 0.25

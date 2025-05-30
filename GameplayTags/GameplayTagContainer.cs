@@ -10,6 +10,8 @@ public class GameplayTagContainer
     private List<string> _tagHashes = new List<string>();
 
     public event Action OnTagChanged;
+    public event Action<GameplayTag> OnTagAdded; 
+    public event Action<GameplayTag> OnTagRemoved; 
     public int TagCount => _tagHashes.Count;
 
     public bool HasTag(GameplayTag tagToCheck)
@@ -83,6 +85,34 @@ public class GameplayTagContainer
         return false;
     }
 
+    public bool HasAll(GameplayTagContainer container)
+    {
+        List<GameplayTag> tags = container.GetTags();
+        for (int i = tags.Count - 1; i >= 0; i--)
+        {
+            if (!HasTag(tags[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    public bool HasAllExact(GameplayTagContainer container)
+    {
+        List<GameplayTag> tags = container.GetTags();
+        for (int i = tags.Count - 1; i >= 0; i--)
+        {
+            if (!HasTagExact(tags[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void AddTag(string tagGuid)
     {
         _tagHashes.Add(tagGuid);
@@ -99,11 +129,13 @@ public class GameplayTagContainer
     {
         _tagHashes.Add(tag.HashCode);
         OnTagChanged?.Invoke();
+        OnTagAdded?.Invoke(tag);
     }
     public void RemoveTag(GameplayTag tag)
     {
         _tagHashes.Remove(tag.HashCode);
         OnTagChanged?.Invoke();
+        OnTagRemoved?.Invoke(tag);
     }
     
     public void AddTags(GameplayTagContainer container)
@@ -114,6 +146,7 @@ public class GameplayTagContainer
             if (!_tagHashes.Contains(container._tagHashes[i]))
             {
                 _tagHashes.Add(container._tagHashes[i]);
+                OnTagAdded?.Invoke(container.GetTags()[i]);
             }
         }
         OnTagChanged?.Invoke();
@@ -123,6 +156,7 @@ public class GameplayTagContainer
         for (int i = container._tagHashes.Count - 1; i >= 0; i--)
         {
             _tagHashes.Remove(container._tagHashes[i]);
+            OnTagRemoved?.Invoke(container.GetTags()[i]);
         }
         OnTagChanged?.Invoke();
     }
