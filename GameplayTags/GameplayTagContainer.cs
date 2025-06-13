@@ -28,6 +28,21 @@ public class GameplayTagContainer
 
         return false;
     }
+    public bool HasTag(GameplayTag tagToCheck,out GameplayTag matchingTag)
+    {
+        //reverse for loop
+        for (int i = _tagHashes.Count - 1; i >= 0; i--)
+        {
+            GameplayTag tag = GameplayTagManager.RequestTagHash(_tagHashes[i]);
+            if (tag.FullTag.Contains(tagToCheck.FullTag))
+            {
+                matchingTag = tag;
+                return true;
+            }
+        }
+        matchingTag = default;
+        return false;
+    }
     
     public bool HasTagExact(GameplayTag tagToCheck)
     {

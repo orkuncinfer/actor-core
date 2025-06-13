@@ -28,15 +28,18 @@ public class AbilityActionPool<T> where T : AbilityAction, new()
         {
             CountAll++;
             //Debug.Log("created new object " + typeof(T) + " count " + _availableObjects.Count);
-            return new T();
+            T value = new T();
+            value.Reset();
+            return value;
         }
         //Debug.Log("not created new object " + typeof(T) + " count " + _availableObjects.Count);
-        return _availableObjects.Dequeue();
+        T nValue = _availableObjects.Dequeue();
+        nValue.Reset();
+        return nValue;
     }
 
     public void Release(T element)
     {
-        element.Reset(); 
         _availableObjects.Enqueue(element);
     }
 }

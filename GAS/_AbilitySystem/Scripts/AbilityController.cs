@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FishNet.Managing.Timing;
+using FishNet.Object;
 using SaveSystem.Scripts.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,7 +17,10 @@ public class AbilityController : MonoInitializable, ISavable
 
     private GameplayEffectController _effectController;
     public ActiveAbility LastUsedAbility;
-    private List<ActiveAbility> _activeAbilities = new List<ActiveAbility>();
+    [ShowInInspector]private List<ActiveAbility> _activeAbilities = new List<ActiveAbility>();
+
+    private List<GameplayTag> _queuedAbilityTags = new List<GameplayTag>();
+    private ActiveAbilityDefinition _queuedAbilityToStart;
 
     [SerializeField] private GameObject _target;
     public GameObject Target
@@ -33,7 +38,6 @@ public class AbilityController : MonoInitializable, ISavable
     }
 
     public event Action<GameObject, GameObject> OnTargetChanged; 
-
     public event Action<ActiveAbility> onActivatedAbility;
     public event Action<ActiveAbility> onCanceledAbility;
     public event Action onCancelCurrentAbility;
@@ -48,6 +52,18 @@ public class AbilityController : MonoInitializable, ISavable
     {
         _effectController = GetComponent<GameplayEffectController>();
         _owner = ActorUtilities.FindFirstActorInParents(transform);
+        _owner.GameplayTags.OnTagChanged += OnTagChanged;
+    }
+
+    private void OnDestroy()
+    {
+        _owner.GameplayTags.OnTagChanged -= OnTagChanged;
+    }
+
+    private void OnTagChanged()
+    {
+        Debug.Log("Tag changed . Tried to activate on tag changed");
+        TryActivateQueuedAbilities();
     }
 
     protected virtual void OnEnable()
@@ -84,6 +100,24 @@ public class AbilityController : MonoInitializable, ISavable
             if(ability.Value.AbilityDefinition is ActiveAbilityDefinition activeAbilityDefinition)
             {
                 if (activeAbilityDefinition.AbilityTags.HasTag(tag))
+                {
+                    if (TryActivateAbility(ability.Key, Target))
+                    {
+                        return LastUsedAbility;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    public ActiveAbility TryActivateSpecificAbilityWithGameplayTag(GameplayTag tag)
+    {
+        foreach (var ability in m_Abilities)
+        {
+            if(ability.Value.AbilityDefinition is ActiveAbilityDefinition activeAbilityDefinition)
+            {
+                if (activeAbilityDefinition.AbilityTags.HasTagExact(tag))
                 {
                     if (TryActivateAbility(ability.Key, Target))
                     {
@@ -141,6 +175,7 @@ public class AbilityController : MonoInitializable, ISavable
                 activeAbility.StartAbility();
                 activeAbility.onFinished += OnActivateAbilityFinished;
                 onActivatedAbility?.Invoke(activeAbility);
+                _queuedAbilityToStart = null;
                 return true;
             }
         }
@@ -151,7 +186,11 @@ public class AbilityController : MonoInitializable, ISavable
     private void OnActivateAbilityFinished(ActiveAbility obj)
     {
         obj.onFinished -= OnActivateAbilityFinished;
+        
+        TryActivateQueuedAbilities();
     }
+
+
 
     public void ForceActivateAbility(string abilityName)
     {
@@ -225,17 +264,19 @@ public class AbilityController : MonoInitializable, ISavable
         return false;
     }
     
-    public bool CanActivateAbilityWithTag(GameplayTag gameplayTag)
+    public bool CanActivateAbilityWithTag(GameplayTag gameplayTag, out ActiveAbilityDefinition abilityDefinition)
     {
+        abilityDefinition = null;
         if (m_Abilities.Count == 0) return false;
         foreach (var ability in m_Abilities)
         {
             if (ability.Value.AbilityDefinition is ActiveAbilityDefinition activeAbilityDefinition)
             {
-                if (activeAbilityDefinition.AbilityTags.HasTag(gameplayTag))
+                if (activeAbilityDefinition.AbilityTags.HasTag(gameplayTag, out GameplayTag matchingTag))
                 {
                     if (CanActivateAbility(activeAbilityDefinition))
                     {
+                        abilityDefinition = activeAbilityDefinition;
                         return true;
                     }
                 }
@@ -299,7 +340,7 @@ public class AbilityController : MonoInitializable, ISavable
         {
             if(_owner.GameplayTags.HasTag(requiredTag) == false)
             {
-                DDebug.Log($"Can't activate ability {ability.Definition.name} because required tag {requiredTag} is missing {iteration}");
+                DDebug.Log($"Can't activate ability {ability.Definition.name} because required tag {requiredTag.FullTag} is missing {iteration}");
                 return false;
             }
         }
@@ -356,6 +397,7 @@ public class AbilityController : MonoInitializable, ISavable
         {
             _activeAbilities.Remove(ability);
             ability.EndAbility();
+            Debug.Log("ability done animating");
         }
     }
 
@@ -366,9 +408,9 @@ public class AbilityController : MonoInitializable, ISavable
         {
             activeAbilityNames += activeAbility.Definition.name + " ";
         }
-        Debug.Log($"Requested cancelation of {ability} active abilities are {activeAbilityNames}");
         if (_activeAbilities.Contains(ability))
         {
+            Debug.Log($"Requested cancelation of {ability.Definition.name} active abilities are {activeAbilityNames}");
             _activeAbilities.Remove(ability);
             ability.EndAbility();
             onCanceledAbility?.Invoke(ability);
@@ -444,7 +486,39 @@ public class AbilityController : MonoInitializable, ISavable
             m_Abilities.Remove(abilityDefinition.name);
         }
     }
+    
+    private void TryActivateQueuedAbilities()
+    {
+        if(_queuedAbilityToStart != null) return;
+        //reverse for queued tags
+        for (int i = _queuedAbilityTags.Count - 1; i >= 0; i--)
+        {
+            GameplayTag queuedTag = _queuedAbilityTags[i];
+            if (CanActivateAbilityWithTag(queuedTag, out ActiveAbilityDefinition definition))
+            {
+                _queuedAbilityToStart = definition;
+                Debug.Log("trying to activate ability : " + definition.name);
+                TryActivateAbility(definition.name, _target);
+                /*ActiveAbility ability = TryActivateAbilityWithGameplayTag(queuedTag);
+                if (ability != null)
+                {
+                    //UnregisterQueueAbilityGameplayTag(queuedTag);
+                }*/
+            }
+        }
+    }
 
+    public void RegisterQueueAbilityGameplayTag(GameplayTag gameplayTag)
+    {
+        if(!_queuedAbilityTags.Contains(gameplayTag))
+            _queuedAbilityTags.Add(gameplayTag);
+    }
+    public void UnregisterQueueAbilityGameplayTag(GameplayTag gameplayTag)
+    {
+        if(_queuedAbilityTags.Contains(gameplayTag))
+            _queuedAbilityTags.Remove(gameplayTag);
+    }
+    
     [Button]
     public void Test()
     {

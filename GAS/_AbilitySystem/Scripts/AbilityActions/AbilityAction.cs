@@ -21,7 +21,7 @@ public class AbilityAction
     
     [ShowIf("UseAnimEvent")]public string EventName;
     [MinMaxSlider(0,1)][ShowIf("UseAnimWindow")]public Vector2 AnimWindow;
-
+    
     protected AbilityDefinition Definition;
     
     private bool _isRunning;
@@ -33,18 +33,14 @@ public class AbilityAction
     protected bool _hasTick;
     public bool HasTick => _hasTick;
 
-    protected ActorBase Owner;
+    public ActorBase Owner { get; set; }
     public ActiveAbility ActiveAbility {get; set;}
    
     public virtual AbilityAction Clone()
     {
-        _hasExecutedOnce = false;
-        _isRunning = false;
-        return new AbilityAction
-        {
-            EventName = this.EventName,
-            AnimWindow = this.AnimWindow,
-        };
+        Debug.Log("Ability cloned " + this.GetType().Name);
+
+        return null;
     }
 
     protected void RequestEndAbility()
@@ -53,15 +49,16 @@ public class AbilityAction
     }
     public virtual void Reset()
     {
-        EventName = null;
+        Debug.Log("Ability resetted " + this.GetType().Name);
         _hasExecutedOnce = false;
         _isRunning = false;
+        EventName = null;
+        //_hasExecutedOnce = false;
     }
-    public virtual void OnStart(Actor owner, ActiveAbility ability)
+    public virtual void OnStart()
     {
-        this.ActiveAbility = ability;
-        Owner = owner;
-        Definition = ability.Definition;
+        Debug.Log($"<color=green>AbilityAction</color> started : {this.GetType().Name} Time : {Time.time}");
+        Definition = ActiveAbility.Definition;
         _isRunning = true;
         _hasExecutedOnce = true;
     }

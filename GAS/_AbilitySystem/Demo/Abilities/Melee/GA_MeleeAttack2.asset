@@ -55,7 +55,6 @@ MonoBehaviour:
   GrantedEffectsDuringAbility: []
   AbilityActions:
   - rid: 3860127071150014479
-  - rid: 7252987375024603247
   references:
     version: 2
     RefIds:
@@ -67,12 +66,3 @@ MonoBehaviour:
         AnimWindow: {x: 0.2603878, y: 0.36842105}
         HitEffect: {fileID: 1438542530079480, guid: 21710859533a00746ad2bdd323061a2d, type: 3}
         OnHitApplyAbility: {fileID: 11400000, guid: c4bebbc8c67c42c4db8d77af3cbb521e, type: 2}
-    - rid: 7252987375024603247
-      type: {class: AbilityAction_AddGameplayTags, ns: , asm: Assembly-CSharp-firstpass}
-      data:
-        ActivationPolicy: 0
-        EventName: 
-        AnimWindow: {x: 0.6475645, y: 0.96275073}
-        _tagsToAdd:
-          _tagHashes:
-          - de0fd9b2-7cb7-4775-90b5-f51391f48583

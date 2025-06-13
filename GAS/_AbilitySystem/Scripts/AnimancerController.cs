@@ -30,8 +30,13 @@ public class AnimancerController : MonoBehaviour
     private Dictionary<AnimancerState, Action> _onEndActions = new Dictionary<AnimancerState, System.Action>();
 
     private List<AbilityAction> _actionsToRemove = new List<AbilityAction>();
+    private List<AbilityAction> _actionsToProcess = new List<AbilityAction>();
 
     private Action _onAnimationEnd;
+    
+#if USING_FISHNET
+    private NetworkObject _networkObject;
+#endif
 
     private void Start()
     {
@@ -41,9 +46,36 @@ public class AnimancerController : MonoBehaviour
 
         _abilityController.onActivatedAbility += OnActivatedAbility;
         _abilityController.onCanceledAbility += OnCanceledAbility;
+        
+#if USING_FISHNET
+        _networkObject = _owner.GetComponent<NetworkObject>();
+        _networkObject.TimeManager.OnTick += OnTick;
+#endif
     }
 
+    private void OnDestroy()
+    {
+#if USING_FISHNET
+        if(_networkObject != null)
+            _networkObject.TimeManager.OnUpdate -= OnTick;
+#endif
+    }
+
+#if USING_FISHNET
+    private void OnTick()
+    {
+        ProcessAbilities();   
+    }
+#endif
+
+#if !USING_FISHNET
     private void Update()
+    {
+        ProcessAbilities();
+    }
+#endif
+
+    private void ProcessAbilities()
     {
         if (_currentAbilityAnimState != null)
         {
@@ -63,13 +95,20 @@ public class AnimancerController : MonoBehaviour
         {
             
             ActiveAbility ability = _abilityController.GetActiveAbilities()[i - 1];
-            if(ability.AnimancerState == null) continue;
-            if (ability.AnimancerState.NormalizedTime >= ability.Definition.EndTime)
+            if(ability.IsActive == false) continue; // in case it is canceled
+            _actionsToProcess.Clear();
+            _actionsToProcess.AddRange(ability.AbilityActions);
+            
+            if(ability.AnimancerState == null) continue; // no animation ability
+
+            ability.NormTime = ability.AnimancerState.NormalizedTime;
+            if (ability.AnimancerState.NormalizedTime >= ability.Definition.EndTime) // animation casually finished
             {
                 _isLooping = false;
+                Debug.Log("animation finished " + ability.AnimancerState.NormalizedTime + "-" + ability.Definition.EndTime);
                 EndOrInterrupted(ability.AnimancerState, ability);
             }
-            if (ability.Definition.EndTime < 1)
+            if (ability.Definition.EndTime < 1) // ??
             { }
                 
             if (ability.AnimancerState.EffectiveWeight > 0.9f && !ability.AnimationReachedFullWeight) // ANIMATION INTERRUPT CHECK
@@ -81,16 +120,21 @@ public class AnimancerController : MonoBehaviour
                 EndOrInterrupted(_currentAbilityAnimState, ability);
             }
             _actionsToRemove.Clear();
-            foreach (var action in ability.AbilityActions)
+            
+            foreach (var action in _actionsToProcess)
             {
-                
                 if (action.ActivationPolicy != AbilityAction.EAbilityActionActivationPolicy.AnimWindow) continue;
+                Debug.Log("action norm time : " + action.ActiveAbility.AnimancerState.NormalizedTime);
                 if (action.AnimWindow.x <= action.ActiveAbility.AnimancerState.NormalizedTime)
                 {
+                    Debug.Log("Processing action : " + action.GetType() + $"isRunning={action.IsRunning} executed={action.HasExecutedOnce}");
                     if (!action.IsRunning &&
                         !action.HasExecutedOnce)
                     {
-                        action.OnStart(_owner, ability);
+                        Debug.Log("Start action : " + action.GetType());
+                        action.Owner = _owner;
+                        action.ActiveAbility = ability;
+                        action.OnStart();
                     }
                 }
                 if (action.AnimWindow.y <= action.ActiveAbility.AnimancerState.NormalizedTime && action.IsRunning)
@@ -100,11 +144,6 @@ public class AnimancerController : MonoBehaviour
                 }
                 if (action.HasTick && action.IsRunning)
                     action.OnTick(_owner);
-            }
-
-            foreach (var finishedAction in _actionsToRemove)
-            {
-                ability.AbilityActions.Remove(finishedAction);
             }
         }
 
@@ -116,7 +155,7 @@ public class AnimancerController : MonoBehaviour
             }
         }
     }
-
+    
     private void OnCanceledAbility(ActiveAbility ability)
     {
         if (ability.AbilityActions == null) return;
@@ -146,10 +185,13 @@ public class AnimancerController : MonoBehaviour
             
             if(ability.AbilityActions == null) ability.AbilityActions = new List<AbilityAction>();
             ability.AbilityActions.Add(clonedAction);
+            Debug.Log("Created added action :" + clonedAction.GetType());
          
             if (actionsToClone.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
             {
-                clonedAction.OnStart(_owner, ability);
+                clonedAction.Owner = _owner;
+                clonedAction.ActiveAbility = ability;
+                clonedAction.OnStart();
             }
         }
 
@@ -210,7 +252,8 @@ public class AnimancerController : MonoBehaviour
                 _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(clip);
             }
             ability.AnimancerState = _currentAbilityAnimState;
-            
+            ability.AnimancerState.Time = 0;
+            ability.AnimancerState.NormalizedTime = 0;
             _currentAbilityAnimationReachedFullWeight = false;
             _abilityAnimPlaying = true;
 
@@ -256,6 +299,8 @@ public class AnimancerController : MonoBehaviour
     {
         //Debug.Log($"anim state : {animState.Clip.name} : {activeAbility}");
         if (animState == null || activeAbility == null) return;
+        if(activeAbility.IsActive == false) return;
+        
         int layer = activeAbility.Definition.AnimationLayer;
         if (layer > 0)
         {
@@ -303,7 +348,6 @@ public class AnimancerController : MonoBehaviour
             }
         }
         
-        ability.AbilityActions?.Clear();
         _abilityController.AbilityDoneAnimating(ability);
 
         _currentActiveAbility = null;
@@ -350,7 +394,9 @@ public class AnimancerController : MonoBehaviour
                     if (!abilityAction.UseAnimEvent) continue;
                     if (abilityAction.EventName.Equals(newEventName, StringComparison.OrdinalIgnoreCase))
                     {
-                        abilityAction.OnStart(_owner, _currentActiveAbility);
+                        abilityAction.ActiveAbility = _currentActiveAbility;
+                        abilityAction.Owner = _owner;
+                        abilityAction.OnStart();
                     }
                 }
             }
