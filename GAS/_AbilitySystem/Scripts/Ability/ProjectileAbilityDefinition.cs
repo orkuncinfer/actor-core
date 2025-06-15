@@ -17,3 +17,10 @@ public class ProjectileAbilityDefinition : ActiveAbilityDefinition
     [SerializeField] private string m_WeaponId;
     public string weaponId => m_WeaponId;
 }
+public enum ShotType
+{
+    MOST_DIRECT,
+    HIGHEST_SHOT,
+    LOWEST_SPEED,
+    LINEAR
+}

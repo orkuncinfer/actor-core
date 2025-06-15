@@ -25,7 +25,7 @@ public class ProjectileAbility : ActiveAbility
     
     public void Shoot(GameObject target) // called when "Shoot" event is triggered on the ability animation clip.
     {
-        GameObject equipment = Owner.GetEquippedInstance();
+        /*GameObject equipment = Owner.GetEquippedInstance();
         if (equipment.TryGetComponent(out RangedWeapon weapon))
         {
             GameObject projectileInstance =
@@ -44,6 +44,6 @@ public class ProjectileAbility : ActiveAbility
         else
         {
             Debug.LogWarning($"User does not have a ranged weapon equipped.");
-        }
+        }*/
     }
 }

@@ -1,0 +1,17 @@
+{
+    "name": "Hexcore.GameMode",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a6c0baa30f36c6740b996e8cf77ac6f4",
+        "GUID:39b3efc83f32dab4bb531ca8d2cdd985"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

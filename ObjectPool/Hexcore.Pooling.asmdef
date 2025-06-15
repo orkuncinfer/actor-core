@@ -1,0 +1,16 @@
+{
+    "name": "Hexcore.Pooling",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ad70b4550df91684fa4d35d307ba4475"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

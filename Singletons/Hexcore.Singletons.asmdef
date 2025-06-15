@@ -1,0 +1,16 @@
+{
+    "name": "Hexcore.Singletons",
+    "rootNamespace": "",
+    "references": [
+        "GUID:39b3efc83f32dab4bb531ca8d2cdd985"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

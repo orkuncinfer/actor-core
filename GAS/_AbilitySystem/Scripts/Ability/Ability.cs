@@ -37,7 +37,7 @@ public abstract class Ability : ISavable
         _controller = controller;
     }
 
-    internal void ApplyEffects(GameObject other)
+    public void ApplyEffects(GameObject other)
     {
         ApplyEffectsInternal(_abilityDefinition.GameplayEffectDefinitions,other);
     }
