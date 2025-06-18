@@ -56,7 +56,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 95553526982246417
-      type: {class: AbilityAction_DropEquipment, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: AbilityAction_DropEquipment, ns: , asm: Hexcore.CharacterPackage}
       data:
         ActivationPolicy: 2
         EventName: 

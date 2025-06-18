@@ -12,7 +12,11 @@ public class GameplayEffect
     public GameplayEffectDefinition Definition => _definition;
     
     private object _source;
-    public object Source => _source;
+    public object Source
+    {
+        get => _source;
+        set => _source = value;
+    }
 
     private GameObject _instigator;
     public GameObject Instigator => _instigator;
@@ -66,6 +70,7 @@ public class GameplayEffect
                 };
             }
 
+            statModifier.Victim = instigator;
             statModifier.Source = this;
             statModifier.Type = modifierDef.Type;
             _modifiers.Add(statModifier);

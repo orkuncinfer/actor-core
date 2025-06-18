@@ -3,6 +3,8 @@ using System.IO;
 using System.Reflection;
 using UnityEditor;
 
+#if UNITY_EDITOR
+
 public static class LayoutHotKey
 {
     const string layoutName = "Temp/autosave.wlt";
@@ -65,3 +67,5 @@ public static class LayoutUtility {
     }
 
 }
+
+#endif

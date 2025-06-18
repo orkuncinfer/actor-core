@@ -59,7 +59,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 428195079351959552
-      type: {class: AbilityAction_SetLocomotionAsset, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: AbilityAction_SetLocomotionAsset, ns: , asm: Hexcore.CharacterPackage}
       data:
         ActivationPolicy: 2
         EventName: 
@@ -71,7 +71,7 @@ MonoBehaviour:
             rid: 428195079351959554
         _locomotionAssetData: {fileID: 11400000, guid: a3df9e9a4a520a9409ae0791b98e3015, type: 2}
     - rid: 428195079351959554
-      type: {class: Data_RefVar, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: Data_RefVar, ns: , asm: Hexcore.CharacterPackage}
       data:
         IsGlobal: 0
         UseKey: 1
@@ -81,7 +81,7 @@ MonoBehaviour:
         IsInstalled: 1
         _value: {fileID: 11400000, guid: 3ebd0787661619a4387d9dcb7312c9d8, type: 2}
     - rid: 3670663040529596420
-      type: {class: AbilityAction_Aiming, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: AbilityAction_Aiming, ns: , asm: Hexcore.CharacterPackage}
       data:
         ActivationPolicy: 2
         EventName: 

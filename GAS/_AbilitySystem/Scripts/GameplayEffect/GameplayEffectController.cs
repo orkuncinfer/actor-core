@@ -47,7 +47,7 @@ public partial class GameplayEffectController :
         DDebug.Log(_activeEffects.Count);
     }
 
-    public bool ApplyGameplayEffectDefinition(string effectDefinitionId, bool asObserver = false) // source id?
+    public bool ApplyGameplayEffectDefinition(string effectDefinitionId, GameObject applier,bool asObserver = false) // source id?
     {
         object def = _allEffectsList.GetItem(effectDefinitionId);
         Debug.Log("found item " + def.GetType());
@@ -59,16 +59,17 @@ public partial class GameplayEffectController :
         GameplayEffect effect = null;
         if (attribute.type == typeof(GameplayEffect))
         {
-            effect = new GameplayEffect(effectDefinition, default, gameObject);
+            effect = new GameplayEffect(effectDefinition, applier, gameObject);
         }
         else
         {
             effect =
                 Activator.CreateInstance(attribute.type, effectDefinition, this, gameObject) as
                     GameplayEffect;
+            effect.Source = applier;
         }
 
-        return ApplyGameplayEffectToSelf(effect, asObserver);
+        return ApplyGameplayEffectToSelf(effect, applier,asObserver);
     }
 
     public bool CanApplyAttributeModifiers(GameplayEffectDefinition effectDefinition)
@@ -155,7 +156,7 @@ public partial class GameplayEffectController :
 #endif
 
     private bool
-        ApplyGameplayEffectToSelf(GameplayEffect effectToApply,
+        ApplyGameplayEffectToSelf(GameplayEffect effectToApply, GameObject applier,
             bool asObserver =
                 false) // asObserver is needed for not looking for conditions because order given from server
     {
@@ -210,7 +211,7 @@ public partial class GameplayEffectController :
 
                         GameplayEffect overflowEffect = Activator.CreateInstance(attribute.type, overflowEffectDef,
                             existingStackableEffect, gameObject) as GameplayEffect;
-                        ApplyGameplayEffectToSelf(overflowEffect);
+                        ApplyGameplayEffectToSelf(overflowEffect,applier);
                     }
 
                     if (existingStackableEffect.Definition.ClearStackOnOverflow) // sıkıntı var
@@ -255,7 +256,7 @@ public partial class GameplayEffectController :
             GameplayEffect conditionalEffectInstance =
                 Activator.CreateInstance(attribute.type, conditionalEffect, effectToApply, effectToApply.Instigator) as
                     GameplayEffect;
-            ApplyGameplayEffectToSelf(conditionalEffectInstance);
+            ApplyGameplayEffectToSelf(conditionalEffectInstance,applier);
         }
 
         List<GameplayPersistentEffect> effectsToRemove = new List<GameplayPersistentEffect>(); // check if it works!
@@ -295,7 +296,7 @@ public partial class GameplayEffectController :
 #if USING_FISHNET
         if (base.IsServerOnly && !asObserver)
         {
-            Observer_ApplyGameplayEffectsToSelf(base.Owner,effectToApply.Definition.ItemId);
+            Observer_ApplyGameplayEffectsToSelf(base.Owner,applier,effectToApply.Definition.ItemId);
         }
 #endif
         return true;
@@ -303,10 +304,10 @@ public partial class GameplayEffectController :
 
 #if USING_FISHNET
     [ObserversRpc(BufferLast = true, ExcludeOwner = false)]
-    private void Observer_ApplyGameplayEffectsToSelf(NetworkConnection conn, string effectDefinitionId)
+    private void Observer_ApplyGameplayEffectsToSelf(NetworkConnection conn,GameObject applier, string effectDefinitionId)
     {
         Debug.Log("PLAYED AS TARGET RPC");
-        ApplyGameplayEffectDefinition(effectDefinitionId, true);
+        ApplyGameplayEffectDefinition(effectDefinitionId, applier,true);
     }
 #endif
 
@@ -550,7 +551,7 @@ public partial class GameplayEffectController :
             GameplayEffect effect =
                 Activator.CreateInstance(attribute.type, effectDefinition, _initialEffects, gameObject) as
                     GameplayEffect;
-            ApplyGameplayEffectToSelf(effect);
+            ApplyGameplayEffectToSelf(effect,_owner.gameObject);
         }
 
         IsInitialized = true;

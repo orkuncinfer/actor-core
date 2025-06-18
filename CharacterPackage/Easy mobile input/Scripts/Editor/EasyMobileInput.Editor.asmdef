@@ -1,0 +1,18 @@
+{
+    "name": "EasyMobileInput.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:26edc8e279888fd4397887bcb9da1a12"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -59,7 +59,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 3670662858425761806
-      type: {class: AbilityAction_Unequip, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: AbilityAction_Unequip, ns: , asm: Hexcore.CharacterPackage}
       data:
         ActivationPolicy: 0
         EventName: 
@@ -68,7 +68,7 @@ MonoBehaviour:
         _socketName: body_side
         _lerpSpeed: 8
     - rid: 3670663040529596422
-      type: {class: AbilityAction_ToggleAiming, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: AbilityAction_ToggleAiming, ns: , asm: Hexcore.CharacterPackage}
       data:
         ActivationPolicy: 2
         EventName: 

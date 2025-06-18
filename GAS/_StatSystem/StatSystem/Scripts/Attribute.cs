@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SaveSystem.Scripts.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StatSystem
 {
@@ -35,9 +36,12 @@ namespace StatSystem
             }
         }
 
+        private StatController _statController;
+        public StatController StatController => _statController;
+
         public event Action onCurrentValueChanged;
         public event Action<int,int> onAttributeChanged;
-        public event Action<StatModifier> onAppliedModifier;
+        public event Action<StatModifier,StatController,int> onAppliedModifier;
         
         List<StatModifier> _tempModifiers = new List<StatModifier>();
         
@@ -45,6 +49,7 @@ namespace StatSystem
     
         public Attribute(StatDefinition definition, StatController controller) : base(definition, controller)
         {
+            _statController = controller;
         }
 
         public override void Initialize()
@@ -140,7 +145,7 @@ namespace StatSystem
                 onAttributeChanged?.Invoke(oldValue,_currentValue);
             }
             Debug.Log("applied value is : " + _currentValue + ":" + Value);
-            onAppliedModifier?.Invoke(modifier);
+            onAppliedModifier?.Invoke(modifier,_statController,diff);
             return diff;
         }
         

@@ -2,6 +2,8 @@ using UnityEditor;
 using UnityEngine;
 using System.Text;
 
+#if UNITY_EDITOR
+
 public static class CopyTransformPathEditor
 {
     [MenuItem("GameObject/Copy Path", false, 0)]
@@ -38,3 +40,6 @@ public static class CopyTransformPathEditor
         return Selection.activeGameObject != null;
     }
 }
+
+
+#endif

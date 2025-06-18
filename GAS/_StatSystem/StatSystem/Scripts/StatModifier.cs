@@ -12,6 +12,7 @@ namespace StatSystem
     public class StatModifier
     {
         public object Source { get; set; }
+        public object Victim { get; set; }
         public float Magnitude { get; set; }
         public ModifierOperationType Type { get; set; }
         

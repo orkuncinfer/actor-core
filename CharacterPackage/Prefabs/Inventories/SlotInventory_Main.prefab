@@ -1,0 +1,169 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &282630888618778030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3496117498317223014}
+  - component: {fileID: 8749060055596728669}
+  - component: {fileID: 9174399408512767768}
+  m_Layer: 0
+  m_Name: SlotInventory_Main
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3496117498317223014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282630888618778030}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8749060055596728669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282630888618778030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9794fe5fd80b2a0429fc6a84eb91aab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialSlotCount: 20
+  Width: 0
+  InventoryId: {fileID: 11400000, guid: 8bdc75f4d0e25864c9522f576da078ae, type: 2}
+  CreateOnInitialize: 0
+  InventoryData:
+    _slotCount: 0
+    _inventorySlots:
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+    - _allowedTags:
+        _tagHashes: []
+      _itemID: 
+      _itemCount: 0
+  InitialItems:
+  - ItemDefinition: {fileID: 11400000, guid: 0b4ffddf72fb1ec4e926d0c43a886b84, type: 2}
+    Count: 1
+--- !u!114 &9174399408512767768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282630888618778030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c5496b777b3ea48a46d30fb1adec75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inventoryKey: {fileID: 11400000, guid: 8bdc75f4d0e25864c9522f576da078ae, type: 2}
+  _inventoryPanel: {fileID: 8744719277144872252, guid: c794a7326674467459d2a130ed5e28d6, type: 3}
+  _inputAction:
+    m_Name: Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 727bd119-7246-4d9c-9d09-1cec21d7834b
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: dd539cb7-a916-414a-931b-ad3ec62dca03
+      m_Path: <Keyboard>/tab
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input
+      m_Flags: 0
+    m_Flags: 0
+  _characterActionAsset: {fileID: -944628639613478452, guid: 857877e365f181e48a2c6e0021ad4183, type: 3}

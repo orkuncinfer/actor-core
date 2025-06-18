@@ -186,3 +186,7 @@ MonoBehaviour:
     HashCode: de0fd9b2-7cb7-4775-90b5-f51391f48583
     Description: Generated tag for Ability.Combo.BasicCombo1
     _asset: {fileID: 11400000}
+  - Tag: Network.IsServerOnly
+    HashCode: 3dcfa45a-6066-41f2-8a76-b915cef1dd4d
+    Description: Generated tag for Network.IsServerOnly
+    _asset: {fileID: 11400000}

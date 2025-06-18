@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor;
 
@@ -72,3 +74,5 @@ public class GenericKeyDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+
+#endif

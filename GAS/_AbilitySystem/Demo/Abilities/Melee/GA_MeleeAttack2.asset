@@ -17,7 +17,7 @@ MonoBehaviour:
   _maxLevel: 20
   _icon: {fileID: 0}
   _gameplayEffectDefinitions:
-  - {fileID: 11400000, guid: 418e039fdfef19142b86eca28ec0ff65, type: 2}
+  - {fileID: 11400000, guid: dbb302379b427ab4ba5a9df63e5e94b7, type: 2}
   _isBasicAttack: 1
   _abilityLayer: 0
   _overrideAnimSpeed: 0
@@ -59,7 +59,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 3860127071150014479
-      type: {class: AbilityAction_MeleeAttack, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: AbilityAction_MeleeAttack, ns: , asm: Hexcore.CharacterPackage}
       data:
         ActivationPolicy: 0
         EventName: Attack

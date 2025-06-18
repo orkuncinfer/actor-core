@@ -34,7 +34,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 88048006081806342
-      type: {class: GameplayEffectStatModifierDefinition, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: GameplayEffectStatModifierDefinition, ns: , asm: Hexcore.AbilitySystem}
       data:
         StatName: Health
         Type: 0

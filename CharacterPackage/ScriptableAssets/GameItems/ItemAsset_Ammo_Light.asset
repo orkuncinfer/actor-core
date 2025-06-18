@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148c1a5ce18bec84787ea1e31fe7df8c, type: 3}
+  m_Name: ItemAsset_Ammo_Light
+  m_EditorClassIdentifier: 
+  ItemID: Ammo_Light
+  _itemIDLocked: 1
+  ItemName: Ammo_Light
+  _itemNameLocked: 0
+  Description: 
+  Icon: {fileID: 0}
+  DataList: []
+  WorldPrefab: {fileID: 0}
+  UIPrefab: {fileID: 0}
+  _rpgItemTypes: 0
+  IsStackable: 1
+  MaxStack: 9999999
+  DefaultRarity: 0
+  IsUniqueItem: 0
+  ItemTags:
+    m_SerializedExplicitTags: []
+  ItemActions: []
+  references:
+    version: 2
+    RefIds: []

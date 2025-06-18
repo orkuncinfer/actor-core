@@ -1,9 +1,12 @@
+
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using System;
 using UnityEditor.Experimental.GraphView;
+
 
 [CustomEditor(typeof(DataContainer))]
 public class DataContainerEditor : OdinEditor
@@ -147,3 +150,5 @@ public class DataContainerEditor : OdinEditor
         }
     }
 }
+
+#endif

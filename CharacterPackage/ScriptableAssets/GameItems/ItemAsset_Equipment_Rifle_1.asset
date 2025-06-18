@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148c1a5ce18bec84787ea1e31fe7df8c, type: 3}
+  m_Name: ItemAsset_Equipment_Rifle_1
+  m_EditorClassIdentifier: 
+  ItemID: Equipment_Rifle_1
+  _itemIDLocked: 1
+  ItemName: APR-45 MK
+  _itemNameLocked: 1
+  Description: 
+  Icon: {fileID: 0}
+  DataList:
+  - rid: 428195015235207175
+  - rid: 3670663018735468551
+  WorldPrefab: {fileID: 7054090832492327864, guid: a6420e98115efaa40b45b052cc84a6a9, type: 3}
+  Model: {fileID: 1179216752862886640, guid: 9c3799d3fc6608c44920ca014965f464, type: 3}
+  DropPrefab: {fileID: 6504192977590770944, guid: 37c353438e952954789e0d8fae978984, type: 3}
+  UIPrefab: {fileID: 0}
+  _rpgItemTypes: 0
+  IsStackable: 0
+  MaxStack: 1
+  DefaultRarity: 0
+  IsUniqueItem: 0
+  ItemTags:
+    _tagHashes:
+    - 93e06ffd-c134-405f-8ee1-38b355e760e7
+    - 26e00d47-d053-45bd-8fbe-39d9fc82705a
+  ItemActions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 428195015235207175
+      type: {class: Data_Gun, ns: , asm: Hexcore.CharacterPackage}
+      data:
+        IsGlobal: 0
+        UseKey: 0
+        IsPersistent: 0
+        DataKey: 
+        OwnerActor: {fileID: 0}
+        IsInstalled: 0
+        _shootAbility: {fileID: 0}
+        _reloadClip:
+          _FadeDuration: 0.25
+          _Events:
+            _NormalizedTimes: []
+            _Callbacks: []
+            _Names: []
+          _Clip: {fileID: 8993902097722301239, guid: 90fc5858825cb5c4884ea12146f5b5c1, type: 3}
+          _Speed: 1
+          _NormalizedStartTime: 0
+    - rid: 3670663018735468551
+      type: {class: Data_Equippable, ns: , asm: Hexcore.CharacterPackage}
+      data:
+        IsGlobal: 0
+        UseKey: 0
+        IsPersistent: 0
+        DataKey: 
+        OwnerActor: {fileID: 0}
+        IsInstalled: 0
+        _equipSlotName: 
+        _unequipSlotName: body_back

@@ -3,6 +3,9 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 
+#if UNITY_EDITOR
+
+
 public class EventCreatorWindow : EditorWindow
 {
     private string typeName = "String";
@@ -80,3 +83,4 @@ public class {0}GameEvent : GameEvent<{1}> {{ }}
         AssetDatabase.Refresh();
     }
 }
+#endif

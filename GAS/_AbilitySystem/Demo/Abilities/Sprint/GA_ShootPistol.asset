@@ -56,7 +56,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 3670663040529596426
-      type: {class: AbilityAction_ShootingWeapon, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: AbilityAction_ShootingWeapon, ns: , asm: Hexcore.CharacterPackage}
       data:
         ActivationPolicy: 2
         EventName: 

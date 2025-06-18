@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6152675460949449127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7813408002932710150}
+  - component: {fileID: 3733505717521501911}
+  - component: {fileID: 5899712474750876586}
+  - component: {fileID: 7856923745081112836}
+  - component: {fileID: 1908405536856180343}
+  - component: {fileID: 2738371472539204821}
+  m_Layer: 9
+  m_Name: InteractionTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7813408002932710150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6152675460949449127}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.055015065, y: 0.14737175, z: 0.17316079}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3733505717521501911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6152675460949449127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92471cc1733c49042be56cd39b4b6e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Having "Fix Y Axis" checked in the Character Position of the range makes
+    it possible to pick up this gun the same way regardless of which side it is resting
+    on.
+--- !u!135 &5899712474750876586
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6152675460949449127}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7856923745081112836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6152675460949449127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271d39b80226e4699829647c96a98758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ranges:
+  - name: 
+    show: 1
+    characterPosition:
+      use: 1
+      offset: {x: 0, y: 0}
+      angleOffset: 90
+      maxAngle: 180
+      radius: 2.5
+      orbit: 0
+      fixYAxis: 1
+    cameraPosition:
+      lookAtTarget: {fileID: 0}
+      direction: {x: -0, y: -0, z: -1}
+      maxDistance: 0.5
+      maxAngle: 45
+      fixYAxis: 0
+    interactions: []
+  OnInteraction:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1908405536856180343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6152675460949449127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2166e4593c58c9c40b4e4e8d6e749938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactAbility: {fileID: 11400000, guid: e0fd6c925b2d19341bac8f870d52cfff, type: 2}
+  _interactionUI: {fileID: 6455323103448720339, guid: 36117f40c3e3961428da075b1bc108cd, type: 3}
+  _displayOffset: {x: 0, y: 0.5, z: 0}
+  _displayScale: 1
+  _isInteractable: 0
+--- !u!114 &2738371472539204821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6152675460949449127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e39bfe4354cdba4f9fad86ee9f80e61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionName: interact
+  _abilityOnAction: {fileID: 11400000, guid: e0fd6c925b2d19341bac8f870d52cfff, type: 2}
+  _actionOnAbilitySuccess:
+    m_PersistentCalls:
+      m_Calls: []

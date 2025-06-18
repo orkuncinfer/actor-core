@@ -1,0 +1,19 @@
+{
+    "name": "Hexcore.GameplayTags.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b2d06dce0f5f51648a09ba64420e594d",
+        "GUID:39b3efc83f32dab4bb531ca8d2cdd985"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

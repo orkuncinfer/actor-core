@@ -50,7 +50,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 88048083462258689
-      type: {class: GameplayEffectDamageDefinition, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: GameplayEffectDamageDefinition, ns: , asm: Hexcore.AbilitySystem}
       data:
         StatName: Health
         Type: 0

@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -57,3 +59,5 @@ public class DataTypeSearchProvider : ScriptableObject, ISearchWindowProvider
         return false;
     }
 }
+
+#endif

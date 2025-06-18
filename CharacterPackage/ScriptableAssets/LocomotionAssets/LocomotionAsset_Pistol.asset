@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db5b2acc688ae434abac7bb6d1eee0ad, type: 3}
+  m_Name: LocomotionAsset_Pistol
+  m_EditorClassIdentifier: 
+  Idle:
+    _FadeDuration: 0.25000003
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 8993902097722301239, guid: 166301882a107c54199d36acd7ee5e23, type: 3}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  Locomotion: {fileID: 11400000, guid: 08b2bf212e621ae4cbd5ab57becc86b4, type: 2}

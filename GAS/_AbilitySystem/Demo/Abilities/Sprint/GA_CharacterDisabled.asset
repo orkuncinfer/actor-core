@@ -57,7 +57,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 95553319146094610
-      type: {class: AbilityAction_CancelAbilityAfterTime, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: AbilityAction_CancelAbilityAfterTime, ns: , asm: Hexcore.CharacterPackage}
       data:
         ActivationPolicy: 2
         EventName: 

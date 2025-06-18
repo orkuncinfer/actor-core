@@ -43,7 +43,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 6278447946026450974
-      type: {class: GameplayEffectStatModifierDefinition, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: GameplayEffectStatModifierDefinition, ns: , asm: Hexcore.AbilitySystem}
       data:
         StatName: MoveSpeed
         Type: 1

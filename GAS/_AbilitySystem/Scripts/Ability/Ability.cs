@@ -73,7 +73,7 @@ public abstract class Ability : ISavable
         
         foreach (GameplayEffectDefinition effectDefinition in effectDefinitions)
         {
-            effectController.ApplyGameplayEffectDefinition(effectDefinition.ItemId);
+            effectController.ApplyGameplayEffectDefinition(effectDefinition.ItemId,Owner.gameObject);
         }
         
     }

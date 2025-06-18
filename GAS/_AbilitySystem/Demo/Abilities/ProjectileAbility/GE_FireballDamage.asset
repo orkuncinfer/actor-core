@@ -34,11 +34,11 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 88048083462258688
-      type: {class: GameplayEffectDamageDefinition, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: GameplayEffectDamageDefinition, ns: , asm: Hexcore.AbilitySystem}
       data:
         StatName: Health
         Type: 0
         Formula:
-          Graph: {fileID: 11400000, guid: aa38453b902d3c94393bf76b0af2d47d, type: 2}
-          StaticValue: -20
+          Graph: {fileID: 0}
+          StaticValue: -3
         CanCriticalHit: 0

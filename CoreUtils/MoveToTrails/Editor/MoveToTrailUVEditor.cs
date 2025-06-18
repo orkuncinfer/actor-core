@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(MoveToTrailUV))][CanEditMultipleObjects]
 public class MoveToTrailUVEditor : Editor
 {
@@ -183,3 +185,5 @@ public class MoveToTrailUVEditor : Editor
         return "";
     }
 }
+
+#endif

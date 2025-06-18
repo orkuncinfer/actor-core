@@ -3,6 +3,8 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
+#if UNITY_EDITOR
+
 public class ReverseAnimation : Editor
 {
     public static AnimationClip GetSelectedClip()
@@ -67,3 +69,5 @@ public class ReverseAnimation : Editor
         Debug.Log("Animation reversed!");
     }
 }
+
+#endif

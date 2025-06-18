@@ -385,8 +385,8 @@ public class AbilityController : MonoInitializable, ISavable
 
     private void ApplyAbilityEffects(ActiveAbility ability)
     {
-        if (ability.Definition.Cost) _effectController.ApplyGameplayEffectDefinition(ability.Definition.Cost.ItemId);
-        if(ability.Definition.Cooldown)_effectController.ApplyGameplayEffectDefinition(ability.Definition.Cooldown.ItemId);
+        if (ability.Definition.Cost) _effectController.ApplyGameplayEffectDefinition(ability.Definition.Cost.ItemId,_owner.gameObject);
+        if(ability.Definition.Cooldown)_effectController.ApplyGameplayEffectDefinition(ability.Definition.Cooldown.ItemId,_owner.gameObject);
     }
 
     public void AbilityDoneAnimating(ActiveAbility ability) // ability finished successfully at end of animation

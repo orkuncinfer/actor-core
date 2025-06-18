@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 [CustomPropertyDrawer(typeof(LockableFieldAttribute))]
 public class LockableFieldDrawer : PropertyDrawer
 {
@@ -45,3 +47,5 @@ public class LockableFieldDrawer : PropertyDrawer
         EditorGUI.EndDisabledGroup();
     }
 }
+
+#endif

@@ -143,11 +143,11 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 5069724194769993964
-      type: {class: Condition_GameResult, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: Condition_GameResult, ns: , asm: Hexcore.GameMode}
       data:
         ShouldCompleted: 1
     - rid: 5069724194769993965
-      type: {class: Condition_GameResult, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: Condition_GameResult, ns: , asm: Hexcore.GameMode}
       data:
         ShouldCompleted: 0
 --- !u!114 &5462311921978719296

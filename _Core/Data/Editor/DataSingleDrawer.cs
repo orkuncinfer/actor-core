@@ -1,3 +1,5 @@
+
+#if false
 using System;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
@@ -5,7 +7,6 @@ using UnityEngine;
 using Sirenix.Utilities.Editor;
 using UnityEditor.Experimental.GraphView;
 
-#if false
 
 [CustomEditor(typeof(DataSingle))]
 public class DataSingleDrawer : OdinEditor

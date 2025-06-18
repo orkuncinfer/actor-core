@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a262694a5e994a24ea3ce166d61d58a3, type: 3}
+  m_Name: Projectile Spread Over Time Modifier
+  m_EditorClassIdentifier: 
+  spreadIncreasePerShot: 0.1
+  _cooldownSpeed: 3
+  delayBeforeCooldown: 0.2

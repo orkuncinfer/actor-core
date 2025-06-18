@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2d01d4f425b3848938f199392c9afb, type: 3}
+  m_Name: Locomotion_Cartesian_Pistol
+  m_EditorClassIdentifier: 
+  _Transition:
+    rid: 6278448035570909188
+  references:
+    version: 2
+    RefIds:
+    - rid: 6278448035570909188
+      type: {class: MixerTransition2D, ns: Animancer, asm: Animancer}
+      data:
+        _FadeDuration: 0.25
+        _Events:
+          _NormalizedTimes: []
+          _Callbacks: []
+          _Names: []
+        _Speed: 1
+        _Animations:
+        - {fileID: 8993902097722301239, guid: 1272b3bfe8b57e84380871b0b092fef5, type: 3}
+        - {fileID: 8993902097722301239, guid: 38c2e0907132e8a4da98d7068298b3e1, type: 3}
+        - {fileID: 8993902097722301239, guid: fcf97146b7cce8946b3d7ef18d18211a, type: 3}
+        - {fileID: 8993902097722301239, guid: 6adf4ca66ec6d5a44b3131150ff0b70e, type: 3}
+        - {fileID: 7400000, guid: 2bdccefeef44e60469119d5dc2ebcef5, type: 2}
+        - {fileID: 7400000, guid: 77a1645529efa9e458c05ae68910d5db, type: 2}
+        - {fileID: 7400000, guid: ca019ddbd8a3ee54d82449c68cf3f0ba, type: 2}
+        - {fileID: 7400000, guid: 2b53593376d3eaa4b9a34394e7f83f79, type: 2}
+        - {fileID: 8993902097722301239, guid: a296d685daf895a4bab7ed457bd9fe69, type: 3}
+        - {fileID: 8993902097722301239, guid: 3e93c7f33d45ac54b8eae3446f949138, type: 3}
+        - {fileID: 8993902097722301239, guid: 4a98169c6f60d2e489b8b1c4194827cc, type: 3}
+        - {fileID: 8993902097722301239, guid: 614ea25d3af2a344a94037becc583f7e, type: 3}
+        - {fileID: 7400000, guid: bee30b18d8d90594c955b21cf24e85f2, type: 2}
+        - {fileID: 7400000, guid: 58c66c8e0dcafee4096986c9fa06cd38, type: 2}
+        - {fileID: 7400000, guid: c815127fb823eeb4688713f9a5a16da9, type: 2}
+        - {fileID: 7400000, guid: fc3097bd987dd244490135c1db0becc5, type: 2}
+        _Speeds:
+        - 0.9
+        - 0.9
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        _SynchronizeChildren: 
+        _Thresholds:
+        - {x: 0, y: 3}
+        - {x: 0, y: -3}
+        - {x: -3, y: 0}
+        - {x: 3, y: 0}
+        - {x: -2, y: 2}
+        - {x: 2, y: 2}
+        - {x: -2, y: -2}
+        - {x: 2, y: -2}
+        - {x: 0, y: 6}
+        - {x: 0, y: -6}
+        - {x: -6, y: 0}
+        - {x: 6, y: 0}
+        - {x: -4.5, y: 4.5}
+        - {x: 4.5, y: 4.5}
+        - {x: -4.5, y: -4.5}
+        - {x: 4.5, y: -4.5}
+        _DefaultParameter: {x: 0, y: 0}
+        _Type: 0
