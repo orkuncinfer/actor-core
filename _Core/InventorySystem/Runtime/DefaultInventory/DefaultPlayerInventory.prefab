@@ -46,8 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoUnparentOnAwake: 1
-  _allItems: {fileID: 11400000, guid: bb2368afad43bb146a5d9a604f24fc69, type: 2}
-  _testItem: {fileID: 11400000, guid: f7898775afb6f46498bbffa6a384887a, type: 2}
+  _testItem: {fileID: 0}
 --- !u!1001 &8735898649059895531
 PrefabInstance:
   m_ObjectHideFlags: 0

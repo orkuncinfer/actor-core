@@ -18,7 +18,7 @@ public enum GameMode
 [Serializable]
 public class DS_GameModeRuntime : Data
 {
-    [FormerlySerializedAs("_currentGameModez")] [FormerlySerializedAs("CurrentGameMode")] public GameMode _currentGameMode = GameMode.None;
+    public GameMode _currentGameMode = GameMode.None;
    
     [SerializeField] private EventField _requestGameModeStart;
     [SerializeField] private EventField _requestGameModePause;

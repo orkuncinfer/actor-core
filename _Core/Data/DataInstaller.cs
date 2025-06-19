@@ -125,18 +125,9 @@ public class DataInstaller<TData>: IDataInstaller where TData : class, IData
                 var loadedData = data.LoadData();
                 if (loadedData != null)
                 {
-                    Debug.Log("3404 : Data not null :" + data.GetType());
-                    if (loadedData is DS_PlayerPersistent pers)
-                    {
-                        //debug all fields
-                        Debug.Log("3404 : Loaded data : " + pers.AttackSpeedPersistent);
-                    }
                     Type loadedType = loadedData.GetType();
                     //DataSet = (TData)loadedData;
-                    if (DataSet is DS_PlayerPersistent pers2)
-                    {
-                        Debug.Log("3404 : Loaded data2 : " + pers2.AttackSpeedPersistent);
-                    }
+                    
                     data = DataSet as Data;
                 }
             }
