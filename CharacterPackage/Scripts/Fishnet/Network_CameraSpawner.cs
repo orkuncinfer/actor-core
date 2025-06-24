@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Network_CameraSpawner : NetworkBehaviour
 {
-#if USING_FISHNET
     public Actor OwnerActor;
     public GameObject CameraPrefab;
     public GameObject FollowerPrefab;
@@ -18,6 +17,7 @@ public class Network_CameraSpawner : NetworkBehaviour
     private GameObject _cameraInstance;
     private GameObject _followerIstance;
 
+#if USING_FISHNET
     public override void OnStartClient()
     {
         base.OnStartClient();

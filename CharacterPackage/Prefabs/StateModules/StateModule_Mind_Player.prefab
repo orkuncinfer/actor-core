@@ -86,6 +86,7 @@ MonoBehaviour:
   _interactionAbility: {fileID: 11400000, guid: e0fd6c925b2d19341bac8f870d52cfff, type: 2}
   InteractActionName: Interaction
   EquipActionName: EquipGround
+  _interactionInputPanel: {fileID: 8744719277144872252, guid: ec9e32610445ffc4ca4e28ca74b398c1, type: 3}
   references:
     version: 2
     RefIds:

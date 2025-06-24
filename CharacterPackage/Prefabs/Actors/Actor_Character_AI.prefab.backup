@@ -43,10 +43,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractionSystem
       objectReference: {fileID: 0}
-    - target: {fileID: 2676167189890681835, guid: 5580b08a536ff5f4d96c5b49c6624fc6, type: 3}
-      propertyPath: _root
-      value: 
-      objectReference: {fileID: 5621859116769062958}
     - target: {fileID: 7884788856354788033, guid: 5580b08a536ff5f4d96c5b49c6624fc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -605,19 +601,19 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 326876880592693039, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
-      propertyPath: '_redirectStates.Array.data[1]'
+      propertyPath: _redirectStates.Array.data[1]
       value: 
       objectReference: {fileID: 2930930521480990389}
     - target: {fileID: 326876880592693039, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
-      propertyPath: '_redirectStates.Array.data[2]'
+      propertyPath: _redirectStates.Array.data[2]
       value: 
       objectReference: {fileID: 6417123631163744660}
     - target: {fileID: 326876880592693039, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
-      propertyPath: '_redirectStates.Array.data[3]'
+      propertyPath: _redirectStates.Array.data[3]
       value: 
       objectReference: {fileID: 6505673373041542456}
     - target: {fileID: 326876880592693039, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
-      propertyPath: '_redirectStates.Array.data[4]'
+      propertyPath: _redirectStates.Array.data[4]
       value: 
       objectReference: {fileID: 6505673373041542456}
     - target: {fileID: 503114664326849720, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
@@ -711,7 +707,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 3670662740903198766
-      type: {class: Data_AbilityDefinition, ns: , asm: Hexcore.AbilitySystem}
+      type: {class: Data_AbilityDefinition, ns: , asm: Assembly-CSharp-firstpass}
       data:
         IsGlobal: 0
         UseKey: 1
@@ -721,7 +717,7 @@ MonoBehaviour:
         IsInstalled: 0
         _abilityDefinition: {fileID: 11400000, guid: 0e2e3e246ef0b6244a2956f7d9443ba6, type: 2}
     - rid: 3670662740903198767
-      type: {class: Data_AbilityDefinition, ns: , asm: Hexcore.AbilitySystem}
+      type: {class: Data_AbilityDefinition, ns: , asm: Assembly-CSharp-firstpass}
       data:
         IsGlobal: 0
         UseKey: 1
@@ -731,7 +727,7 @@ MonoBehaviour:
         IsInstalled: 0
         _abilityDefinition: {fileID: 11400000, guid: e0fd6c925b2d19341bac8f870d52cfff, type: 2}
     - rid: 3670663040529596429
-      type: {class: Data_AbilityDefinition, ns: , asm: Hexcore.AbilitySystem}
+      type: {class: Data_AbilityDefinition, ns: , asm: Assembly-CSharp-firstpass}
       data:
         IsGlobal: 0
         UseKey: 1
@@ -741,7 +737,7 @@ MonoBehaviour:
         IsInstalled: 0
         _abilityDefinition: {fileID: 11400000, guid: fee12b6feca6fd84bbb7d8c05ddca093, type: 2}
     - rid: 3670663040529596431
-      type: {class: Data_AbilityDefinition, ns: , asm: Hexcore.AbilitySystem}
+      type: {class: Data_AbilityDefinition, ns: , asm: Assembly-CSharp-firstpass}
       data:
         IsGlobal: 0
         UseKey: 1
@@ -751,7 +747,7 @@ MonoBehaviour:
         IsInstalled: 0
         _abilityDefinition: {fileID: 11400000, guid: 73356437e892af84694e3813cb6136c6, type: 2}
     - rid: 4448694695146815619
-      type: {class: Data_AbilityDefinition, ns: , asm: Hexcore.AbilitySystem}
+      type: {class: Data_AbilityDefinition, ns: , asm: Assembly-CSharp-firstpass}
       data:
         IsGlobal: 0
         UseKey: 1
@@ -761,7 +757,7 @@ MonoBehaviour:
         IsInstalled: 0
         _abilityDefinition: {fileID: 11400000, guid: 516c131ebe1dc414c814381eb59dc02e, type: 2}
     - rid: 4448694695146815620
-      type: {class: Data_AbilityDefinition, ns: , asm: Hexcore.AbilitySystem}
+      type: {class: Data_AbilityDefinition, ns: , asm: Assembly-CSharp-firstpass}
       data:
         IsGlobal: 0
         UseKey: 1

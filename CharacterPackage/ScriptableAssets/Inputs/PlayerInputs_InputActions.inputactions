@@ -223,7 +223,7 @@
                     "path": "<Pointer>/delta",
                     "interactions": "",
                     "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)",
-                    "groups": "KeyboardMouse",
+                    "groups": "KeyboardMouse;Keyboard And Mouse",
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false

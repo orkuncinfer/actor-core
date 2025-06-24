@@ -13,7 +13,7 @@ public class Interactable : MonoBehaviour
     [SerializeField] private float _displayScale = 1;
     [SerializeField][ReadOnly]private bool _isInteractable;
     
-    public  event Action<ActorBase,string> OnInteractAttempt;
+    public  event Action<Actor,string> OnInteractAttempt;
     public bool IsInteractable
     {
         get => _isInteractable;
@@ -44,7 +44,7 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    public void InteractAttempt(ActorBase owner,string actionName)
+    public void InteractAttempt(Actor owner,string actionName)
     {
         OnInteractAttempt?.Invoke(owner,actionName);
     }

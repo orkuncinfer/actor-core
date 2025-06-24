@@ -1580,6 +1580,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e919656c0302ec746825462d5ddb518c, type: 2}
     - target: {fileID: 6005983464366768730, guid: 33edc42ffeedb8f47aa693e666a6db61, type: 3}
+      propertyPath: '_grantedAbilities.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ad195443a565a3e4e86c8bd754d09263, type: 2}
+    - target: {fileID: 6005983464366768730, guid: 33edc42ffeedb8f47aa693e666a6db61, type: 3}
       propertyPath: 'EquipTags._tagHashes.Array.data[0]'
       value: 77599826-1ece-4015-88a3-682180c78107
       objectReference: {fileID: 0}

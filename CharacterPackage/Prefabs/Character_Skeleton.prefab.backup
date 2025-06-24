@@ -923,7 +923,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 4448694695146815731
-      type: {class: Data_Animancer, ns: , asm: Hexcore.AbilitySystem}
+      type: {class: Data_Animancer, ns: , asm: Assembly-CSharp-firstpass}
       data:
         IsGlobal: 0
         UseKey: 0

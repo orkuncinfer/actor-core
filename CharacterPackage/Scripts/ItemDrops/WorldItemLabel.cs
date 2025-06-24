@@ -142,6 +142,6 @@ public class WorldItemLabel : MonoBehaviour,IPointerEnterHandler,IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ItemDropInstance.Collect();
+        ItemDropInstance.Collect(null);
     }
 }

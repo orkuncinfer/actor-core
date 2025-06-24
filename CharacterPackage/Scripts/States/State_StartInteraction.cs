@@ -91,7 +91,7 @@ public class State_StartInteraction : MonoState
         if (_lastInteractionTrigger == null) return;
         if (_lastInteractionTrigger.TryGetComponent<Interactable>(out var interactable))
         {
-            interactable.InteractAttempt(Owner, "Equip");
+            interactable.InteractAttempt(Owner as Actor, "Equip");
         }
     }
 
@@ -101,7 +101,7 @@ public class State_StartInteraction : MonoState
         if (_lastInteractionTrigger == null) return;
         if (_lastInteractionTrigger.TryGetComponent<Interactable>(out var interactable))
         {
-            interactable.InteractAttempt(Owner, "Interact");
+            interactable.InteractAttempt(Owner as Actor, "Interact");
         }
     }
 

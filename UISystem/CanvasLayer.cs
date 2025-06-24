@@ -23,7 +23,7 @@ public class CanvasLayer : MonoBehaviour
     
     private Canvas _canvas;
 
-    private void Start()
+    private void Awake()
     {
         _canvas = GetComponent<Canvas>();
         

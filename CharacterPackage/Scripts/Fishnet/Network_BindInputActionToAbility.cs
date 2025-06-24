@@ -165,7 +165,10 @@ public class Network_BindInputActionToAbility :
         // Start input session with buffering
         if (Time.time >= _inputEndTime) // no buffer exists
         {
+#if USING_FISHNET
             ServerRegisterAbility(true);
+#endif
+            
         }
         _inputEndTime = Time.time + _inputBufferDuration;
         _pressingInput = true;
@@ -174,6 +177,8 @@ public class Network_BindInputActionToAbility :
         
         CancelConflictingAbilities();
     }
+#if USING_FISHNET
+
     [ServerRpc]
     private void ServerRegisterAbility(bool register)
     {
@@ -208,6 +213,8 @@ public class Network_BindInputActionToAbility :
             _gasService.AbilityController.UnregisterQueueAbilityGameplayTag(_tag);
         }
     }
+    
+#endif
     private void OnInputReleased(InputAction.CallbackContext context)
     {
         _pressingInput = false;
@@ -265,7 +272,9 @@ public class Network_BindInputActionToAbility :
         {
             CancelActiveAbility();
         }
+#if USING_FISHNET
         ServerRegisterAbility(false);
+#endif
         _isInputActive = false;
         _hasActivatedThisInput = false;
     }

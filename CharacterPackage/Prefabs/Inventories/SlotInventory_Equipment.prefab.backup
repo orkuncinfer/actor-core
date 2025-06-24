@@ -916,7 +916,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 3670662662312689665
-      type: {class: Data_RefVar, ns: , asm: Hexcore.CharacterPackage}
+      type: {class: Data_RefVar, ns: , asm: Assembly-CSharp-firstpass}
       data:
         IsGlobal: 0
         UseKey: 0

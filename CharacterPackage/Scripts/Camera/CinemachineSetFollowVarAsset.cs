@@ -1,13 +1,27 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 
-public class CinemachineSetFollowVarAsset : MonoCore
+public class CinemachineSetFollowVarAsset : MonoBehaviour
 {
     [SerializeField] private GameObjectVariable _playerFollower;
 
-    protected override void OnGameReady()
+    private void Start()
     {
-        base.OnGameReady();
+        if (_playerFollower.Value != null)
+        {
+            transform.GetComponent<CinemachineVirtualCamera>().Follow = _playerFollower.Value.transform;
+        }
+        _playerFollower.OnChange += OnPlayerValueChange;
+    }
+
+    private void OnDestroy()
+    {
+        _playerFollower.OnChange -= OnPlayerValueChange;
+    }
+
+    private void OnPlayerValueChange(GameObject obj)
+    {
         transform.GetComponent<CinemachineVirtualCamera>().Follow = _playerFollower.Value.transform;
     }
 }

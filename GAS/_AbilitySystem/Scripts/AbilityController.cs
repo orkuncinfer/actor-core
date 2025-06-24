@@ -61,7 +61,9 @@ public class AbilityController : MonoInitializable, ISavable
     private void OnTagChanged()
     {
         Debug.Log("Tag changed . Tried to activate on tag changed");
-        TryActivateQueuedAbilities();
+        //TryActivateQueuedAbilities();
+        // iptal etme sebebim ; ability nin kendi tagleri removelanırken tekrar aktive etmeye çalışıyor. onun yerine
+        // sadece ability bitişlerinde ve AbilityAction_IsCancelable da aktive etmeye çalışacak
     }
 
     protected virtual void OnEnable()
@@ -164,13 +166,14 @@ public class AbilityController : MonoInitializable, ISavable
             if (ability is ActiveAbility activeAbility)
             {
                 if (!CanActivateAbility(activeAbility)) return false;
+                _queuedAbilityToStart = activeAbility.Definition;
                 this.Target = target;
                 _activeAbilities.Add(activeAbility);
-                LastUsedAbility = activeAbility;
                 ApplyAbilityEffects(activeAbility);
                 CancelWithTagCheck(activeAbility);
                 HandleAbilityLayer(activeAbility);
                 activeAbility.StartAbility();
+                LastUsedAbility = activeAbility;
                 activeAbility.onFinished += OnActivateAbilityFinished;
                 onActivatedAbility?.Invoke(activeAbility);
                 _queuedAbilityToStart = null;
@@ -236,13 +239,14 @@ public class AbilityController : MonoInitializable, ISavable
 
     private void CancelWithTagCheck(ActiveAbility activeAbility)
     {
-        //Debug.Log($" CancelWithTagCheck {activeAbility.Definition.name} : tag count {activeAbility.Definition.CancelAbilitiesWithTag.TagCount}");
+        Debug.Log($" CancelWithTagCheck {activeAbility.Definition.name} : tag count {activeAbility.Definition.CancelAbilitiesWithTag.TagCount}");
         if(activeAbility.Definition.CancelAbilitiesWithTag.TagCount == 0) return;
         for(int i = _activeAbilities.Count - 1; i >= 0; i--)
         {
+            Debug.Log("Checking ability " + activeAbility.Definition + " for cancelation with tag ");
             if (activeAbility.Definition.CancelAbilitiesWithTag.HasAny(_activeAbilities[i].Definition.AbilityTags))
             {
-                Debug.Log($"Tried to cancel {_activeAbilities[i].Definition.name} because of tag {activeAbility.Definition.CancelAbilitiesWithTag.GetTags().First()}");
+                Debug.Log($"Tried to cancel {_activeAbilities[i].Definition.name} because of tag {activeAbility.Definition.CancelAbilitiesWithTag.GetTags().First().FullTag}");
                 CancelAbilityIfActive(_activeAbilities[i]);
             }
         }
@@ -485,17 +489,18 @@ public class AbilityController : MonoInitializable, ISavable
         }
     }
     
-    private void TryActivateQueuedAbilities()
+    public void TryActivateQueuedAbilities()
     {
         if(_queuedAbilityToStart != null) return;
         //reverse for queued tags
         for (int i = _queuedAbilityTags.Count - 1; i >= 0; i--)
         {
             GameplayTag queuedTag = _queuedAbilityTags[i];
+            
             if (CanActivateAbilityWithTag(queuedTag, out ActiveAbilityDefinition definition))
             {
                 _queuedAbilityToStart = definition;
-                Debug.Log("trying to activate ability : " + definition.name);
+                
                 TryActivateAbility(definition.name, _target);
                 /*ActiveAbility ability = TryActivateAbilityWithGameplayTag(queuedTag);
                 if (ability != null)
@@ -506,10 +511,12 @@ public class AbilityController : MonoInitializable, ISavable
         }
     }
 
-    public void RegisterQueueAbilityGameplayTag(GameplayTag gameplayTag)
+    public void RegisterQueueAbilityGameplayTag(GameplayTag gameplayTag,bool startInitial = false)
     {
         if(!_queuedAbilityTags.Contains(gameplayTag))
             _queuedAbilityTags.Add(gameplayTag);
+
+        TryActivateQueuedAbilities();
     }
     public void UnregisterQueueAbilityGameplayTag(GameplayTag gameplayTag)
     {

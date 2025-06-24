@@ -283,9 +283,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _owner: {fileID: 0}
   ItemDefinition: {fileID: 11400000, guid: cb585809649e90a46a4fe59730952b7a, type: 2}
-  ItemData:
-    _itemID: 
-    _uniqueID: 
   _overrideLocomotionAsset: {fileID: 11400000, guid: 44606da7cf2afbd4894642a2fab1943a, type: 2}
   _equipSocketName: RiflePivot
   _unequipSocketName: WeaponBack
@@ -295,6 +292,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fee12b6feca6fd84bbb7d8c05ddca093, type: 2}
   - {fileID: 11400000, guid: 73356437e892af84694e3813cb6136c6, type: 2}
   - {fileID: 11400000, guid: 81b3ed0e8dc22384b8b412dab319bc84, type: 2}
+  - {fileID: 11400000, guid: f7761f40c9a2cde478fd4c6874c33028, type: 2}
   EquipTags:
     _tagHashes:
     - 93e06ffd-c134-405f-8ee1-38b355e760e7
@@ -413,7 +411,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb56b2933146cc4cb17bb42bd3bd0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AimingAbility: {fileID: 11400000, guid: f7761f40c9a2cde478fd4c6874c33028, type: 2}
+  AimingAbilityTag:
+    fullTag: Ability.Aim
+    tagHierarchy: []
+    hashCode: 2b429371-94f4-4f10-bbb3-14ea6974895d
+    Description: 
 --- !u!65 &5887351453918988996
 BoxCollider:
   m_ObjectHideFlags: 0

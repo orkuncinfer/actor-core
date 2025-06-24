@@ -14,114 +14,159 @@ public class SerializeReferenceAssemblyFixer : EditorWindow
         GetWindow<SerializeReferenceAssemblyFixer>("SerializeRef Asm Fixer");
     }
 
-    private Vector2 typeScrollPos;
-    private Vector2 assetScrollPos;
-    private List<BrokenAsset> brokenAssets = new List<BrokenAsset>();
-    private bool scanCompleted = false;
+    #region Private Fields
+    private Vector2 _typeScrollPos;
+    private Vector2 _assetScrollPos;
+    private List<IBrokenAsset> _brokenAssets = new List<IBrokenAsset>();
+    private bool _scanCompleted = false;
     
-    private List<Type> availableTypes = new List<Type>();
-    private List<bool> selectedTypes = new List<bool>();
-    private string[] typeNames;
-    private bool showTypeSelection = true;
-    private string searchFilter = "";
-    private List<int> filteredIndices = new List<int>();
+    private List<Type> _availableTypes = new List<Type>();
+    private List<bool> _selectedTypes = new List<bool>();
+    private string[] _typeNames;
+    private bool _showTypeSelection = true;
+    private string _searchFilter = "";
+    private List<int> _filteredIndices = new List<int>();
+    
+    // Asset type selection
+    private bool _scanScriptableObjects = true;
+    private bool _scanPrefabs = true;
+    
+    // Type mapping cache
+    private Dictionary<string, string> _typeToAssemblyMapping;
+    private bool _mappingCached = false;
+    #endregion
 
+    #region Unity Lifecycle
     private void OnEnable()
     {
         RefreshAvailableTypes();
+        InvalidateTypeMapping();
     }
 
     private void OnGUI()
     {
+        DrawHeader();
+        DrawAssetTypeSelection();
+        DrawTypeSelection();
+        DrawScanControls();
+        DrawResults();
+    }
+    #endregion
+
+    #region GUI Drawing Methods
+    private void DrawHeader()
+    {
         EditorGUILayout.LabelField("SerializeReference Assembly Fixer", EditorStyles.boldLabel);
         EditorGUILayout.Space();
+    }
 
-        showTypeSelection = EditorGUILayout.Foldout(showTypeSelection, "Select ScriptableObject Types to Scan");
+    private void DrawAssetTypeSelection()
+    {
+        EditorGUILayout.LabelField("Asset Types to Scan:", EditorStyles.boldLabel);
+        EditorGUILayout.BeginHorizontal();
+        _scanScriptableObjects = EditorGUILayout.Toggle("ScriptableObjects", _scanScriptableObjects);
+        _scanPrefabs = EditorGUILayout.Toggle("Prefabs", _scanPrefabs);
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Space();
+
+        if (!_scanScriptableObjects && !_scanPrefabs)
+        {
+            EditorGUILayout.HelpBox("Please select at least one asset type to scan.", MessageType.Warning);
+            return;
+        }
+    }
+
+    private void DrawTypeSelection()
+    {
+        string foldoutLabel = _scanScriptableObjects && _scanPrefabs 
+            ? "Select Types to Scan (ScriptableObject & MonoBehaviour)"
+            : _scanScriptableObjects 
+                ? "Select ScriptableObject Types to Scan"
+                : "Select MonoBehaviour Types to Scan";
+
+        _showTypeSelection = EditorGUILayout.Foldout(_showTypeSelection, foldoutLabel);
         
-        if (showTypeSelection)
+        if (_showTypeSelection)
         {
             EditorGUILayout.BeginVertical("box");
-            
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Search:", GUILayout.Width(50));
-            string newSearchFilter = EditorGUILayout.TextField(searchFilter);
-            if (newSearchFilter != searchFilter)
-            {
-                searchFilter = newSearchFilter;
-                UpdateFilteredList();
-            }
-            if (GUILayout.Button("Clear", GUILayout.Width(50)))
-            {
-                searchFilter = "";
-                UpdateFilteredList();
-                GUI.FocusControl(null);
-            }
-            EditorGUILayout.EndHorizontal();
-            
-            EditorGUILayout.Space();
-            
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Select All"))
-            {
-                for (int i = 0; i < selectedTypes.Count; i++)
-                    selectedTypes[i] = true;
-            }
-            if (GUILayout.Button("Select None"))
-            {
-                for (int i = 0; i < selectedTypes.Count; i++)
-                    selectedTypes[i] = false;
-            }
-            EditorGUILayout.EndHorizontal();
-            
-            if (GUILayout.Button("Refresh Types"))
-            {
-                RefreshAvailableTypes();
-            }
-            
-            EditorGUILayout.Space();
-            
-            EditorGUILayout.LabelField($"Showing {filteredIndices.Count} of {availableTypes.Count} types");
-            
-            typeScrollPos = EditorGUILayout.BeginScrollView(typeScrollPos, GUILayout.Height(200));
-            
-            foreach (int i in filteredIndices)
-            {
-                EditorGUILayout.BeginHorizontal();
-                selectedTypes[i] = EditorGUILayout.Toggle(selectedTypes[i], GUILayout.Width(20));
-                
-                string typeName = typeNames[i];
-                string assemblyName = availableTypes[i].Assembly.GetName().Name;
-                
-                if (!string.IsNullOrEmpty(searchFilter))
-                {
-                    var style = new GUIStyle(EditorStyles.label);
-                    if (typeName.ToLower().Contains(searchFilter.ToLower()))
-                    {
-                        style.normal.textColor = Color.yellow;
-                    }
-                    EditorGUILayout.LabelField(typeName, style);
-                }
-                else
-                {
-                    EditorGUILayout.LabelField(typeName);
-                }
-                
-                EditorGUILayout.LabelField($"({assemblyName})", EditorStyles.miniLabel);
-                EditorGUILayout.EndHorizontal();
-            }
-            
-            EditorGUILayout.EndScrollView();
+            DrawSearchControls();
+            DrawTypeList();
             EditorGUILayout.EndVertical();
         }
 
         EditorGUILayout.Space();
+    }
 
-        int selectedCount = selectedTypes.Count(x => x);
+    private void DrawSearchControls()
+    {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Search:", GUILayout.Width(50));
+        string newSearchFilter = EditorGUILayout.TextField(_searchFilter);
+        if (newSearchFilter != _searchFilter)
+        {
+            _searchFilter = newSearchFilter;
+            UpdateFilteredList();
+        }
+        if (GUILayout.Button("Clear", GUILayout.Width(50)))
+        {
+            _searchFilter = "";
+            UpdateFilteredList();
+            GUI.FocusControl(null);
+        }
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Select All"))
+        {
+            SetAllTypesSelection(true);
+        }
+        if (GUILayout.Button("Select None"))
+        {
+            SetAllTypesSelection(false);
+        }
+        EditorGUILayout.EndHorizontal();
+        
+        if (GUILayout.Button("Refresh Types"))
+        {
+            RefreshAvailableTypes();
+        }
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField($"Showing {_filteredIndices.Count} of {_availableTypes.Count} types");
+    }
+
+    private void DrawTypeList()
+    {
+        _typeScrollPos = EditorGUILayout.BeginScrollView(_typeScrollPos, GUILayout.Height(200));
+        
+        foreach (int i in _filteredIndices)
+        {
+            EditorGUILayout.BeginHorizontal();
+            _selectedTypes[i] = EditorGUILayout.Toggle(_selectedTypes[i], GUILayout.Width(20));
+            
+            string typeName = _typeNames[i];
+            string assemblyName = _availableTypes[i].Assembly.GetName().Name;
+            string baseTypeName = GetBaseTypeName(_availableTypes[i]);
+            
+            var style = CreateTypeDisplayStyle(typeName);
+            EditorGUILayout.LabelField($"{typeName} [{baseTypeName}]", style);
+            EditorGUILayout.LabelField($"({assemblyName})", EditorStyles.miniLabel);
+            EditorGUILayout.EndHorizontal();
+        }
+        
+        EditorGUILayout.EndScrollView();
+    }
+
+    private void DrawScanControls()
+    {
+        int selectedCount = _selectedTypes.Count(x => x);
         EditorGUILayout.LabelField($"Selected Types: {selectedCount}");
 
         if (selectedCount == 0)
         {
-            EditorGUILayout.HelpBox("Please select at least one ScriptableObject type to scan.", MessageType.Warning);
+            EditorGUILayout.HelpBox("Please select at least one type to scan.", MessageType.Warning);
             return;
         }
 
@@ -131,64 +176,112 @@ public class SerializeReferenceAssemblyFixer : EditorWindow
         }
 
         EditorGUILayout.Space();
+    }
 
-        if (scanCompleted)
+    private void DrawResults()
+    {
+        if (!_scanCompleted) return;
+
+        EditorGUILayout.LabelField($"Found {_brokenAssets.Count} assets with broken references:");
+        
+        if (_brokenAssets.Count > 0)
         {
-            EditorGUILayout.LabelField($"Found {brokenAssets.Count} assets with broken references:");
-            
-            if (brokenAssets.Count > 0)
-            {
-                assetScrollPos = EditorGUILayout.BeginScrollView(assetScrollPos, GUILayout.MinHeight(100), GUILayout.MaxHeight(300));
-                
-                foreach (var asset in brokenAssets)
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.ObjectField(asset.Asset, typeof(ScriptableObject), false);
-                    EditorGUILayout.LabelField($"({asset.Asset.GetType().Name})", EditorStyles.miniLabel, GUILayout.Width(150));
-                    if (GUILayout.Button("Fix", GUILayout.Width(70)))
-                    {
-                        FixYAMLDirectly(asset);
-                    }
-                    EditorGUILayout.EndHorizontal();
-                }
-                
-                EditorGUILayout.EndScrollView();
-            }
-            else
-            {
-                EditorGUILayout.HelpBox("No broken references found!", MessageType.Info);
-            }
+            DrawBrokenAssetsList();
+            DrawFixAllButton();
         }
-
-        if (scanCompleted && brokenAssets.Count > 0)
+        else
         {
-            EditorGUILayout.Space();
-            if (GUILayout.Button("Fix All", GUILayout.Height(30)))
-            {
-                FixAllYAMLFiles();
-            }
+            EditorGUILayout.HelpBox("No broken references found!", MessageType.Info);
         }
     }
 
+    private void DrawBrokenAssetsList()
+    {
+        _assetScrollPos = EditorGUILayout.BeginScrollView(_assetScrollPos, GUILayout.MinHeight(100), GUILayout.MaxHeight(300));
+        
+        foreach (var asset in _brokenAssets)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.ObjectField(asset.GetUnityObject(), asset.GetAssetType(), false);
+            EditorGUILayout.LabelField($"({asset.GetDisplayInfo()})", EditorStyles.miniLabel, GUILayout.Width(200));
+            if (GUILayout.Button("Fix", GUILayout.Width(70)))
+            {
+                FixAssetDirectly(asset);
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+        
+        EditorGUILayout.EndScrollView();
+    }
+
+    private void DrawFixAllButton()
+    {
+        EditorGUILayout.Space();
+        if (GUILayout.Button("Fix All", GUILayout.Height(30)))
+        {
+            FixAllAssets();
+        }
+    }
+    #endregion
+
+    #region Type Management
     private void RefreshAvailableTypes()
     {
-        availableTypes.Clear();
-        selectedTypes.Clear();
+        _availableTypes.Clear();
+        _selectedTypes.Clear();
         
+        var allTypes = new List<Type>();
+        
+        if (_scanScriptableObjects)
+        {
+            allTypes.AddRange(GetScriptableObjectTypes());
+        }
+        
+        if (_scanPrefabs)
+        {
+            allTypes.AddRange(GetMonoBehaviourTypes());
+        }
+        
+        _availableTypes = allTypes.OrderBy(t => t.Name).ToList();
+        _selectedTypes = Enumerable.Repeat(false, _availableTypes.Count).ToList();
+        _typeNames = _availableTypes.Select(t => t.Name).ToArray();
+        
+        UpdateFilteredList();
+        
+        Debug.Log($"Found {_availableTypes.Count} types ({GetScriptableObjectTypes().Count()} ScriptableObjects, {GetMonoBehaviourTypes().Count()} MonoBehaviours)");
+    }
+
+    private IEnumerable<Type> GetScriptableObjectTypes()
+    {
+        return GetTypesFromAssemblies(t => 
+            typeof(ScriptableObject).IsAssignableFrom(t) && 
+            !t.IsAbstract && 
+            t != typeof(ScriptableObject));
+    }
+
+    private IEnumerable<Type> GetMonoBehaviourTypes()
+    {
+        return GetTypesFromAssemblies(t => 
+            typeof(MonoBehaviour).IsAssignableFrom(t) && 
+            !t.IsAbstract && 
+            t != typeof(MonoBehaviour));
+    }
+
+    private IEnumerable<Type> GetTypesFromAssemblies(Func<Type, bool> predicate)
+    {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-        var scriptableObjectTypes = new List<Type>();
+        var types = new List<Type>();
         
         foreach (var assembly in assemblies)
         {
             try
             {
-                var types = assembly.GetTypes()
-                    .Where(t => typeof(ScriptableObject).IsAssignableFrom(t))
-                    .Where(t => !t.IsAbstract)
-                    .Where(t => t != typeof(ScriptableObject))
-                    .OrderBy(t => t.Name);
-                
-                scriptableObjectTypes.AddRange(types);
+                types.AddRange(assembly.GetTypes().Where(predicate));
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                // Handle partial assembly loading
+                types.AddRange(ex.Types.Where(t => t != null && predicate(t)));
             }
             catch
             {
@@ -196,96 +289,184 @@ public class SerializeReferenceAssemblyFixer : EditorWindow
             }
         }
         
-        availableTypes = scriptableObjectTypes.OrderBy(t => t.Name).ToList();
-        selectedTypes = Enumerable.Repeat(false, availableTypes.Count).ToList();
-        typeNames = availableTypes.Select(t => t.Name).ToArray();
-        
-        UpdateFilteredList();
-        
-        Debug.Log($"Found {availableTypes.Count} ScriptableObject types");
+        return types;
     }
 
     private void UpdateFilteredList()
     {
-        filteredIndices.Clear();
+        _filteredIndices.Clear();
         
-        if (string.IsNullOrEmpty(searchFilter))
+        if (string.IsNullOrEmpty(_searchFilter))
         {
-            for (int i = 0; i < availableTypes.Count; i++)
-            {
-                filteredIndices.Add(i);
-            }
+            _filteredIndices.AddRange(Enumerable.Range(0, _availableTypes.Count));
         }
         else
         {
-            string lowerFilter = searchFilter.ToLower();
-            for (int i = 0; i < availableTypes.Count; i++)
+            string lowerFilter = _searchFilter.ToLower();
+            for (int i = 0; i < _availableTypes.Count; i++)
             {
-                string typeName = typeNames[i].ToLower();
-                string assemblyName = availableTypes[i].Assembly.GetName().Name.ToLower();
-                string fullName = availableTypes[i].FullName?.ToLower() ?? "";
-                
-                if (typeName.Contains(lowerFilter) || 
-                    assemblyName.Contains(lowerFilter) || 
-                    fullName.Contains(lowerFilter))
+                if (TypeMatchesFilter(_availableTypes[i], lowerFilter))
                 {
-                    filteredIndices.Add(i);
+                    _filteredIndices.Add(i);
                 }
             }
         }
     }
 
+    private bool TypeMatchesFilter(Type type, string lowerFilter)
+    {
+        return type.Name.ToLower().Contains(lowerFilter) ||
+               type.Assembly.GetName().Name.ToLower().Contains(lowerFilter) ||
+               (type.FullName?.ToLower().Contains(lowerFilter) ?? false);
+    }
+
+    private void SetAllTypesSelection(bool selected)
+    {
+        for (int i = 0; i < _selectedTypes.Count; i++)
+        {
+            _selectedTypes[i] = selected;
+        }
+    }
+
+    private string GetBaseTypeName(Type type)
+    {
+        if (typeof(ScriptableObject).IsAssignableFrom(type))
+            return "SO";
+        if (typeof(MonoBehaviour).IsAssignableFrom(type))
+            return "MB";
+        return "?";
+    }
+
+    private GUIStyle CreateTypeDisplayStyle(string typeName)
+    {
+        var style = new GUIStyle(EditorStyles.label);
+        if (!string.IsNullOrEmpty(_searchFilter) && 
+            typeName.ToLower().Contains(_searchFilter.ToLower()))
+        {
+            style.normal.textColor = Color.yellow;
+        }
+        return style;
+    }
+    #endregion
+
+    #region Scanning Logic
     private void ScanSelectedTypes()
     {
-        brokenAssets.Clear();
+        _brokenAssets.Clear();
+        InvalidateTypeMapping();
         
-        var selectedTypesList = new List<Type>();
-        for (int i = 0; i < availableTypes.Count; i++)
-        {
-            if (selectedTypes[i])
-                selectedTypesList.Add(availableTypes[i]);
-        }
+        var selectedTypesList = GetSelectedTypes();
         
         Debug.Log($"=== SCANNING {selectedTypesList.Count} SELECTED TYPES ===");
         
+        var scriptableObjectTypes = selectedTypesList.Where(t => typeof(ScriptableObject).IsAssignableFrom(t)).ToList();
+        var monoBehaviourTypes = selectedTypesList.Where(t => typeof(MonoBehaviour).IsAssignableFrom(t)).ToList();
+        
+        if (_scanScriptableObjects && scriptableObjectTypes.Any())
+        {
+            ScanScriptableObjects(scriptableObjectTypes);
+        }
+        
+        if (_scanPrefabs && monoBehaviourTypes.Any())
+        {
+            ScanPrefabs(monoBehaviourTypes);
+        }
+        
+        _scanCompleted = true;
+        
+        Debug.Log($"=== SCAN COMPLETED ===");
+        Debug.Log($"Assets with broken assembly references: {_brokenAssets.Count}");
+    }
+
+    private List<Type> GetSelectedTypes()
+    {
+        var selectedTypes = new List<Type>();
+        for (int i = 0; i < _availableTypes.Count; i++)
+        {
+            if (_selectedTypes[i])
+                selectedTypes.Add(_availableTypes[i]);
+        }
+        return selectedTypes;
+    }
+
+    private void ScanScriptableObjects(List<Type> targetTypes)
+    {
         string[] allGuids = AssetDatabase.FindAssets("t:ScriptableObject");
-        var relevantAssets = new List<ScriptableObject>();
+        var relevantAssets = FilterAssetsByType<ScriptableObject>(allGuids, targetTypes, "ScriptableObject");
+        
+        ScanAssetsForBrokenReferences(relevantAssets, 
+            asset => new BrokenScriptableObject { Asset = asset, Path = AssetDatabase.GetAssetPath(asset) });
+    }
+
+    private void ScanPrefabs(List<Type> targetTypes)
+    {
+        string[] allGuids = AssetDatabase.FindAssets("t:Prefab");
+        var relevantPrefabs = new List<GameObject>();
         
         for (int i = 0; i < allGuids.Length; i++)
         {
             string path = AssetDatabase.GUIDToAssetPath(allGuids[i]);
-            EditorUtility.DisplayProgressBar("Filtering Assets", $"Checking {path}", (float)i / allGuids.Length);
+            EditorUtility.DisplayProgressBar("Filtering Prefabs", $"Checking {path}", (float)i / allGuids.Length);
             
-            var asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
-            if (asset != null && selectedTypesList.Contains(asset.GetType()))
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab != null && PrefabContainsTargetTypes(prefab, targetTypes))
+            {
+                relevantPrefabs.Add(prefab);
+            }
+        }
+        
+        EditorUtility.ClearProgressBar();
+        Debug.Log($"Found {relevantPrefabs.Count} prefabs with target MonoBehaviour types");
+        
+        ScanAssetsForBrokenReferences(relevantPrefabs, 
+            prefab => new BrokenPrefab { Prefab = prefab, Path = AssetDatabase.GetAssetPath(prefab) });
+    }
+
+    private List<T> FilterAssetsByType<T>(string[] guids, List<Type> targetTypes, string assetTypeName) where T : UnityEngine.Object
+    {
+        var relevantAssets = new List<T>();
+        
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+            EditorUtility.DisplayProgressBar($"Filtering {assetTypeName}s", $"Checking {path}", (float)i / guids.Length);
+            
+            var asset = AssetDatabase.LoadAssetAtPath<T>(path);
+            if (asset != null && targetTypes.Contains(asset.GetType()))
             {
                 relevantAssets.Add(asset);
             }
         }
         
         EditorUtility.ClearProgressBar();
+        Debug.Log($"Found {relevantAssets.Count} {assetTypeName.ToLower()}s matching selected types");
         
-        Debug.Log($"Found {relevantAssets.Count} assets matching selected types");
-        
-        for (int i = 0; i < relevantAssets.Count; i++)
+        return relevantAssets;
+    }
+
+    private bool PrefabContainsTargetTypes(GameObject prefab, List<Type> targetTypes)
+    {
+        var components = prefab.GetComponentsInChildren<MonoBehaviour>(true);
+        return components.Any(component => component != null && targetTypes.Contains(component.GetType()));
+    }
+
+    private void ScanAssetsForBrokenReferences<T>(List<T> assets, Func<T, IBrokenAsset> createBrokenAsset) where T : UnityEngine.Object
+    {
+        for (int i = 0; i < assets.Count; i++)
         {
-            var asset = relevantAssets[i];
+            var asset = assets[i];
             string path = AssetDatabase.GetAssetPath(asset);
             
-            EditorUtility.DisplayProgressBar("Scanning YAML", $"Checking {asset.name}", (float)i / relevantAssets.Count);
+            EditorUtility.DisplayProgressBar("Scanning YAML", $"Checking {asset.name}", (float)i / assets.Count);
             
             if (HasBrokenReferencesInYAML(path))
             {
-                brokenAssets.Add(new BrokenAsset { Asset = asset, Path = path });
+                _brokenAssets.Add(createBrokenAsset(asset));
                 Debug.Log($"Found broken references in: {asset.name}");
             }
         }
         
         EditorUtility.ClearProgressBar();
-        scanCompleted = true;
-        
-        Debug.Log($"=== SCAN COMPLETED ===");
-        Debug.Log($"Assets with broken assembly references: {brokenAssets.Count}");
     }
 
     private bool HasBrokenReferencesInYAML(string assetPath)
@@ -299,15 +480,7 @@ public class SerializeReferenceAssemblyFixer : EditorWindow
                 "asm: Assembly-CSharp-firstpass}"
             };
             
-            foreach (string pattern in oldAssemblyPatterns)
-            {
-                if (yamlContent.Contains(pattern))
-                {
-                    return true;
-                }
-            }
-            
-            return false;
+            return oldAssemblyPatterns.Any(pattern => yamlContent.Contains(pattern));
         }
         catch (Exception e)
         {
@@ -315,43 +488,85 @@ public class SerializeReferenceAssemblyFixer : EditorWindow
             return false;
         }
     }
+    #endregion
 
-    private void FixYAMLDirectly(BrokenAsset brokenAsset)
+    #region Fixing Logic
+    private void FixAssetDirectly(IBrokenAsset brokenAsset)
     {
         try
         {
-            string assetPath = brokenAsset.Path;
-            Debug.Log($"=== FIXING YAML: {brokenAsset.Asset.name} ===");
+            string assetPath = brokenAsset.GetAssetPath();
+            Debug.Log($"=== FIXING YAML: {brokenAsset.GetDisplayName()} ===");
             
             string yamlContent = File.ReadAllText(assetPath);
             string originalContent = yamlContent;
             
-            var typeToAssembly = BuildTypeToAssemblyMapping();
-            
-            yamlContent = FixAssemblyReferencesInYAML(yamlContent, typeToAssembly);
+            EnsureTypeMappingCached();
+            yamlContent = FixAssemblyReferencesInYAML(yamlContent, _typeToAssemblyMapping);
             
             if (yamlContent != originalContent)
             {
-                string backupPath = assetPath + ".backup";
-                File.WriteAllText(backupPath, originalContent);
-                Debug.Log($"Created backup: {backupPath}");
-                
-                File.WriteAllText(assetPath, yamlContent);
-                Debug.Log($"✓ Fixed YAML file: {assetPath}");
-                
-                AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
-                
-                Debug.Log($"✓ Successfully fixed {brokenAsset.Asset.name}");
+                CreateBackupAndSave(assetPath, originalContent, yamlContent);
+                Debug.Log($"✓ Successfully fixed {brokenAsset.GetDisplayName()}");
             }
             else
             {
-                Debug.Log($"No changes needed for {brokenAsset.Asset.name}");
+                Debug.Log($"No changes needed for {brokenAsset.GetDisplayName()}");
             }
         }
         catch (Exception e)
         {
-            Debug.LogError($"Error fixing YAML for {brokenAsset.Asset.name}: {e.Message}");
+            Debug.LogError($"Error fixing YAML for {brokenAsset.GetDisplayName()}: {e.Message}");
         }
+    }
+
+    private void FixAllAssets()
+    {
+        for (int i = 0; i < _brokenAssets.Count; i++)
+        {
+            EditorUtility.DisplayProgressBar("Fixing YAML Files", 
+                $"Fixing {_brokenAssets[i].GetDisplayName()}", 
+                (float)i / _brokenAssets.Count);
+            
+            FixAssetDirectly(_brokenAssets[i]);
+        }
+        
+        EditorUtility.ClearProgressBar();
+        AssetDatabase.Refresh();
+        
+        Debug.Log("=== ALL YAML FIXES COMPLETE ===");
+        
+        // Re-scan to verify fixes
+        ScanSelectedTypes();
+    }
+
+    private void CreateBackupAndSave(string assetPath, string originalContent, string newContent)
+    {
+        string backupPath = assetPath + ".backup";
+        File.WriteAllText(backupPath, originalContent);
+        Debug.Log($"Created backup: {backupPath}");
+        
+        File.WriteAllText(assetPath, newContent);
+        Debug.Log($"✓ Fixed YAML file: {assetPath}");
+        
+        AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+    }
+    #endregion
+
+    #region Type Mapping
+    private void EnsureTypeMappingCached()
+    {
+        if (!_mappingCached)
+        {
+            _typeToAssemblyMapping = BuildTypeToAssemblyMapping();
+            _mappingCached = true;
+        }
+    }
+
+    private void InvalidateTypeMapping()
+    {
+        _mappingCached = false;
+        _typeToAssemblyMapping = null;
     }
 
     private Dictionary<string, string> BuildTypeToAssemblyMapping()
@@ -368,14 +583,23 @@ public class SerializeReferenceAssemblyFixer : EditorWindow
                 
                 foreach (var type in types)
                 {
-                    if (!mapping.ContainsKey(type.Name))
+                    TryAddTypeMapping(mapping, type.Name, assemblyName);
+                    if (!string.IsNullOrEmpty(type.FullName))
                     {
-                        mapping[type.Name] = assemblyName;
+                        TryAddTypeMapping(mapping, type.FullName, assemblyName);
                     }
-                    
-                    if (!string.IsNullOrEmpty(type.FullName) && !mapping.ContainsKey(type.FullName))
+                }
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                // Handle partial assembly loading
+                string assemblyName = assembly.GetName().Name;
+                foreach (var type in ex.Types.Where(t => t != null))
+                {
+                    TryAddTypeMapping(mapping, type.Name, assemblyName);
+                    if (!string.IsNullOrEmpty(type.FullName))
                     {
-                        mapping[type.FullName] = assemblyName;
+                        TryAddTypeMapping(mapping, type.FullName, assemblyName);
                     }
                 }
             }
@@ -389,6 +613,14 @@ public class SerializeReferenceAssemblyFixer : EditorWindow
         return mapping;
     }
 
+    private void TryAddTypeMapping(Dictionary<string, string> mapping, string typeName, string assemblyName)
+    {
+        if (!mapping.ContainsKey(typeName))
+        {
+            mapping[typeName] = assemblyName;
+        }
+    }
+
     private string FixAssemblyReferencesInYAML(string yamlContent, Dictionary<string, string> typeToAssembly)
     {
         var lines = yamlContent.Split('\n');
@@ -400,68 +632,84 @@ public class SerializeReferenceAssemblyFixer : EditorWindow
             
             if (line.Trim().StartsWith("type: {class:"))
             {
-                int classStart = line.IndexOf("class: ") + 7;
-                int classEnd = line.IndexOf(",", classStart);
-                
-                if (classStart > 6 && classEnd > classStart)
+                string newLine = ProcessYAMLTypeLine(line, typeToAssembly);
+                if (newLine != line)
                 {
-                    string className = line.Substring(classStart, classEnd - classStart).Trim();
-                    
-                    if (typeToAssembly.ContainsKey(className))
-                    {
-                        string correctAssembly = typeToAssembly[className];
-                        
-                        string pattern = "asm: [^}]+}";
-                        string replacement = $"asm: {correctAssembly}}}";
-                        
-                        string newLine = System.Text.RegularExpressions.Regex.Replace(line, pattern, replacement);
-                        
-                        if (newLine != line)
-                        {
-                            lines[i] = newLine;
-                            modified = true;
-                            Debug.Log($"Fixed assembly for {className}: {correctAssembly}");
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Could not find assembly for type: {className}");
-                    }
+                    lines[i] = newLine;
+                    modified = true;
                 }
             }
         }
         
-        if (modified)
-        {
-            return string.Join("\n", lines);
-        }
-        
-        return yamlContent;
+        return modified ? string.Join("\n", lines) : yamlContent;
     }
 
-    private void FixAllYAMLFiles()
+    private string ProcessYAMLTypeLine(string line, Dictionary<string, string> typeToAssembly)
     {
-        for (int i = 0; i < brokenAssets.Count; i++)
+        int classStart = line.IndexOf("class: ") + 7;
+        int classEnd = line.IndexOf(",", classStart);
+        
+        if (classStart <= 6 || classEnd <= classStart) return line;
+        
+        string className = line.Substring(classStart, classEnd - classStart).Trim();
+        
+        if (typeToAssembly.ContainsKey(className))
         {
-            EditorUtility.DisplayProgressBar("Fixing YAML Files", 
-                $"Fixing {brokenAssets[i].Asset.name}", 
-                (float)i / brokenAssets.Count);
+            string correctAssembly = typeToAssembly[className];
+            string pattern = "asm: [^}]+}";
+            string replacement = $"asm: {correctAssembly}}}";
             
-            FixYAMLDirectly(brokenAssets[i]);
+            string newLine = System.Text.RegularExpressions.Regex.Replace(line, pattern, replacement);
+            
+            if (newLine != line)
+            {
+                Debug.Log($"Fixed assembly for {className}: {correctAssembly}");
+                return newLine;
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Could not find assembly for type: {className}");
         }
         
-        EditorUtility.ClearProgressBar();
-        AssetDatabase.Refresh();
-        
-        Debug.Log("=== ALL YAML FIXES COMPLETE ===");
-        
-        ScanSelectedTypes();
+        return line;
+    }
+    #endregion
+
+    #region Asset Abstraction
+    private interface IBrokenAsset
+    {
+        UnityEngine.Object GetUnityObject();
+        Type GetAssetType();
+        string GetAssetPath();
+        string GetDisplayName();
+        string GetDisplayInfo();
     }
 
     [System.Serializable]
-    private class BrokenAsset
+    private class BrokenScriptableObject : IBrokenAsset
     {
         public ScriptableObject Asset;
         public string Path;
+
+        public UnityEngine.Object GetUnityObject() => Asset;
+        public Type GetAssetType() => typeof(ScriptableObject);
+        public string GetAssetPath() => Path;
+        public string GetDisplayName() => Asset.name;
+        public string GetDisplayInfo() => Asset.GetType().Name;
     }
+
+    [System.Serializable]
+    private class BrokenPrefab : IBrokenAsset
+    {
+        public GameObject Prefab;
+        public string Path;
+
+        public UnityEngine.Object GetUnityObject() => Prefab;
+        public Type GetAssetType() => typeof(GameObject);
+        public string GetAssetPath() => Path;
+        public string GetDisplayName() => Prefab.name;
+        public string GetDisplayInfo() => "Prefab";
+    }
+    #endregion
 }

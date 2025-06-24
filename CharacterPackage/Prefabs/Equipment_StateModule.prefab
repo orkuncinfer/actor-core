@@ -82,7 +82,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 4448694695146815593
-      type: {class: DS_EquipmentUser, ns: , asm: Assembly-CSharp-firstpass}
+      type: {class: DS_EquipmentUser, ns: , asm: Hexcore.CharacterPackage}
       data:
         IsGlobal: 0
         UseKey: 0

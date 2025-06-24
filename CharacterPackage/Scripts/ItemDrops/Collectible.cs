@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract  class Collectible : MonoBehaviour
 {
-    public abstract void Collect();
+    public abstract void Collect(Actor actor);
     public abstract bool IsEquippable();
     public abstract void Equip();
 }

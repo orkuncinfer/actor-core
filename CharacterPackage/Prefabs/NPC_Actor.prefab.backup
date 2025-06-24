@@ -318,7 +318,7 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 8209950300375875585
-      type: {class: Data_Monster, ns: , asm: Hexcore.CharacterPackage}
+      type: {class: Data_Monster, ns: , asm: Assembly-CSharp-firstpass}
       data:
         IsGlobal: 0
         UseKey: 0

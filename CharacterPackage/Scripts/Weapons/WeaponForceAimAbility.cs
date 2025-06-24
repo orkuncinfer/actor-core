@@ -8,7 +8,7 @@ public class WeaponForceAimAbility : MonoBehaviour
     private Equippable _weapon;
     private ActorBase _actor;
 
-    public AbilityDefinition AimingAbility;
+    public GameplayTag AimingAbilityTag;
 
     private bool _equipped;
     private void OnEnable()
@@ -27,20 +27,21 @@ public class WeaponForceAimAbility : MonoBehaviour
     private void OnEquip(ActorBase obj)
     {
         _equipped = true;
+        _weapon.Owner.GetService<Service_GAS>().AbilityController.RegisterQueueAbilityGameplayTag(AimingAbilityTag);
     }
 
 
     private void OnUnequip(ActorBase obj)
     {
         _equipped = false;
-        
-        _weapon.Owner.GetService<Service_GAS>().AbilityController.CancelAbilityIfActive(AimingAbility.name);
+        _weapon.Owner.GetService<Service_GAS>().AbilityController.UnregisterQueueAbilityGameplayTag(AimingAbilityTag);
+        _weapon.Owner.GetService<Service_GAS>().AbilityController.CancelAbilityWithGameplayTag(AimingAbilityTag);
     }
 
     private void Update()
     {
         if(_weapon == null) return;
         if(!_equipped) return;
-        _weapon.Owner.GetService<Service_GAS>().AbilityController.AddAndTryActivateAbility(AimingAbility);
+        //_weapon.Owner.GetService<Service_GAS>().AbilityController.TryActivateAbilityWithGameplayTag(AimingAbilityTag);
     }
 }

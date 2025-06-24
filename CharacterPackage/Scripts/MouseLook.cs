@@ -44,6 +44,7 @@ public class MouseLook : MonoBehaviour
     {
         // if there is an input and camera position is not fixed
         Vector2 lookInput = LookAction.action.ReadValue<Vector2>();
+
         if (lookInput.sqrMagnitude >= 0)
         {
             //Don't multiply mouse input by Time.deltaTime;

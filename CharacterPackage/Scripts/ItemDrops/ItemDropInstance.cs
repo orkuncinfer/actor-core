@@ -13,11 +13,12 @@ public class ItemDropInstance : Collectible
     public WorldItemLabel LabelInstance;
     public Transform ModelHolder;
 
-    [SerializeField] private bool _isEquippable; 
-    [ShowIf("_isEquippable")]public GenericKey EquipmentInventoryKey;
+    [SerializeField] private bool _isEquippable;
+    [ShowIf("_isEquippable")] public GenericKey EquipmentInventoryKey;
 
     public ItemData _itemData;
     private GameObject _model;
+    private Interactable _interactable;
 
     public void OnMovementEnd()
     {
@@ -27,47 +28,65 @@ public class ItemDropInstance : Collectible
     private void OnEnable()
     {
         SpawnModel();
+
+        if (_interactable == null)
+        {
+            _interactable = GetComponentInChildren<Interactable>();
+            if (_interactable != null)
+            {
+                _interactable.OnInteractAttempt += OnInteractAttempt;
+            }
+        }
+    }
+
+    private void OnInteractAttempt(Actor arg1, string arg2)
+    {
+        Collect(arg1);
     }
 
     private void SpawnModel()
     {
-        ItemDefinition = InventoryUtils.FindItemDefinitionWithId(_itemData.ItemID);
-        if(ItemDefinition==null) return;
-        if(ItemDefinition.Model == null) return;
-        if(_model != null) PoolManager.ReleaseObject(_model);
+        if(ItemDefinition == null)ItemDefinition = InventoryUtils.FindItemDefinitionWithId(_itemData.ItemID);
+        if (ItemDefinition == null) return;
+        if (ItemDefinition.Model == null) return;
+        if (_model != null) PoolManager.ReleaseObject(_model);
         _model = PoolManager.SpawnObject(ItemDefinition.Model);
         _model.transform.position = ModelHolder.transform.position;
         _model.transform.rotation = ModelHolder.transform.rotation;
-        _model.transform.SetParent(ModelHolder,true);
+        _model.transform.SetParent(ModelHolder, true);
     }
-    
+
     public void SetItemData(ItemData itemData)
     {
         _itemData = itemData;
-        
+
         SpawnModel();
     }
-    
+
     [Button]
-    public override void Collect()
+    public override void Collect(Actor actor)
     {
         InventoryDefinition collectInventory = null;
-        
-        if(InventoryDefinition) collectInventory = InventoryDefinition;
-       // if (InventoryKey) collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(InventoryKey.ID);
-        ItemDefinition = InventoryUtils.FindItemDefinitionWithId(_itemData.ItemID);
+
+        collectInventory = actor.GetInventoryDefinition("PlayerMain");
+
+        if (ItemDefinition == null)
+        {
+            ItemDefinition = InventoryUtils.FindItemDefinitionWithId(_itemData.ItemID);
+        }
+
         ItemData newItemData = new ItemData
         {
             ItemID = ItemDefinition.ItemID,
             UniqueID = "dropped"
         };
-        int added = collectInventory.AddItem(ItemDefinition, DropCount,newItemData);
+        int added = collectInventory.AddItem(ItemDefinition, DropCount, newItemData);
         if (added > 0)
         {
             DropCount -= added;
             if (DropCount == 0)
             {
-                if(LabelInstance)ItemDropManager.Instance.PickedUp(LabelInstance);
+                if (LabelInstance) ItemDropManager.Instance.PickedUp(LabelInstance);
                 PoolManager.ReleaseObject(this.gameObject);
             }
         }
@@ -86,10 +105,11 @@ public class ItemDropInstance : Collectible
             //collectInventory = DefaultPlayerInventory.Instance.GetInventoryDefinition(EquipmentInventoryKey.ID);
             if (collectInventory.ReplaceItem(ItemDefinition, _itemData))
             {
-                if(LabelInstance)ItemDropManager.Instance.PickedUp(LabelInstance);
+                if (LabelInstance) ItemDropManager.Instance.PickedUp(LabelInstance);
                 PoolManager.ReleaseObject(this.gameObject);
                 return;
             }
+
             Debug.LogError("Couldn't equip");
         }
     }
