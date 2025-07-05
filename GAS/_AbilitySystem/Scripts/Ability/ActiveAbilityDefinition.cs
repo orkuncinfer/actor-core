@@ -54,6 +54,11 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
     public float Duration => _duration;
     [SerializeField][ShowIf("_isLoopingAbility")] private float _duration;
 
+    public float AbilityRange => _abilityRange;
+    [SerializeField] private float _abilityRange;
+    
+    
+
      [HorizontalGroup(GroupID = "createCost", Width = 0.8f)]public GameplayEffectDefinition Cost;
 #if UNITY_EDITOR
      [Button("Create")]

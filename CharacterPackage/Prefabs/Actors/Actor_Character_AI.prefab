@@ -221,17 +221,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4121430858188805640, guid: a6a512ca0d4be4e4ca4ef345b588046d, type: 3}
   m_PrefabInstance: {fileID: 2629539572829704341}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6417123631163744660 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9038781344110309633, guid: a6a512ca0d4be4e4ca4ef345b588046d, type: 3}
-  m_PrefabInstance: {fileID: 2629539572829704341}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23cd919b9a574fe697585712655bf24c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3028960105500118981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -602,7 +591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 326876880592693039, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
       propertyPath: _redirectStates.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 326876880592693039, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
       propertyPath: '_redirectStates.Array.data[1]'
@@ -611,7 +600,7 @@ PrefabInstance:
     - target: {fileID: 326876880592693039, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
       propertyPath: '_redirectStates.Array.data[2]'
       value: 
-      objectReference: {fileID: 6417123631163744660}
+      objectReference: {fileID: 6505673373041542456}
     - target: {fileID: 326876880592693039, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
       propertyPath: '_redirectStates.Array.data[3]'
       value: 

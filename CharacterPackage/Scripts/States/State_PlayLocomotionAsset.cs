@@ -163,7 +163,7 @@ public class State_PlayLocomotionAsset : MonoState
         float velocityMagnitude = worldVelocity.magnitude;
 
         // State changes based on movement
-        if (velocityMagnitude < _velocityThreshold && MoveInput.magnitude < 0.1f)
+        if (velocityMagnitude < _velocityThreshold )//&& MoveInput.magnitude < 0.1f
         {
             ChangeState(AnimationState.Idle);
         }

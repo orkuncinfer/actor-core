@@ -13,6 +13,7 @@ public class PersistentSingleton<T> : MonoBehaviour where T : Component
     {
         get
         {
+            if (!Application.isPlaying) return null;
             if (instance == null)
             {
                 instance = FindAnyObjectByType<T>();

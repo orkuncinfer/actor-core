@@ -20,6 +20,7 @@ public class PathDestination : MonoBehaviour
         }
     }
     private bool isChanged;
+    public bool Enabled;
 
     private void Start()
     {
@@ -28,6 +29,7 @@ public class PathDestination : MonoBehaviour
 
     private void Update()
     {
+        if(!Enabled) return;
         if (!isChanged)
         {
             _destination = transform.position;

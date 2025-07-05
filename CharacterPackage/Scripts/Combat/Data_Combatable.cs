@@ -6,14 +6,21 @@ using UnityEngine;
 public class Data_Combatable : Data
 {
 
-    [SerializeField] private Vector3 _aimDirection;
-    public Vector3 AimDirection
+    [SerializeField][Tooltip("Vector3.zero means no target")] private Vector3 _aimPosition;
+    public Vector3 AimPosition
     {
-        get => _aimDirection;
-        set => _aimDirection = value;
+        get => _aimPosition;
+        set => _aimPosition = value;
     }
     
-    [SerializeField] private bool _shootRayFromCamera;
+    private Transform _aimTransform;
+    public Transform AimTransform
+    {
+        get => _aimTransform;
+        set => _aimTransform = value;
+    }
+    
+    [SerializeField][Tooltip("You'd want to enable this if it is player")] private bool _shootRayFromCamera;
     public bool ShootRayFromCamera
     {
         get => _shootRayFromCamera;

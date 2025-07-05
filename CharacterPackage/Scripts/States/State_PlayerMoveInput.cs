@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class State_PlayerMoveInput : MonoState
 {
     [SerializeField] private InputActionAsset _inputAsset;
+    [SerializeField] private bool _normalizeInput;
     protected InputAction movementInputAction { get; set; }
     private DS_MovingActor _movingActor;
     private Camera _camera;
@@ -20,9 +21,14 @@ public class State_PlayerMoveInput : MonoState
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        
-        if(!_movingActor.BlockMoveInput)
-            _movingActor.MoveInput = movementInputAction.ReadValue<Vector2>().normalized;
+
+        if (!_movingActor.BlockMoveInput)
+        {
+            Vector2 readValue = movementInputAction.ReadValue<Vector2>();
+            if (_normalizeInput) readValue = readValue.normalized;
+            _movingActor.MoveInput = readValue;
+
+        }
         
         _movingActor.LookDirection = _camera.transform.forward;
     }

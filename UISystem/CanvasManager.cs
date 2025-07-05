@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 public class CanvasManager : PersistentSingleton<CanvasManager>
 {
+    [ShowInInspector] [HideInEditorMode] private readonly Dictionary<string, List<PanelActor>> _panelRelations = new Dictionary<string, List<PanelActor>>();
     [ShowInInspector][HideInEditorMode]private readonly Dictionary<string,CanvasLayer> _layerRegistry = new Dictionary<string, CanvasLayer>();
     [ShowInInspector][HideInEditorMode]private CanvasLayer _defaultLayer;
     
@@ -82,9 +83,44 @@ public class CanvasManager : PersistentSingleton<CanvasManager>
     {
         GetDesiredLayer(layerTag).HideLastPanel();
     }
-    public void SetParent(PanelActor child, string parentPanelTag,string layerTag = "Default")
+    public void RegisterPanelRelation(PanelActor child, string parentPanelTag)
     {
-        GetDesiredLayer(layerTag).GetPanelInstance(parentPanelTag).SetParentOf(child);
+        if (!_panelRelations.ContainsKey(parentPanelTag))
+        {
+            _panelRelations[parentPanelTag] = new List<PanelActor>();
+        }
+        
+        if (_panelRelations[parentPanelTag].Contains(child))
+        {
+            Debug.LogWarning($"PanelActor {child.name} is already registered as a child of {parentPanelTag}");
+            return;
+        }
+    
+        _panelRelations[parentPanelTag].Add(child);
+        child.ClosePanel();
+
+        PanelActor parentActor = GetDesiredLayer("Default").GetPanelInstance(parentPanelTag);
+
+        if (parentActor != null && parentActor.IsShowing)
+        {
+            child.OpenPanel();
+        }
+    }
+    
+    public void UnregisterPanelRelation(PanelActor child, string parentPanelTag)
+    {
+        if(_panelRelations.ContainsKey(parentPanelTag) == false) return;
+        _panelRelations[parentPanelTag].Remove(child);
+    }
+    
+    public bool TryGetRelatedPanels(string parentPanelTag, out List<PanelActor> relatedPanels)
+    {
+        if (_panelRelations.TryGetValue(parentPanelTag, out relatedPanels))
+        {
+            return true;
+        }
+        relatedPanels = null;
+        return false;
     }
 
     public CanvasLayer GetDesiredLayer(string layerTag)

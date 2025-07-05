@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 9086091657000592592}
   - component: {fileID: 1391892770790869623}
   - component: {fileID: 326876880592693039}
+  - component: {fileID: 6517872796654115864}
   m_Layer: 0
   m_Name: Alive
   m_TagString: Untagged
@@ -222,6 +223,24 @@ MonoBehaviour:
   IsFinished: 0
   _redirectStates:
   - {fileID: 5906598898744652333}
+--- !u!114 &6517872796654115864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067271784858237131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9d9418414fca7418bb202d5a9839bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+  _tagsToAdd:
+    _tagHashes:
+    - 33f1e63a-2012-4214-b095-2c763058866c
+  _removeOnExit: 1
 --- !u!1 &1567085687522228179
 GameObject:
   m_ObjectHideFlags: 0

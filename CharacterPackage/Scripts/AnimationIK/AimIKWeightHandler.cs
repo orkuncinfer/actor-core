@@ -40,7 +40,7 @@ public class AimIKWeightHandler : ActorMonoService<AimIKWeightHandler>
 
     private float _rightHandWeight;
     
-    private bool _isAiming;
+    [ShowInInspector][ReadOnly]private bool _isAiming;
     public event Action<bool> onIsAimingChanged;
     public bool IsAiming
     {
@@ -61,6 +61,7 @@ public class AimIKWeightHandler : ActorMonoService<AimIKWeightHandler>
 
 
     private DS_MovingActor _movingActor;
+    private Data_Combatable _combatable;
     private void Start()
     {
         _aimIK = GetComponent<AimIK>();
@@ -83,6 +84,7 @@ public class AimIKWeightHandler : ActorMonoService<AimIKWeightHandler>
     {
 	    base.OnServiceBegin();
 	    _movingActor = Owner.GetData<DS_MovingActor>();
+	    _combatable = Owner.GetData<Data_Combatable>();
     }
 
     public override void OnServiceStop()
@@ -114,6 +116,7 @@ public class AimIKWeightHandler : ActorMonoService<AimIKWeightHandler>
 	    if (_aimIKWeight > 0)
 	    {
 		    Vector3 lookDirection = _movingActor.LookDirection;
+		    
 		    if (lookDirection.magnitude < 0.001f)
 		    {
 			    lookDirection = Owner.transform.forward;
@@ -125,6 +128,11 @@ public class AimIKWeightHandler : ActorMonoService<AimIKWeightHandler>
 		    else
 		    {
 			    aimTarget = AimFrom.position + lookDirection * 10f;
+		    }
+
+		    if (_combatable.AimTransform != null)
+		    {
+			    aimTarget = _combatable.AimTransform.position;
 		    }
 		   
 		    Read();
@@ -138,7 +146,7 @@ public class AimIKWeightHandler : ActorMonoService<AimIKWeightHandler>
 		    AimIK();
 		    
 		    // Rotate the head to look at the aim target
-		    HeadLookAt(aimTarget);
+		    //HeadLookAt(aimTarget);
 	    }
 	    HandPosers();
     }
@@ -178,7 +186,7 @@ public class AimIKWeightHandler : ActorMonoService<AimIKWeightHandler>
 			    ik.solver.leftHandEffector.rotationWeight = weight;
 			    ik.solver.leftHandEffector.positionWeight = weight;
 			    ik.solver.leftArmChain.bendConstraint.weight = weight;
-			    leftHandPoser.weight = weight;
+			    if(leftHandPoser)leftHandPoser.weight = weight;
 		    });
     }
 
@@ -191,13 +199,14 @@ public class AimIKWeightHandler : ActorMonoService<AimIKWeightHandler>
 			    ik.solver.leftHandEffector.rotationWeight = weight;
 			    ik.solver.leftHandEffector.positionWeight = weight;
 			    ik.solver.leftArmChain.bendConstraint.weight = weight;
-			    leftHandPoser.weight = weight;
+			    if(leftHandPoser)leftHandPoser.weight = weight;
 		    });
     }
     private Tweener _rightHandTween;
     public void HoldRightHand(float duration)
     {
 	    _rightHandTween.Kill();
+	    if(!rightHandPoser)return;
 	    float weight = rightHandPoser.weight;
 	    _rightHandTween = DOTween.To(() => weight, x => weight = x, 1, duration)
 		    .OnUpdate(() => {
@@ -208,6 +217,7 @@ public class AimIKWeightHandler : ActorMonoService<AimIKWeightHandler>
     public void ReleaseRightHand(float duration)
     {
 	    _rightHandTween.Kill();
+	    if(!rightHandPoser)return;
 	    float weight = rightHandPoser.weight;
 	    _rightHandTween = DOTween.To(() => weight, x => weight = x, 0, duration)
 		    .OnUpdate(() => {

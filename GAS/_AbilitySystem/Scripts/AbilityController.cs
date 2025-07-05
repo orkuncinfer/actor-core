@@ -321,6 +321,19 @@ public class AbilityController : MonoInitializable, ISavable
         {
             return false; // already using an instance of this ability
         }*/
+        bool inDistance = ability.Definition.AbilityRange <= 0;
+        if (!inDistance)
+        {
+            if (_target == null) return false;
+            float distance = Vector3.Distance(_target.transform.position, _owner.transform.position);
+            if (distance > ability.Definition.AbilityRange)
+            {
+                DebugLog($"Can't activate ability {ability.Definition.name} because not in range : {distance}");
+                return false;
+            }
+        }
+        
+        
         if (ability.Definition.Cooldown != null) // is on cooldown?
         {
             if (ability.Definition.Cooldown.GrantedTags.TagCount > 0)
@@ -528,6 +541,13 @@ public class AbilityController : MonoInitializable, ISavable
     public void Test()
     {
         AddAndTryActivateAbility(TestAbility);
+    }
+
+    private void DebugLog(string message)
+    {
+        string finalMessage = "AbilityC.: " + message;
+        
+        DDebug.Log(finalMessage);
     }
 
     public virtual object data

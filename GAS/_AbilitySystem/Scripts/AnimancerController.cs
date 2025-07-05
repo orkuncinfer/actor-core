@@ -28,8 +28,7 @@ public class AnimancerController : MonoBehaviour
     private AnimancerState _currentAbilityAnimState;
 
     private Dictionary<AnimancerState, Action> _onEndActions = new Dictionary<AnimancerState, System.Action>();
-
-    private List<AbilityAction> _actionsToRemove = new List<AbilityAction>();
+    
     private List<AbilityAction> _actionsToProcess = new List<AbilityAction>();
 
     private Action _onAnimationEnd;
@@ -98,31 +97,39 @@ public class AnimancerController : MonoBehaviour
             if(ability.IsActive == false) continue; // in case it is canceled
             _actionsToProcess.Clear();
             _actionsToProcess.AddRange(ability.AbilityActions);
-            
-            if(ability.AnimancerState == null) continue; // no animation ability
 
-            ability.NormTime = ability.AnimancerState.NormalizedTime;
-            if (ability.AnimancerState.NormalizedTime >= ability.Definition.EndTime) // animation casually finished
+            if (ability.AnimancerState != null)// no animation ability
             {
-                _isLooping = false;
-                Debug.Log("animation finished " + ability.AnimancerState.NormalizedTime + "-" + ability.Definition.EndTime);
-                EndOrInterrupted(ability.AnimancerState, ability);
-            }
-            if (ability.Definition.EndTime < 1) // ??
-            { }
+                ability.NormTime = ability.AnimancerState.NormalizedTime;
+                if (ability.AnimancerState.NormalizedTime >= ability.Definition.EndTime) // animation casually finished
+                {
+                    _isLooping = false;
+                    Debug.Log("animation finished " + ability.AnimancerState.NormalizedTime + "-" + ability.Definition.EndTime);
+                    EndOrInterrupted(ability.AnimancerState, ability);
+                }
+                if (ability.Definition.EndTime < 1) // ??
+                { }
                 
-            if (ability.AnimancerState.EffectiveWeight > 0.9f && !ability.AnimationReachedFullWeight) // ANIMATION INTERRUPT CHECK
-            {
-                ability.AnimationReachedFullWeight = true;
-            }
-            if (ability.AnimancerState.EffectiveWeight <= 0 && ability.AnimancerState.EffectiveWeight < ability.PreviousAnimWeight)
-            {
-                EndOrInterrupted(_currentAbilityAnimState, ability);
-            }
-            _actionsToRemove.Clear();
+                if (ability.AnimancerState.EffectiveWeight > 0.9f && !ability.AnimationReachedFullWeight) // ANIMATION INTERRUPT CHECK
+                {
+                    ability.AnimationReachedFullWeight = true;
+                }
+                if (ability.AnimancerState.EffectiveWeight <= 0 && ability.AnimancerState.EffectiveWeight < ability.PreviousAnimWeight)
+                {
+                    EndOrInterrupted(_currentAbilityAnimState, ability);
+                }
+            } 
+
             
             foreach (var action in _actionsToProcess)
             {
+                if (action.ActivationPolicy == AbilityAction.EAbilityActionActivationPolicy.Lifetime)
+                {
+                    if (action.HasTick && action.IsRunning)
+                    {
+                        action.OnTick(_owner);
+                    }
+                }
                 if (action.ActivationPolicy != AbilityAction.EAbilityActionActivationPolicy.AnimWindow) continue;
                 Debug.Log("action norm time : " + action.ActiveAbility.AnimancerState.NormalizedTime);
                 if (action.AnimWindow.x <= action.ActiveAbility.AnimancerState.NormalizedTime)
@@ -140,7 +147,6 @@ public class AnimancerController : MonoBehaviour
                 if (action.AnimWindow.y <= action.ActiveAbility.AnimancerState.NormalizedTime && action.IsRunning)
                 {
                     action.OnExit();
-                    _actionsToRemove.Add(action);
                 }
                 if (action.HasTick && action.IsRunning)
                     action.OnTick(_owner);

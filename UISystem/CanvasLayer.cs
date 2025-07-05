@@ -125,14 +125,33 @@ public class CanvasLayer : MonoBehaviour
     
     public PanelActor GetPanelInstance(string panelId)
     {
+        PanelActor panelActor = null;
+
+        foreach (var instance in _instanceList)
+        {
+            if (instance.PanelId == panelId)
+            {
+                panelActor = instance;
+                break;
+            }
+        }
+        /*if (panelActor == null)
+        {
+            panelActor = ShowPanel(panelId, true).GetComponent<PanelActor>();
+        }*/
+        return panelActor;
+    }
+    public PanelActor GetPanelInstance(string panelId, out PanelActor panel)
+    {
         PanelActor panelActor = _instanceList.FirstOrDefault(panel => panel.PanelId == panelId);
         if (panelActor == null)
         {
             panelActor = ShowPanel(panelId, true).GetComponent<PanelActor>();
         }
+
+        panel = panelActor;
         return panelActor;
     }
-
 
     #region Additive Panels
 

@@ -26,7 +26,8 @@ public class InventoryDefinition : MonoBehaviour
     {
         ES3,
         Firebase,
-        MySql
+        MySql,
+        None
     }
 
     public InventoryData InventoryData = new InventoryData();
@@ -316,6 +317,7 @@ public class InventoryDefinition : MonoBehaviour
         int availableCount = 0;
         foreach (var slot in InventoryData.InventorySlots)
         {
+            if(slot.ItemData == null) continue;
             if (slot.ItemID == itemDefinition.ItemId)
             {
                 availableCount += slot.ItemCount;

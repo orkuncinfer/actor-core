@@ -158,7 +158,7 @@ MonoBehaviour:
     HashCode: b7d6412e-8b50-44a3-a52b-612fd15b70dd
     Description: Generated tag for Ability.BasicAttack
     _asset: {fileID: 11400000}
-  - Tag: Status.Alive
+  - Tag: State.Living.Alive
     HashCode: 33f1e63a-2012-4214-b095-2c763058866c
     Description: Generated tag for Status.Alive
     _asset: {fileID: 11400000}
@@ -189,4 +189,8 @@ MonoBehaviour:
   - Tag: Network.IsServerOnly
     HashCode: 3dcfa45a-6066-41f2-8a76-b915cef1dd4d
     Description: Generated tag for Network.IsServerOnly
+    _asset: {fileID: 11400000}
+  - Tag: State.Living
+    HashCode: 72a547d2-54ac-49f9-a8ef-4cea99301168
+    Description: Generated tag for State.Living
     _asset: {fileID: 11400000}

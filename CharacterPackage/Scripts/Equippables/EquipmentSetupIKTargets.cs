@@ -106,6 +106,7 @@ public class EquipmentSetupIKTargets : MonoBehaviour
         _aimIKWeightHandler.ik.solver.leftArmChain.bendConstraint.bendGoal = _leftHandBendTarget;
 
         _recoil = actor.GetService<AimIKWeightHandler>().GetComponent<Recoil>();
+        if(_recoil == null) return;
         _recoil.offsets = _offsets;
         _recoil.handRotationOffset = _handRotationOffset;
         _recoil.rotationRandom = _rotationRandom;
