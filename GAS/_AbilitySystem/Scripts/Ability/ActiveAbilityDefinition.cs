@@ -50,6 +50,8 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
     
     public bool IsLoopingAbility => _isLoopingAbility;
     [SerializeField] private bool _isLoopingAbility;
+    public bool CancelOnRecast => _cancelOnRecast; // cancel the previous ability instance if active.
+    [SerializeField] private bool _cancelOnRecast;
        
     public float Duration => _duration;
     [SerializeField][ShowIf("_isLoopingAbility")] private float _duration;

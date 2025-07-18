@@ -194,3 +194,11 @@ MonoBehaviour:
     HashCode: 72a547d2-54ac-49f9-a8ef-4cea99301168
     Description: Generated tag for State.Living
     _asset: {fileID: 11400000}
+  - Tag: Ability.CC
+    HashCode: e003c768-bd5a-4d77-b6cf-38cb0b79d7c4
+    Description: Generated tag for Ability.CC
+    _asset: {fileID: 11400000}
+  - Tag: Ability.CC.Stagger
+    HashCode: 914c089a-64ac-4e34-95c8-8a37019508d8
+    Description: Generated tag for Ability.CC.Stagger
+    _asset: {fileID: 11400000}

@@ -66,7 +66,12 @@ public class State_PlayLocomotionAsset : MonoState
         PlayIdle();
         ChangeState(AnimationState.Idle);
     }
-    
+
+    protected override void OnExit()
+    {
+        base.OnExit();
+        //PlayIdle();
+    }
 
 
     private void OnLocomotionAssetChanged(Object arg1, Object arg2)
@@ -227,6 +232,7 @@ public class State_PlayLocomotionAsset : MonoState
     // Play the Idle animation
     private void PlayIdle()
     {
+        if(_locomotionAssetData == null) return;
         if(_cachedTransitions.ContainsKey(_locomotionAssetData.Idle.Key))
         {
             var tr = _cachedTransitions[_locomotionAssetData.Idle.Key];

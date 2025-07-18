@@ -18,6 +18,7 @@ public class GunFireComponent : GunComponent
     }
     
     [SerializeField] protected AudioClip gunfireAudio;
+    [SerializeField] private ParticleSystem _muzzleFx;
 
     [Header("Fire Delegates")]
     public OnGunAction onFire;
@@ -52,7 +53,7 @@ public class GunFireComponent : GunComponent
         _gun = gun;
         Vector3 muzzlePosition = gun.GunMuzzlePosition.transform.position;
         DbgDraw.WireSphere(muzzlePosition, Quaternion.identity,Vector3.one * 0.1f, Color.red, 0.1f);
-        GameObject projectile = Instantiate(gunData.ProjectilePrefab, muzzlePosition, Quaternion.identity);
+        GameObject projectile = PoolManager.SpawnObject(gunData.ProjectilePrefab, muzzlePosition, Quaternion.identity);
     
         SetProjectileDamage(gunData, projectile,ability);
         
@@ -61,6 +62,7 @@ public class GunFireComponent : GunComponent
 
         animator.SetTrigger("IsFire");
         PlayAudio();
+        _muzzleFx.Play();
         gun.DecrementMagazine();
 
         onFire?.Invoke(gun);
@@ -123,12 +125,13 @@ public class GunFireComponent : GunComponent
         Vector3 spreadDeviation = Random.insideUnitCircle * spreadRadius;
         Vector3 origin = cam.transform.position;
         // Adjusting spread deviation based on distance
-        Vector3 finalDirection = (cam.transform.forward + (spreadDeviation / maxDistance)).normalized;
+        Vector3 baseDirection = combatable.ShootRayFromCamera ? cam.transform.forward : _gun.GunMuzzlePosition.transform.forward;
+        Vector3 finalDirection = (baseDirection + (spreadDeviation / maxDistance)).normalized;
 
         if (combatable.ShootRayFromCamera == false)
         {
             origin = _gun.GunMuzzlePosition.transform.position;
-            finalDirection = _gun.GunMuzzlePosition.transform.forward;
+            //finalDirection = _gun.GunMuzzlePosition.transform.forward;
         }
 
         // Create the ray manually

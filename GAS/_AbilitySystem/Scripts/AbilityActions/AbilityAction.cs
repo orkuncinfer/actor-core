@@ -32,6 +32,8 @@ public class AbilityAction
 
     protected bool _hasTick;
     public bool HasTick => _hasTick;
+    
+    public float TimeLength { get; set; } // duration in ms
 
     public ActorBase Owner { get; set; }
     public ActiveAbility ActiveAbility {get; set;}

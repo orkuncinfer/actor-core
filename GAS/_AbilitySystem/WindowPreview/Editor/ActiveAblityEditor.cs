@@ -24,24 +24,68 @@ public class ActiveAblityEditor : OdinEditor
     private AnimationClip _currentClip;
     private Vector3 _rotationPivot;
     
-    private Dictionary<AbilityAction,Vector2> _cachedAnimWindows = new Dictionary<AbilityAction, Vector2>();
+    private Dictionary<AbilityAction, Vector2> _cachedAnimWindows = new Dictionary<AbilityAction, Vector2>();
+    private AnimatorController _cachedController;
+    private Rect _timeBarRect;
+    private Rect _playButtonRect;
+    private bool _isDraggingTimeBar = false;
+    
+    private float _lastUpdateTime;
+    private const float UpdateInterval = 0.0166f; // 60 FPS
+    
+    private bool _cameraChanged = false;
+    private double _lastRepaintTime;
+    private const double MinRepaintInterval = 0.016; // 60 FPS for smooth animation
+    
+    private AnimatorState _cachedAnimatorState;
+    private AnimatorStateInfo _cachedStateInfo;
+    
+    private static readonly Color32 TimeBarBackground = new Color32(38, 38, 36, 255);
+    private static readonly Color32 TimeBarFill = new Color32(198, 224, 130, 255);
+    private static GUIStyle _timeLabelStyle;
+    private static GUIContent _playButtonContent;
+    private static GUIContent _pauseButtonContent;
+    private static GUIContent _speedScaleContent;
+    private static GUIStyle _preSlider;
+    private static GUIStyle _preSliderThumb;
+    private static GUIStyle _preLabel;
 
     protected override void OnEnable()
     {
         base.OnEnable();
         _abilityDefinition = (ActiveAbilityDefinition)target;
+        InitializePreviewUtility();
+        LoadPreviewModel();
+        InitializeGUIContent();
+        CreateGroundPlane();
+        UpdateCamera();
+        EditorApplication.update += OnEditorUpdate;
+    }
+
+    private void InitializePreviewUtility()
+    {
         _previewUtility = new PreviewRenderUtility();
-        _previewUtility.camera.farClipPlane = 1000;
+        var cam = _previewUtility.camera;
+        cam.farClipPlane = 1000;
+        cam.renderingPath = RenderingPath.Forward;
+        cam.allowHDR = false;
+        cam.allowMSAA = false;
+        
         _previewUtility.lights[0].transform.rotation = Quaternion.Euler(70, -160, -220);
         _previewUtility.lights[1].transform.rotation = Quaternion.Euler(40, 0, -80);
         _previewUtility.lights[0].intensity = 2f;
         _previewUtility.lights[1].intensity = 2f;
+        _previewUtility.ambientColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+        
         _drag = Vector3.zero;
-        GameObject previewModel = Resources.Load<GameObject>("PreviewModel");
-
-
         _cameraDistance = 11;
         _cameraRotation = new Vector3(120, 20, 0);
+    }
+
+    private void LoadPreviewModel()
+    {
+        GameObject previewModel = Resources.Load<GameObject>("PreviewModel");
+        
         if (previewModel != null)
         {
             _previewInstance = _previewUtility.InstantiatePrefabInScene(previewModel);
@@ -53,6 +97,8 @@ public class ActiveAblityEditor : OdinEditor
             }
             else
             {
+                _previewAnimator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+                _previewAnimator.updateMode = AnimatorUpdateMode.Normal;
                 _rotationPivot = _previewAnimator.GetBoneTransform(HumanBodyBones.Hips).position;
             }
         }
@@ -60,107 +106,167 @@ public class ActiveAblityEditor : OdinEditor
         {
             Debug.LogError("PreviewModel could not be loaded from Resources.");
         }
-        CreateGroundPlane();
-        UpdateCamera();
-        EditorApplication.update += OnEditorUpdate;
+    }
+
+    private void InitializeGUIContent()
+    {
+        if (_playButtonContent == null)
+        {
+            _playButtonContent = EditorGUIUtility.IconContent("PlayButton");
+            _pauseButtonContent = EditorGUIUtility.IconContent("PauseButton");
+            _speedScaleContent = EditorGUIUtility.IconContent("SpeedScale");
+            _timeLabelStyle = new GUIStyle(EditorStyles.whiteLabel)
+            {
+                alignment = TextAnchor.MiddleCenter,
+                fontStyle = FontStyle.Bold
+            };
+        }
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
+        EditorApplication.update -= OnEditorUpdate;
+        
         if (_previewInstance != null)
         {
             DestroyImmediate(_previewInstance);
         }
 
-        _previewUtility.Cleanup();
+        _previewUtility?.Cleanup();
         _cachedAnimWindows.Clear();
-        EditorApplication.update -= OnEditorUpdate;
+        
+        if (_cachedController != null)
+        {
+            DestroyImmediate(_cachedController);
+        }
     }
 
     private void OnEditorUpdate()
     {
-        if (_isPlaying)
+        if (!_isPlaying || _abilityDefinition.AnimationClip == null) 
+            return;
+        
+        float currentTime = Time.realtimeSinceStartup;
+        float deltaTime = currentTime - _lastUpdateTime;
+        
+        if (deltaTime < UpdateInterval)
+            return;
+            
+        _lastUpdateTime = currentTime;
+        
+        _previewTime += _animationSpeed * deltaTime;
+        if (_previewTime > _abilityDefinition.AnimationClip.length) 
+            _previewTime -= _abilityDefinition.AnimationClip.length;
+
+        float normalizedTime = _previewTime / _abilityDefinition.AnimationClip.length;
+
+        if (Mathf.Abs(normalizedTime - _cachedNormalizedTime) > 0.001f)
         {
-            if(_abilityDefinition.AnimationClip == null) return;
-            _previewTime += _animationSpeed * Time.deltaTime;
-            if (_previewTime > _abilityDefinition.AnimationClip.length) _previewTime = 0f;
-
-            float normalizedTime = _previewTime / _abilityDefinition.AnimationClip.length;
-
-            if (Mathf.Abs(normalizedTime - _cachedNormalizedTime) > 0.001f)
+            _cachedNormalizedTime = normalizedTime;
+            _previewAnimator.Play(_abilityDefinition.AnimationClip.name, -1, normalizedTime);
+            _previewAnimator.Update(0);
+            
+            double currentRepaintTime = EditorApplication.timeSinceStartup;
+            if (currentRepaintTime - _lastRepaintTime > MinRepaintInterval)
             {
-                _cachedNormalizedTime = normalizedTime;
-                _previewAnimator.Play(_abilityDefinition.AnimationClip.name, -1, normalizedTime);
-                _previewAnimator.Update(0);
+                _lastRepaintTime = currentRepaintTime;
+                Repaint();
             }
         }
-
-        Repaint();
     }
 
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-        _abilityDefinition = (ActiveAbilityDefinition)target;
-        if (_abilityDefinition.AnimationClip != null && _previewAnimator != null)
+        if (Event.current.type != EventType.Layout)
         {
-            if (_currentClip != _abilityDefinition.AnimationClip)
-            {
-                _currentClip = _abilityDefinition.AnimationClip;
-                StartPreview(_abilityDefinition.AnimationClip);
-            }
-            
-            if(_abilityDefinition.AbilityActions.Count > 0)
-            {
-                foreach (var action in _abilityDefinition.AbilityActions)
-                {
-                    if(action == null) continue;
-                    Vector2 animWindow = action.AnimWindow;
-                    if (_cachedAnimWindows.ContainsKey(action))
-                    {
-                        if(!Mathf.Approximately(animWindow.x, _cachedAnimWindows[action].x))
-                        {
-                            float realTime = animWindow.x * _abilityDefinition.AnimationClip.length;
-                            _previewTime = realTime;
-                            _isPlaying = false;
-                            _previewAnimator.Play(_abilityDefinition.AnimationClip.name, -1,_previewTime);
-                            _previewAnimator.Update(0);
-                        }else if(!Mathf.Approximately(animWindow.y, _cachedAnimWindows[action].y))
-                        {
-                            float realTime = animWindow.y * _abilityDefinition.AnimationClip.length;
-                            _previewTime = realTime;
-                            _isPlaying = false;
-                            _previewAnimator.Play(_abilityDefinition.AnimationClip.name, -1, _previewTime);
-                            _previewAnimator.Update(0);
-                        }
-                    }
-                    _cachedAnimWindows[action] = animWindow;
-                }
-            }
+            base.OnInspectorGUI();
+            return;
         }
-
-        Repaint();
+        
+        base.OnInspectorGUI();
+        
+        if (_abilityDefinition.AnimationClip == null || _previewAnimator == null) 
+            return;
+            
+        if (_currentClip != _abilityDefinition.AnimationClip)
+        {
+            _currentClip = _abilityDefinition.AnimationClip;
+            StartPreview(_abilityDefinition.AnimationClip);
+        }
+        
+        ProcessAbilityActions();
     }
 
-    private bool _isDraggingTimeBar = false;
+    private void ProcessAbilityActions()
+    {
+        if (_abilityDefinition.AbilityActions.Count == 0) 
+            return;
+            
+        bool animWindowChanged = false;
+        float newPreviewTime = _previewTime;
+        
+        foreach (var action in _abilityDefinition.AbilityActions)
+        {
+            if (action == null) continue;
+            
+            Vector2 animWindow = action.AnimWindow;
+            
+            if (!_cachedAnimWindows.TryGetValue(action, out Vector2 cachedWindow))
+            {
+                _cachedAnimWindows[action] = animWindow;
+                continue;
+            }
+            
+            if (!Mathf.Approximately(animWindow.x, cachedWindow.x))
+            {
+                newPreviewTime = animWindow.x * _abilityDefinition.AnimationClip.length;
+                animWindowChanged = true;
+            }
+            else if (!Mathf.Approximately(animWindow.y, cachedWindow.y))
+            {
+                newPreviewTime = animWindow.y * _abilityDefinition.AnimationClip.length;
+                animWindowChanged = true;
+            }
+            
+            _cachedAnimWindows[action] = animWindow;
+        }
+        
+        if (animWindowChanged)
+        {
+            _isPlaying = false;
+            _previewTime = newPreviewTime;
+            float normalizedTime = _previewTime / _abilityDefinition.AnimationClip.length;
+            _previewAnimator.Play(_abilityDefinition.AnimationClip.name, -1, normalizedTime);
+            _previewAnimator.Update(0);
+            Repaint();
+        }
+    }
+
     public override void OnPreviewGUI(Rect r, GUIStyle background)
     {
+        if (_previewInstance == null) return;
+        
         background = "PreBackground";
-        base.OnPreviewGUI(r, background);
-
+        
         Event e = Event.current;
         HandleInputs(e, r);
-
-        if (Event.current.type == EventType.Repaint && _previewInstance != null)
+        
+        if (e.type == EventType.Repaint)
         {
+            if (_cameraChanged)
+            {
+                UpdateCamera();
+                _cameraChanged = false;
+            }
+            
             _previewUtility.BeginPreview(r, background);
-            _previewUtility.Render(true);
+            _previewUtility.Render(true, false);
             _previewUtility.EndAndDrawPreview(r);
             DrawPreviewTimeBar(r);
         }
-
-        Rect _playButtonRect = new Rect(r.x + r.width - 40, r.y, 40, 20);
+        
+        _playButtonRect = new Rect(r.x + r.width - 40, r.y, 40, 20);
         DrawPlayButton(_playButtonRect);
     }
 
@@ -176,92 +282,84 @@ public class ActiveAblityEditor : OdinEditor
 
     private void HandleTimeBarInput(Event e, Rect timeBarRect)
     {
-        if (e.type == EventType.MouseDown && timeBarRect.Contains(e.mousePosition))
+        switch (e.type)
         {
-            _isDraggingTimeBar = true;
-            _isPlaying = false;
-            float mouseX = Mathf.Clamp(e.mousePosition.x - timeBarRect.x, 0, timeBarRect.width);
-            float newNormalizedTime = mouseX / timeBarRect.width;
-            _previewTime = newNormalizedTime * _abilityDefinition.AnimationClip.length;
-
-            _previewAnimator.Play(_abilityDefinition.AnimationClip.name, -1, newNormalizedTime);
-            _previewAnimator.Update(0);
-            e.Use();
+            case EventType.MouseDown when timeBarRect.Contains(e.mousePosition):
+                _isDraggingTimeBar = true;
+                _isPlaying = false;
+                UpdateTimeFromMouse(e, timeBarRect);
+                e.Use();
+                break;
+                
+            case EventType.MouseDrag when _isDraggingTimeBar:
+            case EventType.MouseDown when _isDraggingTimeBar:
+                UpdateTimeFromMouse(e, timeBarRect);
+                e.Use();
+                break;
+                
+            case EventType.MouseUp when _isDraggingTimeBar:
+                _isDraggingTimeBar = false;
+                e.Use();
+                break;
         }
+    }
 
-        if (_isDraggingTimeBar && (e.type == EventType.MouseDrag || e.type == EventType.MouseDown))
-        {
-            float mouseX = Mathf.Clamp(e.mousePosition.x - timeBarRect.x, 0, timeBarRect.width);
-            float newNormalizedTime = mouseX / timeBarRect.width;
-            _previewTime = newNormalizedTime * _abilityDefinition.AnimationClip.length;
+    private void UpdateTimeFromMouse(Event e, Rect timeBarRect)
+    {
+        float mouseX = Mathf.Clamp(e.mousePosition.x - timeBarRect.x, 0, timeBarRect.width);
+        float newNormalizedTime = mouseX / timeBarRect.width;
+        _previewTime = newNormalizedTime * _abilityDefinition.AnimationClip.length;
+        _cachedNormalizedTime = newNormalizedTime;
 
-            _previewAnimator.Play(_abilityDefinition.AnimationClip.name, -1, newNormalizedTime);
-            _previewAnimator.Update(0);
-            e.Use();
-        }
-
-        if (_isDraggingTimeBar && e.type == EventType.MouseUp)
-        {
-            _isDraggingTimeBar = false;
-            e.Use();
-        }
+        _previewAnimator.Play(_abilityDefinition.AnimationClip.name, -1, newNormalizedTime);
+        _previewAnimator.Update(0);
+        Repaint();
     }
 
     private void HandleCameraInput(Event e)
     {
-        if (e.type == EventType.MouseDrag && e.button == 0)
+        switch (e.type)
         {
-            _cameraRotation += new Vector3(-e.delta.x, e.delta.y, 0);
-            e.Use();
+            case EventType.MouseDrag when e.button == 0:
+                _cameraRotation += new Vector3(-e.delta.x, e.delta.y, 0);
+                _cameraChanged = true;
+                e.Use();
+                break;
+                
+            case EventType.ScrollWheel:
+                _cameraDistance = Mathf.Clamp(_cameraDistance + e.delta.y * 0.6f, 1f, 20f);
+                _cameraChanged = true;
+                e.Use();
+                break;
         }
-
-        if (e.type == EventType.ScrollWheel)
-        {
-            _cameraDistance += e.delta.y * 0.6f;
-            _cameraDistance = Mathf.Clamp(_cameraDistance, 1f, 20);
-            e.Use();
-        }
-
-        if (e.type == EventType.MouseDrag && e.button == 2)
-        {
-            /*Vector3 panMovement = new Vector3(-e.delta.x * 0.01f, e.delta.y * 0.01f, 0);
-            _drag += _previewUtility.camera.transform.TransformDirection(panMovement);
-            e.Use();*/
-        }
-
-        UpdateCamera();
     }
 
-    private Rect _timeBarRect;
-    private Rect _playButtonRect;
     private void DrawPreviewTimeBar(Rect rect)
     {
-        if (_abilityDefinition == null || _abilityDefinition.AnimationClip == null) return;
+        if (_abilityDefinition?.AnimationClip == null) return;
 
-        float normalizedTime = _previewTime / _abilityDefinition.AnimationClip.length;
+        float clipLength = _abilityDefinition.AnimationClip.length;
+        float normalizedTime = clipLength > 0 ? _previewTime / clipLength : 0f;
         float playButtonWidth = 40f;
+        
         _timeBarRect = new Rect(rect.x, rect.y, rect.width - playButtonWidth, 20);
         Rect belowTimeBarRect = new Rect(rect.x, rect.y + 20, rect.width - playButtonWidth, 20);
 
-        EditorGUI.DrawRect(_timeBarRect, new Color32(38, 38, 36,255));
+        EditorGUI.DrawRect(_timeBarRect, TimeBarBackground);
 
-        Rect filledBarRect = new Rect(rect.x, rect.y, (rect.width - playButtonWidth) * normalizedTime, 20);
-        EditorGUI.DrawRect(filledBarRect, new Color32(198, 224, 130,255));
-
-        GUIStyle timeLabelStyle = new GUIStyle(EditorStyles.whiteLabel)
+        if (normalizedTime > 0)
         {
-            alignment = TextAnchor.MiddleCenter,
-            fontStyle = FontStyle.Bold
-        };
-        EditorGUI.LabelField(_timeBarRect, $"{normalizedTime:F2} / {1:F2}", timeLabelStyle);
-        EditorGUI.LabelField(belowTimeBarRect, $"{normalizedTime * _abilityDefinition.AnimationClip.length:F2}s / {_abilityDefinition.AnimationClip.length:F2}s", timeLabelStyle);
+            Rect filledBarRect = new Rect(rect.x, rect.y, _timeBarRect.width * normalizedTime, 20);
+            EditorGUI.DrawRect(filledBarRect, TimeBarFill);
+        }
+
+        EditorGUI.LabelField(_timeBarRect, $"{normalizedTime:F2} / 1.00", _timeLabelStyle);
+        EditorGUI.LabelField(belowTimeBarRect, $"{_previewTime:F2}s / {clipLength:F2}s", _timeLabelStyle);
     }
 
     private void DrawPlayButton(Rect rect)
     {
-        var playButtonContent = EditorGUIUtility.IconContent("PlayButton");
-        var pauseButtonContent = EditorGUIUtility.IconContent("PauseButton");
-        var buttonContent = _isPlaying ? pauseButtonContent : playButtonContent;
+        var buttonContent = _isPlaying ? _pauseButtonContent : _playButtonContent;
 
         if (GUI.Button(rect, buttonContent))
         {
@@ -287,115 +385,119 @@ public class ActiveAblityEditor : OdinEditor
         base.OnPreviewSettings();
         DrawSpeedSlider();
     }
+    
     private void DrawSpeedSlider()
     {
-        var preSlider = new GUIStyle("preSlider");
-        var preSliderThumb = new GUIStyle("preSliderThumb");
-        var preLabel = new GUIStyle("preLabel");
-        var speedScale = EditorGUIUtility.IconContent("SpeedScale");
+        if (_preSlider == null)
+        {
+            _preSlider = new GUIStyle("preSlider");
+            _preSliderThumb = new GUIStyle("preSliderThumb");
+            _preLabel = new GUIStyle("preLabel");
+        }
 
-        GUILayout.Box(speedScale, preLabel);
-        _animationSpeed = 
-            GUILayout.HorizontalSlider(_animationSpeed, 0, 10, preSlider, preSliderThumb, GUILayout.Width(60));
-        if(GUILayout.Button(_animationSpeed.ToString("0.00"), preLabel, GUILayout.Width(40)))
+        GUILayout.Box(_speedScaleContent, _preLabel);
+        _animationSpeed = GUILayout.HorizontalSlider(_animationSpeed, 0, 10, _preSlider, _preSliderThumb, GUILayout.Width(60));
+        
+        if (GUILayout.Button(_animationSpeed.ToString("0.00"), _preLabel, GUILayout.Width(40)))
         {
             _animationSpeed = 1f;
         }
     }
+    
     private void UpdateCamera()
     {
-        _previewUtility.camera.transform.position = RotateAroundPivot(_rotationPivot + Vector3.back * _cameraDistance, _rotationPivot, _cameraRotation) + _drag;
+        Vector3 pivotOffset = _rotationPivot + Vector3.back * _cameraDistance;
+        _previewUtility.camera.transform.position = Quaternion.Euler(_cameraRotation.y, -_cameraRotation.x, 0) * (pivotOffset - _rotationPivot) + _rotationPivot + _drag;
         _previewUtility.camera.transform.LookAt(_rotationPivot);
     }
-
-    private static Vector3 RotateAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
-    {
-        return Quaternion.Euler(angles.y, -angles.x, 0) * (point - pivot) + pivot;
-    }
+    
     private void CreateGroundPlane()
     {
         GameObject groundPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
         groundPlane.transform.position = Vector3.zero;
         groundPlane.transform.localScale = new Vector3(10, 1, 10);
+        
         Material previewMat = Resources.Load<Material>("PreviewMat");
-        groundPlane.GetComponent<Renderer>().material = previewMat;
-
-        // Make sure the plane is instantiated inside the PreviewRenderUtility scene
+        if (previewMat != null)
+        {
+            groundPlane.GetComponent<Renderer>().material = previewMat;
+        }
+        
         _previewUtility.AddSingleGO(groundPlane);
     }
 
-
     private void StartPreview(AnimationClip clip)
     {
-        if (_previewAnimator != null)
-        {
-            bool hasClip = false;
-            if (_previewAnimator.runtimeAnimatorController != null)
-            {
-                foreach (var clipInfo in _previewAnimator.runtimeAnimatorController.animationClips)
-                {
-                    if (clipInfo.name == clip.name)
-                    {
-                        hasClip = true;
-                        break;
-                    }
-                }
-            }
+        if (_previewAnimator == null || clip == null) return;
 
-            if (!hasClip)
-            {
-                _previewAnimator.runtimeAnimatorController =
-                    AnimatorController.CreateAnimatorControllerAtPathWithClip(
-                        "Assets/Plugins/actor-core/GAS/_AbilitySystem/WindowPreview/PreviewController.controller", clip);
-            }
-
-            _isPlaying = true;
-            _previewAnimator.Play(clip.name, -1, _previewTime / clip.length);
-            _previewAnimator.Update(0);
-        }
-        else
+        if (_cachedController == null || !HasClipInController(clip))
         {
-            Debug.LogError("Cannot start preview. Animator or Override Controller is missing.");
+            if (_cachedController != null)
+                DestroyImmediate(_cachedController);
+                
+            _cachedController = CreateOptimizedAnimatorController(clip);
+            _previewAnimator.runtimeAnimatorController = _cachedController;
         }
+
+        _isPlaying = true;
+        _lastUpdateTime = Time.realtimeSinceStartup;
+        
+        float normalizedTime = clip.length > 0 ? _previewTime / clip.length : 0f;
+        _previewAnimator.Play(clip.name, -1, normalizedTime);
+        _previewAnimator.Update(0);
+    }
+
+    private bool HasClipInController(AnimationClip clip)
+    {
+        if (_cachedController == null) return false;
+        
+        var clips = _cachedController.animationClips;
+        for (int i = 0; i < clips.Length; i++)
+        {
+            if (clips[i].name == clip.name)
+                return true;
+        }
+        return false;
+    }
+
+    private AnimatorController CreateOptimizedAnimatorController(AnimationClip clip)
+    {
+        var controller = new AnimatorController();
+        controller.name = "PreviewController";
+        controller.AddLayer("Base Layer");
+        
+        var rootStateMachine = controller.layers[0].stateMachine;
+        var state = rootStateMachine.AddState(clip.name);
+        state.motion = clip;
+        state.speed = 1f;
+        state.cycleOffset = 0f;
+        state.mirror = false;
+        
+        return controller;
     }
 
     private void StopPreview()
     {
         _isPlaying = false;
-        if (_previewAnimator != null)
-        {
-            _previewAnimator.StopPlayback();
-        }
     }
     
     private string GetDynamicPreviewControllerPath()
     {
-        // Get the script path using MonoScript
         MonoScript script = MonoScript.FromScriptableObject(this);
         string scriptPath = AssetDatabase.GetAssetPath(script);
     
         if (string.IsNullOrEmpty(scriptPath))
         {
-            Debug.LogWarning("Could not determine editor script path. Falling back to default location.");
             return "Assets/Editor/PreviewController.controller";
         }
     
-        // Get the directory of the script
         string scriptDirectory = Path.GetDirectoryName(scriptPath);
     
-        // Ensure the directory exists
         if (!Directory.Exists(scriptDirectory))
         {
-            Debug.LogError($"Script directory does not exist: {scriptDirectory}");
             return "Assets/Editor/PreviewController.controller";
         }
     
-        // Create the controller path in the same directory as the script
-        string controllerPath = Path.Combine(scriptDirectory, "PreviewController.controller");
-    
-        // Normalize path separators for Unity
-        controllerPath = controllerPath.Replace('\\', '/');
-    
-        return controllerPath;
+        return Path.Combine(scriptDirectory, "PreviewController.controller").Replace('\\', '/');
     }
 }

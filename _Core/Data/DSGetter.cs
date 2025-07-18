@@ -16,6 +16,8 @@ public class DSGetter<T> where T : Data
     [StringInput][Tag]//[ValueDropdown("GetAllGenericKeys")]
     public string Key;
 
+    public GenericKey GenericKey;
+
     public GetterType From;
 
     [HideInEditorMode]

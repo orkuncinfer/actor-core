@@ -74,6 +74,11 @@ public class AnimancerController : MonoBehaviour
     }
 #endif
 
+    private void OnAnimatorMove()
+    {
+        
+    }
+
     private void ProcessAbilities()
     {
         if (_currentAbilityAnimState != null)
@@ -94,7 +99,9 @@ public class AnimancerController : MonoBehaviour
         {
             
             ActiveAbility ability = _abilityController.GetActiveAbilities()[i - 1];
+         
             if(ability.IsActive == false) continue; // in case it is canceled
+          
             _actionsToProcess.Clear();
             _actionsToProcess.AddRange(ability.AbilityActions);
 
@@ -118,6 +125,7 @@ public class AnimancerController : MonoBehaviour
                 {
                     EndOrInterrupted(_currentAbilityAnimState, ability);
                 }
+                ability.PreviousAnimWeight = ability.AnimancerState.EffectiveWeight;
             } 
 
             
@@ -131,16 +139,18 @@ public class AnimancerController : MonoBehaviour
                     }
                 }
                 if (action.ActivationPolicy != AbilityAction.EAbilityActionActivationPolicy.AnimWindow) continue;
-                Debug.Log("action norm time : " + action.ActiveAbility.AnimancerState.NormalizedTime);
+                //Debug.Log("action norm time : " + action.ActiveAbility.AnimancerState.NormalizedTime);
                 if (action.AnimWindow.x <= action.ActiveAbility.AnimancerState.NormalizedTime)
                 {
-                    Debug.Log("Processing action : " + action.GetType() + $"isRunning={action.IsRunning} executed={action.HasExecutedOnce}");
+                    //Debug.Log("Processing action : " + action.GetType() + $"isRunning={action.IsRunning} executed={action.HasExecutedOnce}");
                     if (!action.IsRunning &&
                         !action.HasExecutedOnce)
                     {
-                        Debug.Log("Start action : " + action.GetType());
+                        //Debug.Log("Start action : " + action.GetType());
                         action.Owner = _owner;
                         action.ActiveAbility = ability;
+                        action.TimeLength = ((action.AnimWindow.y - action.AnimWindow.x) * action.ActiveAbility.AnimancerState.Clip.length) /
+                                            action.ActiveAbility.AnimancerState.Speed;
                         action.OnStart();
                     }
                 }
@@ -247,15 +257,14 @@ public class AnimancerController : MonoBehaviour
             float baseFadeDuration = clip.FadeDuration;
             float adjustedFadeDuration = CalculateAdjustedFadeDuration(baseFadeDuration, animSpeed);
             
-            
-            if (_currentAbilityAnimState != null && _animancerComponent.States.TryGet(clip,out AnimancerState statee))
+            if (_currentAbilityAnimState != null && _animancerComponent.States.TryGet(clip,out AnimancerState existingState))
             {
-                statee.Time = 0;
-                _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(statee,adjustedFadeDuration);
+                existingState.Time = 0;
+                _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(existingState,adjustedFadeDuration);
             }
             else
             {
-                _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(clip);
+                _currentAbilityAnimState = _animancerComponent.Layers[layer].Play(clip,adjustedFadeDuration);
             }
             ability.AnimancerState = _currentAbilityAnimState;
             ability.AnimancerState.Time = 0;
@@ -264,7 +273,7 @@ public class AnimancerController : MonoBehaviour
             _abilityAnimPlaying = true;
 
             
-
+            Debug.Log("Animatin played " + animSpeed);
             _animancerComponent.Layers[layer].CurrentState.Speed = animSpeed;
         }
         else if(ability.Definition.AnimationClip == null && ability.Definition.UseCustomAnim == false)
@@ -303,7 +312,7 @@ public class AnimancerController : MonoBehaviour
 
     public void EndOrInterrupted(AnimancerState animState, ActiveAbility activeAbility)
     {
-        //Debug.Log($"anim state : {animState.Clip.name} : {activeAbility}");
+        Debug.Log($"anim state end or interrupted: {animState.Clip.name} : {activeAbility}");
         if (animState == null || activeAbility == null) return;
         if(activeAbility.IsActive == false) return;
         

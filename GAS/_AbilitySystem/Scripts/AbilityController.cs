@@ -34,6 +34,8 @@ public class AbilityController : MonoInitializable, ISavable
             }
         }
     }
+    
+    private List<ActiveAbility> _recastCancelAbilities = new List<ActiveAbility>();
 
     public event Action<GameObject, GameObject> OnTargetChanged; 
     public event Action<ActiveAbility> onActivatedAbility;
@@ -168,11 +170,12 @@ public class AbilityController : MonoInitializable, ISavable
                 if (!CanActivateAbility(activeAbility)) return false;
                 _queuedAbilityToStart = activeAbility.Definition;
                 this.Target = target;
-                _activeAbilities.Add(activeAbility);
                 ApplyAbilityEffects(activeAbility);
                 CancelWithTagCheck(activeAbility);
                 HandleAbilityLayer(activeAbility);
+                HandleRecasts();
                 activeAbility.StartAbility();
+                _activeAbilities.Add(activeAbility);
                 LastUsedAbility = activeAbility;
                 activeAbility.onFinished += OnActivateAbilityFinished;
                 onActivatedAbility?.Invoke(activeAbility);
@@ -191,7 +194,20 @@ public class AbilityController : MonoInitializable, ISavable
         TryActivateQueuedAbilities();
     }
 
-
+    private void HandleRecasts()
+    {
+        if (_recastCancelAbilities.Count == 0) return;
+        for (int i = _recastCancelAbilities.Count - 1; i >= 0; i--)
+        {
+            ActiveAbility activeAbility = _recastCancelAbilities[i];
+            if (activeAbility.Definition.CancelOnRecast)
+            {
+                DebugLog($"Ability {activeAbility.Definition.name} tried to cancel bcs of recast");
+                CancelAbilityIfActive(activeAbility);
+                _recastCancelAbilities.RemoveAt(i);
+            }
+        }
+    }
 
     public void ForceActivateAbility(string abilityName)
     {
@@ -244,7 +260,7 @@ public class AbilityController : MonoInitializable, ISavable
         for(int i = _activeAbilities.Count - 1; i >= 0; i--)
         {
             Debug.Log("Checking ability " + activeAbility.Definition + " for cancelation with tag ");
-            if (activeAbility.Definition.CancelAbilitiesWithTag.HasAny(_activeAbilities[i].Definition.AbilityTags))
+            if (_activeAbilities[i].Definition.AbilityTags.HasAny(activeAbility.Definition.CancelAbilitiesWithTag))
             {
                 Debug.Log($"Tried to cancel {_activeAbilities[i].Definition.name} because of tag {activeAbility.Definition.CancelAbilitiesWithTag.GetTags().First().FullTag}");
                 CancelAbilityIfActive(_activeAbilities[i]);
@@ -367,23 +383,33 @@ public class AbilityController : MonoInitializable, ISavable
         }
 
         int abilityLayer = ability.Definition.AbilityLayer;
-        bool abilityLayerIsBusy = false;
 
         foreach (ActiveAbility activeAbility in _activeAbilities)
         {
             if (activeAbility.Definition.name == ability.Definition.name)
             {
-                DDebug.Log($"Can't activate ability {ability.Definition.name} because it is already active {iteration}");
-                return false; // already using an instance of this ability
+                if (ability.Definition.CancelOnRecast)
+                {
+                    DebugLog($"Ability {activeAbility.Definition.name} is added to recast cancel list");
+                    _recastCancelAbilities.Add(activeAbility);
+                    return true;
+                }
+                else
+                {
+                    DDebug.Log($"Can't activate ability {ability.Definition.name} because it is already active {iteration}");
+                    return false; // already using an instance of this ability
+                }
+             
             }
         }
 
+        bool abilityLayerIsBusy = false;
         foreach (ActiveAbility activeAbility in _activeAbilities)
         {
             if (activeAbility.AnimancerState == null) continue;
             if (activeAbility.Definition.AbilityLayer == abilityLayer)
             {
-                Debug.Log("Canceling ability " + activeAbility.Definition.name +" to run ability :" + ability.Definition.name + "="+iteration);
+                //Debug.Log("Canceling ability " + activeAbility.Definition.name +" to run ability :" + ability.Definition.name + "="+iteration);
                 //CancelAbilityIfActive(activeAbility);
         
                 if (activeAbility.CanBeCanceled == false)
@@ -430,6 +456,16 @@ public class AbilityController : MonoInitializable, ISavable
             ability.EndAbility();
             onCanceledAbility?.Invoke(ability);
         }
+    }
+    
+    public void CancelAllAbilities()
+    {
+        Debug.Log("Canceling all active abilities");
+        for (int i = _activeAbilities.Count - 1; i >= 0; i--)
+        {
+            CancelAbilityIfActive(_activeAbilities[i]);
+        }
+        onCancelCurrentAbility?.Invoke();
     }
 
     public void CancelAbilityIfActive(string abilityName)
@@ -545,8 +581,7 @@ public class AbilityController : MonoInitializable, ISavable
 
     private void DebugLog(string message)
     {
-        string finalMessage = "AbilityC.: " + message;
-        
+        string finalMessage = "<color=yellow>AbilityCtrl : </color>" + message;
         DDebug.Log(finalMessage);
     }
 

@@ -10,6 +10,7 @@ public class ProjectileStandardCollisionComponent : ProjectileCollisionComponent
     [SerializeField] bool canBounce;
     int collisionCount = 0;
     
+
     void OnCollisionEnter(Collision collision){
         
         if(collisionCount == maxCollisions) return;
@@ -22,8 +23,10 @@ public class ProjectileStandardCollisionComponent : ProjectileCollisionComponent
         damageComponent.ApplyDamage(collision.gameObject,collision);
         collisionCount++;
 
-        if (collisionCount == maxCollisions){
-            Destroy(gameObject);
+        if (collisionCount >= maxCollisions)
+        {
+            collisionCount = 0;
+            PoolManager.ReleaseObject(gameObject,true);
         }
     }
 }

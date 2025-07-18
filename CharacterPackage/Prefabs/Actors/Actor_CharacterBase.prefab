@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 5015321596537612376}
   - component: {fileID: 8048636549471283928}
   - component: {fileID: 1929868276941795452}
+  - component: {fileID: 932334136598942017}
   m_Layer: 0
   m_Name: Data
   m_TagString: Untagged
@@ -142,8 +143,37 @@ MonoBehaviour:
     DataKey: 
     OwnerActor: {fileID: 0}
     IsInstalled: 0
-    _aimDirection: {x: 0, y: 0, z: 0}
+    _aimPosition: {x: 0, y: 0, z: 0}
     _shootRayFromCamera: 0
+--- !u!114 &932334136598942017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941859922178207031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ecdd8fc0068a9d4a930a481eba2c681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: 
+  ChangeName: 
+  Datas:
+  - rid: 4658993769934750122
+  references:
+    version: 2
+    RefIds:
+    - rid: 4658993769934750122
+      type: {class: Data_AbilityDefinition, ns: , asm: Hexcore.AbilitySystem}
+      data:
+        IsGlobal: 0
+        UseKey: 0
+        IsPersistent: 0
+        DataKey: 
+        OwnerActor: {fileID: 0}
+        IsInstalled: 0
+        _abilityDefinition: {fileID: 11400000, guid: e804a3cc30773564a9aec414af467c32, type: 2}
 --- !u!1 &1067271784858237131
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +589,7 @@ MonoBehaviour:
   _useFlatBaseForGroundChecks: 0
   _collisionLayers:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 1033
   _triggerInteraction: 1
   _advanced:
     minMoveDistance: 0
@@ -887,6 +917,7 @@ GameObject:
   - component: {fileID: 6307139456203925584}
   - component: {fileID: 8145853896854566046}
   - component: {fileID: 503114664326849720}
+  - component: {fileID: 5583352435134168517}
   m_Layer: 0
   m_Name: States
   m_TagString: Untagged
@@ -968,7 +999,6 @@ MonoBehaviour:
     - ToState: {fileID: 8631611629064271566}
       Conditions:
       - rid: 95553211497447460
-      - rid: 95553393713479775
   - State: {fileID: 8631611629064271566}
     Transitions: []
   _oneTimeEnter: 0
@@ -978,10 +1008,6 @@ MonoBehaviour:
     - rid: 95553211497447460
       type: {class: Condition_IsDead, ns: , asm: Hexcore.CharacterPackage}
       data: 
-    - rid: 95553393713479775
-      type: {class: Condition_CanUseAbility, ns: , asm: Hexcore.CharacterPackage}
-      data:
-        _abilityDefinition: {fileID: 11400000, guid: e804a3cc30773564a9aec414af467c32, type: 2}
 --- !u!114 &503114664326849720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,9 +1021,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ZoomLevel: 0.85000014
-  Drag: {x: 1188.2, y: 172.95}
-  ScreenWidth: 2560
-  ScreenHeight: 1440
+  Drag: {x: 275.19998, y: 172.95}
+  ScreenWidth: 734
+  ScreenHeight: 1301
   Nodes:
   - Position: {x: 58, y: -52}
     Size: {x: 100, y: 50}
@@ -1005,7 +1031,7 @@ MonoBehaviour:
     ConnectionIndexes: 
     Rect:
       serializedVersion: 2
-      x: 1237.5
+      x: 324.5
       y: 128.74998
       width: 85.000015
       height: 42.500008
@@ -1015,7 +1041,7 @@ MonoBehaviour:
     ConnectionIndexes: 
     Rect:
       serializedVersion: 2
-      x: 1090.9357
+      x: 177.93568
       y: 311.62152
       width: 85.000015
       height: 42.500008
@@ -1029,6 +1055,20 @@ MonoBehaviour:
       y: 113.22016
       width: 55.000042
       height: 27.500021
+--- !u!114 &5583352435134168517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5510964232875846650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abf2156c30286384484eed1cd10715bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
 --- !u!1 &6300579344250360456
 GameObject:
   m_ObjectHideFlags: 0

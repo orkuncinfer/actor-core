@@ -10,7 +10,7 @@ public class ProjectileMoveComponent : ProjectileTypeComponent
 
     public override void InitialiseMovement(Vector3 pointOfImpact,Vector3 muzzlePosition){
         startPosition = transform.position;
-        transform.LookAt(pointOfImpact);
+        transform.forward = pointOfImpact;
         
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.linearVelocity = pointOfImpact.normalized * projectileSpeed;

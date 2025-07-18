@@ -14,6 +14,17 @@ public class State_ShouldDieCheck : MonoState
         _gas = Owner.GetService<Service_GAS>();
         
         _gas.StatController.GetAttribute("Health").onAttributeChanged += OnHealthChanged;
+
+        if (_gas.StatController.GetAttribute("Health").CurrentValue <= 0)
+        {
+            _livingData.ShouldDieTrigger = true;
+        }
+    }
+
+    protected override void OnExit()
+    {
+        base.OnExit();
+        _gas.StatController.GetAttribute("Health").onAttributeChanged -= OnHealthChanged;
     }
 
     private void OnHealthChanged(int arg1, int arg2)
