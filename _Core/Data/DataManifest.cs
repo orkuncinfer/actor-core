@@ -35,7 +35,6 @@ public abstract class DataManifest : MonoBehaviour
 
         for (int i = 0; i < _installData.Length; i++)
         {
-            
             #region LOAD
             Data data = _installData[i];
             string key = "";
@@ -50,9 +49,8 @@ public abstract class DataManifest : MonoBehaviour
             {
                 if (data.UseKey)
                 {
-                    key = data.DataKey;
+                    key = data.Key.ID;
                 }
-
                 GlobalData.InstallData(key, data);
             }
             else
@@ -91,7 +89,7 @@ public abstract class DataManifest : MonoBehaviour
             {
                 if (data.UseKey)
                 {
-                    key = data.DataKey;
+                    key = data.Key.ID;
                 }
 
                 GlobalData.InstallData(key, data);

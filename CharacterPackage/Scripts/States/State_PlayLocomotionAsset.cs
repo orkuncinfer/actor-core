@@ -22,7 +22,6 @@ public class State_PlayLocomotionAsset : MonoState
     [SerializeField] [ReadOnly] private Vector3 _velocityDebug;
     [SerializeField] [ReadOnly] private Vector2 _parameterDebug;
     [SerializeField] private float _velocityThreshold = 2f;
-
     private DS_MovingActor _movingActor;
 
     private RPG_PlayerController _networkRpgPlayerController;

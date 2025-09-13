@@ -100,6 +100,7 @@ MonoBehaviour:
     UseKey: 0
     IsPersistent: 0
     DataKey: 
+    Key: {fileID: 0}
     OwnerActor: {fileID: 0}
     IsInstalled: 0
     _lookDirection: {x: 0, y: 0, z: 0}
@@ -110,6 +111,7 @@ MonoBehaviour:
     UseKey: 0
     IsPersistent: 0
     DataKey: 
+    Key: {fileID: 0}
     OwnerActor: {fileID: 0}
     IsInstalled: 0
     _shouldDietrigger: 0
@@ -118,6 +120,7 @@ MonoBehaviour:
     UseKey: 0
     IsPersistent: 0
     DataKey: 
+    Key: {fileID: 0}
     OwnerActor: {fileID: 0}
     IsInstalled: 0
     Movement: {fileID: 1600435257409083137}
@@ -141,6 +144,7 @@ MonoBehaviour:
     UseKey: 0
     IsPersistent: 0
     DataKey: 
+    Key: {fileID: 0}
     OwnerActor: {fileID: 0}
     IsInstalled: 0
     _aimPosition: {x: 0, y: 0, z: 0}
@@ -160,17 +164,18 @@ MonoBehaviour:
   Description: 
   ChangeName: 
   Datas:
-  - rid: 4658993769934750122
+  - rid: 4658994025160769677
   references:
     version: 2
     RefIds:
-    - rid: 4658993769934750122
+    - rid: 4658994025160769677
       type: {class: Data_AbilityDefinition, ns: , asm: Hexcore.AbilitySystem}
       data:
         IsGlobal: 0
-        UseKey: 0
+        UseKey: 1
         IsPersistent: 0
         DataKey: 
+        Key: {fileID: 11400000, guid: b4f11bd947d02824b986590d20027344, type: 2}
         OwnerActor: {fileID: 0}
         IsInstalled: 0
         _abilityDefinition: {fileID: 11400000, guid: e804a3cc30773564a9aec414af467c32, type: 2}
@@ -283,6 +288,7 @@ GameObject:
   - component: {fileID: 8631611629064271566}
   - component: {fileID: 3962838565497665587}
   - component: {fileID: 1847424856078795811}
+  - component: {fileID: 4959231754233691846}
   m_Layer: 0
   m_Name: Dead
   m_TagString: Untagged
@@ -354,6 +360,32 @@ MonoBehaviour:
   _eventField:
     _addressType: 0
     _eventKey: {fileID: 11400000, guid: c42f492597b111f4f826fb7596304c94, type: 2}
+--- !u!114 &4959231754233691846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567085687522228179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a01122d75706b49a7e610063d8dcdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRunning: 0
+  IsFinished: 0
+  _dyingAbility:
+    Key: 
+    InstallType: 1
+    From: 1
+    GenericKey: {fileID: 11400000, guid: b4f11bd947d02824b986590d20027344, type: 2}
+    _retrievedData:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &1620186965616911249
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +426,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1.92}
-  m_SizeDelta: {x: 1080, y: 1920}
+  m_SizeDelta: {x: 1.4664, y: 0.5383}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2513878978639934650
 Canvas:
@@ -559,6 +591,7 @@ MonoBehaviour:
   ActorID: 
   StartMethod: 342
   _initialTags: []
+  _groupTags: []
   GameplayTags:
     _tagHashes: []
   _initialState: {fileID: 8545184187920994285}

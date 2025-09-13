@@ -15,10 +15,15 @@ public class DSGetter<T> where T : Data
 {
     [StringInput][Tag]//[ValueDropdown("GetAllGenericKeys")]
     public string Key;
-
-    public GenericKey GenericKey;
-
+    
+    [HorizontalGroup(GroupID = "install", Width = 0.23f)][HideLabel]
+    public InstallType InstallType;
+    
+    [HorizontalGroup(GroupID = "install", Width = 0.23f)][HideLabel]
     public GetterType From;
+    
+    [HorizontalGroup(GroupID = "install")][HideLabel][ShowIf("IsUsingKey")]
+    public GenericKey GenericKey;
 
     [HideInEditorMode]
     public T Data;
@@ -26,12 +31,14 @@ public class DSGetter<T> where T : Data
     [SerializeField][SerializeReference][HideInEditorMode]
     private Data _retrievedData;
 
+    public bool IsUsingKey => InstallType == InstallType.Key;
+
     public void GetData(ActorBase owner = null)
     {
         string key = "";
-        if (Key != null)
+        if (GenericKey != null)
         {
-            key = Key;
+            key = GenericKey.ID;
         }
         
         if (From == GetterType.Owner)
@@ -65,6 +72,11 @@ public enum GetterType
 {
     Global,
     Owner
+}
+public enum InstallType
+{
+    Single,
+    Key
 }
 
 public class StringInputAttribute : Attribute {}

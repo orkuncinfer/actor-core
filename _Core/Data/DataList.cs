@@ -48,7 +48,7 @@ public class DataList : MonoBehaviour
                 string key= "";
                 if (Datas[i].UseKey)
                 {
-                    key = Datas[i].DataKey;
+                    key = Datas[i].Key.ID;
                 }
                 GlobalData.InstallData(key,Datas[i]);
             }

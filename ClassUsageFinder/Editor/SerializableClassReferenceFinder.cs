@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -87,10 +88,57 @@ public class SerializableClassReferenceFinder : EditorWindow
     private void LoadSerializableClasses()
     {
         _serializableClasses.Clear();
-        var baseType = typeof(Data); // Base class to search for subclasses
-        _serializableClasses = baseType.Assembly.GetTypes()
-            .Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition && baseType.IsAssignableFrom(t) && t != baseType)
-            .ToList();
+
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        foreach (var assembly in assemblies)
+        {
+            Type[] types;
+
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                types = ex.Types.Where(t => t != null).ToArray();
+            }
+
+            foreach (var type in types)
+            {
+                if (type == null) continue;
+
+                // Must be class, not abstract, and serializable by Unity
+                if (!type.IsAbstract && !type.IsGenericTypeDefinition && IsUnitySerializable(type))
+                {
+                    _serializableClasses.Add(type);
+                }
+            }
+        }
+    }
+    private bool IsUnitySerializable(Type type)
+    {
+        if (type == null || !type.IsClass || type.IsAbstract || type.IsGenericTypeDefinition)
+            return false;
+
+        // Unity serializes MonoBehaviours and ScriptableObjects
+        if (typeof(MonoBehaviour).IsAssignableFrom(type) || typeof(ScriptableObject).IsAssignableFrom(type))
+            return true;
+
+        // Check for [Serializable] attribute on this type or any base type
+        return HasSerializableAttributeRecursive(type);
+    }
+    private bool HasSerializableAttributeRecursive(Type type)
+    {
+        while (type != null && type != typeof(object))
+        {
+            if (type.IsDefined(typeof(SerializableAttribute), false))
+                return true;
+
+            type = type.BaseType;
+        }
+
+        return false;
     }
     private void LoadCache()
     {
@@ -151,14 +199,21 @@ public class SerializableClassReferenceFinder : EditorWindow
         }
 
         string[] assetPaths = AssetDatabase.GetAllAssetPaths();
+        
+        
+        StringBuilder scannedPathBuilder = new StringBuilder();
 
         foreach (string path in assetPaths)
         {
             if (path.EndsWith(".prefab") || path.EndsWith(".asset"))
             {
+                if(path.Contains("Settings")) continue;
                 Object asset = AssetDatabase.LoadAssetAtPath<Object>(path);
                 if (asset != null)
                 {
+                    
+                    scannedPathBuilder.AppendLine(asset.name);
+
                     if (asset is GameObject gameObject)
                     {
                         SearchPrefabForSerializableClasses(gameObject, path);
@@ -170,6 +225,9 @@ public class SerializableClassReferenceFinder : EditorWindow
                 }
             }
         }
+
+        Debug.Log(scannedPathBuilder.ToString());
+    
 
         ScanScenesForSerializableClasses();
     }
@@ -256,7 +314,7 @@ public class SerializableClassReferenceFinder : EditorWindow
             if (_serializableClasses.Contains(field.FieldType))
             {
                 foundClasses.Add(field.FieldType.FullName);
-                Debug.Log($"Found direct reference to {field.FieldType.Name} in field {field.Name} of {obj.name} ({objType.Name}) in {context}");
+                //Debug.Log($"Found direct reference to {field.FieldType.Name} in field {field.Name} of {obj.name} ({objType.Name}) in {context}");
             }
         }
 
@@ -279,7 +337,7 @@ public class SerializableClassReferenceFinder : EditorWindow
                         if (_serializableClasses.Contains(managedType))
                         {
                             foundClasses.Add(managedType.FullName);
-                            Debug.Log($"Found [SerializeReference] reference to {managedType.Name} in {obj.name} in {context}");
+                            //Debug.Log($"Found [SerializeReference] reference to {managedType.Name} in {obj.name} in {context}");
                         }
                     }
                 }

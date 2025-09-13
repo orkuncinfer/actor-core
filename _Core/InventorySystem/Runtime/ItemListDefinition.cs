@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
+using FilePathAttribute = UnityEditor.FilePathAttribute;
+
 [SOCreatable("Items")]
 public class ItemListDefinition : ScriptableObject
 {
@@ -11,6 +14,8 @@ public class ItemListDefinition : ScriptableObject
     private Dictionary<string,ItemBaseDefinition> _itemDictionary = new Dictionary<string, ItemBaseDefinition>();
 
     public string TypeName;
+
+    [FolderPath]public string Location;
     
     public ItemBaseDefinition GetItem(string itemId)
     {
@@ -69,6 +74,11 @@ public class ItemListDefinition : ScriptableObject
                         AllItems.Add(childItem);
                 }
             }
+        }
+
+        if (!Location.IsNullOrWhitespace())
+        {
+            
         }
     }
 

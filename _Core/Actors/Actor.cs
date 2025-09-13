@@ -15,11 +15,22 @@ public class Actor : ActorBase
             _initialState.CheckoutEnter(this);
         
         ActorRegistry.RegisterActor(this);
+
+        foreach (var groupTag in _groupTags)
+        {
+            ActorRegistry.RegisterActorToGroup(this,groupTag.ID);
+        }
     }
 
     protected override void OnActorStop()
     {
         base.OnActorStop();
+        
+        foreach (var groupTag in _groupTags)
+        {
+            ActorRegistry.UnregisterActorFromGroup(this,groupTag.ID);
+        }
+        
         if (_initialState)
         {
             if (_initialState.IsRunning)

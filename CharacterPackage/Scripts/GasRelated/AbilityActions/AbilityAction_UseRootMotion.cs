@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class AbilityAction_UseRootMotion : AbilityAction
 {
+    public bool PauseGroundConstraint = false;
+    
     ActiveAbility _ability;
 
     private Character _character;
@@ -11,6 +13,7 @@ public class AbilityAction_UseRootMotion : AbilityAction
         AbilityAction_UseRootMotion clone = AbilityActionPool<AbilityAction_UseRootMotion>.Shared.Get();
         clone.EventName = EventName;
         clone._character = _character;
+        clone.PauseGroundConstraint =  PauseGroundConstraint;
         return clone;
     }
 
@@ -18,7 +21,9 @@ public class AbilityAction_UseRootMotion : AbilityAction
     {
         base.OnStart();
         _character = Owner.GetData<Data_Character>().Character;
+    
         _character.useRootMotion = true;
+        
     }
     
     public override void OnTick(Actor owner)

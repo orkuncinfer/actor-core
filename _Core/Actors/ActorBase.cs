@@ -52,6 +52,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
     [ReadOnly] public string ActorID;
     public ActorStartMethods StartMethod;
     [SerializeField] private List<GenericKey> _initialTags = new List<GenericKey>();
+    [SerializeField] protected List<GenericKey> _groupTags = new List<GenericKey>();
     private HashSet<string> _tags = new HashSet<string>();
     
     private bool _started;
@@ -174,7 +175,7 @@ public class ActorBase : MonoBehaviour, ITagContainer
                     continue;
                 }
                 if (data.IsGlobal) continue;
-                InstallData(data);
+                InstallData(data,dataComponent.transform.name);
             }
         }
     }
@@ -219,11 +220,15 @@ public class ActorBase : MonoBehaviour, ITagContainer
         }
     }
 
-    private void InstallData(Data data)
+    private void InstallData(Data data,string componentName = "")
     {
         if (data.UseKey)
         {
-            string key = data.GetType() + ":" + data.DataKey;
+            if (data.Key == null)
+            {
+                Debug.LogError($"UseKey is checked but key is null on {data.GetType()} - {componentName} - {transform.name}");
+            }
+            string key = data.GetType() + ":" + data.Key.ID;
             _datasets[key] = data;
         }
         else

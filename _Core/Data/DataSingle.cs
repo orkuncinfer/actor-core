@@ -45,7 +45,7 @@ public class DataSingle : MonoBehaviour
             string key= "";
             if (Data.UseKey)
             {
-                key = Data.DataKey + Data.GetType();
+                key = Data.Key.ID + Data.GetType();
             }
             else
             {

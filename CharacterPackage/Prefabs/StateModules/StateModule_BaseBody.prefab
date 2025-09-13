@@ -82,7 +82,9 @@ MonoBehaviour:
   IsFinished: 0
   _locomotionAsset:
     Key: Locomotion
+    InstallType: 1
     From: 1
+    GenericKey: {fileID: 11400000, guid: 3a8beed525c10a14b9b0e70cd8fb7f56, type: 2}
     _retrievedData:
       rid: -2
   _avatarMask: {fileID: 0}
@@ -249,17 +251,18 @@ MonoBehaviour:
   Description: Locomotion
   ChangeName: Locomotion
   Datas:
-  - rid: 2371948198481887358
+  - rid: 4658994025160769661
   references:
     version: 2
     RefIds:
-    - rid: 2371948198481887358
+    - rid: 4658994025160769661
       type: {class: Data_RefVar, ns: , asm: Hexcore.CharacterPackage}
       data:
         IsGlobal: 0
         UseKey: 1
         IsPersistent: 0
         DataKey: Locomotion
+        Key: {fileID: 11400000, guid: 3a8beed525c10a14b9b0e70cd8fb7f56, type: 2}
         OwnerActor: {fileID: 0}
         IsInstalled: 0
         _value: {fileID: 11400000, guid: 002cb4a8989c59443b113f12ad693155, type: 2}

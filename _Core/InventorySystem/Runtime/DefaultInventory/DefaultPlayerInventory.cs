@@ -10,7 +10,9 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
     [ValueDropdown("GetAllItems")]
     [SerializeField] private ItemBaseDefinition _testItem;
     
-    [ShowInInspector]public Dictionary<string,InventoryDefinition> InventoryDefinitions = new Dictionary<string, InventoryDefinition>();
+    [ShowInInspector][HideInEditorMode][ReadOnly]public Dictionary<string,InventoryDefinition> InventoryDefinitions = new Dictionary<string, InventoryDefinition>();
+
+    [SerializeField] private List<InventoryDefinition.ItemPack> _initialItems;
     
     public event Action<string,int,int> onItemAdded;
     public event Action<string,int,int> onItemRemoved;
@@ -30,6 +32,11 @@ public  class DefaultPlayerInventory : PersistentSingleton<DefaultPlayerInventor
     private void Start()
     {
         _inventory = ES3.Load("DefaultInventory",_inventory);
+        
+        foreach (var itemPack in _initialItems)
+        {
+            AddItem(itemPack.ItemDefinition.ItemID,itemPack.Count);
+        }
     }
 
     public void AddItem(string itemId, int amount)

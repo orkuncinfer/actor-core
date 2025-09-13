@@ -259,6 +259,11 @@ public class CanvasLayer : MonoBehaviour
                 return;
             }
         }
+
+        /*if (CanvasManager.Instance.PanelStack[^1] != null) // todo : handle edge cases
+        {
+            CanvasManager.Instance.ShowPanel(CanvasManager.Instance.PanelStack[^1].PanelId);
+        }*/
     
         Debug.Log("Panel not found in either list: " + panelId);
     }

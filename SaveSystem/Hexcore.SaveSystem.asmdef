@@ -1,3 +1,4 @@
 {
-	"name": "Hexcore.SaveSystem"
+	"name": "Hexcore.SaveSystem",
+	"references":[ "GUID:58e24df9b303e1540884f2883d5e3c74" ]
 }

@@ -36,7 +36,6 @@ public class GameplayTagManager
         //Debug.Log($"Requested tag with hash code: {fullTag}");
         InitializeIfNeeded();
         FillDictionary();
-        Debug.Log("Found tag :" + _tagDictionary[fullTag].FullTag);
         return _tagDictionary[fullTag];
     }
     

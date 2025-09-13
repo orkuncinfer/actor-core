@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95830e1a269b49308eda88a503d26679, type: 3}
+  m_Name: GA_Dying_Normal
+  m_EditorClassIdentifier: 
+  _title: 
+  _description: 
+  _maxLevel: 20
+  _icon: {fileID: 0}
+  _gameplayEffectDefinitions: []
+  _isBasicAttack: 0
+  _abilityLayer: 0
+  _overrideAnimSpeed: 0
+  _useCustomAnim: 0
+  _animationSpeed: 0
+  _clipTransition:
+    _FadeDuration: 0.25
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400002, guid: ec7d4f1a69d0caa4290fd1beaf182fa8, type: 3}
+    _Speed: 1
+    _NormalizedStartTime: 0
+  _endTime: 1
+  _avatarMask: {fileID: 0}
+  _animationLayer: 0
+  _isLoopingAbility: 0
+  _cancelOnRecast: 0
+  _duration: 0
+  _abilityRange: 0
+  Cost: {fileID: 0}
+  Cooldown: {fileID: 0}
+  _abilityTags:
+    _tagHashes: []
+  _grantedTagsDuringAbility:
+    _tagHashes: []
+  _activationRequiredTags:
+    _tagHashes: []
+  _activationBlockedTags:
+    _tagHashes: []
+  _cancelAbilitiesWithTag:
+    _tagHashes: []
+  GrantedEffectsDuringAbility: []
+  AbilityActions:
+  - rid: 95553393713479764
+  references:
+    version: 2
+    RefIds:
+    - rid: 95553393713479764
+      type: {class: AbilityAction_Dying, ns: , asm: Hexcore.CharacterPackage}
+      data:
+        ActivationPolicy: 2
+        EventName: 
+        AnimWindow: {x: 0, y: 0}

@@ -41,9 +41,13 @@ public class Data :  IData
     [HorizontalGroup("Grp1/1")][ES3NonSerializable]public bool IsPersistent;
   
     [BoxGroup("Grp1",false)][GUIColor(0.35f,.83f,.29f)]
-    [HorizontalGroup("Grp1/1",marginRight:20)][ES3NonSerializable][HideLabel]
+    [HorizontalGroup("Grp1/1")][ES3NonSerializable][HideLabel]
     [ShowIf("UseKey")][Tag]
     public string DataKey;
+    [BoxGroup("Grp1",false)][GUIColor(0.35f,.83f,.29f)]
+    [HorizontalGroup("Grp1/1")][ES3NonSerializable][HideLabel]
+    [ShowIf("UseKey")]
+    public GenericKey Key;
     
     [HideInInspector][ES3NonSerializable]public ActorBase OwnerActor;
 
@@ -112,7 +116,7 @@ public class Data :  IData
     {
         string containerID = OwnerActor == null ? "Global" : OwnerActor.GetInstanceID().ToString();
         string typeName = GetType().Name;
-        string dataKey = string.IsNullOrEmpty(DataKey) ? "" : "-" + DataKey;
+        string dataKey = Key == null ? "" : "-" + Key.ID;
         return containerID + "-" + typeName + dataKey;
     }
     public object LoadData(string category = "DefaultData")

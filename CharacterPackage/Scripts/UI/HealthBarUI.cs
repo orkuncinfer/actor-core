@@ -11,6 +11,8 @@ public class HealthBarUI : MonoState
 {
     [SerializeField] private Image _energyFill;
     [SerializeField] private float _fillDuration = 0.5f ;
+
+    [SerializeField] private string _statName = "Health";
     
     private Transform m_MainCamera;
     private Stat _healthAttribute;
@@ -26,16 +28,38 @@ public class HealthBarUI : MonoState
         base.OnEnter();
         _gas = Owner.GetService<Service_GAS>();
         
-        _healthAttribute = _gas.StatController.GetStat("Health");
-        _healthAttribute.onStatValueChanged += OnCurrentHealthChange;
+        _healthAttribute = _gas.StatController.GetStat(_statName);
+
+        if (_healthAttribute is Attribute attr)
+        {
+            Debug.Log(" registered");
+            attr.onCurrentValueChanged += OnCurrentValueChanged;
+        }
+        else
+        {
+            _healthAttribute.onStatValueChanged += OnCurrentHealthChange;
+        }
    
         UpdateHealthBarInstant(); 
+    }
+
+    private void OnCurrentValueChanged()
+    {
+        if(!gameObject.activeInHierarchy)return;
+        UpdateHealthBar();
     }
 
     protected override void OnExit()
     {
         base.OnExit();
-        _healthAttribute.onStatValueChanged -= OnCurrentHealthChange;
+        if (_healthAttribute is Attribute attr)
+        {
+            attr.onCurrentValueChanged -= OnCurrentValueChanged;
+        }
+        else
+        {
+            _healthAttribute.onStatValueChanged -= OnCurrentHealthChange;
+        }
     }
 
 
@@ -52,7 +76,15 @@ public class HealthBarUI : MonoState
 
     void UpdateHealthBar()
     {
-        StartCoroutine(UpdateHealthFill(_healthAttribute.Value / (float)_healthAttribute.BaseValue));
+        if (_healthAttribute is Attribute attr)
+        {
+            StartCoroutine(UpdateHealthFill(attr.CurrentValue / (float)attr.BaseValue));
+        }
+        else
+        {
+            StartCoroutine(UpdateHealthFill(_healthAttribute.Value / (float)_healthAttribute.BaseValue));
+        }
+       
     }
 
     void UpdateHealthBarInstant()

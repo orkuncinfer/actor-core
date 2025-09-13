@@ -11,6 +11,7 @@ public class AbilityAction_HitToTarget : AbilityAction
     public GameplayEffectDefinition EffectToGive;
     public ActiveAbilityDefinition AbilityToGive;
     public ActiveAbilityDefinition TargetDyingAbility;
+    public GenericKey DyingAbilityKey;
 
     private Transform _targetTransform;
     private Attribute _targetHealth;
@@ -38,6 +39,7 @@ public class AbilityAction_HitToTarget : AbilityAction
         clone.EffectToGive = EffectToGive;
         clone.AbilityToGive = AbilityToGive;
         clone.TargetDyingAbility = TargetDyingAbility;
+        clone.DyingAbilityKey = DyingAbilityKey;    
         
         return clone;
     }
@@ -77,8 +79,8 @@ public class AbilityAction_HitToTarget : AbilityAction
 
         if (TargetDyingAbility)
         {
-            _beforeDyingAbility = _targetActor.GetData<Data_AbilityDefinition>().AbilityDefinition;
-            _targetActor.GetData<Data_AbilityDefinition>().AbilityDefinition = TargetDyingAbility;
+            _beforeDyingAbility = _targetActor.GetData<Data_AbilityDefinition>(DyingAbilityKey.ID).AbilityDefinition;
+            _targetActor.GetData<Data_AbilityDefinition>(DyingAbilityKey.ID).AbilityDefinition = TargetDyingAbility;
         }
 
         if (_targetGas.EffectController.ApplyGameplayEffectDefinition(EffectToGive.ItemID,Owner.gameObject))
@@ -91,7 +93,7 @@ public class AbilityAction_HitToTarget : AbilityAction
     public override void OnExit()
     {
         base.OnExit();
-        _targetActor.GetData<Data_AbilityDefinition>().AbilityDefinition = _beforeDyingAbility;
+        _targetActor.GetData<Data_AbilityDefinition>(DyingAbilityKey.ID).AbilityDefinition = _beforeDyingAbility;
         AbilityActionPool<AbilityAction_HitToTarget>.Shared.Release(this);
     }
 }

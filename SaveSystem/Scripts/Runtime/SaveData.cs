@@ -37,18 +37,16 @@ namespace SaveSystem.Scripts.Runtime
         public void Load()
         {
             Debug.Log("Loaded Data");
-            FileManager.LoadFromBinaryFile(m_Path, out m_Data);
+            ES3FileManager.LoadFromBinaryFile(m_Path, out m_Data);
             m_LoadDataChannel.Load();
-            m_Data.Clear();
         }
 
         public void Save()
         {
             if (previousSaveExists)
-                FileManager.LoadFromBinaryFile(m_Path, out m_Data);
+                ES3FileManager.LoadFromBinaryFile(m_Path, out m_Data);
             m_SaveDataChannel.Save();
-            FileManager.SaveToBinaryFile(m_Path, m_Data);
-            m_Data.Clear();
+            ES3FileManager.SaveToBinaryFile(m_Path, m_Data);
         }
 
         private void OnValidate()

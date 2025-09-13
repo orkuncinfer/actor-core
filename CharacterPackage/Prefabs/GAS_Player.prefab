@@ -78,7 +78,6 @@ MonoBehaviour:
   AbilitySet: {fileID: 0}
   LastUsedAbility:
     Owner: {fileID: 0}
-    NormTime: 0
     AbilityActions: []
     CustomClipTransition:
       _FadeDuration: 0.25

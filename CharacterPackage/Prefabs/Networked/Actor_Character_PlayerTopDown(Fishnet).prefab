@@ -880,9 +880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49787952d4c72bd4ea0ec77c6e6fa1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 13
-  _addedNetworkObject: {fileID: -7540734064679248790}
-  _networkObjectCache: {fileID: -7540734064679248790}
   _allEffectsList: {fileID: 11400000, guid: 73847a2fae6413f488639d61660c38f2, type: 2}
   _initialEffects: []
   IsInitialized: 0
@@ -919,7 +916,6 @@ MonoBehaviour:
   AbilitySet: {fileID: 0}
   LastUsedAbility:
     Owner: {fileID: 0}
-    NormTime: 0
     AbilityActions: []
     CustomClipTransition:
       _FadeDuration: 0.25
@@ -2034,6 +2030,10 @@ PrefabInstance:
       propertyPath: Nodes.Array.data[1].Rect.x
       value: 231.93568
       objectReference: {fileID: 0}
+    - target: {fileID: 932334136598942017, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
+      propertyPath: managedReferences[4658994025160769677].Key
+      value: 
+      objectReference: {fileID: 11400000, guid: 62205650e0fccf047b13abbe4e9e91ee, type: 2}
     - target: {fileID: 1620186965616911249, guid: a9cdf8fe45106bf419f6377cca709ff8, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2217,6 +2217,7 @@ MonoBehaviour:
         UseKey: 1
         IsPersistent: 0
         DataKey: Ability_1
+        Key: {fileID: 11400000, guid: c05c3217bc6f3dc49afe7b7d670889f5, type: 2}
         OwnerActor: {fileID: 0}
         IsInstalled: 0
         _abilityDefinition: {fileID: 11400000, guid: 9cebe87f2c0fc554189e396be762c199, type: 2}
@@ -2248,7 +2249,7 @@ MonoBehaviour:
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: 5581547539101684525}
-  - {fileID: 5827991983134707165}
+  - {fileID: 0}
   - {fileID: 5683077891637237114}
   - {fileID: 1455950214221726799}
   - {fileID: 6748071943782270852}
@@ -2260,7 +2261,7 @@ MonoBehaviour:
   - {fileID: 1296352342213163816}
   - {fileID: 2052542328711567950}
   - {fileID: 8758633708674119856}
-  - {fileID: 3326225037981475740}
+  - {fileID: 0}
   - {fileID: 2587072946082790507}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
@@ -2327,9 +2328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8710ee49127754fbd0300fc153e43d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: -7540734064679248790}
-  _networkObjectCache: {fileID: -7540734064679248790}
   _startWithTag: 1
   _tag:
     fullTag: Ability.BasicAttack
@@ -2338,7 +2336,9 @@ MonoBehaviour:
     Description: 
   _abilityDefinitionGetter:
     Key: 
+    InstallType: 0
     From: 0
+    GenericKey: {fileID: 0}
     _retrievedData:
       rid: -2
   _actionReference: {fileID: 5457180523428166991, guid: 857877e365f181e48a2c6e0021ad4183, type: 3}
