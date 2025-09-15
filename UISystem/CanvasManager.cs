@@ -12,6 +12,8 @@ public class CanvasManager : PersistentSingleton<CanvasManager>
     
     [ShowInInspector] public List<PanelActor> PanelStack = new List<PanelActor>();
     
+    [SerializeField]private Canvas _worldSpaceCanvas;
+    
     // Add these methods to maintain stack-like behavior when needed
     public void PushPanel(PanelActor panel)
     {
@@ -40,6 +42,18 @@ public class CanvasManager : PersistentSingleton<CanvasManager>
     public int GetPanelCount()
     {
         return PanelStack.Count;
+    }
+
+    public Canvas GetWorldSpaceCanvas()
+    {
+        if (_worldSpaceCanvas == null)
+        {
+            _worldSpaceCanvas = new GameObject("World Space Canvas").AddComponent<Canvas>();
+            _worldSpaceCanvas.renderMode = RenderMode.WorldSpace;
+            _worldSpaceCanvas.worldCamera = Camera.main;
+        }
+
+        return _worldSpaceCanvas;
     }
     
     public void RegisterLayer(string layerTag, CanvasLayer layer, bool isDefault = false)

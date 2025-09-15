@@ -7,17 +7,20 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Attribute = StatSystem.Attribute;
 
-public class HealthBarUI : MonoState
+public class AttributeProgressBar : MonoState
 {
     [SerializeField] private Image _energyFill;
-    [SerializeField] private float _fillDuration = 0.5f ;
+    [SerializeField] private float _fillDuration = 0.5f;
 
     [SerializeField] private string _statName = "Health";
-    
+
     private Transform m_MainCamera;
-    private Stat _healthAttribute;
+
+    private Attribute _attribute;
+    private Stat _maxValueStat;
+
     private Service_GAS _gas;
-    
+
     private void LateUpdate()
     {
         transform.LookAt(transform.position + m_MainCamera.forward);
@@ -27,45 +30,34 @@ public class HealthBarUI : MonoState
     {
         base.OnEnter();
         _gas = Owner.GetService<Service_GAS>();
-        
-        _healthAttribute = _gas.StatController.GetStat(_statName);
 
-        if (_healthAttribute is Attribute attr)
-        {
-            Debug.Log(" registered");
-            attr.onCurrentValueChanged += OnCurrentValueChanged;
-        }
-        else
-        {
-            _healthAttribute.onStatValueChanged += OnCurrentHealthChange;
-        }
-   
-        UpdateHealthBarInstant(); 
+        _attribute = _gas.StatController.GetAttribute(_statName);
+
+        _maxValueStat = _attribute.TryGetMaxValueStat();
+
+        _attribute.onCurrentValueChanged += OnCurrentValueChanged;
+
+        _maxValueStat = _attribute.TryGetMaxValueStat();
+
+        UpdateHealthBarInstant();
     }
 
     private void OnCurrentValueChanged()
     {
-        if(!gameObject.activeInHierarchy)return;
+        if (!gameObject.activeInHierarchy) return;
         UpdateHealthBar();
     }
 
     protected override void OnExit()
     {
         base.OnExit();
-        if (_healthAttribute is Attribute attr)
-        {
-            attr.onCurrentValueChanged -= OnCurrentValueChanged;
-        }
-        else
-        {
-            _healthAttribute.onStatValueChanged -= OnCurrentHealthChange;
-        }
+        _attribute.onCurrentValueChanged -= OnCurrentValueChanged;
     }
 
 
-    private void OnCurrentHealthChange()
+    private void OnCurrentChange()
     {
-        if(!gameObject.activeInHierarchy)return;
+        if (!gameObject.activeInHierarchy) return;
         UpdateHealthBar();
     }
 
@@ -76,20 +68,28 @@ public class HealthBarUI : MonoState
 
     void UpdateHealthBar()
     {
-        if (_healthAttribute is Attribute attr)
+        StartCoroutine(UpdateHealthFill(GetProgress()));
+    }
+
+    private float GetProgress()
+    {
+        float maxValue;
+
+        if (_maxValueStat != null)
         {
-            StartCoroutine(UpdateHealthFill(attr.CurrentValue / (float)attr.BaseValue));
+            maxValue = _maxValueStat.Value;
         }
         else
         {
-            StartCoroutine(UpdateHealthFill(_healthAttribute.Value / (float)_healthAttribute.BaseValue));
+            maxValue = _attribute.BaseValue;
         }
-       
+
+        return _attribute.CurrentValue / maxValue;
     }
 
     void UpdateHealthBarInstant()
     {
-        _energyFill.fillAmount = _healthAttribute.Value / (float)_healthAttribute.BaseValue;
+        _energyFill.fillAmount = GetProgress();
     }
 
     IEnumerator UpdateHealthFill(float newFillAmount)
@@ -104,6 +104,6 @@ public class HealthBarUI : MonoState
             yield return null;
         }
 
-        _energyFill.fillAmount = newFillAmount; 
+        _energyFill.fillAmount = newFillAmount;
     }
 }

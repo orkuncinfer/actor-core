@@ -28,7 +28,7 @@ public class Network_HandleDamageNumbers : NetworkBehaviour
         actor.GetService<Service_GAS>().StatController.GetAttribute("Health").onAppliedModifier -= OnAppliedMod;
     }
     
-    private void OnAppliedMod(StatModifier obj,StatController controller, int difference)
+    private void OnAppliedMod(StatModifier obj,StatController controller, float difference)
     {
         if (obj.Source is GameplayEffect effect)
         {
@@ -40,21 +40,23 @@ public class Network_HandleDamageNumbers : NetworkBehaviour
     }
 
     [TargetRpc]
-    private void Show(NetworkConnection connection,GameObject target,int difference)
+    private void Show(NetworkConnection connection,GameObject target,float difference)
     {
         if(!base.IsOwner) return;
         
         GameObject instance = PoolManager.SpawnObject(_floatingTextPrefab,target.transform.position + Vector3.up * 2,Quaternion.identity);
         FloatingText floatingText = instance.GetComponent<FloatingText>();
+
+        int rounded = Mathf.RoundToInt(difference);
         
         if (difference > 0)
         {
-            floatingText.Set("+" + difference.ToString(),Color.green);
+            floatingText.Set("+" + rounded.ToString(),Color.green);
             floatingText.Animate();
         }
         else
         {
-            floatingText.Set(difference.ToString(),Color.red);
+            floatingText.Set(rounded.ToString(),Color.red);
             floatingText.Animate();
         }
     }

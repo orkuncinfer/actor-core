@@ -41,7 +41,7 @@ public class GameplayEffect
                 HealthModifier healthModifier = new HealthModifier
                 {
                     Magnitude = calculatedMagnitude,
-                    IsCriticalHit = false
+                    IsCriticalHit = false,
                 };
                 if (damageDefinition.CanCriticalHit)
                 {
@@ -66,7 +66,7 @@ public class GameplayEffect
                 }
                 statModifier = new StatModifier()
                 {
-                    Magnitude = magnitude
+                    Magnitude = magnitude,
                 };
             }
 

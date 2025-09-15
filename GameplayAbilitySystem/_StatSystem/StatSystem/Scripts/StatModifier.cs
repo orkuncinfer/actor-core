@@ -16,6 +16,7 @@ namespace StatSystem
         public float Magnitude { get; set; }
         public ModifierOperationType Type { get; set; }
         
+        
         public override string ToString()
         {
             return Magnitude.ToString();

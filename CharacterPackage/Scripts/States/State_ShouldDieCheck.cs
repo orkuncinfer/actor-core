@@ -27,7 +27,7 @@ public class State_ShouldDieCheck : MonoState
         _gas.StatController.GetAttribute("Health").onAttributeChanged -= OnHealthChanged;
     }
 
-    private void OnHealthChanged(int arg1, int arg2)
+    private void OnHealthChanged(float arg1, float arg2)
     {
         //Debug.Log($"HealthChnged {Owner.transform.name} = " + arg2 + $"Real Stat = {_gas.StatController.GetStat("Health").Value}");
         

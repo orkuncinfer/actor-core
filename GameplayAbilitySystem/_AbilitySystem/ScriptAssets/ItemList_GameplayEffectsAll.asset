@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: ItemList_GameplayEffectsAll
   m_EditorClassIdentifier: 
   AllItems:
+  - {fileID: 2339395756578392262, guid: ee1a1044cf975274690dc8a3f4b4b037, type: 2}
   - {fileID: 11400000, guid: ee9897751bb4a8749a3c79cfb089da54, type: 2}
+  - {fileID: 11400000, guid: 6b71ae033c2f76e439e7409fb342f422, type: 2}
+  - {fileID: 11400000, guid: fc231f85116f6f944be98ecfa2f50e63, type: 2}
   - {fileID: 11400000, guid: 591cbc39606649d46a0a91a141e3f12b, type: 2}
   - {fileID: 5384915199905672138, guid: 8f201911ac620764ab5a0ecb4a6a45c3, type: 2}
   - {fileID: 5416864911796429811, guid: 8f201911ac620764ab5a0ecb4a6a45c3, type: 2}
@@ -41,3 +44,4 @@ MonoBehaviour:
   - {fileID: 8640851072352510199, guid: ac99efc38aade324c9caf47644189dab, type: 2}
   - {fileID: 4067716126298073610, guid: ac99efc38aade324c9caf47644189dab, type: 2}
   TypeName: GameplayEffectDefinition
+  Location: 

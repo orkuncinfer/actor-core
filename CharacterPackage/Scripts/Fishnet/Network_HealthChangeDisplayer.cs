@@ -49,38 +49,41 @@ public class Network_HealthChangeDisplayer : NetworkBehaviour
             _manaAttribute.onAttributeChanged -= OnManaChanged;
     }
 
-    private void OnManaChanged(int arg1, int arg2)
+    private void OnManaChanged(float arg1, float arg2)
     {
         GameObject instance = PoolManager.SpawnObject(_floatingTextPrefab,transform.position+ Vector3.up,Quaternion.identity);
         FloatingText floatingText = instance.GetComponent<FloatingText>();
 
-        int value = arg2 - arg1;
+        float value = arg2 - arg1;
+        
+        int rounded = (int)value;
         if (value > 0)
         {
-            floatingText.Set("+" + value.ToString(),Color.blue);
+            floatingText.Set("+" + rounded.ToString(),Color.blue);
             floatingText.Animate();
         }
         else
         {
-            floatingText.Set( value.ToString(),Color.blue);
+            floatingText.Set( rounded.ToString(),Color.blue);
             floatingText.Animate();
         }
     }
 
-    private void OnHealthChanged(int arg1, int arg2)
+    private void OnHealthChanged(float arg1, float arg2)
     {
         GameObject instance = PoolManager.SpawnObject(_floatingTextPrefab,transform.position + Vector3.up * 2,Quaternion.identity);
         FloatingText floatingText = instance.GetComponent<FloatingText>();
 
-        int value = arg2 - arg1;
+        float value = arg2 - arg1;
+        int rounded = (int)value;
         if (value > 0)
         {
-            floatingText.Set("+" + value.ToString(),_healColor);
+            floatingText.Set("+" + rounded.ToString(),_healColor);
             floatingText.Animate();
         }
         else
         {
-            floatingText.Set(value.ToString(),_damageColor);
+            floatingText.Set(rounded.ToString(),_damageColor);
             floatingText.Animate();
         }
     }

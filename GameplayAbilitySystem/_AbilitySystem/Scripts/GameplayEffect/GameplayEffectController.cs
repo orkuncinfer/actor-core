@@ -413,7 +413,7 @@ public partial class GameplayEffectController :
         {
             if (_statController.Stats.TryGetValue(effect.Definition.ModifierDefinitions[i].StatName, out Stat stat))
             {
-                if (stat is Attribute attr) // WHY ADDED ?
+                /*if (stat is Attribute attr) // WHY ADDED ? temp modifier ise IsTemporary diye bir seçenek olmalı efektde. bu şekilde her modifier temp olarak atanıyor
                 {
                     if (effect.Modifiers[i] is HealthModifier)
                     {
@@ -425,9 +425,9 @@ public partial class GameplayEffectController :
                 else
                 {
                     stat.AddModifier(effect.Modifiers[i]);
-                }
+                }*/
 
-                //stat.AddModifier(effect.Modifiers[i]);
+                stat.AddModifier(effect.Modifiers[i]);
             }
         }
 
@@ -543,6 +543,8 @@ public partial class GameplayEffectController :
 
     private void Initialize()
     {
+        _owner = ActorUtilities.FindFirstActorInParents(transform);
+        
         foreach (GameplayEffectDefinition effectDefinition in _initialEffects)
         {
             EffectTypeAttribute attribute = effectDefinition.GetType().GetCustomAttributes(true)

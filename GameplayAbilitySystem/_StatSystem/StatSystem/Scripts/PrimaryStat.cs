@@ -7,12 +7,11 @@ namespace StatSystem
     [System.Serializable]
     public class PrimaryStat : Stat, ISavable // Dex, Str, Int
     {
-        private int _baseValue;
-        public override int BaseValue => _baseValue;
+        private float _baseValue;
+        public override float BaseValue => _baseValue;
 
-        public PrimaryStat(StatDefinition definition, StatController controller) : base(definition,controller)
+        public PrimaryStat(StatDefinition definition, StatController controller) : base(definition, controller)
         {
-            //CalculateStatValue();
         }
 
         public override void Initialize()
@@ -21,32 +20,33 @@ namespace StatSystem
             base.Initialize();
         }
 
-        public void Add(int amount)
+        public void Add(float amount)
         {
-            if (Value >= Definition.Cap)
+            if (Definition.Cap >= 0 && Value >= Definition.Cap)
             {
                 return;
             }
+            
             _baseValue += amount;
             CalculateStatValue();
         }
 
-        internal void Subtract(int amount)
+        internal void Subtract(float amount)
         {
-            if (Value <= 0)
+            if (Value <= 0f)
             {
                 return;
             }
+            
             _baseValue -= amount;
             CalculateStatValue();
         }
 
-        public override void SetValue(int value)
+        public override void SetValue(float value)
         {
             base.SetValue(value);
             _baseValue = value;
         }
-
 
         #region SaveSystem
 
@@ -57,7 +57,7 @@ namespace StatSystem
         
         public void Load(object data)
         {
-            PrimaryStatData statData = (PrimaryStatData) data;
+            PrimaryStatData statData = (PrimaryStatData)data;
             _baseValue = statData.BaseValue;
             CalculateStatValue();
         }
@@ -65,7 +65,7 @@ namespace StatSystem
         [Serializable]
         protected class PrimaryStatData
         {
-            public int BaseValue;
+            public float BaseValue;
         }
         
         #endregion

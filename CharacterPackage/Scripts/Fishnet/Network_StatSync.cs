@@ -39,7 +39,7 @@ public class Network_StatSync : NetworkBehaviour
     }
     
     [ObserversRpc(BufferLast = true, ExcludeOwner = false)]
-    private void ObserverStatModified(string statName, int value, int currentValue = -1)
+    private void ObserverStatModified(string statName, float value, float currentValue = -1)
     {
         if(base.IsServer) return;
         
