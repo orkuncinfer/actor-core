@@ -26,7 +26,7 @@ namespace Core.Editor
             if (_statController == null)
                 _statController = source.GetComponentInChildren<StatController>();
             
-            Debug.Log("Calculating stat values for " + StatName);
+            Debug.Log("Calculating stat values for " + StatName +"in " + _statController.transform.parent.name);
             
             return _statController.Stats[StatName].Value;
         }

@@ -8,11 +8,14 @@ public class DS_StatUpgradeItem : Data
     public string StatName => _statName;
 
     [SerializeField] private AnimationCurve _costCurve;
+    public AnimationCurve  CostCurve => _costCurve;
 
     [SerializeField] private ItemBaseDefinition _paymentItem;
     public ItemBaseDefinition PaymentItem => _paymentItem;
 
     [SerializeField] private int _maxUpgradeLevel = 99;
+
+    private int _cost;
 
 
     public bool CanPurchase(ItemBaseDefinition upgradeItem)
@@ -29,18 +32,4 @@ public class DS_StatUpgradeItem : Data
 
         return playerItemCount >= cost;
     }
-
-    public int GetCost(ItemBaseDefinition upgradeItem)
-    {
-        int currentLevel = DefaultPlayerInventory.Instance.GetItemCount(upgradeItem.ItemID) + 1;
-   
-        float t = Mathf.Clamp01((float)currentLevel / _maxUpgradeLevel);
-        
-        float rawCost = _costCurve.Evaluate(t);
-        
-        int cost = Mathf.RoundToInt(rawCost);
-
-        return cost;
-    }
-    
 }

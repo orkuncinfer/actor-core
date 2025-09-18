@@ -117,6 +117,7 @@ public abstract class ActiveAbilityDefinition : AbilityDefinition
      [SerializeField] private AbilityDefinition _followUpAbility;
      public AbilityDefinition FollowUpAbility => _followUpAbility;
      
+     [Tooltip("Grants these effects to the instigator of this ability")]
      public List<GameplayEffectDefinition> GrantedEffectsDuringAbility;
      
      [SerializeReference][TypeFilter("GetAbilityActionTypeList")] [ListDrawerSettings(ShowFoldout = true)]

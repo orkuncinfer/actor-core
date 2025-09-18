@@ -596,7 +596,6 @@ GameObject:
   m_Component:
   - component: {fileID: 376600979378875917}
   - component: {fileID: 8545184187920994285}
-  - component: {fileID: 6307139456203925584}
   - component: {fileID: 8145853896854566046}
   - component: {fileID: 503114664326849720}
   - component: {fileID: 5583352435134168517}
@@ -640,23 +639,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRunning: 0
   IsFinished: 0
---- !u!114 &6307139456203925584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5510964232875846650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b88d565365996f849a2fb0d1aabd6fc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsRunning: 0
-  IsFinished: 0
-  _floatingTextPrefab: {fileID: 1254955390238226212, guid: 56d68c5019ca3494a9d3b0fbd5d6b03f, type: 3}
-  _healColor: {r: 0.57368815, g: 1, b: 0, a: 1}
-  _damageColor: {r: 0.9528302, g: 0.1033731, b: 0.1033731, a: 1}
 --- !u!114 &8145853896854566046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,8 +685,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ZoomLevel: 0.85000014
-  Drag: {x: 275.19998, y: 172.95}
-  ScreenWidth: 734
+  Drag: {x: 230.19998, y: 172.95}
+  ScreenWidth: 645
   ScreenHeight: 1301
   Nodes:
   - Position: {x: 58, y: -52}
@@ -713,7 +695,7 @@ MonoBehaviour:
     ConnectionIndexes: 
     Rect:
       serializedVersion: 2
-      x: 324.5
+      x: 279.5
       y: 128.74998
       width: 85.000015
       height: 42.500008
@@ -723,7 +705,7 @@ MonoBehaviour:
     ConnectionIndexes: 
     Rect:
       serializedVersion: 2
-      x: 177.93568
+      x: 132.93568
       y: 311.62152
       width: 85.000015
       height: 42.500008

@@ -12,7 +12,7 @@ namespace StatSystem
     {
         public StatDataBase DataBase;
 
-        protected readonly Dictionary<string, Stat> _stats = new Dictionary<string, Stat>();
+        [ShowInInspector]protected readonly Dictionary<string, Stat> _stats = new Dictionary<string, Stat>();
         
         public Dictionary<string, Stat> Stats => _stats;
 

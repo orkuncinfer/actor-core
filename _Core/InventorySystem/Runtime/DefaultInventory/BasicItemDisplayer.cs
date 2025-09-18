@@ -25,7 +25,7 @@ public class BasicItemDisplayer : MonoBehaviour
     public void DisplayItem(ItemBaseDefinition definition)
     {
         ItemDefinition = definition;
-        ItemIcon.sprite = ItemDefinition.Icon;
+        if(ItemDefinition.Icon)ItemIcon.sprite = ItemDefinition.Icon;
         ItemNameText.text = ItemDefinition.ItemName;
         ItemDescriptionText.text = ItemDefinition.Description;
     }

@@ -202,3 +202,11 @@ MonoBehaviour:
     HashCode: 914c089a-64ac-4e34-95c8-8a37019508d8
     Description: Generated tag for Ability.CC.Stagger
     _asset: {fileID: 11400000}
+  - Tag: Actors
+    HashCode: ee95e1a4-237e-489f-978e-b1a798d43b19
+    Description: Generated tag for Actors
+    _asset: {fileID: 11400000}
+  - Tag: Actors.Player
+    HashCode: 5f8863de-3737-459e-a67f-aab91683f6ab
+    Description: Generated tag for Actors.Player
+    _asset: {fileID: 11400000}

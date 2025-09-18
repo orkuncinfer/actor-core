@@ -89,14 +89,14 @@ public class ActiveAbility : Ability
 
             if (Definition.Cost != null)
             {
-                GameplayEffect cost = new GameplayEffect(Definition.Cost, this, _controller.gameObject);
+                GameplayEffect cost = new GameplayEffect(Definition.Cost, this, _controller.gameObject,Owner.gameObject);
                 stringBuilder.Append(cost).AppendLine();
             }
 
             if (Definition.Cooldown != null)
             {
                 GameplayPersistentEffect cooldown =
-                    new GameplayPersistentEffect(Definition.Cooldown, this, _controller.gameObject);
+                    new GameplayPersistentEffect(Definition.Cooldown, this, _controller.gameObject,Owner.gameObject);
                 stringBuilder.Append(cooldown);
             }
 

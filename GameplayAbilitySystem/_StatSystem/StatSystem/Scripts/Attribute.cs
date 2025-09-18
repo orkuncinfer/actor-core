@@ -163,11 +163,20 @@ namespace StatSystem
             
             if (Definition.Cap >= 0)
             {
+                if (Definition.Cap == (int)CurrentValue)
+                {
+                    return diff;
+                }
                 newValue = Mathf.Min(newValue, Definition.Cap);
             }
 
             if (_maxValueStat != null)
             {
+                Debug.Log($"max Stat is: {_maxValueStat.Value} new value is {CurrentValue}");
+                if (newValue > _maxValueStat.Value && Mathf.Approximately(_maxValueStat.Value, CurrentValue))
+                {
+                    return diff;
+                }
                 newValue = Mathf.Min(newValue, _maxValueStat.Value);
             }
             
@@ -179,9 +188,9 @@ namespace StatSystem
                 onCurrentValueChanged?.Invoke();
                 onAttributeChanged?.Invoke(oldValue, _currentValue);
             }
-            
             Debug.Log($"Applied value is: CurrentValue: {_currentValue} BaseValue: {Value}");
             onAppliedModifier?.Invoke(modifier, _statController, diff);
+            GASEvents.InvokeOnModifierApplied(modifier);
             
             return diff;
         }

@@ -83,7 +83,7 @@ public class AbilityAction_HitToTarget : AbilityAction
             _targetActor.GetData<Data_AbilityDefinition>(DyingAbilityKey.ID).AbilityDefinition = TargetDyingAbility;
         }
 
-        if (_targetGas.EffectController.ApplyGameplayEffectDefinition(EffectToGive.ItemID,Owner.gameObject))
+        if (_targetGas.EffectController.ApplyGameplayEffectDefinition(EffectToGive.ItemID,ActiveAbility,Owner.gameObject,_targetActor.gameObject))
         {
             _targetGas.AbilityController.AddAbilityIfNotHave(AbilityToGive);
             _targetGas.AbilityController.TryActiveAbilityWithDefinition(AbilityToGive);

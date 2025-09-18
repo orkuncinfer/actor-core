@@ -47,7 +47,7 @@ public partial class GameplayEffectController :
         DDebug.Log(_activeEffects.Count);
     }
 
-    public bool ApplyGameplayEffectDefinition(string effectDefinitionId, GameObject applier,bool asObserver = false) // source id?
+    public bool ApplyGameplayEffectDefinition(string effectDefinitionId, object source ,GameObject instigator,GameObject victim,bool asObserver = false) // source id?
     {
         object def = _allEffectsList.GetItem(effectDefinitionId);
         Debug.Log("found item " + def.GetType());
@@ -59,17 +59,17 @@ public partial class GameplayEffectController :
         GameplayEffect effect = null;
         if (attribute.type == typeof(GameplayEffect))
         {
-            effect = new GameplayEffect(effectDefinition, applier, gameObject);
+            effect = new GameplayEffect(effectDefinition, source, instigator,victim);
         }
         else
         {
             effect =
-                Activator.CreateInstance(attribute.type, effectDefinition, this, gameObject) as
+                Activator.CreateInstance(attribute.type, effectDefinition, source, instigator,victim) as
                     GameplayEffect;
-            effect.Source = applier;
+            effect.Source = source;
         }
 
-        return ApplyGameplayEffectToSelf(effect, applier,asObserver);
+        return ApplyGameplayEffectToSelf(effect,asObserver);
     }
 
     public bool CanApplyAttributeModifiers(GameplayEffectDefinition effectDefinition)
@@ -84,7 +84,8 @@ public partial class GameplayEffectController :
                     if (modifier.Type == ModifierOperationType.Additive)
                     {
                         float cost = modifier.Formula.CalculateValue(gameObject);
-
+                        cost = Mathf.Abs(cost);
+                        Debug.Log("calculated cost " + cost + "- " + attribute.CurrentValue);
                         if (attribute.CurrentValue < cost)
                         {
                             DDebug.Log(
@@ -156,7 +157,7 @@ public partial class GameplayEffectController :
 #endif
 
     private bool
-        ApplyGameplayEffectToSelf(GameplayEffect effectToApply, GameObject applier,
+        ApplyGameplayEffectToSelf(GameplayEffect effectToApply,
             bool asObserver =
                 false) // asObserver is needed for not looking for conditions because order given from server
     {
@@ -210,8 +211,8 @@ public partial class GameplayEffectController :
                             .OfType<EffectTypeAttribute>().FirstOrDefault();
 
                         GameplayEffect overflowEffect = Activator.CreateInstance(attribute.type, overflowEffectDef,
-                            existingStackableEffect, gameObject) as GameplayEffect;
-                        ApplyGameplayEffectToSelf(overflowEffect,applier);
+                            existingStackableEffect, gameObject,_owner.gameObject) as GameplayEffect;
+                        ApplyGameplayEffectToSelf(overflowEffect);
                     }
 
                     if (existingStackableEffect.Definition.ClearStackOnOverflow) // sıkıntı var
@@ -256,7 +257,7 @@ public partial class GameplayEffectController :
             GameplayEffect conditionalEffectInstance =
                 Activator.CreateInstance(attribute.type, conditionalEffect, effectToApply, effectToApply.Instigator) as
                     GameplayEffect;
-            ApplyGameplayEffectToSelf(conditionalEffectInstance,applier);
+            ApplyGameplayEffectToSelf(conditionalEffectInstance);
         }
 
         List<GameplayPersistentEffect> effectsToRemove = new List<GameplayPersistentEffect>(); // check if it works!
@@ -395,6 +396,7 @@ public partial class GameplayEffectController :
 
     private void AddPersistentGameplayEffect(GameplayPersistentEffect persistentEffect)
     {
+        Debug.Log($"adding effect {persistentEffect.Definition.name} source {persistentEffect.Source}");
         _activeEffects.Add(persistentEffect);
         AddUninhibitedEffects(persistentEffect);
 
@@ -551,8 +553,10 @@ public partial class GameplayEffectController :
                 .OfType<EffectTypeAttribute>().FirstOrDefault();
 
             GameplayEffect effect =
-                Activator.CreateInstance(attribute.type, effectDefinition, _initialEffects, gameObject) as
+                Activator.CreateInstance(attribute.type, effectDefinition, _owner.gameObject, _owner.gameObject,_owner.gameObject) as
                     GameplayEffect;
+            effect.Source = _owner.gameObject;
+            Debug.Log("effect source defined " + effect.Source);
             ApplyGameplayEffectToSelf(effect,_owner.gameObject);
         }
 

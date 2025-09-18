@@ -5,12 +5,14 @@ using ECM2;
 using StatSystem;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Attribute = StatSystem.Attribute;
 
 public class FishnetDebugs : MonoBehaviour
 {
     [SerializeField] private Transform _root;
 
+    [SerializeField] private GameObject _holder;
     [SerializeField] private TMP_Text _velocityText;
     [SerializeField] private TMP_Text _stateText;
     [SerializeField] private TMP_Text _attributesText;
@@ -49,6 +51,12 @@ public class FishnetDebugs : MonoBehaviour
 
     private void Update()
     {
+        if (Keyboard.current.leftCtrlKey.isPressed && Keyboard.current.fKey.wasPressedThisFrame)
+        {
+            _holder.SetActive(!_holder.activeSelf);
+        }
+       
+        
         if(_movement)
             _velocityText.text = $"<color={ColorHeader}>Velocity</color> : <color={ColorValue}>{_movement.velocity}</color>";
 

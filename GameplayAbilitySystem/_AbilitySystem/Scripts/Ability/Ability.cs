@@ -37,16 +37,16 @@ public abstract class Ability : ISavable
         _controller = controller;
     }
 
-    public void ApplyEffects(GameObject other)
+    public void ApplyEffects(GameObject victim)
     {
-        ApplyEffectsInternal(_abilityDefinition.GameplayEffectDefinitions,other);
+        ApplyEffectsInternal(_abilityDefinition.GameplayEffectDefinitions,victim);
     }
 
     internal void ApplyEffectsToSelf()
     {
         if (_abilityDefinition is ActiveAbilityDefinition activeAbilityDefinition)
         {
-            ApplyEffectsInternal(activeAbilityDefinition.GrantedEffectsDuringAbility, _controller.gameObject);
+            ApplyEffectsInternal(activeAbilityDefinition.GrantedEffectsDuringAbility, Owner.gameObject);
         }
     }
     internal void RemoveOngoingEffects()
@@ -61,19 +61,19 @@ public abstract class Ability : ISavable
         }
     }
 
-    private void ApplyEffectsInternal(List<GameplayEffectDefinition> effectDefinitions, GameObject other)
+    private void ApplyEffectsInternal(List<GameplayEffectDefinition> effectDefinitions, GameObject victim)
     {
-        GameplayEffectController effectController = other.GetComponentInChildren<GameplayEffectController>();
+        GameplayEffectController effectController = victim.GetComponentInChildren<GameplayEffectController>();
 
         if (effectController == null)
         {
-            DDebug.Log("No effect controller found on " + other.name +" by ability " + AbilityDefinition.name);
+            DDebug.Log("No effect controller found on " + victim.name +" by ability " + AbilityDefinition.name);
             return;
         }
         
         foreach (GameplayEffectDefinition effectDefinition in effectDefinitions)
         {
-            effectController.ApplyGameplayEffectDefinition(effectDefinition.ItemId,Owner.gameObject);
+            effectController.ApplyGameplayEffectDefinition(effectDefinition.ItemId,this,Owner.gameObject,victim);
         }
         
     }
@@ -86,7 +86,7 @@ public abstract class Ability : ISavable
             EffectTypeAttribute attribute = effectDefinition.GetType().GetCustomAttributes(true)
                 .OfType<EffectTypeAttribute>().FirstOrDefault();
             GameplayEffect effect =
-                Activator.CreateInstance(attribute.type, effectDefinition, this, _controller.gameObject) as
+                Activator.CreateInstance(attribute.type, effectDefinition, this, _controller.gameObject,null) as
                     GameplayEffect;
             stringBuilder.Append(effect).AppendLine();
         }

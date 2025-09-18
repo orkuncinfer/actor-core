@@ -11,10 +11,13 @@ namespace StatSystem
     [System.Serializable]
     public class StatModifier
     {
+        public object Instigator { get; set; }
         public object Source { get; set; }
         public object Victim { get; set; }
         public float Magnitude { get; set; }
         public ModifierOperationType Type { get; set; }
+        
+        public AbstractGameplayEffectStatModifier ModifierDefinition { get; set; }
         
         
         public override string ToString()

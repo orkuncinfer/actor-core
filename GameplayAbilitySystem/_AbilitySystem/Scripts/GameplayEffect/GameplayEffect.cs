@@ -19,64 +19,81 @@ public class GameplayEffect
     }
 
     private GameObject _instigator;
-    public GameObject Instigator => _instigator;
+    public GameObject Instigator => _instigator; // who initiated the action
+
+    protected StatController _statController;
 
     private List<StatModifier> _modifiers = new List<StatModifier>();
     public ReadOnlyCollection<StatModifier> Modifiers => _modifiers.AsReadOnly();
 
-    public GameplayEffect(GameplayEffectDefinition definition, object source, GameObject instigator)
+    public GameplayEffect(GameplayEffectDefinition definition, object source, GameObject instigator,GameObject victim)
     {
         _definition = definition;
         _source = source;
         _instigator = instigator;
         
-        StatController statController = instigator.GetComponentInChildren<StatController>();
+        _statController = instigator.GetComponentInChildren<StatController>();
         
         foreach (AbstractGameplayEffectStatModifier modifierDef in definition.ModifierDefinitions)
         {
-            StatModifier statModifier;
-            if (modifierDef is GameplayEffectDamageDefinition damageDefinition)
-            {
-                float calculatedMagnitude = modifierDef.Formula.CalculateValue(instigator);
-                HealthModifier healthModifier = new HealthModifier
-                {
-                    Magnitude = calculatedMagnitude,
-                    IsCriticalHit = false,
-                };
-                if (damageDefinition.CanCriticalHit)
-                {
-                    if (statController.Stats["CritChance"].Value / 100f >= Random.value)
-                    {
-                        healthModifier.Magnitude = healthModifier.Magnitude * (1 + (statController.Stats["CritMultiplier"].Value / 100f));
-                        healthModifier.IsCriticalHit = true;
-                    }
-                }
-                statModifier = healthModifier;
-            }
-            else
-            {
-                float magnitude = 0;
-                if (modifierDef.Formula.Graph)
-                {
-                    magnitude = modifierDef.Formula.Graph.CalculateValue(instigator);
-                }
-                else
-                {
-                    magnitude = modifierDef.Formula.StaticValue;
-                }
-                statModifier = new StatModifier()
-                {
-                    Magnitude = magnitude,
-                };
-            }
-
-            statModifier.Victim = instigator;
-            statModifier.Source = this;
+            StatModifier statModifier = CreateModifier(modifierDef, instigator);
+            statModifier.Victim = victim;
+            statModifier.Source = source;
+            statModifier.Instigator = instigator;
             statModifier.Type = modifierDef.Type;
+            statModifier.ModifierDefinition = modifierDef;
             _modifiers.Add(statModifier);
         }
     }
-    
+
+    private StatModifier CreateModifier(AbstractGameplayEffectStatModifier modifierDef, GameObject instigator)
+    {
+        if (modifierDef is GameplayEffectDamageDefinition damageDefinition)
+        {
+            return CreateHealthModifier(damageDefinition, instigator);
+        }
+
+        float magnitude = CalculateMagnitude(modifierDef, instigator);
+        return new StatModifier
+        {
+            Magnitude = magnitude,
+        };
+    }
+
+    private HealthModifier CreateHealthModifier(GameplayEffectDamageDefinition damageDefinition, GameObject instigator)
+    {
+        StatController statController = _statController;
+        float calculatedMagnitude = damageDefinition.Formula.CalculateValue(instigator);
+
+        HealthModifier healthModifier = new HealthModifier
+        {
+            Magnitude = calculatedMagnitude,
+            IsCriticalHit = false,
+        };
+
+        if (damageDefinition.CanCriticalHit && statController != null)
+        {
+            float critChance = statController.Stats["CritChance"].Value / 100f;
+            if (critChance >= Random.value)
+            {
+                float critMultiplier = 1 + (statController.Stats["CritMultiplier"].Value / 100f);
+                healthModifier.Magnitude *= critMultiplier;
+                healthModifier.IsCriticalHit = true;
+            }
+        }
+
+        return healthModifier;
+    }
+
+    protected float CalculateMagnitude(AbstractGameplayEffectStatModifier modifierDef, GameObject instigator)
+    {
+        if (modifierDef.Formula.Graph != null)
+        {
+            return modifierDef.Formula.Graph.CalculateValue(instigator);
+        }
+        return modifierDef.Formula.StaticValue;
+    }
+
     public override string ToString()
     {
         return ReplaceMacro(Definition.Description, this);
