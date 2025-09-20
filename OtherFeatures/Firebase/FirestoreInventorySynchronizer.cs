@@ -17,7 +17,7 @@ public class FirestoreInventorySynchronizer : MonoBehaviour
 
     void Start()
     {
-        _inventory.Initialize();
+        //_inventory.Initialize();
         
         if (GooglePlayServicesInitialization.Instance.FirebaseSignedIn)
         {
@@ -34,7 +34,7 @@ public class FirestoreInventorySynchronizer : MonoBehaviour
         var firestore = FirebaseFirestore.DefaultInstance;
         
         _listener = firestore.Collection("player-data").Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId)
-            .Collection("Inventories").Document(_inventory.InventoryId).Listen(snapshot =>
+            .Collection("Inventories").Document(_inventory.InventoryId.ID).Listen(snapshot =>
             {
                 if (!snapshot.Exists)
                 {

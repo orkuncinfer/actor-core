@@ -20,6 +20,8 @@ public class ActiveAbility : Ability
         public float PreviousAnimWeight { get; set; }
         public int AbilityLayer { get; set; }
         
+        public Actor StartTarget { get; set; }
+        
         private bool _isActive;
         public bool IsActive => _isActive;
         public event Action<ActiveAbility> onStarted;
@@ -44,6 +46,7 @@ public class ActiveAbility : Ability
             ApplyEffectsToSelf();
             TagController tagController = Owner.GetComponentInChildren<TagController>();
             Owner.GameplayTags.AddTags(Definition.GrantedTagsDuringAbility);
+            StartTarget = _controller.Target !=null ? _controller.Target.GetComponent<Actor>() : null;
             DDebug.Log($"<color=cyan>Ability</color> activated : {Definition.name} Time : {Time.time}");
         }
 

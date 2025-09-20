@@ -2,10 +2,12 @@
     "name": "Hexcore.Others",
     "rootNamespace": "",
     "references": [
+        "GUID:6d372f5525dfc8f45b6a121e8f137e66",
         "GUID:b44f03bcc644ee74aa0abffd42bbc2e5",
         "GUID:39b3efc83f32dab4bb531ca8d2cdd985",
         "GUID:a6c0baa30f36c6740b996e8cf77ac6f4",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:1ed07ff861e5f468287b0baef844706d"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

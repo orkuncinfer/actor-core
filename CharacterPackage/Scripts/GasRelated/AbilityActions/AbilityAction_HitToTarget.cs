@@ -77,7 +77,7 @@ public class AbilityAction_HitToTarget : AbilityAction
             }
         }
 
-        if (TargetDyingAbility)
+        if (TargetDyingAbility != null)
         {
             _beforeDyingAbility = _targetActor.GetData<Data_AbilityDefinition>(DyingAbilityKey.ID).AbilityDefinition;
             _targetActor.GetData<Data_AbilityDefinition>(DyingAbilityKey.ID).AbilityDefinition = TargetDyingAbility;
@@ -93,7 +93,7 @@ public class AbilityAction_HitToTarget : AbilityAction
     public override void OnExit()
     {
         base.OnExit();
-        _targetActor.GetData<Data_AbilityDefinition>(DyingAbilityKey.ID).AbilityDefinition = _beforeDyingAbility;
+        //_targetActor.GetData<Data_AbilityDefinition>(DyingAbilityKey.ID).AbilityDefinition = _beforeDyingAbility;
         AbilityActionPool<AbilityAction_HitToTarget>.Shared.Release(this);
     }
 }

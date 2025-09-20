@@ -12,7 +12,7 @@ public class OnAuthHandler : IPacketHandler
         var msg = (Net_OnAuth) packet;
         Debug.Log("OnAuthHandler triggered!");
         Debug.Log(msg.test);
-        GooglePlayServicesInitialization.Instance.DedicatedServerSignedIn = true;
+        //GooglePlayServicesInitialization.Instance.DedicatedServerSignedIn = true;
     }
 }
 #endif

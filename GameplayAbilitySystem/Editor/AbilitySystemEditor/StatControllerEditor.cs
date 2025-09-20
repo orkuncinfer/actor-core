@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-#if false
+#if true
 
 [CustomEditor(typeof(StatController), true)]
 public class StatControllerEditor : Editor

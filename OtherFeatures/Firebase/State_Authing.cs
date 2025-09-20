@@ -61,7 +61,7 @@ public class State_Authing : MonoState
 #endif
     }
     
-    IEnumerator WaitForServerSignIn()
+    /*IEnumerator WaitForServerSignIn()
     {
         NetworkClient.Instance.Connect();
         while (!NetworkClient.Instance.IsConnected)
@@ -83,6 +83,6 @@ public class State_Authing : MonoState
         CurrentState = AuthState.ServerSignedIn;
         CurrentState = AuthState.Authed;
         CheckoutExit();
-    }
+    }*/
  #endif
 }

@@ -840,6 +840,7 @@ MonoBehaviour:
   ActorID: 
   StartMethod: 211
   _initialTags: []
+  _groupTags: []
   GameplayTags:
     _tagHashes: []
   _initialState: {fileID: 7052049253013988637}
@@ -875,6 +876,7 @@ MonoBehaviour:
     UseKey: 0
     IsPersistent: 0
     DataKey: 
+    Key: {fileID: 0}
     OwnerActor: {fileID: 0}
     IsInstalled: 0
     _currentGameMode: 0
@@ -905,6 +907,7 @@ MonoBehaviour:
     UseKey: 0
     IsPersistent: 1
     DataKey: 
+    Key: {fileID: 0}
     OwnerActor: {fileID: 0}
     IsInstalled: 0
     _currentLevelIndex: 0

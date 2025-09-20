@@ -34,8 +34,17 @@ public class PlayerDamageNumbersHandler : MonoBehaviour
                     if (modifier is HealthModifier healthModifier)
                     {
                         float damage = Mathf.Abs(healthModifier.Magnitude);
-                        DamageNumber damageNumber = _numberPrefab.Spawn(target.transform.position + new Vector3(0,1,0), damage,target.transform);
                         Debug.Log($"Player damaged {target.name} by {healthModifier.Magnitude}");
+                        if (healthModifier.IsCriticalHit)
+                        {
+                            DamageNumber damageNumber = _criticalPrefab.Spawn(target.transform.position + new Vector3(0,1,0), damage,target.transform);
+                        }
+                        else
+                        {
+                            DamageNumber damageNumber = _numberPrefab.Spawn(target.transform.position + new Vector3(0,1,0), damage,target.transform);
+                        }
+                        
+                        
                     }
                 }
             }
